@@ -41,7 +41,7 @@ export const env = createEnv({
     DISCORD_WEBHOOK_URL: z.string().optional(),
     // Redis for queue (optional)
     REDIS_URL: z.string().optional(),
-    // Creem Payment
+    // Creem Payment (temporarily disabled)
     CREEM_API_KEY: z.string().optional(),
     CREEM_WEBHOOK_SECRET: z.string().optional(),
     // Note: CREEM_API_URL is auto-detected from API key type (test vs production)
