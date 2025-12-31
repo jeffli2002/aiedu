@@ -50,6 +50,9 @@ export async function POST(request: NextRequest) {
   let prompt = '';
   let generationLockId: string | null = null;
   let releaseLockOnExit = true;
+  // Ensure visibility in catch blocks
+  let creditsFrozen = false;
+  let creditCost = 0;
 
   try {
     const isTestMode =
@@ -128,11 +131,12 @@ export async function POST(request: NextRequest) {
     const resolution: '720p' | '1080p' =
       normalizedModel === 'sora-2-pro' ? (normalizedQuality === 'high' ? '1080p' : '720p') : '720p';
 
-    const { modelKey, credits: creditCost } = getVideoModelInfo({
+    const { modelKey, credits } = getVideoModelInfo({
       model: normalizedModel,
       resolution,
       duration: normalizedDuration,
     });
+    creditCost = credits;
 
     if (creditCost === 0) {
       return NextResponse.json({ error: 'Invalid video model configuration' }, { status: 400 });
@@ -201,7 +205,7 @@ export async function POST(request: NextRequest) {
 
     // CRITICAL OPTIMIZATION 2: Check credits and FREEZE immediately to prevent race conditions
     // Available balance = total balance - frozen balance (accounts for in-progress generations)
-    let creditsFrozen = false;
+    creditsFrozen = false;
     if (!isTestMode) {
       const hasCredits = await creditService.hasEnoughCredits(userId, creditCost);
       if (!hasCredits) {
