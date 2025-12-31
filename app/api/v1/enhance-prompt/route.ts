@@ -196,8 +196,10 @@ Optimize the video for the user's selected aspect ratio and style preference. Na
         const combined = rawContent
           .map((part) => {
             if (typeof part === 'string') return part;
-            if (typeof part?.text === 'string') return part.text;
-            if (typeof part?.content === 'string') return part.content;
+            if (typeof part === 'object' && part !== null) {
+              if ('text' in part && typeof part.text === 'string') return part.text;
+              if ('content' in part && typeof part.content === 'string') return part.content;
+            }
             return '';
           })
           .join('\n')
@@ -205,8 +207,11 @@ Optimize the video for the user's selected aspect ratio and style preference. Na
         return combined || null;
       }
 
-      if (typeof rawContent?.text === 'string') {
-        return rawContent.text.trim();
+      if (typeof rawContent === 'object' && rawContent !== null && 'text' in rawContent) {
+        const content = rawContent as { text?: string };
+        if (typeof content.text === 'string') {
+          return content.text.trim();
+        }
       }
 
       return null;
