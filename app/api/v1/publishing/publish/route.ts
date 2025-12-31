@@ -1,43 +1,20 @@
 import { randomUUID } from 'node:crypto';
 import { auth } from '@/lib/auth/auth';
-import { platformPublishingService } from '@/lib/publishing/platform-service';
+import {
+  platformPublishingService,
+} from '@/lib/publishing/platform-service';
+import type {
+  PublishRequest as SvcPublishRequest,
+  ProductInfo as SvcProductInfo,
+  EcommercePlatform,
+} from '@/lib/publishing/platform-service';
 import { db } from '@/server/db';
 import { generatedAsset, platformPublish } from '@/server/db/schema';
 import { eq } from 'drizzle-orm';
 import { type NextRequest, NextResponse } from 'next/server';
 
 type PublishMode = 'media-only' | 'product';
-
-interface ProductInfo {
-  productId?: string;
-  title?: string;
-  description?: string;
-  category?: string;
-  brand?: string;
-  model?: string;
-  sku?: string;
-  upc?: string;
-  countryOfOrigin?: string;
-  standardPrice?: number;
-  salePrice?: number;
-  currency?: string;
-  inventoryQuantity?: number;
-  minPurchaseQuantity?: number;
-  maxPurchaseQuantity?: number;
-  imageId?: string;
-  videoId?: string;
-}
-
-interface PublishRequest {
-  assetId: string;
-  assetUrl: string | null;
-  assetType: 'image' | 'video';
-  platform: string;
-  publishMode: PublishMode;
-  productInfo?: ProductInfo;
-  publishOptions?: Record<string, unknown>;
-  platformAccountId?: string | null;
-}
+type ProductInfo = SvcProductInfo & { productId?: string };
 
 export const dynamic = 'force-dynamic';
 export const fetchCache = 'force-no-store';
@@ -94,10 +71,19 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Asset is not ready for publishing' }, { status: 400 });
     }
 
-    // Create publish requests
-    const publishRequests: PublishRequest[] = platforms.map((platformName) => ({
+    // Validate and narrow platform values
+    const allowedPlatforms = ['tiktok', 'amazon', 'shopify', 'taobao', 'douyin', 'temu', 'other'] as const;
+    const validPlatforms = (platforms || [])
+      .filter((p): p is EcommercePlatform => (allowedPlatforms as readonly string[]).includes(p));
+
+    if (validPlatforms.length === 0) {
+      return NextResponse.json({ error: 'No valid platforms specified' }, { status: 400 });
+    }
+
+    // Create publish requests matching the service types
+    const publishRequests: SvcPublishRequest[] = validPlatforms.map((platformName) => ({
       assetId: asset.id,
-      assetUrl: asset.publicUrl,
+      assetUrl: asset.publicUrl, // non-null per schema
       assetType: asset.assetType as 'image' | 'video',
       platform: platformName,
       publishMode,
@@ -109,16 +95,17 @@ export async function POST(request: NextRequest) {
     const results = await platformPublishingService.publishToMultiplePlatforms(publishRequests);
 
     // Save publish records with product information
-    const publishRecords = results.map((result, index) => {
+    type InsertRecord = typeof platformPublish.$inferInsert;
+    const publishRecords: InsertRecord[] = results.map((result, index) => {
       const request = publishRequests[index];
       const requestProductInfo: ProductInfo = request?.productInfo || {};
 
-      return {
+      const record: InsertRecord = {
         id: randomUUID(),
         userId: session.user.id,
         assetId: asset.id,
-        platform: request?.platform || 'unknown',
-        platformAccountId: request?.platformAccountId || null,
+        platform: result.platform, // already narrowed
+        platformAccountId: null,
         // Product Information
         productId: requestProductInfo.productId || null,
         productName: requestProductInfo.title || null,
@@ -137,17 +124,20 @@ export async function POST(request: NextRequest) {
         inventoryQuantity: requestProductInfo.inventoryQuantity || null,
         minPurchaseQuantity: requestProductInfo.minPurchaseQuantity || 1,
         maxPurchaseQuantity: requestProductInfo.maxPurchaseQuantity || null,
-        // Media IDs
-        imageId: result.metadata?.imageId || requestProductInfo.imageId || null,
-        videoId: result.metadata?.videoId || requestProductInfo.videoId || null,
+        // Media IDs (coerce unknown metadata fields to string)
+        imageId:
+          ((result.metadata?.imageId as string | undefined) ?? requestProductInfo.imageId) || null,
+        videoId:
+          ((result.metadata?.videoId as string | undefined) ?? requestProductInfo.videoId) || null,
         // Publishing Status
-        publishStatus: result.success ? 'published' : 'failed',
+        publishStatus: (result.success ? 'published' : 'failed') as InsertRecord['publishStatus'],
         publishUrl: result.publishUrl || null,
         publishId: result.publishId || null,
         errorMessage: result.error || null,
         publishMetadata: result.metadata || null,
-        publishedAt: result.success ? new Date() : null,
+        publishedAt: result.success ? new Date() : undefined,
       };
+      return record;
     });
 
     await db.insert(platformPublish).values(publishRecords);
@@ -155,8 +145,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
       data: {
-        results: results.map((result, index) => ({
-          platform: publishRequests[index]?.platform || 'unknown',
+        results: results.map((result) => ({
           ...result,
         })),
       },

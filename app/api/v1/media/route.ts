@@ -19,8 +19,11 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Asset not found' }, { status: 404 });
     }
 
-    const stream =
-      body instanceof Readable ? Readable.toWeb(body) : (body as ReadableStream<Uint8Array>);
+    // Normalize to a Web ReadableStream to satisfy NextResponse typings
+    const stream: ReadableStream<Uint8Array> =
+      body instanceof Readable
+        ? (Readable.toWeb(body) as unknown as ReadableStream<Uint8Array>)
+        : (body as unknown as ReadableStream<Uint8Array>);
 
     const headers: Record<string, string> = {
       'Content-Type': asset.contentType ?? 'application/octet-stream',
@@ -42,7 +45,7 @@ export async function GET(request: NextRequest) {
       headers['Cache-Control'] = 'private, max-age=0';
     }
 
-    return new NextResponse(stream, {
+    return new NextResponse(stream as unknown as BodyInit, {
       status: 200,
       headers,
     });
