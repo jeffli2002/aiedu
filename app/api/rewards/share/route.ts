@@ -1,0 +1,197 @@
+import { randomUUID } from 'node:crypto';
+import { SHARE_REWARD_CONFIG, type ShareRewardKey } from '@/config/share.config';
+import { auth } from '@/lib/auth/auth';
+import { creditService } from '@/lib/credits';
+import { db } from '@/server/db';
+import { socialShares } from '@/server/db/schema';
+import { and, eq } from 'drizzle-orm';
+import { type NextRequest, NextResponse } from 'next/server';
+
+export async function POST(request: NextRequest) {
+  try {
+    const session = await auth.api.getSession({
+      headers: request.headers,
+    });
+
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const userId = session.user.id;
+    const { platform, assetId, shareUrl, referenceId, rewardType, targetPlatform } =
+      await request.json();
+
+    if (!rewardType || typeof rewardType !== 'string') {
+      return NextResponse.json(
+        { success: false, error: 'rewardType is required' },
+        { status: 400 }
+      );
+    }
+
+    const reward = SHARE_REWARD_CONFIG[rewardType as ShareRewardKey];
+    if (!reward) {
+      return NextResponse.json(
+        { success: false, error: `Invalid reward type: ${rewardType}` },
+        { status: 400 }
+      );
+    }
+
+    if (!platform || typeof platform !== 'string') {
+      return NextResponse.json(
+        { success: false, error: 'Platform value is required' },
+        { status: 400 }
+      );
+    }
+
+    // Validate platform
+    const validPlatforms = [
+      'twitter',
+      'facebook',
+      'instagram',
+      'linkedin',
+      'pinterest',
+      'tiktok',
+      'other',
+    ];
+    if (!validPlatforms.includes(platform)) {
+      return NextResponse.json(
+        { success: false, error: `Invalid platform. Must be one of: ${validPlatforms.join(', ')}` },
+        { status: 400 }
+      );
+    }
+
+    // Check for duplicate share using referenceId (for idempotency)
+    if (referenceId) {
+      const existingShare = await db
+        .select()
+        .from(socialShares)
+        .where(and(eq(socialShares.userId, userId), eq(socialShares.referenceId, referenceId)))
+        .limit(1);
+
+      if (existingShare.length > 0) {
+        return NextResponse.json(
+          {
+            success: false,
+            error: 'This share has already been rewarded',
+            data: existingShare[0],
+          },
+          { status: 400 }
+        );
+      }
+    }
+
+    const creditsToAward = reward.credits;
+    if (creditsToAward <= 0) {
+      return NextResponse.json({
+        success: true,
+        data: {
+          shareId: null,
+          platform,
+          creditsEarned: 0,
+        },
+      });
+    }
+
+    const shareId = randomUUID();
+    const shareReferenceId = referenceId || `share_${userId}_${Date.now()}`;
+
+    // Create share record first; if credit awarding fails we remove the record.
+    await db.insert(socialShares).values({
+      id: shareId,
+      userId,
+      assetId: assetId || null,
+      platform,
+      shareUrl: shareUrl || null,
+      creditsEarned: creditsToAward,
+      referenceId: shareReferenceId,
+    });
+
+    try {
+      await creditService.earnCredits({
+        userId,
+        amount: creditsToAward,
+        source: 'social_share',
+        description:
+          rewardType === 'publishViecom'
+            ? 'Publish on Viecom.pro'
+            : `Social share (${targetPlatform || platform})`,
+        referenceId: `social_share_${shareId}`,
+        metadata: {
+          platform,
+          targetPlatform: targetPlatform || null,
+          assetId,
+          shareUrl,
+          referenceId: shareReferenceId,
+          rewardType,
+        },
+      });
+    } catch (creditError) {
+      // Cleanup share record if credit award fails to keep data consistent.
+      await db.delete(socialShares).where(eq(socialShares.id, shareId));
+      throw creditError;
+    }
+
+    const result = {
+      shareId,
+      platform,
+      creditsEarned: creditsToAward,
+      rewardType,
+    };
+
+    return NextResponse.json({
+      success: true,
+      data: result,
+    });
+  } catch (error) {
+    console.error('Error processing social share:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Internal server error';
+    return NextResponse.json(
+      {
+        success: false,
+        error: errorMessage,
+      },
+      { status: 500 }
+    );
+  }
+}
+
+export async function GET(request: NextRequest) {
+  try {
+    const session = await auth.api.getSession({
+      headers: request.headers,
+    });
+
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const userId = session.user.id;
+
+    // Get user's share history
+    const shares = await db
+      .select()
+      .from(socialShares)
+      .where(eq(socialShares.userId, userId))
+      .orderBy(socialShares.createdAt);
+
+    const totalCreditsEarned = shares.reduce((sum, share) => sum + share.creditsEarned, 0);
+
+    return NextResponse.json({
+      success: true,
+      data: {
+        totalShares: shares.length,
+        totalCreditsEarned,
+        shares,
+      },
+    });
+  } catch (error) {
+    console.error('Error fetching share history:', error);
+    return NextResponse.json(
+      {
+        success: false,
+        error: 'Internal server error',
+      },
+      { status: 500 }
+    );
+  }
+}
