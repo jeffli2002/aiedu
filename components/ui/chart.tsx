@@ -178,9 +178,9 @@ function ChartTooltipContent({
       {!nestLabel ? tooltipLabel : null}
       <div className="grid gap-1.5">
         {payload.map((item, index) => {
-          const key = `${nameKey || item.name || item.dataKey || 'value'}`;
-          const itemConfig = getPayloadConfigFromPayload(config, item, key);
-          const indicatorColor = color || item.payload.fill || item.color;
+          const key = `${nameKey || (item as any).name || (item as any).dataKey || 'value'}`;
+          const itemConfig = getPayloadConfigFromPayload(config, item as unknown, key);
+          const indicatorColor = color ?? (item as any)?.payload?.fill ?? (item as any)?.color;
 
           return (
             <div

@@ -35,6 +35,10 @@ declare module 'react-hook-form' {
   export function useForm<T extends Record<string, unknown> = any>(...args: any[]): any;
   export function FormProvider(props: any): any;
   export function useFormContext(): any;
+  export function useFormState(...args: any[]): any;
+  export type ControllerProps<TFieldValues = any, TName = any> = any;
+  export type FieldValues = any;
+  export type FieldPath<TFieldValues = any> = any;
 }
 
 declare module 'input-otp' {
