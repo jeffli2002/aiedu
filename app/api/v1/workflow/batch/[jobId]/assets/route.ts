@@ -61,7 +61,7 @@ export async function GET(
         type: asset.assetType as 'image' | 'video',
         prompt: asset.prompt,
         enhancedPrompt: asset.enhancedPrompt || undefined,
-        model: generationParams?.model || asset.model || undefined,
+        model: generationParams?.model || undefined,
         status: asset.status as 'completed' | 'failed',
         error: asset.errorMessage || undefined,
         rowIndex: metadata?.rowIndex ?? index,

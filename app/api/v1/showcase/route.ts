@@ -10,6 +10,15 @@ import { type NextRequest, NextResponse } from 'next/server';
 export const dynamic = 'force-dynamic';
 export const fetchCache = 'force-no-store';
 
+type ShowcaseItem = {
+  id: string;
+  type: 'image' | 'video';
+  url: string;
+  previewUrl: string;
+  title: string;
+  category: string;
+};
+
 function inferCategory(filename: string): string {
   const lowerName = filename.toLowerCase();
   if (lowerName.includes('fashion') || lowerName.includes('apparel')) return 'Fashion';
@@ -31,12 +40,12 @@ function generateItemId(filename: string) {
   return createHash('md5').update(filename).digest('hex').slice(0, 12);
 }
 
-async function loadLocalShowcaseItems(limit: number) {
+async function loadLocalShowcaseItems(limit: number): Promise<ShowcaseItem[]> {
   try {
     const dir = join(process.cwd(), 'public', 'showcase');
     const files = await readdir(dir);
     const media = files.filter((file) => file.match(/\.(jpg|jpeg|png|gif|webp|mp4|webm|mov)$/i));
-    return media.slice(0, limit).map((filename) => ({
+    return media.slice(0, limit).map<ShowcaseItem>((filename) => ({
       id: `local-${generateItemId(filename)}`,
       type: getFileType(filename),
       url: `/showcase/${filename}`,
@@ -98,7 +107,7 @@ export async function GET(request: NextRequest) {
       )
       .limit(limit);
 
-    const adminItems = adminEntries.map((entry) => ({
+    const adminItems: ShowcaseItem[] = adminEntries.map((entry) => ({
       id: `admin-${entry.id}`,
       type: 'image' as const,
       url: entry.imageUrl,
@@ -107,7 +116,7 @@ export async function GET(request: NextRequest) {
       category: getShowcaseCategoryLabel(entry.category),
     }));
 
-    const userItems = userRows.map((row) => ({
+    const userItems: ShowcaseItem[] = userRows.map((row) => ({
       id: row.id,
       type: row.assetType === 'video' ? 'video' : 'image',
       url: row.assetUrl,
@@ -118,13 +127,13 @@ export async function GET(request: NextRequest) {
 
     const localItems = await loadLocalShowcaseItems(limit || 20);
     const seen = new Set<string>();
-    const pushUnique = (arr: typeof adminItems, source: (typeof adminItems)[number]) => {
+    const pushUnique = (arr: ShowcaseItem[], source: ShowcaseItem) => {
       if (seen.has(source.id)) return;
       seen.add(source.id);
       arr.push(source);
     };
 
-    const merged: typeof adminItems = [];
+    const merged: ShowcaseItem[] = [];
     [...adminItems, ...userItems].forEach((item) => pushUnique(merged, item));
     localItems.forEach((item) => pushUnique(merged, item));
 
