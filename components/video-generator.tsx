@@ -63,8 +63,10 @@ const GENERATION_REQUEST_COOLDOWN_MS = 4000;
 
 export default function VideoGenerator() {
   const { t } = useTranslation();
-  const tg = (key: string, options?: Record<string, unknown>) =>
-    t(`videoGeneration.${key}`, options as never);
+  const tg = (key: string, options?: Record<string, unknown>): string => {
+    const result = t(`videoGeneration.${key}`, options as never);
+    return typeof result === 'string' ? result : String(result);
+  };
   const searchParams = useSearchParams();
   const initialMode = (searchParams?.get('mode') as GenerationMode) || 'image-to-video';
 

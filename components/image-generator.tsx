@@ -129,8 +129,10 @@ const isRecoverableNetworkError = (message: string | undefined) => {
 
 export default function ImageGenerator() {
   const { t } = useTranslation();
-  const tg = (key: string, options?: Record<string, unknown>) =>
-    t(`imageGeneration.${key}`, options as never);
+  const tg = (key: string, options?: Record<string, unknown>): string => {
+    const result = t(`imageGeneration.${key}`, options as never);
+    return typeof result === 'string' ? result : String(result);
+  };
   const searchParams = useSearchParams();
   const initialMode = (searchParams?.get('mode') as GenerationMode) || 'image-to-image';
 
