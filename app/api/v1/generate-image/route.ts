@@ -801,7 +801,6 @@ export async function POST(request: NextRequest) {
           const errorMsg =
             statusResponse.data.failMsg ||
             statusResponse.data.error ||
-            statusResponse.data.msg ||
             'Image generation failed';
 
           // Log detailed error information for debugging
@@ -810,7 +809,6 @@ export async function POST(request: NextRequest) {
             state,
             failMsg: statusResponse.data.failMsg,
             error: statusResponse.data.error,
-            msg: statusResponse.data.msg,
             fullResponse: JSON.stringify(statusResponse.data, null, 2),
           });
 
