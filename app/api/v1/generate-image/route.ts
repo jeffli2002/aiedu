@@ -35,13 +35,14 @@ const MODEL_ENDPOINTS: Record<string, string> = {
 
 export async function POST(request: NextRequest) {
   let generationLockId: string | null = null;
+  let creditsFrozen = false;
+  let creditCost = 0;
+  let userId: string = '';
   try {
     const isTestMode =
       process.env.NODE_ENV === 'test' ||
       process.env.DISABLE_AUTH === 'true' ||
       request.headers.get('x-test-mode') === 'true';
-
-    let userId: string;
 
     if (isTestMode) {
       userId = 'test-user-id';
@@ -128,7 +129,7 @@ export async function POST(request: NextRequest) {
       resolutionInput as '1K' | '2K' | '4K' | '1k' | '2k' | '4k' | undefined
     )?.toLowerCase() as '1k' | '2k' | '4k' | undefined;
 
-    const creditCost = getModelCost('imageGeneration', model, resolution);
+    creditCost = getModelCost('imageGeneration', model, resolution);
     if (creditCost === 0) {
       return NextResponse.json({ error: `Invalid model: ${model}` }, { status: 400 });
     }
@@ -218,7 +219,6 @@ export async function POST(request: NextRequest) {
 
     // CRITICAL OPTIMIZATION 2: Check credits and FREEZE immediately to prevent race conditions
     // Available balance = total balance - frozen balance (accounts for in-progress generations)
-    let creditsFrozen = false;
     if (!isTestMode) {
       const hasCredits = await creditService.hasEnoughCredits(userId, creditCost);
       if (!hasCredits) {
