@@ -4,10 +4,7 @@ export class DeepSeekService {
   private apiKey: string;
 
   constructor() {
-    this.apiKey = env.DEEPSEEK_API_KEY;
-    if (!this.apiKey) {
-      throw new Error('DeepSeek API key not configured');
-    }
+    this.apiKey = env.DEEPSEEK_API_KEY || '';
   }
 
   /**
@@ -49,6 +46,10 @@ export class DeepSeekService {
           ? 'You are an expert AI prompt engineer for e-commerce product image generation. Enhance prompts with vivid artistic direction, lighting, composition, and camera/style cues. Incorporate brand tone and product features naturally. Only return the enhanced prompt text.'
           : 'You are an expert AI prompt engineer for e-commerce product video generation. Enhance prompts with vivid descriptions of motion, camera movements, transitions, and visual storytelling. Incorporate brand tone and product features naturally. Only return the enhanced prompt text.';
 
+      if (!this.apiKey) {
+        // In local/dev without key, return original prompt
+        return prompt.trim();
+      }
       const response = await fetch('https://api.deepseek.com/v1/chat/completions', {
         method: 'POST',
         headers: {

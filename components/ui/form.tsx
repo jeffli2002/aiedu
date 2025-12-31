@@ -11,7 +11,7 @@ import {
   FormProvider,
   useFormContext,
   useFormState,
-} from 'react-hook-form@7.55.0';
+} from 'react-hook-form';
 
 import { Label } from './label';
 import { cn } from './utils';

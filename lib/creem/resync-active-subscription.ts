@@ -69,10 +69,10 @@ export async function resyncActiveCreemSubscription(userId: string) {
         interval,
         periodStart: remoteSubscription.current_period_start_date
           ? new Date(remoteSubscription.current_period_start_date)
-          : record.periodStart,
+          : (record.periodStart ?? undefined),
         periodEnd: remoteSubscription.current_period_end_date
           ? new Date(remoteSubscription.current_period_end_date)
-          : record.periodEnd,
+          : (record.periodEnd ?? undefined),
         cancelAtPeriodEnd: Boolean(remoteSubscription.cancel_at_period_end),
       });
 

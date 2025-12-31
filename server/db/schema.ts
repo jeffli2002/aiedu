@@ -503,35 +503,6 @@ export const brandToneProfile = pgTable('brand_tone_profile', {
     .notNull(),
 });
 
-// Batch Generation Jobs
-export const batchGenerationJob = pgTable('batch_generation_job', {
-  id: text('id').primaryKey(),
-  userId: text('user_id')
-    .notNull()
-    .references(() => user.id, { onDelete: 'cascade' }),
-  jobName: text('job_name'),
-  status: text('status', {
-    enum: ['pending', 'processing', 'completed', 'failed', 'cancelled'],
-  })
-    .notNull()
-    .default('pending'),
-  totalRows: integer('total_rows').notNull(),
-  processedRows: integer('processed_rows').notNull().default(0),
-  successfulRows: integer('successful_rows').notNull().default(0),
-  failedRows: integer('failed_rows').notNull().default(0),
-  csvFileKey: text('csv_file_key'), // R2 key for uploaded CSV/Excel
-  columnMapping: jsonb('column_mapping'), // Maps CSV columns to generation inputs
-  errorReport: text('error_report'), // JSON string with detailed errors
-  zipFileKey: text('zip_file_key'), // R2 key for final ZIP download
-  createdAt: timestamp('created_at')
-    .$defaultFn(() => new Date())
-    .notNull(),
-  updatedAt: timestamp('updated_at')
-    .$defaultFn(() => new Date())
-    .notNull(),
-  completedAt: timestamp('completed_at'),
-});
-
 export const generationLock = pgTable(
   'generation_lock',
   {
@@ -569,9 +540,6 @@ export const generatedAsset = pgTable('generated_asset', {
   userId: text('user_id')
     .notNull()
     .references(() => user.id, { onDelete: 'cascade' }),
-  batchJobId: text('batch_job_id').references(() => batchGenerationJob.id, {
-    onDelete: 'set null',
-  }),
   assetType: text('asset_type', {
     enum: ['image', 'video'],
   }).notNull(),

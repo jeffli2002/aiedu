@@ -1,6 +1,6 @@
 'use client';
 
-import useEmblaCarousel, { type UseEmblaCarouselType } from 'embla-carousel-react@8.6.0';
+import useEmblaCarousel, { type UseEmblaCarouselType } from 'embla-carousel-react';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import * as React from 'react';
 
@@ -51,9 +51,9 @@ function Carousel({
 }: React.ComponentProps<'div'> & CarouselProps) {
   const [carouselRef, api] = useEmblaCarousel(
     {
-      ...opts,
+      ...(opts as object),
       axis: orientation === 'horizontal' ? 'x' : 'y',
-    },
+    } as CarouselOptions,
     plugins
   );
   const [canScrollPrev, setCanScrollPrev] = React.useState(false);
@@ -108,7 +108,8 @@ function Carousel({
         carouselRef,
         api: api,
         opts,
-        orientation: orientation || (opts?.axis === 'y' ? 'vertical' : 'horizontal'),
+        orientation: (orientation as 'horizontal' | 'vertical') ||
+          ((opts as any)?.axis === 'y' ? 'vertical' : 'horizontal'),
         scrollPrev,
         scrollNext,
         canScrollPrev,

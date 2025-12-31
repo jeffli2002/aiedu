@@ -5,7 +5,7 @@ import { neon } from '@neondatabase/serverless';
 // Load .env.local file
 config({ path: resolve(process.cwd(), '.env.local') });
 
-const databaseUrl = process.env.DATABASE_URL;
+const databaseUrl = process.env.DATABASE_URL || '';
 
 if (!databaseUrl) {
   console.error('❌ DATABASE_URL is required. Please check your .env.local file.');

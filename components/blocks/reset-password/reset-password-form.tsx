@@ -20,8 +20,10 @@ const MIN_PASSWORD_LENGTH = 8;
 
 export function ResetPasswordForm({ className }: { className?: string }) {
   const { t } = useTranslation();
-  const tr = (key: string, options?: Record<string, unknown>) =>
-    tr(`resetPassword.${key}`, options as never);
+  const tr = (key: string, options?: Record<string, unknown>): string => {
+    const res = t(`resetPassword.${key}`, options as never);
+    return typeof res === 'string' ? res : String(res);
+  };
   const searchParams = useSearchParams();
   const token = searchParams.get('token');
   const tokenError = searchParams.get('error');

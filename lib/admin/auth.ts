@@ -25,7 +25,12 @@ export async function verifyAdminToken(): Promise<AdminTokenPayload | null> {
       return null;
     }
 
-    return payload as AdminTokenPayload;
+    // Validate minimal fields defensively
+    const data = payload as unknown as Partial<AdminTokenPayload>;
+    if (!data || !data.id || !data.email || !data.role) {
+      return null;
+    }
+    return data as AdminTokenPayload;
   } catch (error) {
     console.error('Admin token verification error:', error);
     return null;

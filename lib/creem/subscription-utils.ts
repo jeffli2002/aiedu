@@ -43,7 +43,7 @@ export async function getSubscriptionPlan(userId: string): Promise<string | null
     return null;
   }
 
-  return subscription.priceId;
+  return subscription.priceId || null;
 }
 
 export function isSubscriptionActive(subscription: PaymentRecord): boolean {

@@ -325,7 +325,8 @@ export const useAuthStore = create<AuthState>()(
                   statusText: result.error.statusText,
                   message: result.error.message,
                   code: result.error.code,
-                  cause: result.error.cause,
+                  // 'cause' may not exist on all error shapes
+                  cause: (result.error as any)?.cause,
                   toString: result.error.toString(),
                   keys: Object.keys(result.error),
                 });
