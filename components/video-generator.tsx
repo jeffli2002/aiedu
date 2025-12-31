@@ -99,7 +99,7 @@ export default function VideoGenerator() {
     completeProgress,
     failProgress,
   } = useGenerationProgress();
-  const [isPublishModalOpen, setIsPublishModalOpen] = useState(false);
+  const [isPublishModalOpen, setIsPublishModalOpen] = useState(false); // kept for share-to-Viecom only
   const defaultShareText = tg('shareDefaultText');
   const sharePlatforms = buildSharePlatforms(
     {
@@ -549,6 +549,7 @@ export default function VideoGenerator() {
       throw new Error('No video available to publish.');
     }
 
+    // Submit to our own Viecom showcase only (no e-commerce)
     const response = await fetch('/api/v1/publish/submissions', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

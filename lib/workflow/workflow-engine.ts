@@ -2,26 +2,16 @@ import { randomUUID } from 'node:crypto';
 import { env } from '@/env';
 import { analyzeBrandTone } from '@/lib/brand/brand-tone-analyzer';
 import { creditService } from '@/lib/credits';
-import type { EcommercePlatform, PublishResult } from '@/lib/publishing/platform-service';
+// Publishing to e-commerce platforms is out of scope for this project.
+type EcommercePlatform = never;
+type PublishResult = never;
 import { updateQuotaUsage } from '@/lib/quota/quota-service';
 import { r2StorageService } from '@/lib/storage/r2';
 import * as XLSX from 'xlsx';
 
 type BrandAnalysisResult = Awaited<ReturnType<typeof analyzeBrandTone>>;
-type PublishResultWithPlatform = PublishResult & { platform: EcommercePlatform };
-const SUPPORTED_PLATFORMS: ReadonlyArray<EcommercePlatform> = [
-  'tiktok',
-  'amazon',
-  'shopify',
-  'taobao',
-  'douyin',
-  'temu',
-  'other',
-] as const;
-
-const isEcommercePlatform = (value: string): value is EcommercePlatform => {
-  return SUPPORTED_PLATFORMS.includes(value as EcommercePlatform);
-};
+type PublishResultWithPlatform = never;
+const isEcommercePlatform = (_value: string): _value is EcommercePlatform => false;
 
 export interface WorkflowInput {
   companyUrl?: string;
@@ -607,7 +597,7 @@ export class WorkflowEngine {
       aspectRatio?: string;
       style?: string;
       columnMapping?: Record<string, string>;
-      autoPublish?: boolean; // Whether to auto-publish after generation
+      autoPublish?: boolean; // Ignored: publishing removed
       jobId?: string; // Batch job ID for linking assets
     }
   ): Promise<{
@@ -726,54 +716,8 @@ export class WorkflowEngine {
           }
         }
 
-        // Auto-publish if requested and publish info is available
-        let publishResults: PublishResultWithPlatform[] | undefined;
-        if ((options?.autoPublish || row.publishPlatforms) && row.publishPlatforms) {
-          const platforms = row.publishPlatforms
-            .split(',')
-            .map((p) => p.trim().toLowerCase())
-            .filter((p): p is EcommercePlatform => isEcommercePlatform(p));
-
-          if (platforms.length > 0) {
-            const { platformPublishingService } = await import('@/lib/publishing/platform-service');
-
-            const publishRequests = platforms.map((platform) => ({
-              assetId: asset.id,
-              assetUrl: asset.url,
-              assetType: generationType,
-              platform,
-              publishMode: row.publishMode || 'media-only',
-              productInfo:
-                row.publishMode === 'product'
-                  ? {
-                      title: row.productTitle,
-                      description: row.productDescription,
-                      category: row.productCategory,
-                      brand: row.productBrand,
-                      model: row.productModel,
-                      sku: row.productSku,
-                      upc: row.productUpc,
-                      countryOfOrigin: row.productCountryOfOrigin,
-                      standardPrice: row.standardPrice,
-                      salePrice: row.salePrice,
-                      currency: row.currency,
-                      inventoryQuantity: row.inventoryQuantity,
-                      minPurchaseQuantity: row.minPurchaseQuantity,
-                      maxPurchaseQuantity: row.maxPurchaseQuantity,
-                      tags: row.productTags
-                        ?.split(',')
-                        .map((t) => t.trim())
-                        .filter(Boolean),
-                    }
-                  : undefined,
-            }));
-
-            const publishResultsData =
-              await platformPublishingService.publishToMultiplePlatforms(publishRequests);
-            publishResults = publishResultsData;
-          }
-        }
-
+        // Publishing removed; no-op
+        const publishResults: PublishResultWithPlatform[] | undefined = undefined;
         results.push({
           assetId: asset.id,
           assetUrl: asset.url,

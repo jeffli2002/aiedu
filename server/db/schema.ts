@@ -708,59 +708,7 @@ export const showcaseGallery = pgTable('showcase_gallery', {
 });
 
 // E-commerce Platform Publishing
-export const platformPublish = pgTable('platform_publish', {
-  id: text('id').primaryKey(),
-  userId: text('user_id')
-    .notNull()
-    .references(() => user.id, { onDelete: 'cascade' }),
-  assetId: text('asset_id')
-    .notNull()
-    .references(() => generatedAsset.id, { onDelete: 'cascade' }),
-  platform: text('platform', {
-    enum: ['tiktok', 'amazon', 'shopify', 'taobao', 'douyin', 'temu', 'other'],
-  }).notNull(),
-  platformAccountId: text('platform_account_id'), // User's account ID on the platform
-  // Product Information
-  productId: text('product_id'), // Platform-specific product ID (if updating existing product)
-  productName: text('product_name'), // Product title/name
-  productDescription: text('product_description'), // Product description
-  productCategory: text('product_category'), // Product category
-  productBrand: text('product_brand'), // Brand name
-  productModel: text('product_model'), // Model number
-  productSku: text('product_sku'), // SKU
-  productUpc: text('product_upc'), // UPC/EAN/ISBN code (for Amazon)
-  productCountryOfOrigin: text('product_country_of_origin'), // COO (for Amazon)
-  // Pricing Information
-  standardPrice: decimal('standard_price', { precision: 10, scale: 2 }), // Standard price
-  salePrice: decimal('sale_price', { precision: 10, scale: 2 }), // Sale/promotional price (for TikTok)
-  currency: text('currency').default('USD'), // Currency code
-  // Inventory Information
-  inventoryQuantity: integer('inventory_quantity'), // Stock quantity
-  minPurchaseQuantity: integer('min_purchase_quantity').default(1),
-  maxPurchaseQuantity: integer('max_purchase_quantity'),
-  // Media Information
-  imageId: text('image_id'), // Platform-specific image ID
-  videoId: text('video_id'), // Platform-specific video ID
-  thumbnailId: text('thumbnail_id'), // Thumbnail ID
-  // Publishing Status
-  publishStatus: text('publish_status', {
-    enum: ['pending', 'publishing', 'published', 'failed'],
-  })
-    .notNull()
-    .default('pending'),
-  publishUrl: text('publish_url'), // URL of the published content
-  publishId: text('publish_id'), // Platform-specific publish ID
-  errorMessage: text('error_message'),
-  publishMetadata: jsonb('publish_metadata'), // Platform-specific metadata
-  scheduledAt: timestamp('scheduled_at'), // For scheduled publishing
-  publishedAt: timestamp('published_at'),
-  createdAt: timestamp('created_at')
-    .$defaultFn(() => new Date())
-    .notNull(),
-  updatedAt: timestamp('updated_at')
-    .$defaultFn(() => new Date())
-    .notNull(),
-});
+// NOTE: platform publishing table removed for AI education project scope
 
 // Platform Account Connections (OAuth tokens, API keys, etc.)
 export const platformAccount = pgTable('platform_account', {

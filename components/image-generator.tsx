@@ -165,7 +165,7 @@ export default function ImageGenerator() {
   const [shareStatus, setShareStatus] = useState<'idle' | 'pending' | 'awarded' | 'error'>('idle');
   const [shareMessage, setShareMessage] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [isPublishModalOpen, setIsPublishModalOpen] = useState(false);
+  const [isPublishModalOpen, setIsPublishModalOpen] = useState(false); // kept for share-to-Viecom only
   // ...
   const activeRequestIdRef = useRef<string | null>(null);
   const generationLockRef = useRef(false);
@@ -920,6 +920,7 @@ export default function ImageGenerator() {
     if (!result?.imageUrl) {
       throw new Error('No image available to publish.');
     }
+    // Submit to our own Viecom showcase only (no e-commerce)
     const response = await fetch('/api/v1/publish/submissions', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
