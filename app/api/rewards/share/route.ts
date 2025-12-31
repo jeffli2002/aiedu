@@ -52,13 +52,16 @@ export async function POST(request: NextRequest) {
       'pinterest',
       'tiktok',
       'other',
-    ];
-    if (!validPlatforms.includes(platform)) {
+    ] as const;
+    if (!validPlatforms.includes(platform as any)) {
       return NextResponse.json(
         { success: false, error: `Invalid platform. Must be one of: ${validPlatforms.join(', ')}` },
         { status: 400 }
       );
     }
+
+    // Type assertion after validation
+    const validatedPlatform = platform as 'twitter' | 'facebook' | 'instagram' | 'linkedin' | 'pinterest' | 'tiktok' | 'other';
 
     // Check for duplicate share using referenceId (for idempotency)
     if (referenceId) {
@@ -86,7 +89,7 @@ export async function POST(request: NextRequest) {
         success: true,
         data: {
           shareId: null,
-          platform,
+          platform: validatedPlatform,
           creditsEarned: 0,
         },
       });
@@ -100,7 +103,7 @@ export async function POST(request: NextRequest) {
       id: shareId,
       userId,
       assetId: assetId || null,
-      platform,
+      platform: validatedPlatform,
       shareUrl: shareUrl || null,
       creditsEarned: creditsToAward,
       referenceId: shareReferenceId,
@@ -114,10 +117,10 @@ export async function POST(request: NextRequest) {
         description:
           rewardType === 'publishViecom'
             ? 'Publish on Viecom.pro'
-            : `Social share (${targetPlatform || platform})`,
+            : `Social share (${targetPlatform || validatedPlatform})`,
         referenceId: `social_share_${shareId}`,
         metadata: {
-          platform,
+          platform: validatedPlatform,
           targetPlatform: targetPlatform || null,
           assetId,
           shareUrl,
@@ -133,7 +136,7 @@ export async function POST(request: NextRequest) {
 
     const result = {
       shareId,
-      platform,
+      platform: validatedPlatform,
       creditsEarned: creditsToAward,
       rewardType,
     };
