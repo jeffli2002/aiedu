@@ -20,6 +20,7 @@ const createTrustedOrigins = (): string[] => {
     origins.add(baseOrigin);
 
     const hostname = baseUrl.hostname.toLowerCase();
+    const port = baseUrl.port ? `:${baseUrl.port}` : '';
     const isLocalhost =
       hostname === 'localhost' ||
       hostname === '127.0.0.1' ||
@@ -27,17 +28,22 @@ const createTrustedOrigins = (): string[] => {
       hostname.endsWith('.local') ||
       hostname.endsWith('.localhost');
 
+    // Add common localhost aliases to avoid CORS/403 during dev
+    if (isLocalhost) {
+      origins.add(`${baseUrl.protocol}//localhost${port}`);
+      origins.add(`${baseUrl.protocol}//127.0.0.1${port}`);
+      origins.add(`${baseUrl.protocol}//0.0.0.0${port}`);
+    }
+
     // Trust Vercel preview deployments
     const isVercelPreview = hostname.endsWith('.vercel.app');
 
     if (!isLocalhost && !isVercelPreview) {
-      const portSuffix = baseUrl.port ? `:${baseUrl.port}` : '';
-
       if (hostname.startsWith('www.')) {
         const rootHost = hostname.replace(/^www\./, '');
-        origins.add(`${baseUrl.protocol}//${rootHost}${portSuffix}`);
+        origins.add(`${baseUrl.protocol}//${rootHost}${port}`);
       } else {
-        origins.add(`${baseUrl.protocol}//www.${hostname}${portSuffix}`);
+        origins.add(`${baseUrl.protocol}//www.${hostname}${port}`);
       }
     }
 
