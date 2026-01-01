@@ -2,7 +2,10 @@ import { creditsConfig } from '@/config/credits.config';
 import { paymentConfig } from '@/config/payment.config';
 
 const APP_NAME = 'Future AI Creators';
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://www.futurai.org';
+// Always use production URL for emails, regardless of environment
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL?.startsWith('https://www.futurai.org') 
+  ? process.env.NEXT_PUBLIC_APP_URL 
+  : 'https://www.futurai.org';
 const SUPPORT_EMAIL = 'support@futurai.org';
 
 /**
