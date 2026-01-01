@@ -3,6 +3,7 @@ import { Inter, Plus_Jakarta_Sans, Poppins } from 'next/font/google';
 import './globals.css';
 import { I18nProvider } from '@/components/I18nProvider';
 import { Toaster } from '@/components/ui/sonner';
+import { AuthProvider } from '@/components/auth/auth-provider';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -34,6 +35,7 @@ export default function RootLayout({
     <html lang="zh" className={`${inter.variable} ${poppins.variable} ${plusJakarta.variable}`}>
       <body className="antialiased bg-grid">
         <I18nProvider>
+          <AuthProvider />
           {children}
           <Toaster />
         </I18nProvider>
@@ -41,5 +43,4 @@ export default function RootLayout({
     </html>
   );
 }
-
 
