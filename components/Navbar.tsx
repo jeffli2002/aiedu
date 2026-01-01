@@ -8,7 +8,6 @@ import { Cpu, Menu, X } from 'lucide-react';
 
 export default function Navbar() {
   const { t, i18n } = useTranslation();
-  const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isClient, setIsClient] = useState(false);
   const pathname = usePathname();
@@ -16,14 +15,6 @@ export default function Navbar() {
   // 确保只在客户端渲染翻译内容
   useEffect(() => {
     setIsClient(true);
-  }, []);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const toggleLanguage = () => {

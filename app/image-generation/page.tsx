@@ -12,9 +12,7 @@ export default function ImageGenerationPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50 flex flex-col">
-      <div className="fixed top-0 left-0 right-0 z-50">
-        <Navbar />
-      </div>
+      <Navbar />
       <div className="flex-1 pt-24 pb-24">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
