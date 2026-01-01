@@ -103,7 +103,7 @@ export default function Navbar() {
               {isClient && i18n.isInitialized ? t('nav.signin') : '登录'}
             </Link>
             <Link
-              href="/signup"
+              href="/#apply"
               className="px-6 py-2 text-sm font-medium rounded-lg hover:shadow-lg transition-all btn-primary"
             >
               {isClient && i18n.isInitialized ? t('nav.apply') : '注册'}
@@ -166,7 +166,7 @@ export default function Navbar() {
               {isClient && i18n.isInitialized ? t('nav.signin') : '登录'}
             </Link>
             <Link
-              href="/signup"
+              href="/#apply"
               onClick={() => setIsMobileMenuOpen(false)}
               className="block mx-4 mt-4 px-6 py-2 text-center text-sm font-medium rounded-lg btn-primary"
             >

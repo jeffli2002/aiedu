@@ -814,7 +814,7 @@ const About = ({ lang }: { lang: Language }) => {
               <p className="text-[10px] font-black uppercase tracking-[0.4em] text-blue-600 mb-2">
                 Impact since
               </p>
-              <p className="text-6xl font-black tracking-tighter bg-gradient-to-r from-violet-600 to-blue-600 bg-clip-text text-transparent">2024</p>
+              <p className="text-6xl font-black tracking-tighter bg-gradient-to-r from-violet-600 to-blue-600 bg-clip-text text-transparent">2025</p>
             </div>
           </div>
 

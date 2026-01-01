@@ -54,7 +54,7 @@ export default function Hero() {
             className="flex flex-col sm:flex-row gap-4 justify-center items-center"
           >
             <Link
-              href="/apply"
+              href="/#apply"
               className="px-8 py-4 text-lg font-semibold rounded-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 btn-primary"
             >
               {t('hero.cta')}
