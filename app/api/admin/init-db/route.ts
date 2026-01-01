@@ -194,7 +194,54 @@ export async function POST(request: NextRequest) {
       );
     `;
 
-    console.log('[init-db] ✅ Credit tables created');
+    // payment table
+    await sql`
+      CREATE TABLE IF NOT EXISTS "payment" (
+        "id" text PRIMARY KEY NOT NULL,
+        "provider" text NOT NULL DEFAULT 'creem',
+        "price_id" text NOT NULL,
+        "product_id" text,
+        "type" text NOT NULL,
+        "interval" text,
+        "user_id" text NOT NULL,
+        "customer_id" text NOT NULL,
+        "subscription_id" text,
+        "status" text NOT NULL,
+        "period_start" timestamp,
+        "period_end" timestamp,
+        "cancel_at_period_end" boolean,
+        "trial_start" timestamp,
+        "trial_end" timestamp,
+        "scheduled_plan_id" text,
+        "scheduled_interval" text,
+        "scheduled_period_start" timestamp,
+        "scheduled_period_end" timestamp,
+        "scheduled_at" timestamp,
+        "affiliate_id" text,
+        "affiliate_code" text,
+        "created_at" timestamp NOT NULL DEFAULT now(),
+        "updated_at" timestamp NOT NULL DEFAULT now(),
+        CONSTRAINT "payment_user_id_user_id_fk"
+          FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE cascade
+      );
+    `;
+
+    // payment_event table
+    await sql`
+      CREATE TABLE IF NOT EXISTS "payment_event" (
+        "id" text PRIMARY KEY NOT NULL,
+        "payment_id" text NOT NULL,
+        "event_type" text NOT NULL,
+        "stripe_event_id" text UNIQUE,
+        "creem_event_id" text UNIQUE,
+        "event_data" text,
+        "created_at" timestamp NOT NULL DEFAULT now(),
+        CONSTRAINT "payment_event_payment_id_payment_id_fk"
+          FOREIGN KEY ("payment_id") REFERENCES "payment"("id") ON DELETE cascade
+      );
+    `;
+
+    console.log('[init-db] ✅ Credit and Payment tables created');
 
     return NextResponse.json({
       success: true,
@@ -208,6 +255,8 @@ export async function POST(request: NextRequest) {
         'user_credits',
         'credit_transactions',
         'credit_pack_purchase',
+        'payment',
+        'payment_event',
       ],
     });
   } catch (error) {
