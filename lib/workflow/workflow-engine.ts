@@ -341,7 +341,6 @@ export class WorkflowEngine {
       prompt,
       imageUrl: mode === 'i2i' && baseImage ? baseImage : undefined,
       aspect_ratio: kieAspectRatio,
-      quality: 'standard',
     });
 
     const taskId = taskResponse.data.taskId;
@@ -442,7 +441,6 @@ export class WorkflowEngine {
       prompt,
       imageUrls: mode === 'i2v' && baseImage ? [baseImage] : undefined,
       aspectRatio: 'landscape', // Default, can be made configurable
-      quality: 'standard',
     });
 
     const taskId = taskResponse.data.taskId;
