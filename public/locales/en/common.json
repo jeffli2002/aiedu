@@ -404,7 +404,8 @@
     "save": "Save",
     "delete": "Delete",
     "edit": "Edit",
-    "close": "Close"
+    "close": "Close",
+    "logout": "Logout"
   },
   "resetPassword": {
     "titleRequest": "Reset your password",

@@ -404,7 +404,8 @@
     "save": "保存",
     "delete": "删除",
     "edit": "编辑",
-    "close": "关闭"
+    "close": "关闭",
+    "logout": "退出登录"
   },
   "resetPassword": {
     "titleRequest": "重置密码",
