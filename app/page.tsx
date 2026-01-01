@@ -17,6 +17,7 @@ import { translations, Language } from '@/translations';
 import Link from 'next/link';
 import Footer from '@/components/Footer';
 import Navbar from '@/components/Navbar';
+import { useTranslation } from 'react-i18next';
 
 const Hero = ({ lang }: { lang: Language }) => {
   const t = translations[lang].hero;
@@ -131,7 +132,7 @@ const Hero = ({ lang }: { lang: Language }) => {
         </h1>
 
         <p
-          className={`text-lg md:text-xl text-slate-700 max-w-2xl mb-16 leading-relaxed font-medium transition-all duration-1000 delay-300 ${
+          className={`text-lg md:text-xl text-slate-700 max-w-4xl mb-16 leading-relaxed font-medium transition-all duration-1000 delay-300 ${
             isMounted ? 'opacity-100' : 'opacity-0'
           }`}
         >
@@ -197,7 +198,7 @@ const Hero = ({ lang }: { lang: Language }) => {
                   {lang === 'cn' ? 'AI 改变教育的瞬间' : 'Moments AI Changes Education'}
                 </h3>
                 <p className="text-white text-lg mt-5 opacity-90 font-semibold drop-shadow-lg">
-                  Experience the 5-day journey of innovation, creation, and impact.
+                  {lang === 'cn' ? '体验 5 天的创新、创作与影响力之旅。' : 'Experience the 5-day journey of innovation, creation, and impact.'}
                 </p>
               </div>
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
@@ -707,7 +708,15 @@ const About = ({ lang }: { lang: Language }) => {
 
 
 export default function Home() {
-  const [lang, setLang] = useState<Language>('cn');
+  const { i18n } = useTranslation();
+  const [isClient, setIsClient] = useState(false);
+  
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  // Map react-i18next language to our Language type
+  const lang: Language = isClient && i18n.isInitialized && i18n.language === 'en' ? 'en' : 'cn';
   const coreValue = translations[lang].coreValue;
 
   return (
