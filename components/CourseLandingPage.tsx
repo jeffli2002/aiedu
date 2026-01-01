@@ -227,14 +227,19 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
                           src={`/api/media/video/${encodeURIComponent(m.mediaId)}/manifest?authOnly=1`}
                         />
                       ) : (
-                        <iframe
+                        <object
                           key={m.mediaId}
+                          data={`/api/media/pdf/${encodeURIComponent(m.mediaId)}?authOnly=1#toolbar=0&navpanes=0&scrollbar=0`}
+                          type="application/pdf"
                           className="w-full h-[70vh] rounded-2xl border border-slate-200 bg-white"
-                          src={`/api/media/pdf/${encodeURIComponent(m.mediaId)}?authOnly=1#toolbar=0&navpanes=0&scrollbar=0`}
-                          referrerPolicy="no-referrer"
-                          sandbox="allow-same-origin allow-scripts allow-forms"
-                          onContextMenu={(e) => e.preventDefault()}
-                        />
+                        >
+                          <a
+                            href={`/api/media/pdf/${encodeURIComponent(m.mediaId)}?authOnly=1`}
+                            className="text-blue-600 underline"
+                          >
+                            {t('training.courseLanding.openDocument') || '打开文档'}
+                          </a>
+                        </object>
                       )}
                       <div className="mt-3 text-xs text-slate-400">{t('training.courseLanding.noDownload') || '为保护版权，本资料仅支持在线阅读/观看，已禁用右键、下载、Picture-in-Picture 与播放速度调节。'}</div>
                     </div>
