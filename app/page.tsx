@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { translations, Language } from '@/translations';
 import Link from 'next/link';
+import Footer from '@/components/Footer';
 
 const Navbar = ({
   lang,
@@ -851,36 +852,6 @@ const About = ({ lang }: { lang: Language }) => {
   );
 };
 
-const Footer = ({ lang }: { lang: Language }) => {
-  return (
-    <footer className="py-12 border-t border-slate-200 px-8 bg-gradient-to-b from-white to-slate-50">
-      <div className="max-w-[1440px] mx-auto flex flex-col lg:flex-row justify-between items-center gap-10">
-        <div className="flex items-center space-x-5 group">
-          <div className="bg-gradient-to-tr from-violet-600 to-blue-500 p-3 rounded-2xl group-hover:rotate-12 transition-all duration-500 shadow-lg">
-            <Cpu className="w-7 h-7 text-white" />
-          </div>
-          <span className="font-black text-xl tracking-tighter uppercase italic bg-gradient-to-r from-violet-600 to-blue-600 bg-clip-text text-transparent">Future AI Creators</span>
-        </div>
-
-        <div className="flex flex-wrap justify-center gap-8">
-          {['Privacy', 'Terms', 'Instagram', 'WeChat', 'YouTube'].map(link => (
-            <a
-              key={link}
-              href="#"
-              className="text-slate-600 hover:text-violet-600 transition-all text-[10px] font-black uppercase tracking-[0.3em]"
-            >
-              {link}
-            </a>
-          ))}
-        </div>
-
-        <p className="text-slate-500 text-[10px] font-black uppercase tracking-[0.3em] text-center lg:text-right">
-          © 2026. {lang === 'en' ? 'Built for the Creators of Tomorrow.' : '为明日创造者而生。'}
-        </p>
-      </div>
-    </footer>
-  );
-};
 
 export default function Home() {
   const [lang, setLang] = useState<Language>('cn');
@@ -952,7 +923,7 @@ export default function Home() {
         <About lang={lang} />
       </main>
 
-      <Footer lang={lang} />
+      <Footer />
     </div>
   );
 }

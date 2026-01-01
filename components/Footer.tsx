@@ -15,10 +15,6 @@ export default function Footer({ fixed }: { fixed?: boolean } = {}) {
     setIsClient(true);
   }, []);
 
-  if (pathname === '/') {
-    return null;
-  }
-
   const lang = isClient ? i18n.language : 'zh';
   const isZh = lang?.startsWith('zh');
   const year = new Date().getFullYear();
