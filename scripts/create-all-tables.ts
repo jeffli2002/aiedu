@@ -283,6 +283,85 @@ async function createAllTables() {
       END $$;
     `;
     console.log('✅ Unique index ensured for user_quota_usage');
+
+    // ========== Generation Tables ==========
+    console.log('\nCreating generation tables...\n');
+
+    // generation_lock table
+    console.log('Creating generation_lock table...');
+    await sql`
+      CREATE TABLE IF NOT EXISTS "generation_lock" (
+        "id" text PRIMARY KEY NOT NULL,
+        "user_id" text NOT NULL,
+        "asset_type" text NOT NULL,
+        "request_id" text,
+        "task_id" text,
+        "metadata" jsonb,
+        "expires_at" timestamp NOT NULL DEFAULT now(),
+        "created_at" timestamp NOT NULL DEFAULT now(),
+        "updated_at" timestamp NOT NULL DEFAULT now(),
+        CONSTRAINT "generation_lock_user_id_user_id_fk"
+          FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE cascade
+      );
+    `;
+    console.log('✅ generation_lock table ready');
+
+    // Unique index for (user_id, asset_type)
+    console.log('Ensuring unique (user_id, asset_type) on generation_lock...');
+    await sql`
+      DO $$
+      BEGIN
+        IF NOT EXISTS (
+          SELECT 1 FROM pg_indexes WHERE indexname = 'generation_lock_user_asset_idx'
+        ) THEN
+          CREATE UNIQUE INDEX generation_lock_user_asset_idx
+            ON generation_lock (user_id, asset_type);
+        END IF;
+      END $$;
+    `;
+    console.log('✅ Unique index ensured for generation_lock');
+
+    // generated_asset table
+    console.log('Creating generated_asset table...');
+    await sql`
+      CREATE TABLE IF NOT EXISTS "generated_asset" (
+        "id" text PRIMARY KEY NOT NULL,
+        "user_id" text NOT NULL,
+        "asset_type" text NOT NULL,
+        "generation_mode" text NOT NULL,
+        "product_name" text,
+        "product_description" text,
+        "base_image_url" text,
+        "prompt" text NOT NULL,
+        "enhanced_prompt" text,
+        "negative_prompt" text,
+        "style_id" text,
+        "style_customization" text,
+        "video_style" text,
+        "script" text,
+        "script_audio_url" text,
+        "r2_key" text NOT NULL,
+        "public_url" text NOT NULL,
+        "thumbnail_url" text,
+        "width" integer,
+        "height" integer,
+        "duration" integer,
+        "file_size" integer,
+        "status" text NOT NULL DEFAULT 'processing',
+        "error_message" text,
+        "credits_spent" integer NOT NULL DEFAULT 0,
+        "generation_params" jsonb,
+        "metadata" jsonb,
+        "expires_at" timestamp,
+        "created_at" timestamp NOT NULL DEFAULT now(),
+        "updated_at" timestamp NOT NULL DEFAULT now(),
+        CONSTRAINT "generated_asset_user_id_user_id_fk"
+          FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE cascade
+      );
+    `;
+    console.log('✅ generated_asset table ready');
+
+    console.log('\n🎉 All generation tables created successfully!');
   } catch (error) {
     console.error('❌ Error creating tables:', error);
     throw error;
