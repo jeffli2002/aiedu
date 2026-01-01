@@ -102,7 +102,7 @@ const Hero = ({ lang }: { lang: Language }) => {
         </div>
 
         <h1
-          className={`text-6xl md:text-[8rem] font-black mb-12 leading-[0.85] tracking-tighter transition-all duration-1000 delay-150 ${
+          className={`text-4xl md:text-6xl font-black mb-12 leading-[0.85] tracking-tighter transition-all duration-1000 delay-150 ${
             isMounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
           }`}
         >
@@ -132,7 +132,7 @@ const Hero = ({ lang }: { lang: Language }) => {
         </h1>
 
         <p
-          className={`text-lg md:text-xl text-slate-700 max-w-4xl mb-16 leading-relaxed font-medium transition-all duration-1000 delay-300 ${
+          className={`text-base md:text-lg text-slate-700 max-w-4xl mb-16 leading-relaxed font-medium transition-all duration-1000 delay-300 ${
             isMounted ? 'opacity-100' : 'opacity-0'
           }`}
         >
@@ -194,10 +194,10 @@ const Hero = ({ lang }: { lang: Language }) => {
                     <span>Interactive</span>
                   </div>
                 </div>
-                <h3 className="text-4xl md:text-6xl font-black text-white tracking-tighter drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)] leading-tight">
+                <h3 className="text-3xl md:text-4xl font-black text-white tracking-tighter drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)] leading-tight">
                   {lang === 'cn' ? 'AI 改变教育的瞬间' : 'Moments AI Changes Education'}
                 </h3>
-                <p className="text-white text-lg mt-5 opacity-90 font-semibold drop-shadow-lg">
+                <p className="text-white text-base mt-5 opacity-90 font-semibold drop-shadow-lg">
                   {lang === 'cn' ? '体验 5 天的创新、创作与影响力之旅。' : 'Experience the 5-day journey of innovation, creation, and impact.'}
                 </p>
               </div>
@@ -251,7 +251,7 @@ const Projects = ({ lang }: { lang: Language }) => {
               {lang === 'cn' ? '激发潜能的' : 'POWERING'} <br />
               <span className="bg-gradient-to-r from-violet-600 to-blue-600 bg-clip-text text-transparent">{lang === 'cn' ? '真实项目' : 'REAL IMPACT'}</span>
             </h2>
-            <p className="text-slate-600 text-lg leading-relaxed max-w-2xl">{t.subtitle}</p>
+            <p className="text-slate-600 text-base leading-relaxed max-w-2xl">{t.subtitle}</p>
           </div>
           <button className="flex items-center space-x-4 text-xs font-black uppercase tracking-[0.3em] text-violet-600 hover:text-violet-700 transition-all transform hover:translate-x-2">
             <span>{lang === 'cn' ? '查看作品集' : 'View Portfolio'}</span>
@@ -270,7 +270,7 @@ const Projects = ({ lang }: { lang: Language }) => {
                 {item.icon}
               </div>
 
-              <h3 className="text-3xl font-black mb-4 leading-tight text-slate-900 group-hover:text-violet-700 transition-colors tracking-tight">
+              <h3 className="text-2xl font-black mb-4 leading-tight text-slate-900 group-hover:text-violet-700 transition-colors tracking-tight">
                 {item.title}
               </h3>
               <p className="text-slate-600 leading-relaxed mb-8 text-base">{item.desc}</p>
@@ -501,10 +501,10 @@ const ApplicationForm = ({ lang }: { lang: Language }) => {
           <div className="inline-block bg-violet-50 border border-violet-200 px-5 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.4em] text-violet-600 w-fit">
             Limited Availability
           </div>
-          <h2 className="text-5xl md:text-[5.5rem] font-black tracking-tighter leading-[0.9] mb-4 text-slate-900">
+          <h2 className="text-4xl md:text-5xl font-black tracking-tighter leading-[0.9] mb-4 text-slate-900">
             {t.title}
           </h2>
-          <p className="text-slate-600 text-lg max-w-xl leading-relaxed mx-auto">{t.subtitle}</p>
+          <p className="text-slate-600 text-base max-w-xl leading-relaxed mx-auto">{t.subtitle}</p>
         </div>
 
         <div className="max-w-[900px] w-full mx-auto text-left">
@@ -648,7 +648,7 @@ const About = ({ lang }: { lang: Language }) => {
     <section id="about" className="py-20 px-6 bg-gradient-to-b from-slate-50 to-white">
       <div className="max-w-[1440px] mx-auto">
         <div className="flex flex-col mb-16 gap-8">
-          <h2 className="text-5xl md:text-[5.5rem] font-black tracking-tighter leading-[0.9] text-slate-900">{t.title}</h2>
+          <h2 className="text-4xl md:text-5xl font-black tracking-tighter leading-[0.9] text-slate-900">{t.title}</h2>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
@@ -680,9 +680,9 @@ const About = ({ lang }: { lang: Language }) => {
                   <div className="w-12 h-12 bg-violet-100 text-violet-600 rounded-2xl flex items-center justify-center font-black text-lg border border-violet-200">
                     01
                   </div>
-                  <h3 className="text-3xl font-black italic tracking-tight text-slate-900">{t.vision.title}</h3>
+                  <h3 className="text-2xl font-black italic tracking-tight text-slate-900">{t.vision.title}</h3>
                 </div>
-                <p className="text-slate-700 leading-relaxed text-lg pl-16 border-l-2 border-violet-200">
+                <p className="text-slate-700 leading-relaxed text-base pl-16 border-l-2 border-violet-200">
                   {t.vision.desc}
                 </p>
               </div>
@@ -692,9 +692,9 @@ const About = ({ lang }: { lang: Language }) => {
                   <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center font-black text-lg border border-blue-200">
                     02
                   </div>
-                  <h3 className="text-3xl font-black italic tracking-tight text-slate-900">{t.method.title}</h3>
+                  <h3 className="text-2xl font-black italic tracking-tight text-slate-900">{t.method.title}</h3>
                 </div>
-                <p className="text-slate-700 leading-relaxed text-lg pl-16 border-l-2 border-blue-200">
+                <p className="text-slate-700 leading-relaxed text-base pl-16 border-l-2 border-blue-200">
                   {t.method.desc}
                 </p>
               </div>
@@ -734,10 +734,10 @@ export default function Home() {
               <div className="inline-block bg-violet-50 px-5 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.5em] text-violet-600 mb-8 border border-violet-200">
                 Manifesto
               </div>
-              <h2 className="text-4xl md:text-[4.5rem] font-black mb-8 leading-[0.95] tracking-tighter text-slate-900">
+              <h2 className="text-3xl md:text-4xl font-black mb-8 leading-[0.95] tracking-tighter text-slate-900">
                 {coreValue.title}
               </h2>
-              <p className="text-slate-700 text-xl leading-relaxed font-medium">
+              <p className="text-slate-700 text-lg leading-relaxed font-medium">
                 {coreValue.content}
               </p>
             </div>
