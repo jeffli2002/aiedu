@@ -79,6 +79,7 @@ declare module '@radix-ui/react-hover-card' {
 }
 declare module '@radix-ui/react-menubar' {
   export const Root: any;
+  export const Menu: any;
   export const Trigger: any;
   export const Content: any;
   export const Item: any;
