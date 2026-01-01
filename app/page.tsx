@@ -8,162 +8,15 @@ import {
   Calendar,
   CheckCircle,
   Code,
-  Cpu,
-  Menu,
   Monitor,
   Palette,
   Video,
-  X,
   Zap,
 } from 'lucide-react';
 import { translations, Language } from '@/translations';
 import Link from 'next/link';
 import Footer from '@/components/Footer';
-
-const Navbar = ({
-  lang,
-  setLang,
-}: {
-  lang: Language;
-  setLang: (lang: Language) => void;
-}) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const t = translations[lang].nav;
-
-  const scrollTo = (id: string) => {
-    const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
-    setIsOpen(false);
-  };
-
-  return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200/50 px-8 py-5 backdrop-blur-xl">
-      <div className="max-w-[1440px] mx-auto flex justify-between items-center">
-        <div
-          className="flex items-center space-x-3 cursor-pointer group"
-          onClick={() => scrollTo('home')}
-        >
-          <div className="bg-gradient-to-tr from-violet-600 to-blue-500 p-2.5 rounded-2xl group-hover:rotate-12 transition-transform duration-500">
-            <Cpu className="text-white w-5 h-5" />
-          </div>
-          <span className="text-lg font-extrabold tracking-tighter uppercase text-slate-900">Future Creator</span>
-        </div>
-
-        <div className="hidden lg:flex items-center space-x-10">
-          <button
-            onClick={() => scrollTo('projects')}
-            className="text-slate-600 hover:text-violet-600 transition-colors text-xs font-black uppercase tracking-[0.2em]"
-          >
-            {t.projects}
-          </button>
-          <Link
-            href="/image-generation"
-            className="text-slate-600 hover:text-violet-600 transition-colors text-xs font-black uppercase tracking-[0.2em]"
-          >
-            {t.aiImage}
-          </Link>
-          <Link
-            href="/video-generation"
-            className="text-slate-600 hover:text-violet-600 transition-colors text-xs font-black uppercase tracking-[0.2em]"
-          >
-            {t.aiVideo}
-          </Link>
-          <Link
-            href="/training"
-            className="text-slate-600 hover:text-violet-600 transition-colors text-xs font-black uppercase tracking-[0.2em]"
-          >
-            {t.training}
-          </Link>
-          <button
-            onClick={() => scrollTo('about')}
-            className="text-slate-600 hover:text-violet-600 transition-colors text-xs font-black uppercase tracking-[0.2em]"
-          >
-            {t.about}
-          </button>
-
-          <div className="flex items-center space-x-8 pl-8 border-l border-slate-200">
-            <button
-              onClick={() => setLang(lang === 'en' ? 'cn' : 'en')}
-              className="text-slate-600 hover:text-blue-600 transition-colors text-xs font-bold tracking-widest"
-            >
-              {lang === 'en' ? 'CN' : 'EN'}
-            </button>
-            <Link
-              href="/signin"
-              className="text-slate-600 hover:text-violet-600 transition-colors text-xs font-bold uppercase tracking-[0.2em]"
-            >
-              {t.signin}
-            </Link>
-            <Link
-              href="/#apply"
-              className="bg-gradient-to-r from-violet-600 to-blue-600 text-white px-8 py-3 rounded-full font-black text-xs uppercase tracking-[0.15em] hover:from-violet-700 hover:to-blue-700 transition-all transform hover:scale-105 btn-shimmer shadow-lg"
-            >
-              {t.apply}
-            </Link>
-          </div>
-        </div>
-
-        <div className="lg:hidden flex items-center space-x-4">
-          <button onClick={() => setIsOpen(!isOpen)} className="text-slate-900">
-            {isOpen ? <X /> : <Menu />}
-          </button>
-        </div>
-      </div>
-
-      {isOpen && (
-        <div className="lg:hidden absolute top-full left-0 right-0 bg-white/95 backdrop-blur-xl border-b border-slate-200 p-8 flex flex-col space-y-6 animate-in fade-in slide-in-from-top-4 duration-300">
-          <button
-            onClick={() => scrollTo('projects')}
-            className="text-left font-black text-xl uppercase text-slate-900 hover:text-violet-600"
-          >
-            {t.projects}
-          </button>
-          <Link
-            href="/image-generation"
-            onClick={() => setIsOpen(false)}
-            className="text-left font-black text-xl uppercase text-slate-900 hover:text-violet-600"
-          >
-            {t.aiImage}
-          </Link>
-          <Link
-            href="/video-generation"
-            onClick={() => setIsOpen(false)}
-            className="text-left font-black text-xl uppercase text-slate-900 hover:text-violet-600"
-          >
-            {t.aiVideo}
-          </Link>
-          <Link
-            href="/training"
-            onClick={() => setIsOpen(false)}
-            className="text-left font-black text-xl uppercase text-slate-900 hover:text-violet-600"
-          >
-            {t.training}
-          </Link>
-          <button
-            onClick={() => scrollTo('about')}
-            className="text-left font-black text-xl uppercase text-slate-900 hover:text-violet-600"
-          >
-            {t.about}
-          </button>
-          <Link
-            href="/signin"
-            onClick={() => setIsOpen(false)}
-            className="text-left font-black text-xl uppercase text-slate-900 hover:text-violet-600"
-          >
-            {t.signin}
-          </Link>
-          <Link
-            href="/signup"
-            onClick={() => setIsOpen(false)}
-            className="bg-gradient-to-r from-violet-600 to-blue-600 text-white text-center py-5 rounded-2xl font-black uppercase tracking-widest"
-          >
-            {t.apply}
-          </Link>
-        </div>
-      )}
-    </nav>
-  );
-};
+import Navbar from '@/components/Navbar';
 
 const Hero = ({ lang }: { lang: Language }) => {
   const t = translations[lang].hero;
@@ -859,7 +712,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50 selection:bg-violet-600 selection:text-white selection:bg-opacity-80">
-      <Navbar lang={lang} setLang={setLang} />
+      <Navbar />
 
       <main className="bg-transparent">
         <Hero lang={lang} />
