@@ -47,7 +47,6 @@ export default function Navbar() {
         { href: '/training', label: '训练课程' },
         { href: '/image-generation', label: 'AI 图像' },
         { href: '/video-generation', label: 'AI 视频' },
-        { href: '/about', label: '关于我们' },
       ];
     }
     return [
@@ -56,7 +55,6 @@ export default function Navbar() {
       { href: '/training', label: t('nav.training') },
       { href: '/image-generation', label: t('nav.aiImage') },
       { href: '/video-generation', label: t('nav.aiVideo') },
-      { href: '/about', label: t('nav.about') },
     ];
   }, [t, isClient, i18n.isInitialized]);
 
@@ -180,7 +178,6 @@ export default function Navbar() {
     </nav>
   );
 }
-
 
 
 

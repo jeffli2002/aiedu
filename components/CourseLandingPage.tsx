@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { 
   ArrowLeft, 
   Clock, 
@@ -123,17 +124,12 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
             ))}
           </div>
           
-          <button 
-            onClick={() => {
-              const applySection = document.getElementById('apply');
-              if (applySection) {
-                applySection.scrollIntoView({ behavior: 'smooth' });
-              }
-            }}
-            className="px-10 py-5 bg-blue-600 hover:bg-blue-700 text-white rounded-[2rem] font-black text-xs uppercase tracking-[0.2em] transition-all shadow-xl shadow-blue-500/20 active:scale-95"
+          <Link
+            href="/#apply"
+            className="px-10 py-5 bg-blue-600 hover:bg-blue-700 text-white rounded-[2rem] font-black text-xs uppercase tracking-[0.2em] transition-all shadow-xl shadow-blue-500/20 active:scale-95 inline-block text-center"
           >
             {t('training.courseLanding.enrollBtn')}
-          </button>
+          </Link>
         </div>
       </div>
 
@@ -211,18 +207,13 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
             </div>
 
             <div className="mt-12">
-              <button 
-                onClick={() => {
-                  const applySection = document.getElementById('apply');
-                  if (applySection) {
-                    applySection.scrollIntoView({ behavior: 'smooth' });
-                  }
-                }}
+              <Link
+                href="/#apply"
                 className="w-full bg-slate-900 text-white py-7 rounded-[2.5rem] font-black text-sm uppercase tracking-[0.25em] hover:bg-blue-600 transition-all flex items-center justify-center gap-4 active:scale-[0.98] shadow-2xl"
               >
                 {t('training.courseLanding.enrollBtn')}
                 <ChevronRight className="w-6 h-6" />
-              </button>
+              </Link>
             </div>
             
             <div className="mt-10 flex items-center justify-center gap-6 text-slate-400">

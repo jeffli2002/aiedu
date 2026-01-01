@@ -94,7 +94,7 @@ const Navbar = ({
               {t.signin}
             </Link>
             <Link
-              href="/signup"
+              href="/#apply"
               className="bg-gradient-to-r from-violet-600 to-blue-600 text-white px-8 py-3 rounded-full font-black text-xs uppercase tracking-[0.15em] hover:from-violet-700 hover:to-blue-700 transition-all transform hover:scale-105 btn-shimmer shadow-lg"
             >
               {t.apply}

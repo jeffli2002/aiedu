@@ -23,7 +23,7 @@ export default function CTA() {
             {t('camp.formatValue')}
           </p>
           <Link
-            href="/apply"
+            href="/#apply"
             className="inline-block px-8 py-4 text-lg font-semibold rounded-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 btn-primary"
           >
             {t('hero.cta')}
