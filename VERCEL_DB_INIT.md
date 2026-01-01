@@ -15,10 +15,19 @@
      ```
      CRON_SECRET=your-secret-key-here
      ```
-   - 生成一个安全的密钥（可以使用以下命令）：
-     ```bash
-     openssl rand -base64 32
-     ```
+   - 生成一个安全的密钥：
+     - **Windows PowerShell**：
+       ```powershell
+       [Convert]::ToBase64String((1..32 | ForEach-Object { Get-Random -Minimum 0 -Maximum 256 }))
+       ```
+     - **Mac/Linux**：
+       ```bash
+       openssl rand -base64 32
+       ```
+     - **Node.js**（如果已安装）：
+       ```bash
+       node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
+       ```
    - 确保选择正确的环境（Production, Preview, Development）
    - 点击 **Save**
 
@@ -187,9 +196,12 @@ ORDER BY table_name;
 
 ## 快速命令参考
 
-```bash
-# 生成 CRON_SECRET
-openssl rand -base64 32
+```powershell
+# 生成 CRON_SECRET (Windows PowerShell)
+[Convert]::ToBase64String((1..32 | ForEach-Object { Get-Random -Minimum 0 -Maximum 256 }))
+
+# 生成 CRON_SECRET (Mac/Linux)
+# openssl rand -base64 32
 
 # 使用 curl 调用 API（替换 YOUR_CRON_SECRET）
 curl -X POST https://www.futurai.org/api/admin/init-db \
