@@ -14,6 +14,7 @@
     "db:create-all-auth-tables": "tsx scripts/create-all-auth-tables.ts",
     "db:create-credit-tables": "tsx scripts/create-credit-tables.ts",
     "db:create-all-tables": "tsx scripts/create-all-tables.ts",
+    "db:init-vercel": "powershell -ExecutionPolicy Bypass -File scripts/init-db-vercel.ps1",
     "prepare": "husky"
   },
   "dependencies": {
