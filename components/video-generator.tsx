@@ -137,6 +137,19 @@ export default function VideoGenerator() {
   };
 
   const videoCreditCost = getVideoCreditCost();
+
+  // Calculate credit range for model display
+  const getModelCreditRange = (modelType: 'sora-2' | 'sora-2-pro') => {
+    if (modelType === 'sora-2') {
+      const cost10s = creditsConfig.consumption.videoGeneration['sora-2-720p-10s'];
+      const cost15s = creditsConfig.consumption.videoGeneration['sora-2-720p-15s'];
+      return `${cost10s}-${cost15s}`;
+    } else {
+      const cost720p10s = creditsConfig.consumption.videoGeneration['sora-2-pro-720p-10s'];
+      const cost1080p15s = creditsConfig.consumption.videoGeneration['sora-2-pro-1080p-15s'];
+      return `${cost720p10s}-${cost1080p15s}`;
+    }
+  };
   const textDefaultPrompt = tg('textDefaultPrompt');
   const imageDefaultPrompt = tg('imageDefaultPrompt');
   const effectiveCredits =
@@ -1001,10 +1014,10 @@ export default function VideoGenerator() {
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="sora-2">
-                          {tg('modelSora2', { credits: '15-20' })}
+                          {tg('modelSora2', { credits: getModelCreditRange('sora-2') })}
                         </SelectItem>
                         <SelectItem value="sora-2-pro">
-                          {tg('modelSora2Pro', { credits: '45-130' })}
+                          {tg('modelSora2Pro', { credits: getModelCreditRange('sora-2-pro') })}
                         </SelectItem>
                       </SelectContent>
                     </Select>
