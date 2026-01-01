@@ -442,12 +442,17 @@ export class KIEAPIService {
 
       if (status.data?.status === 'completed' || status.data?.state === 'success') {
         if (type === 'image') {
-          const imageUrl =
-            status.data?.result?.imageUrl ||
-            status.data?.result?.resultUrls?.[0] ||
-            status.data?.resultJson
-              ? JSON.parse(status.data.resultJson).resultUrls?.[0]
-              : undefined;
+          let imageUrl: string | undefined =
+            status.data?.result?.imageUrl || status.data?.result?.resultUrls?.[0];
+
+          if (!imageUrl && typeof status.data?.resultJson === 'string') {
+            try {
+              const parsed = JSON.parse(status.data.resultJson) as { resultUrls?: string[] };
+              imageUrl = parsed?.resultUrls?.[0];
+            } catch {
+              // ignore parse errors
+            }
+          }
 
           if (imageUrl) {
             return { imageUrl, status: 'completed' };
