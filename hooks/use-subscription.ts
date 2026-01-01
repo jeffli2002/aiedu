@@ -1,4 +1,3 @@
-// @ts-nocheck
 'use client';
 
 import { useAuthStore } from '@/store/auth-store';
@@ -29,7 +28,12 @@ export interface UseSubscriptionResult {
   status: string | null;
   cancelAtPeriodEnd: boolean;
   interval: 'month' | 'year' | null;
-  upcomingPlan: SubscriptionResponse['subscription']['upcomingPlan'];
+  upcomingPlan: {
+    planId?: 'pro' | 'proplus';
+    interval?: 'month' | 'year';
+    takesEffectAt?: string | null;
+    changeType?: 'upgrade' | 'downgrade';
+  } | null;
 }
 
 export function useSubscription(): UseSubscriptionResult {
@@ -40,8 +44,13 @@ export function useSubscription(): UseSubscriptionResult {
   const [status, setStatus] = useState<string | null>(null);
   const [cancelAtPeriodEnd, setCancelAtPeriodEnd] = useState<boolean>(false);
   const [interval, setInterval] = useState<'month' | 'year' | null>(null);
-  const [upcomingPlan, setUpcomingPlan] =
-    useState<SubscriptionResponse['subscription']['upcomingPlan']>(null);
+  const [upcomingPlan, setUpcomingPlan] = useState<{
+    planId?: 'pro' | 'proplus';
+    interval?: 'month' | 'year';
+    takesEffectAt?: string | null;
+    changeType?: 'upgrade' | 'downgrade';
+  } | null>(null);
+
   useEffect(() => {
     if (authLoading) return;
 
