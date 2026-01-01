@@ -19,6 +19,7 @@ import {
 import { Module } from '@/lib/training-system';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import { useIsAuthenticated } from '@/store/auth-store';
 
 interface CourseLandingPageProps {
   course: Module;
@@ -28,6 +29,7 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
   const { t, i18n } = useTranslation();
   const router = useRouter();
   const [isClient, setIsClient] = useState(false);
+  const isAuthenticated = useIsAuthenticated();
   const lang = i18n.language === 'zh' ? 'zh' : 'en';
 
   useEffect(() => {
@@ -133,6 +135,61 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
         </div>
       </div>
 
+      {/* Gated Materials Section */}
+      {course.materials && course.materials.length > 0 && (
+        <section className="max-w-7xl mx-auto px-6 mt-16">
+          <div className="bg-white/90 backdrop-blur-xl p-8 md:p-12 rounded-[3.5rem] border border-slate-100 shadow-2xl">
+            <div className="flex items-center gap-4 mb-8">
+              <div className="p-4 bg-blue-50 rounded-2xl border border-blue-100">
+                <Presentation className="w-6 h-6 text-blue-600" />
+              </div>
+              <h3 className="text-2xl md:text-3xl font-bold text-slate-900">{t('training.courseLanding.materials') || '课程资料'}</h3>
+            </div>
+
+            {!isAuthenticated ? (
+              <div className="rounded-3xl border border-amber-200 bg-amber-50 p-6 md:p-8 text-amber-800">
+                <p className="font-semibold">{t('training.courseLanding.signInToView') || '登录后可在线阅读/观看课程资料（禁止下载）。'}</p>
+                <div className="mt-3 text-sm text-amber-700">{t('training.courseLanding.signInHint') || '请点击页面右上角登录按钮后刷新本页。'}</div>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                {course.materials.map((m) => (
+                  <div key={m.id} className="rounded-3xl border border-slate-100 bg-white shadow-sm overflow-hidden">
+                    <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
+                      <div className="font-bold text-slate-800">{m.title}</div>
+                      <div className="text-xs font-black uppercase tracking-widest text-slate-400">{m.type.toUpperCase()}</div>
+                    </div>
+                    <div className="p-4">
+                      {m.type === 'video' ? (
+                        <video
+                          key={m.mediaId}
+                          controls
+                          controlsList="nodownload noplaybackrate"
+                          disablePictureInPicture
+                          className="w-full rounded-2xl border border-slate-200"
+                          onContextMenu={(e) => e.preventDefault()}
+                          preload="metadata"
+                          src={`/api/media/video/${encodeURIComponent(m.mediaId)}/manifest`}
+                        />
+                      ) : (
+                        <iframe
+                          key={m.mediaId}
+                          className="w-full h-[70vh] rounded-2xl border border-slate-200 bg-white"
+                          src={`/api/media/pdf/${encodeURIComponent(m.mediaId)}#toolbar=0&navpanes=0&scrollbar=0`}
+                          sandbox="allow-scripts allow-same-origin"
+                          onContextMenu={(e) => e.preventDefault()}
+                        />
+                      )}
+                      <div className="mt-3 text-xs text-slate-400">{t('training.courseLanding.noDownload') || '为保护版权，本资料仅支持在线阅读/观看，已禁用右键、下载、Picture-in-Picture 与播放速度调节。'}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </section>
+      )}
+
       <div className="max-w-7xl mx-auto px-6 mt-32 grid lg:grid-cols-12 gap-24">
         {/* Syllabus Timeline */}
         <div className="lg:col-span-7">
@@ -234,4 +291,3 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
     </div>
   );
 }
-

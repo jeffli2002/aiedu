@@ -1,3 +1,11 @@
+export interface CourseMaterial {
+  id: string;
+  title: string;
+  type: 'video' | 'pdf';
+  mediaId: string; // maps to R2 path id, e.g., videos/{mediaId}/full.mp4 or docs/{mediaId}/full.pdf
+  language?: 'zh' | 'en';
+}
+
 export interface Module {
   id: string;
   title: string;
@@ -11,6 +19,7 @@ export interface Module {
   heroImage: string;
   syllabus: { title: string; description: string }[];
   projects: { title: string; goal: string; tools: string[]; outcome: string }[];
+  materials?: CourseMaterial[]; // optional gated tutorial files (auth required)
 }
 
 export interface TrainingSystem {
@@ -39,6 +48,10 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
             tools: ['Gemini', 'Google 搜索'], 
             outcome: '一份深度剖析 AI"幻觉"现象的核查报告。' 
           }
+        ],
+        materials: [
+          { id: 'f1-lecture', title: '课程讲解视频', type: 'video', mediaId: 'training/f1/lecture', language: 'zh' },
+          { id: 'f1-slides', title: '讲义 PDF', type: 'pdf', mediaId: 'training/f1/slides', language: 'zh' },
         ]
       },
       { 
