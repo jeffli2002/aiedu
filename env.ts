@@ -59,7 +59,7 @@ export const env = createEnv({
    * `NEXT_PUBLIC_`.
    */
   client: {
-    NEXT_PUBLIC_APP_URL: z.string().url(),
+    NEXT_PUBLIC_APP_URL: z.string().url().optional(),
     NEXT_PUBLIC_DISABLE_AUTH: z.string().optional().default('false'),
     NEXT_PUBLIC_CREEM_TEST_MODE: z.string().optional().default('false'),
     // Creem Credit Packs (One-time purchases)
@@ -96,7 +96,10 @@ export const env = createEnv({
     DEEPSEEK_API_KEY: process.env.DEEPSEEK_API_KEY,
     FIRECRAWL_API_KEY: process.env.FIRECRAWL_API_KEY,
     OPENROUTER_API_KEY: process.env.OPENROUTER_API_KEY,
-    NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
+    NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL || 
+      (process.env.VERCEL_URL 
+        ? `https://${process.env.VERCEL_URL}` 
+        : undefined),
     NEXT_PUBLIC_DISABLE_AUTH: process.env.NEXT_PUBLIC_DISABLE_AUTH,
     ADMIN_EMAILS: process.env.ADMIN_EMAILS,
     CRON_SECRET: process.env.CRON_SECRET,

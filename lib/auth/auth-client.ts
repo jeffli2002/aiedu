@@ -12,8 +12,8 @@ const getBaseURL = () => {
     console.log('[Auth Client] Using baseURL:', origin);
     return origin;
   }
-  // Server-side: use environment variable
-  const baseURL = env.NEXT_PUBLIC_APP_URL;
+  // Server-side: use environment variable with fallback
+  const baseURL = env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
   console.log('[Auth Client] Using baseURL from env:', baseURL);
   return baseURL;
 };
