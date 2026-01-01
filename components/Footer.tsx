@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { Rocket, Instagram, Twitter, Linkedin, Send } from 'lucide-react';
 
 export default function Footer({ fixed }: { fixed?: boolean } = {}) {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const pathname = usePathname();
   const [isClient, setIsClient] = useState(false);
 
@@ -44,7 +44,9 @@ export default function Footer({ fixed }: { fixed?: boolean } = {}) {
             <ul className="space-y-3 text-sm text-slate-500 font-medium">
               <li><Link href="/" className="hover:text-blue-600 transition-colors">{isZh ? '首页' : 'Home'}</Link></li>
               <li><Link href="/training" className="hover:text-blue-600 transition-colors">{isZh ? '训练课程' : 'Training'}</Link></li>
-              <li><Link href="/projects" className="hover:text-blue-600 transition-colors">{isZh ? '项目展示' : 'Projects'}</Link></li>
+              <li><Link href="/image-generation" className="hover:text-blue-600 transition-colors">{isClient && i18n.isInitialized ? t('nav.aiImage') : 'AI 图像'}</Link></li>
+              <li><Link href="/video-generation" className="hover:text-blue-600 transition-colors">{isClient && i18n.isInitialized ? t('nav.aiVideo') : 'AI 视频'}</Link></li>
+              <li><Link href="/assets" className="hover:text-blue-600 transition-colors">{isClient && i18n.isInitialized ? t('nav.myAssets') : '我的作品'}</Link></li>
             </ul>
           </div>
           <div>
