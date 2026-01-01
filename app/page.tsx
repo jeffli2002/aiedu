@@ -247,7 +247,7 @@ const Projects = ({ lang }: { lang: Language }) => {
       <div className="max-w-[1440px] mx-auto">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
           <div className="max-w-3xl">
-            <h2 className="text-5xl md:text-[5.5rem] font-black tracking-tighter leading-[0.9] mb-8 text-slate-900">
+            <h2 className="text-3xl md:text-4xl font-black tracking-tighter leading-[0.9] mb-8 text-slate-900">
               {lang === 'cn' ? '激发潜能的' : 'POWERING'} <br />
               <span className="bg-gradient-to-r from-violet-600 to-blue-600 bg-clip-text text-transparent">{lang === 'cn' ? '真实项目' : 'REAL IMPACT'}</span>
             </h2>
@@ -327,7 +327,7 @@ const CampInfo = ({ lang }: { lang: Language }) => {
                 {lang === 'cn' ? '冬季沉浸营' : 'WINTER CAMP'}
               </span>
             </div>
-            <h2 className="text-5xl md:text-[5.5rem] font-black tracking-tighter leading-[0.9] mb-8 text-slate-900">
+            <h2 className="text-3xl md:text-4xl font-black tracking-tighter leading-[0.9] mb-8 text-slate-900">
               {lang === 'cn' ? (
                 <>
                   2026 冬季线下 <br /> <span className="bg-gradient-to-r from-violet-600 to-blue-600 bg-clip-text text-transparent">AI 创作营</span>
