@@ -43,7 +43,6 @@ export default function Navbar() {
       // 服务器端或未初始化时返回默认中文
       return [
         { href: '/', label: '首页' },
-        { href: '/projects', label: '项目展示' },
         { href: '/training', label: '训练课程' },
         { href: '/image-generation', label: 'AI 图像' },
         { href: '/video-generation', label: 'AI 视频' },
@@ -51,7 +50,6 @@ export default function Navbar() {
     }
     return [
       { href: '/', label: t('nav.home') },
-      { href: '/projects', label: t('nav.projects') },
       { href: '/training', label: t('nav.training') },
       { href: '/image-generation', label: t('nav.aiImage') },
       { href: '/video-generation', label: t('nav.aiVideo') },
@@ -178,7 +176,6 @@ export default function Navbar() {
     </nav>
   );
 }
-
 
 
 
