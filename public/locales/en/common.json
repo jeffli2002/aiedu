@@ -132,7 +132,11 @@
       "stage": "STAGE",
       "formatOnline": "Online",
       "formatOffline": "Offline",
-      "formatMixed": "Mixed"
+      "formatMixed": "Mixed",
+      "materials": "Course Materials",
+      "signInToView": "Sign in to view the course materials online (downloading disabled).",
+      "signInHint": "Click the Sign In button at the top-right, then refresh this page.",
+      "noDownload": "To protect copyright, these materials are restricted to online viewing only. Right-click, downloading, Picture-in-Picture, and playback speed controls are disabled."
     }
   },
   "signup": {
@@ -498,4 +502,3 @@
     "startGenerating": "Start Generating"
   }
 }
-
