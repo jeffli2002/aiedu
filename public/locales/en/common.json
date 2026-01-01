@@ -452,7 +452,7 @@
     "paid": "Paid",
     "refresh": "Refresh",
     "availableCredits": "Available Credits",
-    "creditsEstimate": "~{images} images or {videos} videos",
+    "creditsEstimate": "~{{images}} images or {{videos}} videos",
     "totalEarned": "Total Earned",
     "totalSpent": "Total Spent",
     "cumulativeEarned": "Cumulative Earned",

@@ -452,7 +452,7 @@
     "paid": "付费",
     "refresh": "刷新",
     "availableCredits": "可用积分",
-    "creditsEstimate": "约 {images} 张图像或 {videos} 个视频",
+    "creditsEstimate": "约 {{images}} 张图像或 {{videos}} 个视频",
     "totalEarned": "总获得",
     "totalSpent": "总消费",
     "cumulativeEarned": "累计获得",
