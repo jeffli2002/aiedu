@@ -133,13 +133,13 @@ export default function Navbar() {
               {isClient && i18n.isInitialized ? t('nav.apply') : '注册'}
             </Link>
           </div>
+        </div>
 
-          {/* Mobile Menu Button */}
-          <div className="lg:hidden flex items-center space-x-4">
-            <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="text-slate-900">
-              {isMobileMenuOpen ? <X /> : <Menu />}
-            </button>
-          </div>
+        {/* Mobile Menu Button */}
+        <div className="lg:hidden flex items-center space-x-4">
+          <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="text-slate-900">
+            {isMobileMenuOpen ? <X /> : <Menu />}
+          </button>
         </div>
 
         {/* Mobile Menu */}
