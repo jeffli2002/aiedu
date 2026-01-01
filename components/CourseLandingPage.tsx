@@ -169,7 +169,10 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
                       <div
                         className="block group cursor-pointer"
                         title={m.title}
-                        onClick={() => setFullscreenPdf({ mediaId: m.mediaId, title: m.title })}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setFullscreenPdf({ mediaId: m.mediaId, title: m.title });
+                        }}
                       >
                         <div className="px-3 py-2 border-b border-slate-100 flex items-center justify-between">
                           <div className="font-semibold text-[13px] truncate text-slate-800">{m.title}</div>
