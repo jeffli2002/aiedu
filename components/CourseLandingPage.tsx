@@ -231,7 +231,8 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
                           key={m.mediaId}
                           className="w-full h-[70vh] rounded-2xl border border-slate-200 bg-white"
                           src={`/api/media/pdf/${encodeURIComponent(m.mediaId)}?authOnly=1#toolbar=0&navpanes=0&scrollbar=0`}
-                          sandbox="allow-scripts allow-same-origin"
+                          referrerPolicy="no-referrer"
+                          sandbox="allow-same-origin allow-scripts allow-forms"
                           onContextMenu={(e) => e.preventDefault()}
                         />
                       )}
