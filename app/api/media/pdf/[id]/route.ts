@@ -61,8 +61,8 @@ export async function GET(
         headers: {
           'Content-Type': contentType || 'image/jpeg',
           'Cache-Control': 'public, max-age=31536000, immutable',
-          // Allow embedding on our site
-          'X-Frame-Options': 'SAMEORIGIN',
+          // Prefer CSP over XFO to control framing; omit X-Frame-Options to avoid Chrome overlay
+          'Content-Security-Policy': "frame-ancestors 'self' https://www.futurai.org https://futurai.org http://localhost:3003",
         },
       });
     }
@@ -79,12 +79,10 @@ export async function GET(
       headers: {
         'Content-Type': contentType || 'application/pdf',
         'Content-Disposition': 'inline; filename="document.pdf"',
-        // Avoid cross-origin frame blocking by serving same-origin
-        'X-Frame-Options': 'SAMEORIGIN',
         // Reasonable cache for PDFs; adjust as needed
         'Cache-Control': entitled ? 'private, max-age=0, no-store' : 'public, max-age=600',
-        // Optional: further restrict embedding domains via CSP if needed
-        // 'Content-Security-Policy': "frame-ancestors 'self' https://www.futurai.org https://futurai.org http://localhost:3003",
+        // Allow framing on our origins; omit X-Frame-Options entirely
+        'Content-Security-Policy': "frame-ancestors 'self' https://www.futurai.org https://futurai.org http://localhost:3003",
       },
     });
   } catch (error) {
