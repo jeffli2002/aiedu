@@ -59,3 +59,4 @@ checkAuthTables()
     process.exit(1);
   });
 
+

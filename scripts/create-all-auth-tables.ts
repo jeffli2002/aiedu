@@ -123,3 +123,4 @@ createAllAuthTables()
     process.exit(1);
   });
 
+

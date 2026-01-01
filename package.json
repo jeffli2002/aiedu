@@ -12,6 +12,8 @@
     "db:create-rate-limit": "tsx scripts/create-rate-limit-table.ts",
     "db:check-auth-tables": "tsx scripts/check-auth-tables.ts",
     "db:create-all-auth-tables": "tsx scripts/create-all-auth-tables.ts",
+    "db:create-credit-tables": "tsx scripts/create-credit-tables.ts",
+    "db:create-all-tables": "tsx scripts/create-all-tables.ts",
     "prepare": "husky"
   },
   "dependencies": {
