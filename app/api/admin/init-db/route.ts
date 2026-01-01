@@ -169,6 +169,31 @@ export async function POST(request: NextRequest) {
       END $$;
     `;
 
+    // credit_pack_purchase table
+    await sql`
+      CREATE TABLE IF NOT EXISTS "credit_pack_purchase" (
+        "id" text PRIMARY KEY NOT NULL,
+        "user_id" text NOT NULL,
+        "affiliate_id" text,
+        "affiliate_code" text,
+        "credit_pack_id" text NOT NULL,
+        "credits" integer NOT NULL,
+        "amount_cents" integer NOT NULL,
+        "currency" text NOT NULL DEFAULT 'USD',
+        "provider" text NOT NULL DEFAULT 'creem',
+        "order_id" text,
+        "checkout_id" text,
+        "credit_transaction_id" text,
+        "metadata" jsonb,
+        "test_mode" boolean NOT NULL DEFAULT false,
+        "created_at" timestamp NOT NULL DEFAULT now(),
+        CONSTRAINT "credit_pack_purchase_user_id_user_id_fk"
+          FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE cascade,
+        CONSTRAINT "credit_pack_purchase_credit_transaction_id_credit_transactions_id_fk"
+          FOREIGN KEY ("credit_transaction_id") REFERENCES "credit_transactions"("id") ON DELETE set null
+      );
+    `;
+
     console.log('[init-db] ✅ Credit tables created');
 
     return NextResponse.json({
@@ -182,6 +207,7 @@ export async function POST(request: NextRequest) {
         'rateLimit',
         'user_credits',
         'credit_transactions',
+        'credit_pack_purchase',
       ],
     });
   } catch (error) {
