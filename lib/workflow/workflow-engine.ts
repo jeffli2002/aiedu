@@ -278,7 +278,7 @@ export class WorkflowEngine {
     const { prompt, mode, type, baseImage, model = 'nano-banana', aspectRatio = '1:1' } = params;
 
     // Pure credit-based system: check credits using config
-    const { getModelCost } = await import('@/lib/quota/quota-service');
+    const { getModelCost } = await import('@/config/credits.config');
 
     const creditCost =
       type === 'image'
@@ -298,7 +298,7 @@ export class WorkflowEngine {
       return await this.generateImage(
         userId,
         prompt,
-        mode,
+        mode as 't2i' | 'i2i',
         creditCost,
         baseImage,
         model,
@@ -306,7 +306,7 @@ export class WorkflowEngine {
       );
     }
 
-    return await this.generateVideo(userId, prompt, mode, creditCost, baseImage);
+    return await this.generateVideo(userId, prompt, mode as 't2v' | 'i2v', creditCost, baseImage);
   }
 
   /**
@@ -340,7 +340,7 @@ export class WorkflowEngine {
     const taskResponse = await kieApiService.generateImage({
       prompt,
       imageUrl: mode === 'i2i' && baseImage ? baseImage : undefined,
-      aspectRatio: kieAspectRatio,
+      aspect_ratio: kieAspectRatio,
       quality: 'standard',
     });
 

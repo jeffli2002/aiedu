@@ -148,8 +148,9 @@ export const auth = betterAuth({
           // Continue with email sending even if throttle check fails
         }
 
-        if (recentEntry) {
-          const elapsedMs = Date.now() - new Date(recentEntry.createdAt).getTime();
+        if (recentEntry && recentEntry.createdAt) {
+          const createdAtDate = new Date(recentEntry.createdAt);
+          const elapsedMs = Date.now() - createdAtDate.getTime();
           if (elapsedMs < EMAIL_VERIFICATION_COOLDOWN_MS) {
             console.warn(`[auth] Verification email throttled for ${user.email}`);
             return;
