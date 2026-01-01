@@ -15,6 +15,7 @@
     "db:create-credit-tables": "tsx scripts/create-credit-tables.ts",
     "thumbs": "tsx scripts/generate-thumbnails.ts",
     "upload:training": "tsx scripts/upload-training-media.ts training",
+    "upload:thumbs": "tsx scripts/upload-thumbnails.ts",
     "db:create-all-tables": "tsx scripts/create-all-tables.ts",
     "db:init-vercel": "powershell -ExecutionPolicy Bypass -File scripts/init-db-vercel.ps1",
     "db:check-user": "tsx scripts/check-user-credits.ts",

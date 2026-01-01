@@ -55,7 +55,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
             id: 'f1-lecture',
             title: '课程讲解视频',
             type: 'video',
-            mediaId: 'training/f1/lecture',
+            mediaId: 'training/AI大模型进化T1',
             language: 'zh',
             thumbKey: 'videos/training/thumbnail_T1_mp4.png',
           },
