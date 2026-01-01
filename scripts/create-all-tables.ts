@@ -170,6 +170,41 @@ async function createAllTables() {
     console.log('✅ Unique index ensured');
 
     console.log('\n🎉 All tables created/verified successfully!');
+    
+    // ========== Quota Usage Tables ==========
+    console.log('\nCreating quota usage tables...\n');
+
+    // user_quota_usage table
+    console.log('Creating user_quota_usage table...');
+    await sql`
+      CREATE TABLE IF NOT EXISTS "user_quota_usage" (
+        "id" text PRIMARY KEY NOT NULL,
+        "user_id" text NOT NULL,
+        "service" text NOT NULL,
+        "period" text NOT NULL,
+        "used_amount" integer NOT NULL DEFAULT 0,
+        "created_at" timestamp NOT NULL DEFAULT now(),
+        "updated_at" timestamp NOT NULL DEFAULT now(),
+        CONSTRAINT "user_quota_usage_user_id_user_id_fk"
+          FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE cascade
+      );
+    `;
+    console.log('✅ user_quota_usage table ready');
+
+    // Composite unique index for (user_id, service, period)
+    console.log('Ensuring unique (user_id, service, period) on user_quota_usage...');
+    await sql`
+      DO $$
+      BEGIN
+        IF NOT EXISTS (
+          SELECT 1 FROM pg_indexes WHERE indexname = 'user_service_period_idx'
+        ) THEN
+          CREATE UNIQUE INDEX user_service_period_idx
+            ON user_quota_usage (user_id, service, period);
+        END IF;
+      END $$;
+    `;
+    console.log('✅ Unique index ensured for user_quota_usage');
   } catch (error) {
     console.error('❌ Error creating tables:', error);
     throw error;
