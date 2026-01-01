@@ -14,7 +14,8 @@ import {
   Presentation,
   Rocket,
   Star,
-  ChevronRight
+  ChevronRight,
+  X
 } from 'lucide-react';
 import { Module } from '@/lib/training-system';
 import Navbar from '@/components/Navbar';
@@ -29,6 +30,7 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
   const { t, i18n } = useTranslation();
   const router = useRouter();
   const [isClient, setIsClient] = useState(false);
+  const [fullscreenPdf, setFullscreenPdf] = useState<{ mediaId: string; title: string } | null>(null);
   const isAuthenticated = useIsAuthenticated();
   const lang = i18n.language === 'zh' ? 'zh' : 'en';
   const visibleMaterials = (course.materials || []).filter(
@@ -39,6 +41,16 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
     setIsClient(true);
     window.scrollTo(0, 0);
   }, [course.id]);
+
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && fullscreenPdf) {
+        setFullscreenPdf(null);
+      }
+    };
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, [fullscreenPdf]);
 
   const handleBack = () => {
     router.push('/training');
@@ -153,56 +165,73 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 {visibleMaterials.map((m) => (
                   <div key={m.id} className="rounded-2xl border border-slate-100 bg-white shadow-sm overflow-hidden">
-                    <a
-                      href={
-                        m.type === 'video'
-                          ? `/api/media/video/${encodeURIComponent(m.mediaId)}/manifest?authOnly=1`
-                          : `/api/media/pdf/${encodeURIComponent(m.mediaId)}?authOnly=1`
-                      }
-                      className="block group"
-                      title={m.title}
-                    >
-                      <div className="px-3 py-2 border-b border-slate-100 flex items-center justify-between">
-                        <div className="font-semibold text-[13px] truncate text-slate-800">{m.title}</div>
-                        <div className="text-[9px] font-black uppercase tracking-widest text-slate-400">{m.type.toUpperCase()}</div>
+                    {m.type === 'pdf' ? (
+                      <div
+                        className="block group cursor-pointer"
+                        title={m.title}
+                        onClick={() => setFullscreenPdf({ mediaId: m.mediaId, title: m.title })}
+                      >
+                        <div className="px-3 py-2 border-b border-slate-100 flex items-center justify-between">
+                          <div className="font-semibold text-[13px] truncate text-slate-800">{m.title}</div>
+                          <div className="text-[9px] font-black uppercase tracking-widest text-slate-400">{m.type.toUpperCase()}</div>
+                        </div>
+                        <div className="p-2">
+                          <div className="relative w-full aspect-video rounded-xl border border-slate-200 bg-slate-50 overflow-hidden">
+                            {m.thumbKey ? (
+                              <img
+                                alt={m.title}
+                                className="w-full h-full object-cover"
+                                src={`${process.env.NEXT_PUBLIC_R2_PUBLIC_URL || ''}/${m.thumbKey}`}
+                                onContextMenu={(e) => e.preventDefault()}
+                              />
+                            ) : (
+                              <img
+                                alt={m.title}
+                                className="w-full h-full object-cover"
+                                src={`/api/media/pdf/${encodeURIComponent(m.mediaId)}?thumb=1`}
+                                onContextMenu={(e) => e.preventDefault()}
+                              />
+                            )}
+                            <div className="pointer-events-none absolute bottom-2 right-2 px-2 py-0.5 rounded bg-black/50 text-[10px] text-white">PDF</div>
+                          </div>
+                        </div>
                       </div>
-                      <div className="p-2">
-                        <div className="relative w-full aspect-video rounded-xl border border-slate-200 bg-slate-50 overflow-hidden">
-                          {m.thumbKey ? (
-                            <img
-                              alt={m.title}
-                              className="w-full h-full object-cover"
-                              src={`${process.env.NEXT_PUBLIC_R2_PUBLIC_URL || ''}/${m.thumbKey}`}
-                              onContextMenu={(e) => e.preventDefault()}
-                            />
-                          ) : m.type === 'video' ? (
-                            <img
-                              alt={m.title}
-                              className="w-full h-full object-cover"
-                              src={`/api/media/video/${encodeURIComponent(m.mediaId)}/manifest?thumb=1`
-                              }
-                              onContextMenu={(e) => e.preventDefault()}
-                            />
-                          ) : (
-                            <img
-                              alt={m.title}
-                              className="w-full h-full object-cover"
-                              src={`/api/media/pdf/${encodeURIComponent(m.mediaId)}?thumb=1`}
-                              onContextMenu={(e) => e.preventDefault()}
-                            />
-                          )}
-                          {m.type === 'video' ? (
+                    ) : (
+                      <a
+                        href={`/api/media/video/${encodeURIComponent(m.mediaId)}/manifest?authOnly=1`}
+                        className="block group"
+                        title={m.title}
+                      >
+                        <div className="px-3 py-2 border-b border-slate-100 flex items-center justify-between">
+                          <div className="font-semibold text-[13px] truncate text-slate-800">{m.title}</div>
+                          <div className="text-[9px] font-black uppercase tracking-widest text-slate-400">{m.type.toUpperCase()}</div>
+                        </div>
+                        <div className="p-2">
+                          <div className="relative w-full aspect-video rounded-xl border border-slate-200 bg-slate-50 overflow-hidden">
+                            {m.thumbKey ? (
+                              <img
+                                alt={m.title}
+                                className="w-full h-full object-cover"
+                                src={`${process.env.NEXT_PUBLIC_R2_PUBLIC_URL || ''}/${m.thumbKey}`}
+                                onContextMenu={(e) => e.preventDefault()}
+                              />
+                            ) : (
+                              <img
+                                alt={m.title}
+                                className="w-full h-full object-cover"
+                                src={`/api/media/video/${encodeURIComponent(m.mediaId)}/manifest?thumb=1`}
+                                onContextMenu={(e) => e.preventDefault()}
+                              />
+                            )}
                             <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
                               <div className="w-10 h-10 rounded-full bg-black/50 grid place-items-center text-white">
                                 ▶
                               </div>
                             </div>
-                          ) : (
-                            <div className="pointer-events-none absolute bottom-2 right-2 px-2 py-0.5 rounded bg-black/50 text-[10px] text-white">PDF</div>
-                          )}
+                          </div>
                         </div>
-                      </div>
-                    </a>
+                      </a>
+                    )}
                   </div>
                 ))}
               </div>
@@ -347,6 +376,68 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
           </div>
         </div>
       </div>
+
+      {/* Fullscreen PDF Viewer */}
+      {fullscreenPdf && (
+        <div
+          className="fixed inset-0 z-[100] flex flex-col bg-black"
+          onClick={() => setFullscreenPdf(null)}
+          onKeyDown={(e) => {
+            if (e.key === 'Escape') {
+              setFullscreenPdf(null);
+            }
+          }}
+          aria-modal="true"
+          tabIndex={-1}
+        >
+          {/* Header with title and close button */}
+          <div className="flex items-center justify-between px-6 py-4 bg-black/80 backdrop-blur-sm border-b border-white/10">
+            <h3 className="text-white font-semibold text-lg truncate flex-1 mr-4">
+              {fullscreenPdf.title}
+            </h3>
+            <button
+              type="button"
+              className="rounded-full bg-white/10 p-2 text-white hover:bg-white/20 transition-colors flex-shrink-0"
+              aria-label="Close PDF viewer"
+              onClick={() => setFullscreenPdf(null)}
+            >
+              <X className="h-5 w-5" />
+            </button>
+          </div>
+
+          {/* PDF Container */}
+          <div
+            className="flex-1 overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+            onKeyDown={(e) => {
+              if (e.key === 'Escape') {
+                e.stopPropagation();
+                setFullscreenPdf(null);
+              }
+            }}
+          >
+            <object
+              data={`/api/media/pdf/${encodeURIComponent(fullscreenPdf.mediaId)}?authOnly=1#toolbar=1&navpanes=1&scrollbar=1`}
+              type="application/pdf"
+              className="w-full h-full"
+            >
+              <div className="flex items-center justify-center h-full text-white">
+                <div className="text-center">
+                  <p className="mb-4">{t('training.courseLanding.pdfLoadError') || '无法加载 PDF 文档'}</p>
+                  <a
+                    href={`/api/media/pdf/${encodeURIComponent(fullscreenPdf.mediaId)}?authOnly=1`}
+                    className="text-blue-400 underline"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {t('training.courseLanding.openInNewTab') || '在新标签页中打开'}
+                  </a>
+                </div>
+              </div>
+            </object>
+          </div>
+        </div>
+      )}
 
       <Footer />
     </div>
