@@ -691,7 +691,7 @@ export class PaymentRepository {
       scheduledAt: record.scheduledAt || undefined,
       createdAt: record.createdAt,
       updatedAt: record.updatedAt,
-      provider: record.provider as 'stripe' | 'creem' | undefined,
+      provider: (record.provider as 'stripe' | 'creem') || 'stripe',
     };
   }
 

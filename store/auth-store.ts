@@ -341,10 +341,17 @@ export const useAuthStore = create<AuthState>()(
                   errorMessage = 'Invalid request. Please check your input.';
                 } else if (result.error.status === 409) {
                   errorMessage = 'Email already exists. Please use a different email or sign in.';
-                } else if (typeof result.error === 'string') {
-                  errorMessage = result.error;
-                } else if (result.error.toString && result.error.toString() !== '[object Object]') {
-                  errorMessage = result.error.toString();
+                } else {
+                  // Handle other error types
+                  const error = result.error as any;
+                  if (typeof error === 'string') {
+                    errorMessage = error;
+                  } else if (error && typeof error === 'object' && 'toString' in error && typeof error.toString === 'function') {
+                    const errorString = error.toString();
+                    if (errorString !== '[object Object]') {
+                      errorMessage = errorString;
+                    }
+                  }
                 }
                 
                 set({ isLoading: false, error: errorMessage });

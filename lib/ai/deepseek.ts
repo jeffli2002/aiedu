@@ -82,7 +82,7 @@ export class DeepSeekService {
       const enhancedPrompt = data.choices?.[0]?.message?.content?.trim() || prompt.trim();
 
       // Extract content if wrapped in markdown code blocks
-      const codeBlockMatch = enhancedPrompt.match(/```[\w]*\n?(.*?)\n?```/s);
+      const codeBlockMatch = enhancedPrompt.match(/```[\w]*\n?([\s\S]*?)\n?```/);
       if (codeBlockMatch) {
         return codeBlockMatch[1].trim();
       }
