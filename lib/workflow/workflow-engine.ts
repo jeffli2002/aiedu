@@ -354,7 +354,13 @@ export class WorkflowEngine {
       await new Promise((resolve) => setTimeout(resolve, 5000)); // Wait 5 seconds
 
       const statusResponse = await kieApiService.getTaskStatus(taskId);
-      status = statusResponse.data.status;
+      const mapped = statusResponse.data.status ??
+        (statusResponse.data.state === 'success'
+          ? 'completed'
+          : statusResponse.data.state === 'fail'
+            ? 'failed'
+            : statusResponse.data.state);
+      status = mapped ?? status;
 
       if (status === 'completed') {
         const imageUrl = statusResponse.data.result?.imageUrl;
