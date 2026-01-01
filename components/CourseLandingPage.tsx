@@ -166,13 +166,10 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
                 {visibleMaterials.map((m) => (
                   <div key={m.id} className="rounded-2xl border border-slate-100 bg-white shadow-sm overflow-hidden">
                     {m.type === 'pdf' ? (
-                      <div
+                      <a
+                        href={`/api/media/pdf/${encodeURIComponent(m.mediaId)}?authOnly=1`}
                         className="block group cursor-pointer"
                         title={m.title}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          setFullscreenPdf({ mediaId: m.mediaId, title: m.title });
-                        }}
                       >
                         <div className="px-3 py-2 border-b border-slate-100 flex items-center justify-between">
                           <div className="font-semibold text-[13px] truncate text-slate-800">{m.title}</div>
@@ -186,6 +183,13 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
                                 className="w-full h-full object-cover"
                                 src={`${process.env.NEXT_PUBLIC_R2_PUBLIC_URL || ''}/${m.thumbKey}`}
                                 onContextMenu={(e) => e.preventDefault()}
+                                onError={(e) => {
+                                  // Fallback to API thumbnail if thumbKey fails
+                                  const target = e.target as HTMLImageElement;
+                                  if (!target.src.includes('?thumb=1')) {
+                                    target.src = `/api/media/pdf/${encodeURIComponent(m.mediaId)}?thumb=1`;
+                                  }
+                                }}
                               />
                             ) : (
                               <img
@@ -198,7 +202,7 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
                             <div className="pointer-events-none absolute bottom-2 right-2 px-2 py-0.5 rounded bg-black/50 text-[10px] text-white">PDF</div>
                           </div>
                         </div>
-                      </div>
+                      </a>
                     ) : (
                       <a
                         href={`/api/media/video/${encodeURIComponent(m.mediaId)}/manifest?authOnly=1`}
@@ -217,6 +221,13 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
                                 className="w-full h-full object-cover"
                                 src={`${process.env.NEXT_PUBLIC_R2_PUBLIC_URL || ''}/${m.thumbKey}`}
                                 onContextMenu={(e) => e.preventDefault()}
+                                onError={(e) => {
+                                  // Fallback to API thumbnail if thumbKey fails
+                                  const target = e.target as HTMLImageElement;
+                                  if (!target.src.includes('?thumb=1')) {
+                                    target.src = `/api/media/video/${encodeURIComponent(m.mediaId)}/manifest?thumb=1`;
+                                  }
+                                }}
                               />
                             ) : (
                               <img

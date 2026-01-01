@@ -27,6 +27,23 @@ export async function GET(
     const url0 = new URL(request.url);
     const isThumb = url0.searchParams.get('thumb') === '1' || url0.searchParams.get('thumb') === 'true';
 
+    // Public thumbnail (no auth required) - return early
+    if (isThumb) {
+      const baseKey = `docs/${id}`;
+      const key = `${baseKey}/thumb.jpg`;
+      const { body, contentType } = await r2StorageService.getAsset(key);
+      const stream = (body as any)?.pipe ? Readable.toWeb(body as any) : (body as ReadableStream<Uint8Array>);
+      return new Response(stream as any, {
+        status: 200,
+        headers: {
+          'Content-Type': contentType || 'image/jpeg',
+          'Cache-Control': 'public, max-age=31536000, immutable',
+          // Prefer CSP over XFO to control framing; omit X-Frame-Options to avoid Chrome overlay
+          'Content-Security-Policy': "frame-ancestors 'self' https://www.futurai.org https://futurai.org http://localhost:3003",
+        },
+      });
+    }
+
     const url = url0;
     const authOnly = url.searchParams.get('authOnly') === '1' || url.searchParams.get('authOnly') === 'true';
 
@@ -52,20 +69,6 @@ export async function GET(
     // Same-origin stream to avoid Chrome blocking cross-origin PDF in iframes
     // and to control headers (inline display, framing allowed).
     const baseKey = `docs/${id}`;
-    if (isThumb) {
-      const key = `${baseKey}/thumb.jpg`;
-      const { body, contentType } = await r2StorageService.getAsset(key);
-      const stream = (body as any)?.pipe ? Readable.toWeb(body as any) : (body as ReadableStream<Uint8Array>);
-      return new Response(stream as any, {
-        status: 200,
-        headers: {
-          'Content-Type': contentType || 'image/jpeg',
-          'Cache-Control': 'public, max-age=31536000, immutable',
-          // Prefer CSP over XFO to control framing; omit X-Frame-Options to avoid Chrome overlay
-          'Content-Security-Policy': "frame-ancestors 'self' https://www.futurai.org https://futurai.org http://localhost:3003",
-        },
-      });
-    }
 
     // Documents
     // - docs/<id>/full.pdf
