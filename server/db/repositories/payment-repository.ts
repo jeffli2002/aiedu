@@ -74,7 +74,7 @@ export class PaymentRepository {
       .insert(payment)
       .values({
         id: paymentId,
-        provider: data.provider || 'stripe',
+        provider: data.provider || 'creem',
         priceId: data.priceId,
         productId: data.productId || null,
         type: data.type,
@@ -691,7 +691,7 @@ export class PaymentRepository {
       scheduledAt: record.scheduledAt || undefined,
       createdAt: record.createdAt,
       updatedAt: record.updatedAt,
-      provider: (record.provider as 'stripe' | 'creem') || 'stripe',
+      provider: (record.provider as 'stripe' | 'creem') || 'creem',
     };
   }
 

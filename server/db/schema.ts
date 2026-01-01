@@ -349,7 +349,7 @@ export const payment = pgTable('payment', {
   id: text('id').primaryKey(),
   provider: text('provider', { enum: ['stripe', 'creem'] })
     .notNull()
-    .default('stripe'),
+    .default('creem'),
   priceId: text('price_id').notNull(),
   productId: text('product_id'),
   type: text('type').notNull(),
