@@ -13,7 +13,7 @@ const getBaseURL = () => {
     return origin;
   }
   // Server-side: use environment variable with fallback
-  const baseURL = env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+  const baseURL = env.NEXT_PUBLIC_APP_URL || 'http://localhost:3003';
   console.log('[Auth Client] Using baseURL from env:', baseURL);
   return baseURL;
 };

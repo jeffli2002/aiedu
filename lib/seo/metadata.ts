@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 
-const FALLBACK_APP_URL = 'http://localhost:3000';
+const FALLBACK_APP_URL = 'http://localhost:3003';
 
 const rawAppUrl = process.env.NEXT_PUBLIC_APP_URL ?? FALLBACK_APP_URL;
 

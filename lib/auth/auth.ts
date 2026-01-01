@@ -14,7 +14,7 @@ const createTrustedOrigins = (): string[] => {
   const origins = new Set<string>();
 
   try {
-    const appUrl = env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+    const appUrl = env.NEXT_PUBLIC_APP_URL || 'http://localhost:3003';
     const baseUrl = new URL(appUrl);
     const baseOrigin = `${baseUrl.protocol}//${baseUrl.host}`;
     origins.add(baseOrigin);
