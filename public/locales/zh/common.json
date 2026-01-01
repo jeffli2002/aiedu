@@ -138,7 +138,10 @@
       "signInHint": "请点击页面右上角登录按钮后刷新本页。",
         "noDownload": "为保护版权，本资料仅支持在线阅读/观看，已禁用右键、下载、画中画与播放速度调节。"
       ,
-      "openDocument": "打开文档"
+      "openDocument": "打开文档",
+      "viewFullscreen": "全屏阅读",
+      "openInNewTab": "在新标签打开",
+      "pdfLoadError": "无法加载 PDF 文档"
       }
   },
   "signup": {

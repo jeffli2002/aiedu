@@ -270,19 +270,36 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
                           src={`/api/media/video/${encodeURIComponent(m.mediaId)}/manifest?authOnly=1`}
                         />
                       ) : (
-                        <object
-                          key={m.mediaId}
-                          data={`/api/media/pdf/${encodeURIComponent(m.mediaId)}?authOnly=1#toolbar=0&navpanes=0&scrollbar=0`}
-                          type="application/pdf"
-                          className="w-full h-[70vh] rounded-2xl border border-slate-200 bg-white"
-                        >
-                          <a
-                            href={`/api/media/pdf/${encodeURIComponent(m.mediaId)}?authOnly=1`}
-                            className="text-blue-600 underline"
+                        <div>
+                          <object
+                            key={m.mediaId}
+                            data={`/api/media/pdf/${encodeURIComponent(m.mediaId)}?authOnly=1#toolbar=0&navpanes=0&scrollbar=0`}
+                            type="application/pdf"
+                            className="w-full h-[70vh] rounded-2xl border border-slate-200 bg-white"
                           >
-                            {t('training.courseLanding.openDocument') || '打开文档'}
-                          </a>
-                        </object>
+                            <a
+                              href={`/api/media/pdf/${encodeURIComponent(m.mediaId)}?authOnly=1`}
+                              className="text-blue-600 underline"
+                            >
+                              {t('training.courseLanding.openDocument') || '打开文档'}
+                            </a>
+                          </object>
+                          <div className="mt-3 flex items-center gap-3">
+                            <button
+                              type="button"
+                              onClick={() => setFullscreenPdf({ mediaId: m.mediaId, title: m.title })}
+                              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900 text-white text-xs font-bold hover:bg-blue-600 transition-colors"
+                            >
+                              {t('training.courseLanding.viewFullscreen') || '全屏阅读'}
+                            </button>
+                            <a
+                              href={`/api/media/pdf/${encodeURIComponent(m.mediaId)}?authOnly=1`}
+                              className="text-[12px] text-blue-600 underline"
+                            >
+                              {t('training.courseLanding.openInNewTab') || '在新标签打开'}
+                            </a>
+                          </div>
+                        </div>
                       )}
                       <div className="mt-3 text-xs text-slate-400">{t('training.courseLanding.noDownload') || '为保护版权，本资料仅支持在线阅读/观看，已禁用右键、下载、Picture-in-Picture 与播放速度调节。'}</div>
                     </div>
