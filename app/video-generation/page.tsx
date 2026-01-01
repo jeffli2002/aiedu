@@ -36,7 +36,7 @@ export default function VideoGenerationPage() {
           </Suspense>
         </div>
       </div>
-      <Footer fixed />
+      <Footer />
     </div>
   );
 }

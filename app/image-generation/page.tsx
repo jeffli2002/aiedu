@@ -36,7 +36,7 @@ export default function ImageGenerationPage() {
           </Suspense>
         </div>
       </div>
-      <Footer fixed />
+      <Footer />
     </div>
   );
 }
