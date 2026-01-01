@@ -6,7 +6,7 @@ export const dynamic = 'force-dynamic';
 export const fetchCache = 'force-no-store';
 
 // R2 public CDN base
-const PUBLIC_CDN = process.env.R2_PUBLIC_URL || '';
+const PUBLIC_CDN = process.env.R2_PUBLIC_URL || process.env.NEXT_PUBLIC_R2_PUBLIC_URL || '';
 
 export async function GET(
   request: Request,
@@ -43,9 +43,11 @@ export async function GET(
     }
 
     if (!entitled && authOnly && !isAuthed) {
-      const referer = request.headers.get('referer') || '/';
-      const login = `/signin?callbackUrl=${encodeURIComponent(referer)}`;
-      return NextResponse.redirect(login, { status: 302 });
+      const reqUrl = new URL(request.url);
+      const origin = process.env.NEXT_PUBLIC_APP_URL || reqUrl.origin;
+      const referer = request.headers.get('referer') || `${origin}/`;
+      const loginAbs = `${origin.replace(/\/$/, '')}/signin?callbackUrl=${encodeURIComponent(referer)}`;
+      return NextResponse.redirect(loginAbs, { status: 302 });
     }
 
     // Expect paths:

@@ -10,7 +10,7 @@ export const fetchCache = 'force-no-store';
 // Example structure:
 // - videos/<id>/master.m3u8
 // - videos/<id>/preview.m3u8
-const PUBLIC_CDN = process.env.R2_PUBLIC_URL || '';
+const PUBLIC_CDN = process.env.R2_PUBLIC_URL || process.env.NEXT_PUBLIC_R2_PUBLIC_URL || '';
 
 export async function GET(
   request: Request,
@@ -48,9 +48,11 @@ export async function GET(
     }
 
     if (!entitled && authOnly && !isAuthed) {
-      const referer = request.headers.get('referer') || '/';
-      const login = `/signin?callbackUrl=${encodeURIComponent(referer)}`;
-      return NextResponse.redirect(login, { status: 302 });
+      const reqUrl = new URL(request.url);
+      const origin = process.env.NEXT_PUBLIC_APP_URL || reqUrl.origin;
+      const referer = request.headers.get('referer') || `${origin}/`;
+      const loginAbs = `${origin.replace(/\/$/, '')}/signin?callbackUrl=${encodeURIComponent(referer)}`;
+      return NextResponse.redirect(loginAbs, { status: 302 });
     }
 
     const baseCdn = PUBLIC_CDN.replace(/\/$/, '');
