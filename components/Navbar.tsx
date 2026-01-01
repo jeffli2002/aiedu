@@ -50,12 +50,14 @@ export default function Navbar() {
         { href: '/image-generation', label: 'AI 图像' },
         { href: '/video-generation', label: 'AI 视频' },
         { href: '/training', label: '训练课程' },
+        { href: '/assets', label: '我的作品' },
       ];
     }
     return [
       { href: '/image-generation', label: t('nav.aiImage') },
       { href: '/video-generation', label: t('nav.aiVideo') },
       { href: '/training', label: t('nav.training') },
+      { href: '/assets', label: t('nav.myAssets') },
     ];
   }, [t, isClient, i18n.isInitialized]);
 

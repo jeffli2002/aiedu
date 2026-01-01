@@ -6,6 +6,7 @@
     "training": "Training",
     "aiImage": "AI Image",
     "aiVideo": "AI Video",
+    "myAssets": "My Works",
     "about": "About",
     "apply": "Signup",
     "signin": "Sign In"
@@ -480,6 +481,21 @@
     "dailyLimit": "Daily generation limit",
     "monthlyLimit": "Monthly generation limit",
     "used": "Used"
+  },
+  "assets": {
+    "title": "My Works",
+    "subtitle": "View and manage all generated content",
+    "generateNew": "Generate New",
+    "searchPlaceholder": "Search prompts...",
+    "filterType": "Filter Type",
+    "all": "All",
+    "download": "Download",
+    "delete": "Delete",
+    "confirmDelete": "Delete this asset? This cannot be undone.",
+    "noAssets": "No Assets",
+    "noAssetsDesc": "Start generating your first content",
+    "noAssetsSearch": "No matching assets found",
+    "startGenerating": "Start Generating"
   }
 }
 

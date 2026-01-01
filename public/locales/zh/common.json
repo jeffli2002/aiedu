@@ -6,6 +6,7 @@
     "training": "训练课程",
     "aiImage": "AI 图像",
     "aiVideo": "AI 视频",
+    "myAssets": "我的作品",
     "about": "关于我们",
     "apply": "注册",
     "signin": "登录"
@@ -480,6 +481,21 @@
     "dailyLimit": "每日生成限制",
     "monthlyLimit": "每月生成限制",
     "used": "已使用"
+  },
+  "assets": {
+    "title": "我的作品",
+    "subtitle": "查看和管理所有生成的内容",
+    "generateNew": "生成新内容",
+    "searchPlaceholder": "搜索提示词...",
+    "filterType": "筛选类型",
+    "all": "全部",
+    "download": "下载",
+    "delete": "删除",
+    "confirmDelete": "确定要删除这个作品吗？此操作无法撤销。",
+    "noAssets": "暂无作品",
+    "noAssetsDesc": "开始生成你的第一个内容吧",
+    "noAssetsSearch": "没有找到匹配的作品",
+    "startGenerating": "开始生成"
   }
 }
 
