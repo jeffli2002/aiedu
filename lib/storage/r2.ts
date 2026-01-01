@@ -120,6 +120,29 @@ export class R2StorageService {
   }
 
   /**
+   * Upload buffer to a fixed key (overwrites if exists)
+   */
+  async uploadToKey(
+    key: string,
+    file: Buffer | Uint8Array,
+    contentType: string,
+    cacheControl?: string
+  ): Promise<{ key: string; url: string }> {
+    await s3Client.send(
+      new PutObjectCommand({
+        Bucket: this.bucketName,
+        Key: key,
+        Body: file,
+        ContentType: contentType,
+        CacheControl: cacheControl,
+      })
+    );
+
+    const url = `${env.R2_PUBLIC_URL}/${key}`;
+    return { key, url };
+  }
+
+  /**
    * Fetch an asset stream from R2
    */
   async getAsset(key: string): Promise<{

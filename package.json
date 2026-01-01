@@ -13,6 +13,8 @@
     "db:check-auth-tables": "tsx scripts/check-auth-tables.ts",
     "db:create-all-auth-tables": "tsx scripts/create-all-auth-tables.ts",
     "db:create-credit-tables": "tsx scripts/create-credit-tables.ts",
+    "thumbs": "tsx scripts/generate-thumbnails.ts",
+    "upload:training": "tsx scripts/upload-training-media.ts training",
     "db:create-all-tables": "tsx scripts/create-all-tables.ts",
     "db:init-vercel": "powershell -ExecutionPolicy Bypass -File scripts/init-db-vercel.ps1",
     "db:check-user": "tsx scripts/check-user-credits.ts",

@@ -31,6 +31,9 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
   const [isClient, setIsClient] = useState(false);
   const isAuthenticated = useIsAuthenticated();
   const lang = i18n.language === 'zh' ? 'zh' : 'en';
+  const visibleMaterials = (course.materials || []).filter(
+    (m) => !m.language || m.language === lang
+  );
 
   useEffect(() => {
     setIsClient(true);
@@ -136,7 +139,7 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
       </div>
 
       {/* Gated Materials Section */}
-      {course.materials && course.materials.length > 0 && (
+      {visibleMaterials.length > 0 && (
         <section className="max-w-7xl mx-auto px-6 mt-16">
           <div className="bg-white/90 backdrop-blur-xl p-8 md:p-12 rounded-[3.5rem] border border-slate-100 shadow-2xl">
             <div className="flex items-center gap-4 mb-8">
@@ -147,13 +150,65 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
             </div>
 
             {!isAuthenticated ? (
-              <div className="rounded-3xl border border-amber-200 bg-amber-50 p-6 md:p-8 text-amber-800">
-                <p className="font-semibold">{t('training.courseLanding.signInToView') || '登录后可在线阅读/观看课程资料（禁止下载）。'}</p>
-                <div className="mt-3 text-sm text-amber-700">{t('training.courseLanding.signInHint') || '请点击页面右上角登录按钮后刷新本页。'}</div>
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {visibleMaterials.map((m) => (
+                  <div key={m.id} className="rounded-2xl border border-slate-100 bg-white shadow-sm overflow-hidden">
+                    <a
+                      href={
+                        m.type === 'video'
+                          ? `/api/media/video/${encodeURIComponent(m.mediaId)}/manifest?authOnly=1`
+                          : `/api/media/pdf/${encodeURIComponent(m.mediaId)}?authOnly=1`
+                      }
+                      className="block group"
+                      title={m.title}
+                    >
+                      <div className="px-3 py-2 border-b border-slate-100 flex items-center justify-between">
+                        <div className="font-semibold text-[13px] truncate text-slate-800">{m.title}</div>
+                        <div className="text-[9px] font-black uppercase tracking-widest text-slate-400">{m.type.toUpperCase()}</div>
+                      </div>
+                      <div className="p-2">
+                        <div className="relative w-full aspect-video rounded-xl border border-slate-200 bg-slate-50 overflow-hidden">
+                          {m.thumbKey ? (
+                            <img
+                              alt={m.title}
+                              className="w-full h-full object-cover"
+                              src={`${process.env.NEXT_PUBLIC_R2_PUBLIC_URL || ''}/${m.thumbKey}`}
+                              onContextMenu={(e) => e.preventDefault()}
+                            />
+                          ) : m.type === 'video' ? (
+                            <img
+                              alt={m.title}
+                              className="w-full h-full object-cover"
+                              src={`/api/media/video/${encodeURIComponent(m.mediaId)}/manifest?thumb=1`
+                              }
+                              onContextMenu={(e) => e.preventDefault()}
+                            />
+                          ) : (
+                            <img
+                              alt={m.title}
+                              className="w-full h-full object-cover"
+                              src={`/api/media/pdf/${encodeURIComponent(m.mediaId)}?thumb=1`}
+                              onContextMenu={(e) => e.preventDefault()}
+                            />
+                          )}
+                          {m.type === 'video' ? (
+                            <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+                              <div className="w-10 h-10 rounded-full bg-black/50 grid place-items-center text-white">
+                                ▶
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="pointer-events-none absolute bottom-2 right-2 px-2 py-0.5 rounded bg-black/50 text-[10px] text-white">PDF</div>
+                          )}
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                ))}
               </div>
             ) : (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                {course.materials.map((m) => (
+                {visibleMaterials.map((m) => (
                   <div key={m.id} className="rounded-3xl border border-slate-100 bg-white shadow-sm overflow-hidden">
                     <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
                       <div className="font-bold text-slate-800">{m.title}</div>
@@ -169,13 +224,13 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
                           className="w-full rounded-2xl border border-slate-200"
                           onContextMenu={(e) => e.preventDefault()}
                           preload="metadata"
-                          src={`/api/media/video/${encodeURIComponent(m.mediaId)}/manifest`}
+                          src={`/api/media/video/${encodeURIComponent(m.mediaId)}/manifest?authOnly=1`}
                         />
                       ) : (
                         <iframe
                           key={m.mediaId}
                           className="w-full h-[70vh] rounded-2xl border border-slate-200 bg-white"
-                          src={`/api/media/pdf/${encodeURIComponent(m.mediaId)}#toolbar=0&navpanes=0&scrollbar=0`}
+                          src={`/api/media/pdf/${encodeURIComponent(m.mediaId)}?authOnly=1#toolbar=0&navpanes=0&scrollbar=0`}
                           sandbox="allow-scripts allow-same-origin"
                           onContextMenu={(e) => e.preventDefault()}
                         />

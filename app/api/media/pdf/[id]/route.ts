@@ -9,11 +9,11 @@ export const fetchCache = 'force-no-store';
 const PUBLIC_CDN = process.env.R2_PUBLIC_URL || '';
 
 export async function GET(
-  _request: Request,
-  { params }: { params: Promise<{ id: string }> }
+  request: Request,
+  { params }: { params: { id: string } }
 ) {
   try {
-    const { id } = await params;
+    const { id } = params;
     if (!id) {
       return NextResponse.json({ error: 'Missing document id' }, { status: 400 });
     }
@@ -22,10 +22,31 @@ export async function GET(
       return NextResponse.json({ error: 'R2_PUBLIC_URL not configured' }, { status: 500 });
     }
 
-    const session = await auth.api.getSession();
-    const entitled = session?.user?.id
-      ? await isEntitledForPremium(session.user.id, session.user.email)
-      : false;
+    const url0 = new URL(request.url);
+    if (url0.searchParams.get('thumb') === '1' || url0.searchParams.get('thumb') === 'true') {
+      const thumb = `${PUBLIC_CDN.replace(/\/$/, '')}/docs/${id}/thumb.jpg`;
+      return NextResponse.redirect(thumb, { status: 302 });
+    }
+
+    const url = url0;
+    const authOnly = url.searchParams.get('authOnly') === '1' || url.searchParams.get('authOnly') === 'true';
+
+    const session = await auth.api.getSession({ headers: request.headers });
+    const isAuthed = Boolean(session?.user?.id);
+    let entitled = false;
+    if (authOnly) {
+      entitled = isAuthed;
+    } else {
+      entitled = isAuthed
+        ? await isEntitledForPremium(session!.user!.id, session!.user!.email)
+        : false;
+    }
+
+    if (!entitled && authOnly && !isAuthed) {
+      const referer = request.headers.get('referer') || '/';
+      const login = `/signin?callbackUrl=${encodeURIComponent(referer)}`;
+      return NextResponse.redirect(login, { status: 302 });
+    }
 
     // Expect paths:
     // - docs/<id>/full.pdf
@@ -41,4 +62,3 @@ export async function GET(
     );
   }
 }
-

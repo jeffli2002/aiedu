@@ -60,6 +60,7 @@ export const env = createEnv({
    */
   client: {
     NEXT_PUBLIC_APP_URL: z.string().url().optional(),
+    NEXT_PUBLIC_R2_PUBLIC_URL: z.string().url().optional(),
     NEXT_PUBLIC_DISABLE_AUTH: z.string().optional().default('false'),
     NEXT_PUBLIC_CREEM_TEST_MODE: z.string().optional().default('false'),
     // Creem Credit Packs (One-time purchases)
@@ -100,6 +101,7 @@ export const env = createEnv({
       (process.env.VERCEL_URL 
         ? `https://${process.env.VERCEL_URL}` 
         : undefined),
+    NEXT_PUBLIC_R2_PUBLIC_URL: process.env.NEXT_PUBLIC_R2_PUBLIC_URL,
     NEXT_PUBLIC_DISABLE_AUTH: process.env.NEXT_PUBLIC_DISABLE_AUTH,
     ADMIN_EMAILS: process.env.ADMIN_EMAILS,
     CRON_SECRET: process.env.CRON_SECRET,

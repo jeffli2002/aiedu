@@ -1,6 +1,7 @@
 import { auth } from '@/lib/auth/auth';
 import { isEntitledForPremium } from '@/lib/access/entitlement';
 import { NextResponse } from 'next/server';
+import { r2StorageService } from '@/lib/storage/r2';
 
 export const dynamic = 'force-dynamic';
 export const fetchCache = 'force-no-store';
@@ -12,11 +13,11 @@ export const fetchCache = 'force-no-store';
 const PUBLIC_CDN = process.env.R2_PUBLIC_URL || '';
 
 export async function GET(
-  _request: Request,
-  { params }: { params: Promise<{ id: string }> }
+  request: Request,
+  { params }: { params: { id: string } }
 ) {
   try {
-    const { id } = await params;
+    const { id } = params;
     if (!id) {
       return NextResponse.json({ error: 'Missing video id' }, { status: 400 });
     }
@@ -25,16 +26,48 @@ export async function GET(
       return NextResponse.json({ error: 'R2_PUBLIC_URL not configured' }, { status: 500 });
     }
 
-    // Check session entitlement
-    const session = await auth.api.getSession();
-    const entitled = session?.user?.id
-      ? await isEntitledForPremium(session.user.id, session.user.email)
-      : false;
+    const url = new URL(request.url);
+    // Public thumbnail (no auth required)
+    if (url.searchParams.get('thumb') === '1' || url.searchParams.get('thumb') === 'true') {
+      const thumb = `${PUBLIC_CDN.replace(/\/$/, '')}/videos/${id}/thumb.jpg`;
+      return NextResponse.redirect(thumb, { status: 302 });
+    }
 
-    const manifest = entitled ? 'master.m3u8' : 'preview.m3u8';
-    const location = `${PUBLIC_CDN.replace(/\/$/, '')}/videos/${id}/${manifest}`;
+    const authOnly = url.searchParams.get('authOnly') === '1' || url.searchParams.get('authOnly') === 'true';
 
-    return NextResponse.redirect(location, { status: 302 });
+    // Check session
+    const session = await auth.api.getSession({ headers: request.headers });
+    const isAuthed = Boolean(session?.user?.id);
+    let entitled = false;
+    if (authOnly) {
+      entitled = isAuthed; // auth-only gating
+    } else {
+      entitled = isAuthed
+        ? await isEntitledForPremium(session!.user!.id, session!.user!.email)
+        : false;
+    }
+
+    if (!entitled && authOnly && !isAuthed) {
+      const referer = request.headers.get('referer') || '/';
+      const login = `/signin?callbackUrl=${encodeURIComponent(referer)}`;
+      return NextResponse.redirect(login, { status: 302 });
+    }
+
+    const baseCdn = PUBLIC_CDN.replace(/\/$/, '');
+
+    // Choose file based on entitlement and availability in R2
+    if (entitled) {
+      // Prefer HLS if present; fallback to MP4
+      try {
+        await r2StorageService.getAsset(`videos/${id}/master.m3u8`);
+        return NextResponse.redirect(`${baseCdn}/videos/${id}/master.m3u8`, { status: 302 });
+      } catch {
+        return NextResponse.redirect(`${baseCdn}/videos/${id}/full.mp4`, { status: 302 });
+      }
+    } else {
+      // Not entitled: serve preview manifest only
+      return NextResponse.redirect(`${baseCdn}/videos/${id}/preview.m3u8`, { status: 302 });
+    }
   } catch (error) {
     return NextResponse.json(
       { error: 'Failed to resolve manifest', details: error instanceof Error ? error.message : String(error) },
@@ -42,4 +75,3 @@ export async function GET(
     );
   }
 }
-

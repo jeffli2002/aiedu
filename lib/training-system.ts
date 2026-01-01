@@ -4,6 +4,7 @@ export interface CourseMaterial {
   type: 'video' | 'pdf';
   mediaId: string; // maps to R2 path id, e.g., videos/{mediaId}/full.mp4 or docs/{mediaId}/full.pdf
   language?: 'zh' | 'en';
+  thumbKey?: string; // optional R2 key for custom thumbnail path
 }
 
 export interface Module {
@@ -50,8 +51,22 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
           }
         ],
         materials: [
-          { id: 'f1-lecture', title: '课程讲解视频', type: 'video', mediaId: 'training/f1/lecture', language: 'zh' },
-          { id: 'f1-slides', title: '讲义 PDF', type: 'pdf', mediaId: 'training/f1/slides', language: 'zh' },
+          {
+            id: 'f1-lecture',
+            title: '课程讲解视频',
+            type: 'video',
+            mediaId: 'training/f1/lecture',
+            language: 'zh',
+            thumbKey: 'videos/training/thumbnail_T1_mp4.png',
+          },
+          {
+            id: 'f1-ai-evolution-t1',
+            title: 'AI 进化故事 T1（PDF）',
+            type: 'pdf',
+            mediaId: 'training/AI_Evolution_Story_T1',
+            language: 'zh',
+            thumbKey: 'docs/training/thumbnail_T1_pdf.png',
+          },
         ]
       },
       { 
