@@ -79,14 +79,15 @@ export function useSubscription(): UseSubscriptionResult {
         }
         const data = (await res.json()) as SubscriptionResponse;
 
-        if (!data.subscription) {
+        const sub = data.subscription;
+        if (!sub) {
           resetToFree();
           return;
         }
 
-        const apiStatus = data.subscription.status || null;
-        const apiPlanId = data.subscription.planId;
-        const apiPlanName = (data.subscription.planName || '').toLowerCase();
+        const apiStatus = sub.status || null;
+        const apiPlanId = sub.planId;
+        const apiPlanName = (sub.planName || '').toLowerCase();
 
         let normalized: NormalizedPlanId =
           apiPlanId === 'proplus'
@@ -109,12 +110,12 @@ export function useSubscription(): UseSubscriptionResult {
 
         setPlanId(normalized);
         setStatus(apiStatus);
-        setCancelAtPeriodEnd(Boolean(data.subscription.cancelAtPeriodEnd));
-        setInterval((data.subscription.interval as 'month' | 'year') || null);
+        setCancelAtPeriodEnd(Boolean(sub.cancelAtPeriodEnd));
+        setInterval((sub.interval as 'month' | 'year') || null);
         setUpcomingPlan(
-          data.subscription.upcomingPlan
+          sub.upcomingPlan
             ? {
-                ...data.subscription.upcomingPlan,
+                ...sub.upcomingPlan,
               }
             : null
         );
