@@ -90,27 +90,27 @@ export default function Navbar() {
               {i18n.language === 'zh' ? 'EN' : 'CN'}
             </button>
             {isInitialized && isAuthenticated && user ? (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    className="relative h-10 w-10 rounded-full p-0 !bg-transparent hover:!bg-transparent focus:!bg-transparent active:!bg-transparent"
-                    style={{ backgroundColor: 'transparent' }}
-                    aria-label="Open user menu"
-                  >
-                    <Avatar className="h-10 w-10 rounded-full">
-                      <AvatarImage
-                        src={user.image || ''}
-                        alt={user.name || ''}
-                        className="rounded-full"
-                      />
-                      <AvatarFallback className="text-white rounded-full bg-gradient-to-tr from-violet-600 to-blue-500">
-                        {user.name?.charAt(0).toUpperCase() || <User className="h-4 w-4" />}
-                      </AvatarFallback>
-                    </Avatar>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56" align="end" forceMount>
+              <div className="relative">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <button
+                      type="button"
+                      className="relative h-10 w-10 rounded-full p-0 bg-transparent hover:bg-transparent focus:bg-transparent active:bg-transparent border-0 cursor-pointer focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 rounded-full"
+                      aria-label="Open user menu"
+                    >
+                      <Avatar className="h-10 w-10 rounded-full cursor-pointer">
+                        <AvatarImage
+                          src={user.image || ''}
+                          alt={user.name || ''}
+                          className="rounded-full"
+                        />
+                        <AvatarFallback className="text-white rounded-full bg-gradient-to-tr from-violet-600 to-blue-500">
+                          {user.name?.charAt(0).toUpperCase() || <User className="h-4 w-4" />}
+                        </AvatarFallback>
+                      </Avatar>
+                    </button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-56" align="end" sideOffset={8}>
                   <DropdownMenuLabel className="font-normal">
                     <div className="flex flex-col space-y-1">
                       <p className="text-sm font-medium leading-none">{user.name}</p>
@@ -130,6 +130,7 @@ export default function Navbar() {
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
+              </div>
             ) : (
               <>
                 <Link
