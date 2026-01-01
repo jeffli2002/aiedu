@@ -1,9 +1,9 @@
 import { creditsConfig } from '@/config/credits.config';
 import { paymentConfig } from '@/config/payment.config';
 
-const APP_NAME = 'Viecom';
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://www.viecom.pro';
-const SUPPORT_EMAIL = 'support@viecom.pro';
+const APP_NAME = 'Future AI Creators';
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://www.futurai.org';
+const SUPPORT_EMAIL = 'support@futurai.org';
 
 /**
  * Base email template wrapper
@@ -24,8 +24,8 @@ function baseTemplate(content: string, footerText?: string): string {
         <table role="presentation" style="max-width: 600px; margin: 0 auto; border-collapse: collapse;">
           <!-- Header -->
           <tr>
-            <td style="padding: 20px 0; text-align: center; border-bottom: 2px solid #14b8a6;">
-              <h1 style="margin: 0; color: #14b8a6; font-size: 28px; font-weight: 600;">${APP_NAME}</h1>
+            <td style="padding: 20px 0; text-align: center; border-bottom: 2px solid #8b5cf6;">
+              <h1 style="margin: 0; background: linear-gradient(to right, #8b5cf6, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-size: 28px; font-weight: 600;">${APP_NAME}</h1>
             </td>
           </tr>
           
@@ -43,7 +43,7 @@ function baseTemplate(content: string, footerText?: string): string {
                 footerText ||
                 `
                 <p style="margin: 0 0 10px 0;">
-                  Need help? Contact us at <a href="mailto:${SUPPORT_EMAIL}" style="color: #14b8a6; text-decoration: none;">${SUPPORT_EMAIL}</a>
+                  Need help? Contact us at <a href="mailto:${SUPPORT_EMAIL}" style="color: #8b5cf6; text-decoration: none;">${SUPPORT_EMAIL}</a>
                 </p>
                 <p style="margin: 0;">
                   © ${new Date().getFullYear()} ${APP_NAME}. All rights reserved.
@@ -76,30 +76,42 @@ export function getWelcomeEmailTemplate(userName: string, _userEmail: string): s
     </p>
     
     <p style="margin: 0 0 20px 0; color: #374151;">
-      Thank you for joining ${APP_NAME}! We're excited to have you on board.
+      Thank you for joining ${APP_NAME}! We're excited to have you on board and help you master AI skills to create the future.
     </p>
     
-    <div style="background-color: #f0fdfa; border-left: 4px solid #14b8a6; padding: 20px; margin: 20px 0; border-radius: 4px;">
-      <p style="margin: 0 0 10px 0; color: #065f46; font-weight: 600;">
+    <div style="background-color: #f0f9ff; border-left: 4px solid #8b5cf6; padding: 20px; margin: 20px 0; border-radius: 4px;">
+      <p style="margin: 0 0 10px 0; color: #6b21a8; font-weight: 600;">
         🎁 Your Welcome Bonus
       </p>
-      <p style="margin: 0; color: #047857; font-size: 18px; font-weight: 600;">
-        ${signupCredits} Free Credits
+      <p style="margin: 0; color: #7c3aed; font-size: 18px; font-weight: 600;">
+        ${signupCredits} Sign-up Bonus Credits
       </p>
-      <p style="margin: 10px 0 0 0; color: #065f46; font-size: 14px;">
-        Start generating amazing AI images and videos right away!
+      <p style="margin: 10px 0 0 0; color: #6b21a8; font-size: 14px;">
+        Start generating amazing AI images and videos right away! Use these credits to explore our AI generation tools.
+      </p>
+    </div>
+    
+    <div style="background-color: #fef3c7; border-left: 4px solid #f59e0b; padding: 20px; margin: 20px 0; border-radius: 4px;">
+      <p style="margin: 0 0 10px 0; color: #92400e; font-weight: 600;">
+        📚 Access Training Materials
+      </p>
+      <p style="margin: 0; color: #78350f; font-size: 14px;">
+        As a member, you now have access to our comprehensive training materials. Learn AI image and video generation skills, explore project-based learning modules, and master the tools you need to create amazing content.
       </p>
     </div>
     
     <div style="margin: 30px 0; text-align: center;">
-      <a href="${APP_URL}/dashboard" style="display: inline-block; padding: 12px 24px; background-color: #14b8a6; color: #ffffff; text-decoration: none; border-radius: 6px; font-weight: 600;">
+      <a href="${APP_URL}/dashboard" style="display: inline-block; padding: 12px 24px; background: linear-gradient(to right, #8b5cf6, #3b82f6); color: #ffffff; text-decoration: none; border-radius: 6px; font-weight: 600; margin: 0 10px 10px 0;">
         Go to Dashboard
+      </a>
+      <a href="${APP_URL}/training" style="display: inline-block; padding: 12px 24px; background-color: #ffffff; color: #8b5cf6; text-decoration: none; border: 2px solid #8b5cf6; border-radius: 6px; font-weight: 600;">
+        View Training Materials
       </a>
     </div>
     
     <p style="margin: 20px 0 0 0; color: #6b7280; font-size: 14px;">
       If you have any questions, feel free to reach out to our support team at 
-      <a href="mailto:${SUPPORT_EMAIL}" style="color: #14b8a6; text-decoration: none;">${SUPPORT_EMAIL}</a>.
+      <a href="mailto:${SUPPORT_EMAIL}" style="color: #8b5cf6; text-decoration: none;">${SUPPORT_EMAIL}</a>.
     </p>
   `;
 

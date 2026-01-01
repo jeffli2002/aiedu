@@ -18,7 +18,7 @@ export async function sendWelcomeEmail(userEmail: string, userName: string) {
 
   return sendEmail({
     to: userEmail,
-    subject: 'Welcome to Viecom! 🎉',
+    subject: 'Welcome to Future AI Creators! 🎉',
     html: getWelcomeEmailTemplate(userName, userEmail),
   });
 }
