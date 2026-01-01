@@ -2,6 +2,7 @@ import { auth } from '@/lib/auth/auth';
 import { isEntitledForPremium } from '@/lib/access/entitlement';
 import { NextResponse } from 'next/server';
 import { r2StorageService } from '@/lib/storage/r2';
+import { Readable } from 'node:stream';
 
 export const dynamic = 'force-dynamic';
 export const fetchCache = 'force-no-store';
@@ -27,10 +28,26 @@ export async function GET(
     }
 
     const url = new URL(request.url);
-    // Public thumbnail (no auth required)
+    // Public thumbnail (no auth required) - stream same-origin and support jpg/png
     if (url.searchParams.get('thumb') === '1' || url.searchParams.get('thumb') === 'true') {
-      const thumb = `${PUBLIC_CDN.replace(/\/$/, '')}/videos/${id}/thumb.jpg`;
-      return NextResponse.redirect(thumb, { status: 302 });
+      const baseKey = `videos/${id}`;
+      let key = `${baseKey}/thumb.jpg`;
+      let asset;
+      try {
+        asset = await r2StorageService.getAsset(key);
+      } catch {
+        key = `${baseKey}/thumb.png`;
+        asset = await r2StorageService.getAsset(key);
+      }
+      const { body, contentType } = asset;
+      const stream = (body as any)?.pipe ? Readable.toWeb(body as any) : (body as ReadableStream<Uint8Array>);
+      return new Response(stream as any, {
+        status: 200,
+        headers: {
+          'Content-Type': contentType || (key.endsWith('.png') ? 'image/png' : 'image/jpeg'),
+          'Cache-Control': 'public, max-age=31536000, immutable',
+        },
+      });
     }
 
     const authOnly = url.searchParams.get('authOnly') === '1' || url.searchParams.get('authOnly') === 'true';

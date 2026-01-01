@@ -27,18 +27,24 @@ export async function GET(
     const url0 = new URL(request.url);
     const isThumb = url0.searchParams.get('thumb') === '1' || url0.searchParams.get('thumb') === 'true';
 
-    // Public thumbnail (no auth required) - return early
+    // Public thumbnail (no auth required) - return early; try jpg then png
     if (isThumb) {
       const baseKey = `docs/${id}`;
-      const key = `${baseKey}/thumb.jpg`;
-      const { body, contentType } = await r2StorageService.getAsset(key);
+      let key = `${baseKey}/thumb.jpg`;
+      let asset;
+      try {
+        asset = await r2StorageService.getAsset(key);
+      } catch {
+        key = `${baseKey}/thumb.png`;
+        asset = await r2StorageService.getAsset(key);
+      }
+      const { body, contentType } = asset;
       const stream = (body as any)?.pipe ? Readable.toWeb(body as any) : (body as ReadableStream<Uint8Array>);
       return new Response(stream as any, {
         status: 200,
         headers: {
-          'Content-Type': contentType || 'image/jpeg',
+          'Content-Type': contentType || (key.endsWith('.png') ? 'image/png' : 'image/jpeg'),
           'Cache-Control': 'public, max-age=31536000, immutable',
-          // Prefer CSP over XFO to control framing; omit X-Frame-Options to avoid Chrome overlay
           'Content-Security-Policy': "frame-ancestors 'self' https://www.futurai.org https://futurai.org http://localhost:3003",
         },
       });
