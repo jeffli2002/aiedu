@@ -291,7 +291,14 @@ export const useAuthStore = create<AuthState>()(
                 return { success: true };
               }
 
-              const message = result.error?.message || 'Invalid email or password';
+              // Handle rate limit errors with friendly messages
+              let message = result.error?.message || 'Invalid email or password';
+              
+              // Check if it's a rate limit error
+              if (result.error?.status === 429 || message.toLowerCase().includes('too many requests')) {
+                message = 'Too many login attempts. Please wait a few minutes before trying again.';
+              }
+              
               set({ isLoading: false, error: message });
               return {
                 success: false,
@@ -352,6 +359,8 @@ export const useAuthStore = create<AuthState>()(
                   errorMessage = 'Invalid request. Please check your input.';
                 } else if (result.error.status === 409) {
                   errorMessage = 'Email already exists. Please use a different email or sign in.';
+                } else if (result.error.status === 429) {
+                  errorMessage = 'Too many signup attempts. Please wait a few minutes before trying again.';
                 } else {
                   // Handle other error types
                   const error = result.error as any;
@@ -363,6 +372,12 @@ export const useAuthStore = create<AuthState>()(
                       errorMessage = errorString;
                     }
                   }
+                }
+                
+                // Check if error message contains rate limit keywords
+                if (errorMessage.toLowerCase().includes('too many requests') || 
+                    errorMessage.toLowerCase().includes('rate limit')) {
+                  errorMessage = 'Too many requests. Please wait a few minutes before trying again.';
                 }
                 
                 set({ isLoading: false, error: errorMessage });
