@@ -282,6 +282,7 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
               className="w-full h-12 border-gray-300 bg-white text-gray-900 hover:bg-gray-50 justify-start"
               onClick={handleOpenGmail}
             >
+              {/* Gmail Official Icon */}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -289,19 +290,19 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
               >
                 <path
                   fill="#EA4335"
-                  d="M5.18 4.73L12 12.14l6.82-7.41C17.83 4.32 16.96 4 16 4H8c-.96 0-1.83.32-2.82.73z"
-                />
-                <path
-                  fill="#34A853"
-                  d="M12 12.14l6.82-7.41c-.99-.41-1.86-.73-2.82-.73H8c-.96 0-1.83.32-2.82.73L12 12.14z"
-                />
-                <path
-                  fill="#FBBC04"
-                  d="M5.18 4.73C4.32 5.64 4 6.57 4 7.5V16.5c0 .93.32 1.86.73 2.77L12 12.14 5.18 4.73z"
+                  d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z"
                 />
                 <path
                   fill="#4285F4"
-                  d="M19.27 19.27c.91-.41 1.73-1.23 2.14-2.14L12 12.14l7.27 7.13z"
+                  d="M5.455 4.64L0 7.5v11.866c0 .904.732 1.636 1.636 1.636h3.819V11.73L5.455 4.64z"
+                />
+                <path
+                  fill="#34A853"
+                  d="M12 16.64l6.545-4.91V4.64L12 9.548 5.455 4.64v7.18L12 16.64z"
+                />
+                <path
+                  fill="#FBBC04"
+                  d="M24 5.457v-2.91c0-2.023-2.309-3.178-3.927-1.964L18.545 4.64 12 9.548l-6.545-4.91L3.927 1.636C2.309.422 0 1.577 0 3.6v1.857l5.455 3.273L12 9.548l6.545-4.91L24 5.457z"
                 />
               </svg>
               <span className="font-semibold">Open Gmail</span>
@@ -312,6 +313,7 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
               className="w-full h-12 border-gray-300 bg-white text-gray-900 hover:bg-gray-50 justify-start"
               onClick={handleOpenOutlook}
             >
+              {/* Outlook Official Icon */}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -319,12 +321,13 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
               >
                 <path
                   fill="#0078D4"
-                  d="M7.5 4.5c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2h9c1.1 0 2-.9 2-2v-11c0-1.1-.9-2-2-2h-9zm0 1.5h9c.3 0 .5.2.5.5v11c0 .3-.2.5-.5.5h-9c-.3 0-.5-.2-.5-.5v-11c0-.3.2-.5.5-.5z"
+                  d="M7.5 7c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2h9c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2h-9zm0 1.5h9c.3 0 .5.2.5.5v6c0 .3-.2.5-.5.5h-9c-.3 0-.5-.2-.5-.5v-6c0-.3.2-.5.5-.5z"
                 />
                 <path
                   fill="#0078D4"
-                  d="M12 8.5l-3 3h2v3h2v-3h2l-3-3z"
+                  d="M12 10.5l-2.5 2.5h1.5v2h2v-2h1.5l-2.5-2.5z"
                 />
+                <circle fill="#0078D4" cx="12" cy="12" r="1" opacity="0.3" />
               </svg>
               <span className="font-semibold">Open Outlook</span>
             </Button>
@@ -334,6 +337,7 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
               className="w-full h-12 border-gray-300 bg-white text-gray-900 hover:bg-gray-50 justify-start"
               onClick={handleOpenQQMail}
             >
+              {/* QQ Mail Official Icon */}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -342,6 +346,11 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
                 <path
                   fill="#12B7F5"
                   d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"
+                />
+                <path
+                  fill="#12B7F5"
+                  d="M12 11L4 6h16l-8 5zm0 2l8-5v10H4V8l8 5z"
+                  opacity="0.6"
                 />
               </svg>
               <span className="font-semibold">Open QQ Mail</span>
