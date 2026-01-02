@@ -42,7 +42,7 @@ const Hero = ({ lang }: { lang: Language }) => {
   return (
     <section
       id="home"
-      className="pt-32 pb-24 px-6 relative overflow-hidden min-h-screen flex flex-col items-center bg-gradient-to-b from-slate-50 via-white to-slate-50"
+      className="pt-32 pb-24 px-4 sm:px-6 lg:px-8 relative overflow-visible min-h-screen flex flex-col items-center bg-gradient-to-b from-slate-50 via-white to-slate-50"
     >
       <div className="absolute inset-0 z-0 scale-110 overflow-hidden">
         <div
@@ -85,7 +85,7 @@ const Hero = ({ lang }: { lang: Language }) => {
       </div>
 
       <div
-        className="max-w-[1440px] w-full mx-auto flex flex-col items-center text-center relative z-20 transition-transform duration-500 ease-out"
+        className="max-w-[1440px] w-full mx-auto flex flex-col items-center text-center relative z-20 transition-transform duration-500 ease-out px-4 sm:px-6 lg:px-8"
         style={{
           transform: `perspective(1000px) rotateX(${mousePos.y * -2}deg) rotateY(${mousePos.x * 2}deg)`,
         }}
@@ -102,7 +102,7 @@ const Hero = ({ lang }: { lang: Language }) => {
         </div>
 
         <h1
-          className={`text-4xl md:text-6xl font-black mb-12 leading-[0.85] tracking-tighter transition-all duration-1000 delay-150 ${
+          className={`text-4xl md:text-6xl font-black mb-12 leading-[0.85] tracking-tighter transition-all duration-1000 delay-150 w-full px-2 sm:px-4 overflow-visible ${
             isMounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
           }`}
         >
