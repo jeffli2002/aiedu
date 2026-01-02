@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useAuthStore } from '@/store/auth-store';
@@ -9,44 +9,59 @@ import { Loader2, CheckCircle2, AlertCircle } from 'lucide-react';
 
 export default function EmailVerifiedPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { isAuthenticated, user, refreshSession, initialize } = useAuthStore();
   const [isChecking, setIsChecking] = useState(true);
   const [hasError, setHasError] = useState(false);
   const [retryCount, setRetryCount] = useState(0);
 
+  // Check if there's a token or code in the URL (from Better Auth verification)
+  const token = searchParams.get('token');
+  const code = searchParams.get('code');
+
   useEffect(() => {
     const checkAndRedirect = async () => {
       try {
+        // If there's a token or code, Better Auth is processing the verification
+        // Wait a bit longer for it to complete
+        const initialDelay = (token || code) ? 800 : 300;
+        await new Promise(resolve => setTimeout(resolve, initialDelay));
+        
         // Force refresh session to get latest auth state after email verification
         await refreshSession();
         
         // Also initialize to ensure auth state is up to date
         await initialize(true);
         
-        // Wait a bit for state to update
+        // Wait a bit more for state to update
         await new Promise(resolve => setTimeout(resolve, 500));
         
         // Check if user is now authenticated
         const currentState = useAuthStore.getState();
-        if (currentState.isAuthenticated && currentState.user) {
-          // User is authenticated, redirect to homepage
+        if (currentState.isAuthenticated && currentState.user && currentState.user.emailVerified) {
+          // User is authenticated and email is verified, redirect to homepage
+          console.log('[Email Verified] User authenticated, redirecting to homepage');
           router.replace('/');
           return;
         }
         
-        // If not authenticated yet, retry a few times
-        if (retryCount < 3) {
+        // If not authenticated yet, retry a few times with increasing delays
+        if (retryCount < 5) {
+          const delay = 1000 * (retryCount + 1); // 1s, 2s, 3s, 4s, 5s
+          console.log(`[Email Verified] Retrying authentication check (attempt ${retryCount + 1}/5) in ${delay}ms`);
           setRetryCount(prev => prev + 1);
-          setTimeout(checkAndRedirect, 1000);
+          setTimeout(checkAndRedirect, delay);
         } else {
+          console.warn('[Email Verified] Failed to authenticate after 5 attempts');
           setIsChecking(false);
           setHasError(true);
         }
       } catch (error) {
-        console.error('Error checking authentication status:', error);
-        if (retryCount < 3) {
+        console.error('[Email Verified] Error checking authentication status:', error);
+        if (retryCount < 5) {
+          const delay = 1000 * (retryCount + 1);
           setRetryCount(prev => prev + 1);
-          setTimeout(checkAndRedirect, 1000);
+          setTimeout(checkAndRedirect, delay);
         } else {
           setIsChecking(false);
           setHasError(true);
@@ -54,13 +69,18 @@ export default function EmailVerifiedPage() {
       }
     };
 
+    // Start checking immediately
     checkAndRedirect();
-  }, [router, refreshSession, initialize, retryCount]);
+  }, [router, refreshSession, initialize, token, code]);
 
-  // Also check when auth state changes
+  // Also check when auth state changes (this is a backup check)
   useEffect(() => {
-    if (isAuthenticated && user && !isChecking) {
-      router.replace('/');
+    if (isAuthenticated && user && user.emailVerified && !isChecking) {
+      // Small delay to ensure state is stable
+      const timer = setTimeout(() => {
+        router.replace('/');
+      }, 200);
+      return () => clearTimeout(timer);
     }
   }, [isAuthenticated, user, router, isChecking]);
 

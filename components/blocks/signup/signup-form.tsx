@@ -22,11 +22,11 @@ import {
   useIsAuthenticated,
   useSetError,
   useSignInWithGoogle,
+  useSignOut,
 } from '@/store/auth-store';
 import { useTranslation } from 'react-i18next';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
-import { OTPVerificationDialog } from '@/components/blocks/otp-verification-dialog';
 
 const MIN_PASSWORD_LENGTH = 8;
 const isExternalUrl = (value: string) => /^https?:\/\//i.test(value);
@@ -43,6 +43,7 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
   const emailSignup = useEmailSignup();
   const clearError = useClearError();
   const signInWithGoogle = useSignInWithGoogle();
+  const signOut = useSignOut();
   const setError = useSetError();
 
   // Form state
@@ -51,9 +52,7 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showVerificationNotice, setShowVerificationNotice] = useState(false);
-  const [showOTPDialog, setShowOTPDialog] = useState(false);
   const [signupEmail, setSignupEmail] = useState('');
-  const [signupName, setSignupName] = useState('');
   const [resendStatus, setResendStatus] = useState<string | null>(null);
   const [resendCooldown, setResendCooldown] = useState(0);
   const [showChangeEmail, setShowChangeEmail] = useState(false);
@@ -111,7 +110,6 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
     if (result.success) {
       // Clear form data
       setSignupEmail(email);
-      setSignupName(name);
       setResendStatus(null);
       setChangeEmailStatus(null);
       setShowChangeEmail(false);
@@ -120,28 +118,15 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
       setEmail('');
       setPassword('');
       setConfirmPassword('');
-      
-      // Send OTP instead of showing verification notice
       try {
-        const otpResponse = await fetch('/api/auth/send-otp', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email }),
-          credentials: 'include',
-        });
-
-        if (otpResponse.ok) {
-          // Show OTP dialog
-          setShowOTPDialog(true);
-        } else {
-          // Fallback to old verification notice if OTP fails
-          setShowVerificationNotice(true);
-        }
-      } catch (otpError) {
-        console.error('Failed to send OTP:', otpError);
-        // Fallback to old verification notice
-        setShowVerificationNotice(true);
+        window.localStorage.setItem(
+          'viecom:verification-email',
+          JSON.stringify({ email, ts: Date.now() })
+        );
+      } catch (_storageError) {
+        // Ignore storage failures (privacy mode, etc.)
       }
+      setShowVerificationNotice(true);
     } else {
       if (result.error) {
         setError(result.error);
@@ -212,6 +197,27 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
     }
   };
 
+  const handleOpenGmail = () => {
+    window.open('https://mail.google.com', '_blank');
+  };
+
+  const handleOpenOutlook = () => {
+    window.open('https://outlook.live.com', '_blank');
+  };
+
+  const handleOpenQQMail = () => {
+    window.open('https://mail.qq.com', '_blank');
+  };
+
+  const handleLogout = async () => {
+    try {
+      await signOut();
+      router.push('/signin');
+    } catch (error) {
+      console.error('Failed to logout:', error);
+    }
+  };
+
   useEffect(() => {
     if (resendCooldown <= 0) return;
     const timer = setInterval(() => {
@@ -221,7 +227,7 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
   }, [resendCooldown]);
 
   return (
-    <div className={cn('flex flex-col gap-6', className)} {...props}>
+    <div className={cn('flex w-full flex-col gap-6', className)} {...props}>
       <AlertDialog
         open={showVerificationNotice}
         onOpenChange={(open) => {
@@ -230,76 +236,161 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
           }
         }}
       >
-        <AlertDialogContent className="bg-white">
-          <AlertDialogHeader>
-            <AlertDialogTitle>Confirm your email</AlertDialogTitle>
-            <AlertDialogDescription>
-              We sent a confirmation email to {signupEmail || 'your inbox'}. Please check your email
-              and click the confirmation link to activate your account and receive your signup
-              credits.
+        <AlertDialogContent className="bg-white max-w-md">
+          <AlertDialogHeader className="text-center pb-4">
+            {/* Illustration */}
+            <div className="flex justify-center mb-6">
+              <div className="relative w-40 h-40">
+                {/* Teal/mint green rounded organic shape (stylized 'n') */}
+                <div className="absolute top-2 left-4 w-28 h-32 bg-teal-300 rounded-tl-full rounded-bl-full rounded-tr-[60%] rounded-br-[40%] opacity-80"></div>
+                {/* Dark green square */}
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-green-600 rounded-lg flex items-center justify-center shadow-lg">
+                  {/* Orange circle with face */}
+                  <div className="w-16 h-16 bg-orange-500 rounded-full flex items-center justify-center">
+                    <div className="flex flex-col items-center justify-center">
+                      <div className="flex gap-1.5 mb-1.5">
+                        <div className="w-2 h-2 bg-white rounded-sm"></div>
+                        <div className="w-2 h-2 bg-white rounded-sm"></div>
+                      </div>
+                      <div className="w-6 h-3 border-2 border-white border-t-0 rounded-b-full"></div>
+                    </div>
+                  </div>
+                </div>
+                {/* Purple dots at corners */}
+                <div className="absolute top-2 left-2 w-3 h-3 bg-purple-500 rounded-sm"></div>
+                <div className="absolute top-2 right-2 w-3 h-3 bg-purple-500 rounded-sm"></div>
+                <div className="absolute bottom-2 left-2 w-3 h-3 bg-purple-500 rounded-sm"></div>
+                <div className="absolute bottom-2 right-2 w-3 h-3 bg-purple-500 rounded-sm"></div>
+              </div>
+            </div>
+            <AlertDialogTitle className="text-2xl font-bold text-gray-900 mb-4">
+              Check your inbox
+            </AlertDialogTitle>
+            <AlertDialogDescription className="text-base text-gray-700">
+              Click on the link we sent to{' '}
+              <span className="font-semibold text-gray-900">{signupEmail || 'your email'}</span> to
+              finish your account setup.
             </AlertDialogDescription>
           </AlertDialogHeader>
+
+          {/* Email client buttons */}
+          <div className="flex flex-col gap-3 mb-6">
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full h-12 border-gray-300 bg-white text-gray-900 hover:bg-gray-50 justify-start"
+              onClick={handleOpenGmail}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                className="mr-3 h-5 w-5"
+              >
+                <path
+                  fill="#EA4335"
+                  d="M5.18 4.73L12 12.14l6.82-7.41C17.83 4.32 16.96 4 16 4H8c-.96 0-1.83.32-2.82.73z"
+                />
+                <path
+                  fill="#34A853"
+                  d="M12 12.14l6.82-7.41c-.99-.41-1.86-.73-2.82-.73H8c-.96 0-1.83.32-2.82.73L12 12.14z"
+                />
+                <path
+                  fill="#FBBC04"
+                  d="M5.18 4.73C4.32 5.64 4 6.57 4 7.5V16.5c0 .93.32 1.86.73 2.77L12 12.14 5.18 4.73z"
+                />
+                <path
+                  fill="#4285F4"
+                  d="M19.27 19.27c.91-.41 1.73-1.23 2.14-2.14L12 12.14l7.27 7.13z"
+                />
+              </svg>
+              <span className="font-semibold">Open Gmail</span>
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full h-12 border-gray-300 bg-white text-gray-900 hover:bg-gray-50 justify-start"
+              onClick={handleOpenOutlook}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                className="mr-3 h-5 w-5"
+              >
+                <path
+                  fill="#0078D4"
+                  d="M7.5 4.5c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2h9c1.1 0 2-.9 2-2v-11c0-1.1-.9-2-2-2h-9zm0 1.5h9c.3 0 .5.2.5.5v11c0 .3-.2.5-.5.5h-9c-.3 0-.5-.2-.5-.5v-11c0-.3.2-.5.5-.5z"
+                />
+                <path
+                  fill="#0078D4"
+                  d="M12 8.5l-3 3h2v3h2v-3h2l-3-3z"
+                />
+              </svg>
+              <span className="font-semibold">Open Outlook</span>
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full h-12 border-gray-300 bg-white text-gray-900 hover:bg-gray-50 justify-start"
+              onClick={handleOpenQQMail}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                className="mr-3 h-5 w-5"
+              >
+                <path
+                  fill="#12B7F5"
+                  d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"
+                />
+              </svg>
+              <span className="font-semibold">Open QQ Mail</span>
+            </Button>
+          </div>
+
+          {/* Helper links */}
+          <div className="space-y-2 text-sm text-gray-600 text-center">
+            <p>
+              No email in your inbox or spam folder?{' '}
+              <button
+                type="button"
+                onClick={handleResendVerification}
+                disabled={!signupEmail || resendCooldown > 0}
+                className="text-blue-600 underline hover:text-blue-700 disabled:text-gray-400 disabled:no-underline"
+              >
+                {resendCooldown > 0 ? `Resend in ${resendCooldown}s` : "Let's resend it."}
+              </button>
+            </p>
+            <p>
+              Wrong address?{' '}
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="text-blue-600 underline hover:text-blue-700"
+              >
+                Log out
+              </button>{' '}
+              to sign in with a different email.
+            </p>
+          </div>
+
           {resendStatus && (
-            <div className="rounded-md bg-slate-50 px-3 py-2 text-slate-700 text-sm">
+            <div className="mt-4 rounded-md bg-blue-50 px-3 py-2 text-blue-700 text-sm text-center">
               {resendStatus}
             </div>
           )}
-          {showChangeEmail && (
-            <div className="mt-4 grid gap-3">
-              <Label htmlFor="new-email">New email</Label>
-              <Input
-                id="new-email"
-                type="email"
-                placeholder="name@example.com"
-                value={newEmail}
-                onChange={(e) => setNewEmail(e.target.value)}
-                autoComplete="email"
-              />
-              {changeEmailStatus && (
-                <div className="text-slate-600 text-sm">{changeEmailStatus}</div>
-              )}
-              <div className="flex justify-end gap-2">
-                <Button type="button" variant="ghost" onClick={() => setShowChangeEmail(false)}>
-                  Cancel
-                </Button>
-                <Button type="button" onClick={handleChangeEmail}>
-                  Update email
-                </Button>
-              </div>
-            </div>
-          )}
-          <div className="flex justify-end">
-            <div className="flex flex-wrap gap-2">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={handleResendVerification}
-                disabled={!signupEmail || resendCooldown > 0}
-              >
-                {resendCooldown > 0 ? `Resend in ${resendCooldown}s` : 'Resend email'}
-              </Button>
-              <Button
-                type="button"
-                variant="ghost"
-                onClick={() => setShowChangeEmail(true)}
-                disabled={showChangeEmail}
-              >
-                Change email
-              </Button>
-              <AlertDialogAction onClick={() => setShowVerificationNotice(false)}>
-                Got it
-              </AlertDialogAction>
-            </div>
-          </div>
         </AlertDialogContent>
       </AlertDialog>
       {!showVerificationNotice && (
-        <Card>
-          <CardHeader className="text-center">
-            <CardTitle className="text-xl">{t('signup.title')}</CardTitle>
-            <CardDescription>{t('signup.signUpWithAccount')}</CardDescription>
+        <Card className="w-full bg-white shadow-sm">
+          <CardHeader className="text-center pb-6">
+            <CardTitle className="text-2xl font-semibold text-gray-900 mb-2">
+              {t('signup.title') || 'Log in or create an account to collaborate'}
+            </CardTitle>
+            <CardDescription className="text-gray-600">
+              {t('signup.signUpWithAccount')}
+            </CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="px-8 pb-8">
             <form onSubmit={handleEmailSignup} data-testid="signup-form">
               <div className="grid gap-6">
                 {/* Error message display */}
@@ -321,7 +412,7 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
                   <Button
                     type="button"
                     variant="outline"
-                    className="w-full transition-colors hover:bg-gray-50 dark:hover:bg-gray-900"
+                    className="w-full h-11 border-gray-300 bg-white text-gray-900 transition-colors hover:bg-gray-50 dark:hover:bg-gray-900"
                     onClick={() => handleSocialLogin('google')}
                     disabled={isLoading}
                   >
@@ -354,15 +445,17 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
                 </div>
 
                 <div className="flex items-center gap-4 text-sm">
-                  <div className="flex-1 border-t border-border" />
-                  <span className="text-muted-foreground">{t('common.orContinueWith')}</span>
-                  <div className="flex-1 border-t border-border" />
+                  <div className="flex-1 border-t border-gray-200" />
+                  <span className="text-gray-500">{t('common.orContinueWith') || 'or'}</span>
+                  <div className="flex-1 border-t border-gray-200" />
                 </div>
 
                 {/* Email password registration */}
-                <div className="grid gap-6">
-                  <div className="grid gap-3">
-                    <Label htmlFor="name">{t('signup.name')}</Label>
+                <div className="grid gap-5">
+                  <div className="grid gap-2">
+                    <Label htmlFor="name" className="text-xs font-medium text-gray-700 uppercase tracking-wide">
+                      {t('signup.name')}
+                    </Label>
                     <Input
                       id="name"
                       type="text"
@@ -373,10 +466,13 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
                       disabled={isLoading}
                       autoComplete="name"
                       data-testid="name-input"
+                      className="h-11 bg-gray-50 border-gray-300"
                     />
                   </div>
-                  <div className="grid gap-3">
-                    <Label htmlFor="email">{t('signup.email')}</Label>
+                  <div className="grid gap-2">
+                    <Label htmlFor="email" className="text-xs font-medium text-gray-700 uppercase tracking-wide">
+                      {t('signup.email')}
+                    </Label>
                     <Input
                       id="email"
                       type="email"
@@ -387,10 +483,13 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
                       disabled={isLoading}
                       autoComplete="email"
                       data-testid="email-input"
+                      className="h-11 bg-gray-50 border-gray-300"
                     />
                   </div>
-                  <div className="grid gap-3">
-                    <Label htmlFor="password">{t('signup.password')}</Label>
+                  <div className="grid gap-2">
+                    <Label htmlFor="password" className="text-xs font-medium text-gray-700 uppercase tracking-wide">
+                      {t('signup.password')}
+                    </Label>
                     <Input
                       id="password"
                       type="password"
@@ -402,13 +501,16 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
                       placeholder={t('signup.passwordHint', { count: MIN_PASSWORD_LENGTH })}
                       autoComplete="new-password"
                       data-testid="password-input"
+                      className="h-11 bg-gray-50 border-gray-300"
                     />
-                    <p className="text-muted-foreground text-xs">
+                    <p className="text-gray-500 text-xs">
                       {t('signup.passwordHint', { count: MIN_PASSWORD_LENGTH })}
                     </p>
                   </div>
-                  <div className="grid gap-3">
-                    <Label htmlFor="confirmPassword">{t('signup.confirmPassword')}</Label>
+                  <div className="grid gap-2">
+                    <Label htmlFor="confirmPassword" className="text-xs font-medium text-gray-700 uppercase tracking-wide">
+                      {t('signup.confirmPassword')}
+                    </Label>
                     <Input
                       id="confirmPassword"
                       type="password"
@@ -420,19 +522,20 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
                       placeholder={t('signup.passwordHint', { count: MIN_PASSWORD_LENGTH })}
                       autoComplete="new-password"
                       data-testid="confirm-password-input"
+                      className="h-11 bg-gray-50 border-gray-300"
                     />
                   </div>
                   <Button
                     type="submit"
                     className={cn(
-                      'w-full',
+                      'w-full h-11 font-medium',
                       password.length >= MIN_PASSWORD_LENGTH &&
                         password === confirmPassword &&
                         email &&
                         name &&
                         !isLoading
-                        ? 'btn-primary'
-                        : 'bg-slate-300 dark:bg-slate-600 text-slate-500 dark:text-slate-400 cursor-not-allowed hover:bg-slate-300 dark:hover:bg-slate-600'
+                        ? 'bg-gray-900 text-white hover:bg-gray-800'
+                        : 'bg-gray-300 text-gray-500 cursor-not-allowed hover:bg-gray-300'
                     )}
                     disabled={
                       isLoading ||
@@ -445,7 +548,7 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
                     }
                     data-testid="signup-button"
                   >
-                    {isLoading ? t('common.signingUp') : t('signup.submit')}
+                    {isLoading ? t('common.signingUp') : (t('signup.submit') || 'Continue with email')}
                   </Button>
                 </div>
 
@@ -461,20 +564,6 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
         </Card>
       )}
 
-      {/* OTP Verification Dialog */}
-      <OTPVerificationDialog
-        open={showOTPDialog}
-        email={signupEmail}
-        userName={signupName}
-        onClose={() => {
-          setShowOTPDialog(false);
-          setShowVerificationNotice(true); // Fallback to email verification notice
-        }}
-        onSuccess={() => {
-          setShowOTPDialog(false);
-          // Redirect will be handled by OTP dialog
-        }}
-      />
     </div>
   );
 }
