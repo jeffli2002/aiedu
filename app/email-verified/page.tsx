@@ -1,13 +1,13 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useAuthStore } from '@/store/auth-store';
 import { Loader2, CheckCircle2, AlertCircle } from 'lucide-react';
 
-export default function EmailVerifiedPage() {
+function EmailVerifiedContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { isAuthenticated, user, refreshSession, initialize } = useAuthStore();
@@ -159,5 +159,29 @@ export default function EmailVerifiedPage() {
         </Card>
       </div>
     </div>
+  );
+}
+
+export default function EmailVerifiedPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex min-h-screen flex-col items-center justify-center gap-6 bg-white p-6 md:p-10">
+          <div className="flex w-full max-w-sm flex-col gap-6">
+            <Card>
+              <CardHeader className="text-center">
+                <div className="flex justify-center mb-4">
+                  <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
+                </div>
+                <CardTitle className="text-xl">Loading...</CardTitle>
+                <CardDescription>Please wait...</CardDescription>
+              </CardHeader>
+            </Card>
+          </div>
+        </div>
+      }
+    >
+      <EmailVerifiedContent />
+    </Suspense>
   );
 }
