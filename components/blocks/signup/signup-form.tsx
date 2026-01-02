@@ -321,13 +321,17 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
               >
                 <path
                   fill="#0078D4"
-                  d="M7.5 7c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2h9c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2h-9zm0 1.5h9c.3 0 .5.2.5.5v6c0 .3-.2.5-.5.5h-9c-.3 0-.5-.2-.5-.5v-6c0-.3.2-.5.5-.5z"
+                  d="M7.5 4.5c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2h9c1.1 0 2-.9 2-2v-11c0-1.1-.9-2-2-2h-9zm0 1.5h9c.3 0 .5.2.5.5v11c0 .3-.2.5-.5.5h-9c-.3 0-.5-.2-.5-.5v-11c0-.3.2-.5.5-.5z"
                 />
                 <path
                   fill="#0078D4"
-                  d="M12 10.5l-2.5 2.5h1.5v2h2v-2h1.5l-2.5-2.5z"
+                  d="M12 8.5l-3 3h2v3h2v-3h2l-3-3z"
                 />
-                <circle fill="#0078D4" cx="12" cy="12" r="1" opacity="0.3" />
+                <path
+                  fill="#0078D4"
+                  d="M12 12.5c-.3 0-.5-.2-.5-.5s.2-.5.5-.5.5.2.5.5-.2.5-.5.5z"
+                  opacity="0.5"
+                />
               </svg>
               <span className="font-semibold">Open Outlook</span>
             </Button>
@@ -349,8 +353,8 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
                 />
                 <path
                   fill="#12B7F5"
-                  d="M12 11L4 6h16l-8 5zm0 2l8-5v10H4V8l8 5z"
-                  opacity="0.6"
+                  d="M4 6v12h16V8l-8 5-8-5V6z"
+                  opacity="0.3"
                 />
               </svg>
               <span className="font-semibold">Open QQ Mail</span>
