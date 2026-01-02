@@ -144,13 +144,13 @@ const Hero = ({ lang }: { lang: Language }) => {
             isMounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
         >
-          <button
-            onClick={() => document.getElementById('apply')?.scrollIntoView({ behavior: 'smooth' })}
+          <Link
+            href="/training"
             className="group px-10 py-5 bg-gradient-to-r from-violet-600 to-blue-600 text-white rounded-full font-black text-sm uppercase tracking-widest flex items-center justify-center hover:from-violet-700 hover:to-blue-700 transition-all transform hover:scale-110 active:scale-95 shadow-lg shadow-violet-500/30"
           >
             {t.cta}
             <ArrowRight className="ml-4 w-5 h-5 group-hover:translate-x-2 transition-transform" />
-          </button>
+          </Link>
           <button
             onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
             className="px-10 py-5 border-2 border-violet-200 hover:border-violet-400 text-violet-700 hover:text-violet-800 rounded-full font-bold text-sm uppercase tracking-widest transition-all hover:bg-violet-50 shadow-md"
@@ -789,7 +789,6 @@ export default function Home() {
     </div>
   );
 }
-
 
 
 
