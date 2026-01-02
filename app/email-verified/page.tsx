@@ -24,8 +24,45 @@ function EmailVerifiedContent() {
       try {
         // If there's a token or code, Better Auth is processing the verification
         // Wait a bit longer for it to complete
-        const initialDelay = (token || code) ? 800 : 300;
+        const initialDelay = (token || code) ? 1000 : 500;
         await new Promise(resolve => setTimeout(resolve, initialDelay));
+        
+        // First, try to get session directly from API
+        try {
+          const sessionResponse = await fetch('/api/auth/get-session', {
+            credentials: 'include',
+            cache: 'no-store',
+          });
+          
+          if (sessionResponse.ok) {
+            const sessionData = await sessionResponse.json();
+            const sessionUser = sessionData?.session?.user ?? sessionData?.user ?? null;
+            
+            if (sessionUser?.id && sessionUser?.emailVerified) {
+              // User is authenticated and email is verified
+              console.log('[Email Verified] Session found, updating store and redirecting');
+              
+              // Update auth store with full state
+              const authStore = useAuthStore.getState();
+              authStore.setUser(sessionUser);
+              authStore.setInitialized(true);
+              authStore.setLoading(false);
+              
+              // Ensure authenticated state is set
+              useAuthStore.setState({
+                isAuthenticated: true,
+                lastUpdated: Date.now(),
+              });
+              
+              // Small delay then redirect
+              await new Promise(resolve => setTimeout(resolve, 300));
+              router.replace('/');
+              return;
+            }
+          }
+        } catch (apiError) {
+          console.warn('[Email Verified] API session check failed, trying refresh:', apiError);
+        }
         
         // Force refresh session to get latest auth state after email verification
         await refreshSession();
@@ -34,7 +71,7 @@ function EmailVerifiedContent() {
         await initialize(true);
         
         // Wait a bit more for state to update
-        await new Promise(resolve => setTimeout(resolve, 500));
+        await new Promise(resolve => setTimeout(resolve, 800));
         
         // Check if user is now authenticated
         const currentState = useAuthStore.getState();
@@ -46,20 +83,20 @@ function EmailVerifiedContent() {
         }
         
         // If not authenticated yet, retry a few times with increasing delays
-        if (retryCount < 5) {
-          const delay = 1000 * (retryCount + 1); // 1s, 2s, 3s, 4s, 5s
-          console.log(`[Email Verified] Retrying authentication check (attempt ${retryCount + 1}/5) in ${delay}ms`);
+        if (retryCount < 3) {
+          const delay = 1500 * (retryCount + 1); // 1.5s, 3s, 4.5s
+          console.log(`[Email Verified] Retrying authentication check (attempt ${retryCount + 1}/3) in ${delay}ms`);
           setRetryCount(prev => prev + 1);
           setTimeout(checkAndRedirect, delay);
         } else {
-          console.warn('[Email Verified] Failed to authenticate after 5 attempts');
+          console.warn('[Email Verified] Failed to authenticate after 3 attempts');
           setIsChecking(false);
           setHasError(true);
         }
       } catch (error) {
         console.error('[Email Verified] Error checking authentication status:', error);
-        if (retryCount < 5) {
-          const delay = 1000 * (retryCount + 1);
+        if (retryCount < 3) {
+          const delay = 1500 * (retryCount + 1);
           setRetryCount(prev => prev + 1);
           setTimeout(checkAndRedirect, delay);
         } else {
