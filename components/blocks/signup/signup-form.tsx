@@ -59,7 +59,8 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
   const [newEmail, setNewEmail] = useState('');
   const [changeEmailStatus, setChangeEmailStatus] = useState<string | null>(null);
 
-  const verificationCallbackPath = '/email-verified';
+  // Redirect email verification back to signup with a flag so AuthProvider refreshes session
+  const verificationCallbackPath = '/signup?authCallback=verified';
   const verificationCallbackUrl =
     typeof window !== 'undefined'
       ? new URL(verificationCallbackPath, window.location.origin).toString()

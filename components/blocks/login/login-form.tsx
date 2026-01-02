@@ -64,7 +64,8 @@ export function LoginForm({
     setIsResending(true);
     setResendStatus(null);
     try {
-      const callbackURL = new URL('/email-verified', window.location.origin).toString();
+      // Keep user on the login page after re-sending verification to preserve context
+      const callbackURL = new URL('/signin?authCallback=verified', window.location.origin).toString();
       const response = await fetch('/api/auth/send-verification-email', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
