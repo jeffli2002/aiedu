@@ -151,12 +151,12 @@ const Hero = ({ lang }: { lang: Language }) => {
             {t.cta}
             <ArrowRight className="ml-4 w-5 h-5 group-hover:translate-x-2 transition-transform" />
           </Link>
-          <button
-            onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
+          <Link
+            href="/image-generation"
             className="px-10 py-5 border-2 border-violet-200 hover:border-violet-400 text-violet-700 hover:text-violet-800 rounded-full font-bold text-sm uppercase tracking-widest transition-all hover:bg-violet-50 shadow-md"
           >
             {translations[lang].nav.projects}
-          </button>
+          </Link>
         </div>
 
         <div
@@ -789,7 +789,6 @@ export default function Home() {
     </div>
   );
 }
-
 
 
 
