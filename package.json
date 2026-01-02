@@ -19,6 +19,7 @@
     "db:create-all-tables": "tsx scripts/create-all-tables.ts",
     "db:init-vercel": "powershell -ExecutionPolicy Bypass -File scripts/init-db-vercel.ps1",
     "db:check-user": "tsx scripts/check-user-credits.ts",
+    "db:delete-test-users": "tsx scripts/delete-test-users.ts",
     "prepare": "husky"
   },
   "dependencies": {
