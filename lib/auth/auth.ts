@@ -202,7 +202,9 @@ export const auth = betterAuth({
   },
   emailAndPassword: {
     enabled: true,
-    requireEmailVerification: true,
+    // Allow creating a session at signup so the same-browser verification can upgrade it.
+    // The app should still gate sensitive actions on user.emailVerified === true.
+    requireEmailVerification: false,
     async sendResetPassword({ user, url }) {
       try {
         if (env.RESEND_API_KEY && env.RESEND_FROM_EMAIL) {
