@@ -12,7 +12,7 @@ if (!databaseUrl) {
   process.exit(1);
 }
 
-const testEmails = ['994235892@qq.com', 'jeffli2025@163.com'];
+const testEmails = ['994235892@qq.com'];
 
 async function deleteTestUsers() {
   const sql = neon(databaseUrl);
