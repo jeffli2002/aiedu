@@ -19,6 +19,7 @@ function EmailVerifiedContent() {
   // Check if there's a token or code in the URL (from Better Auth verification)
   const token = searchParams.get('token');
   const code = searchParams.get('code');
+  const callbackUrl = searchParams.get('callbackUrl') || '/training';
 
   useEffect(() => {
     const checkAndRedirect = async (attempt = 0) => {
@@ -57,7 +58,7 @@ function EmailVerifiedContent() {
               
               // Small delay then redirect
               await new Promise(resolve => setTimeout(resolve, 300));
-              router.replace('/');
+              router.replace(callbackUrl);
               return;
             }
           }
@@ -79,7 +80,7 @@ function EmailVerifiedContent() {
         if (currentState.isAuthenticated && currentState.user && currentState.user.emailVerified) {
           // User is authenticated and email is verified, redirect to homepage
           console.log('[Email Verified] User authenticated, redirecting to homepage');
-          router.replace('/');
+          router.replace(callbackUrl);
           return;
         }
         
@@ -118,11 +119,11 @@ function EmailVerifiedContent() {
     if (isAuthenticated && user && user.emailVerified && !isChecking) {
       // Small delay to ensure state is stable
       const timer = setTimeout(() => {
-        router.replace('/');
+        router.replace(callbackUrl);
       }, 200);
       return () => clearTimeout(timer);
     }
-  }, [isAuthenticated, user, router, isChecking]);
+  }, [isAuthenticated, user, router, isChecking, callbackUrl]);
 
   if (isChecking) {
     return (
