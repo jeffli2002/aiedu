@@ -13,6 +13,7 @@ function EmailVerifiedContent() {
   const { isAuthenticated, user, refreshSession, initialize } = useAuthStore();
   const [isChecking, setIsChecking] = useState(true);
   const [hasError, setHasError] = useState(false);
+  // Note: use a local attempt counter passed into the checker to avoid stale closures
   const [retryCount, setRetryCount] = useState(0);
 
   // Check if there's a token or code in the URL (from Better Auth verification)
@@ -20,7 +21,7 @@ function EmailVerifiedContent() {
   const code = searchParams.get('code');
 
   useEffect(() => {
-    const checkAndRedirect = async () => {
+    const checkAndRedirect = async (attempt = 0) => {
       try {
         // If there's a token or code, Better Auth is processing the verification
         // Wait a bit longer for it to complete
@@ -83,11 +84,12 @@ function EmailVerifiedContent() {
         }
         
         // If not authenticated yet, retry a few times with increasing delays
-        if (retryCount < 3) {
-          const delay = 1500 * (retryCount + 1); // 1.5s, 3s, 4.5s
-          console.log(`[Email Verified] Retrying authentication check (attempt ${retryCount + 1}/3) in ${delay}ms`);
-          setRetryCount(prev => prev + 1);
-          setTimeout(checkAndRedirect, delay);
+        if (attempt < 3) {
+          const nextAttempt = attempt + 1;
+          const delay = 1500 * nextAttempt; // 1.5s, 3s, 4.5s
+          console.log(`[Email Verified] Retrying authentication check (attempt ${nextAttempt}/3) in ${delay}ms`);
+          setRetryCount(nextAttempt);
+          setTimeout(() => checkAndRedirect(nextAttempt), delay);
         } else {
           console.warn('[Email Verified] Failed to authenticate after 3 attempts');
           setIsChecking(false);
@@ -95,10 +97,11 @@ function EmailVerifiedContent() {
         }
       } catch (error) {
         console.error('[Email Verified] Error checking authentication status:', error);
-        if (retryCount < 3) {
-          const delay = 1500 * (retryCount + 1);
-          setRetryCount(prev => prev + 1);
-          setTimeout(checkAndRedirect, delay);
+        if (attempt < 3) {
+          const nextAttempt = attempt + 1;
+          const delay = 1500 * nextAttempt;
+          setRetryCount(nextAttempt);
+          setTimeout(() => checkAndRedirect(nextAttempt), delay);
         } else {
           setIsChecking(false);
           setHasError(true);
@@ -107,7 +110,7 @@ function EmailVerifiedContent() {
     };
 
     // Start checking immediately
-    checkAndRedirect();
+    checkAndRedirect(0);
   }, [router, refreshSession, initialize, token, code]);
 
   // Also check when auth state changes (this is a backup check)
