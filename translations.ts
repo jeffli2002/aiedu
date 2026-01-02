@@ -18,7 +18,8 @@ export const translations = {
       tagline: 'Empowering the Next Generation',
       title: 'Master AI Skills. Create the Future',
       description: 'Master the power of the AI world. Use AI to understand, express, solve, and create the future.',
-      cta: 'Start Your Journey'
+      cta: 'Start Your Journey',
+      secondaryCta: 'Start Creating'
     },
     coreValue: {
       title: 'Our Core Value',
@@ -105,7 +106,8 @@ export const translations = {
       tagline: '赋能下一代创造者',
       title: '掌握 AI ，创造未来',
       description: '掌握面向未来 AI 世界的能力，用 AI 理解世界、表达观点、解决问题、创造未来。',
-      cta: '开启探索之旅'
+      cta: '开启探索之旅',
+      secondaryCta: '开始创作'
     },
     coreValue: {
       title: '核心理念',

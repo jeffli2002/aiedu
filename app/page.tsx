@@ -155,7 +155,7 @@ const Hero = ({ lang }: { lang: Language }) => {
             href="/image-generation"
             className="px-10 py-5 border-2 border-violet-200 hover:border-violet-400 text-violet-700 hover:text-violet-800 rounded-full font-bold text-sm uppercase tracking-widest transition-all hover:bg-violet-50 shadow-md"
           >
-            {translations[lang].nav.projects}
+            {translations[lang].hero.secondaryCta}
           </Link>
         </div>
 
@@ -789,6 +789,5 @@ export default function Home() {
     </div>
   );
 }
-
 
 
