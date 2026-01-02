@@ -191,7 +191,7 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
                               <img
                                 alt={m.title}
                                 className="w-full h-full object-cover"
-                                src={getR2ThumbnailUrl(m.thumbKey) || `/api/media/pdf/${encodeURIComponent(m.mediaId)}?thumb=1`}
+                                src={`${(process.env.NEXT_PUBLIC_R2_PUBLIC_URL || '').replace(/\/$/, '')}/${m.thumbKey.replace(/^\//, '')}`}
                                 onContextMenu={(e) => e.preventDefault()}
                                 onError={(e) => {
                                   // Fallback to API thumbnail if thumbKey fails
@@ -207,6 +207,17 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
                                 className="w-full h-full object-cover"
                                 src={`/api/media/pdf/${encodeURIComponent(m.mediaId)}?thumb=1`}
                                 onContextMenu={(e) => e.preventDefault()}
+                                onError={(e) => {
+                                  const target = e.target as HTMLImageElement;
+                                  // as last resort try CDN direct jpg then png
+                                  const base = `${(process.env.NEXT_PUBLIC_R2_PUBLIC_URL || '').replace(/\/$/, '')}/docs/${encodeURIComponent(m.mediaId)}`;
+                                  target.src = `${base}/thumb.jpg`;
+                                  setTimeout(() => {
+                                    if (!target.complete || target.naturalWidth === 0) {
+                                      target.src = `${base}/thumb.png`;
+                                    }
+                                  }, 200);
+                                }}
                               />
                             )}
                             <div className="pointer-events-none absolute bottom-2 right-2 px-2 py-0.5 rounded bg-black/50 text-[10px] text-white">PDF</div>
@@ -229,7 +240,7 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
                               <img
                                 alt={m.title}
                                 className="w-full h-full object-cover"
-                                src={getR2ThumbnailUrl(m.thumbKey) || `/api/media/video/${encodeURIComponent(m.mediaId)}/manifest?thumb=1`}
+                                src={`${(process.env.NEXT_PUBLIC_R2_PUBLIC_URL || '').replace(/\/$/, '')}/${m.thumbKey.replace(/^\//, '')}`}
                                 onContextMenu={(e) => e.preventDefault()}
                                 onError={(e) => {
                                   // Fallback to API thumbnail if thumbKey fails
@@ -245,6 +256,16 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
                                 className="w-full h-full object-cover"
                                 src={`/api/media/video/${encodeURIComponent(m.mediaId)}/manifest?thumb=1`}
                                 onContextMenu={(e) => e.preventDefault()}
+                                onError={(e) => {
+                                  const target = e.target as HTMLImageElement;
+                                  const base = `${(process.env.NEXT_PUBLIC_R2_PUBLIC_URL || '').replace(/\/$/, '')}/videos/${encodeURIComponent(m.mediaId)}`;
+                                  target.src = `${base}/thumb.jpg`;
+                                  setTimeout(() => {
+                                    if (!target.complete || target.naturalWidth === 0) {
+                                      target.src = `${base}/thumb.png`;
+                                    }
+                                  }, 200);
+                                }}
                               />
                             )}
                             <div className="pointer-events-none absolute inset-0 flex items-center justify-center">

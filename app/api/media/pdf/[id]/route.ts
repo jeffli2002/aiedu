@@ -15,7 +15,8 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
-    const { id } = params;
+    const encoded = params.id;
+    const id = decodeURIComponent(encoded);
     if (!id) {
       return NextResponse.json({ error: 'Missing document id' }, { status: 400 });
     }

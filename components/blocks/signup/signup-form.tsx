@@ -26,6 +26,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
+import { OTPVerificationDialog } from '@/components/blocks/otp-verification-dialog';
 
 const MIN_PASSWORD_LENGTH = 8;
 const isExternalUrl = (value: string) => /^https?:\/\//i.test(value);
@@ -50,7 +51,9 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showVerificationNotice, setShowVerificationNotice] = useState(false);
+  const [showOTPDialog, setShowOTPDialog] = useState(false);
   const [signupEmail, setSignupEmail] = useState('');
+  const [signupName, setSignupName] = useState('');
   const [resendStatus, setResendStatus] = useState<string | null>(null);
   const [resendCooldown, setResendCooldown] = useState(0);
   const [showChangeEmail, setShowChangeEmail] = useState(false);
@@ -108,6 +111,7 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
     if (result.success) {
       // Clear form data
       setSignupEmail(email);
+      setSignupName(name);
       setResendStatus(null);
       setChangeEmailStatus(null);
       setShowChangeEmail(false);
@@ -116,15 +120,28 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
       setEmail('');
       setPassword('');
       setConfirmPassword('');
+      
+      // Send OTP instead of showing verification notice
       try {
-        window.localStorage.setItem(
-          'viecom:verification-email',
-          JSON.stringify({ email, ts: Date.now() })
-        );
-      } catch (_storageError) {
-        // Ignore storage failures (privacy mode, etc.)
+        const otpResponse = await fetch('/api/auth/send-otp', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email }),
+          credentials: 'include',
+        });
+
+        if (otpResponse.ok) {
+          // Show OTP dialog
+          setShowOTPDialog(true);
+        } else {
+          // Fallback to old verification notice if OTP fails
+          setShowVerificationNotice(true);
+        }
+      } catch (otpError) {
+        console.error('Failed to send OTP:', otpError);
+        // Fallback to old verification notice
+        setShowVerificationNotice(true);
       }
-      setShowVerificationNotice(true);
     } else {
       if (result.error) {
         setError(result.error);
@@ -443,6 +460,21 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
           </CardContent>
         </Card>
       )}
+
+      {/* OTP Verification Dialog */}
+      <OTPVerificationDialog
+        open={showOTPDialog}
+        email={signupEmail}
+        userName={signupName}
+        onClose={() => {
+          setShowOTPDialog(false);
+          setShowVerificationNotice(true); // Fallback to email verification notice
+        }}
+        onSuccess={() => {
+          setShowOTPDialog(false);
+          // Redirect will be handled by OTP dialog
+        }}
+      />
     </div>
   );
 }
