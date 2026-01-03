@@ -38,6 +38,13 @@ export default function Navbar() {
     if (typeof window !== 'undefined') {
       localStorage.setItem('language', nextBase);
       if (document?.documentElement) document.documentElement.lang = nextBase;
+      try {
+        document.cookie = `language=${nextBase}; path=/; max-age=${60 * 60 * 24 * 365}; samesite=lax`;
+      } catch {}
+      // Navigate to locale-prefixed path
+      const path = pathname || '/';
+      const nextUrl = withLocalePath(path, nextBase);
+      router.replace(nextUrl);
     }
   };
 
@@ -238,6 +245,5 @@ export default function Navbar() {
     </nav>
   );
 }
-
 
 

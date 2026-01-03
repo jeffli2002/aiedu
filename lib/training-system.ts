@@ -55,9 +55,8 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
             id: 'f101-lecture',
             title: '课程讲解视频',
             type: 'video',
-            mediaId: 'training/f101/ai-llm-evolution_T01_zh',
+            mediaId: 'training/f101/zh/ai-llm-evolution_T01',
             language: 'zh',
-            thumbKey: 'videos/training/f101/ai-llm-evolution_T01_zh/thumb.jpg',
           },
           {
             id: 'f101-ai-evolution-t1',
@@ -65,7 +64,6 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
             type: 'pdf',
             mediaId: 'training/f101/zh/ai-evolution-story_T01',
             language: 'zh',
-            thumbKey: 'docs/training/f101/ai-evolution-story_T01_zh/thumb.jpg',
           },
         ]
       },
@@ -147,9 +145,8 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
             id: 'c201-imagination-t01',
             title: 'AI 绘画解锁想象力 T01（PDF）',
             type: 'pdf',
-            mediaId: 'training/c101/ai-drawing-unlock-imagination_T01_zh',
+            mediaId: 'training/c101/zh/ai-drawing-unlock-imagination_T01',
             language: 'zh',
-            thumbKey: 'docs/training/c101/ai-drawing-unlock-imagination_T01_zh/thumb.jpg',
           },
         ]
       },
