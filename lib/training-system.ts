@@ -148,6 +148,13 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
             mediaId: 'training/c101/zh/ai-drawing-unlock-imagination_T01',
             language: 'zh',
           },
+          {
+            id: 'c201-video-analysis-t01',
+            title: 'AI 图像生成解析 T01（视频）',
+            type: 'video',
+            mediaId: 'training/c101/zh/ai-image-generation-analysis_T01',
+            language: 'zh',
+          },
         ]
       },
       { 
