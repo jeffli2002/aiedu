@@ -5,6 +5,7 @@ import './globals.css';
 import { I18nProvider } from '@/components/I18nProvider';
 import { Toaster } from '@/components/ui/sonner';
 import { AuthProvider } from '@/components/auth/auth-provider';
+import ScrollGuard from '@/components/ScrollGuard';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -39,6 +40,7 @@ export default function RootLayout({
       <body className="antialiased bg-grid">
         <I18nProvider>
           <AuthProvider />
+          <ScrollGuard />
           {children}
           <Toaster />
         </I18nProvider>
