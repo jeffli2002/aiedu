@@ -1,26 +1,58 @@
-import type { NextRequest } from 'next/server';
-import { NextResponse } from 'next/server';
+import { NextResponse, NextRequest } from 'next/server';
 
-// Canonicalize the domain so auth cookies are set on one host consistently.
-// This avoids losing the session when verifying on futurai.org and landing on www.futurai.org (or vice versa).
+const SUPPORTED = ['en', 'zh'];
+const DEFAULT = 'zh';
+
 export function middleware(req: NextRequest) {
-  const url = req.nextUrl.clone();
-  const host = req.headers.get('host') || '';
+  const { pathname } = req.nextUrl;
 
-  // Only enforce in production to avoid dev friction
-  if (process.env.NODE_ENV === 'production') {
-    // Force apex to www for the futurai.org domain
-    if (host === 'futurai.org') {
-      url.host = 'www.futurai.org';
-      return NextResponse.redirect(url, 308);
-    }
+  // Skip API and static assets
+  if (
+    pathname.startsWith('/api') ||
+    pathname.startsWith('/_next') ||
+    pathname.startsWith('/assets') ||
+    pathname.startsWith('/favicon') ||
+    /\.[a-zA-Z0-9]+$/.test(pathname)
+  ) {
+    return NextResponse.next();
   }
 
-  return NextResponse.next();
+  const segments = pathname.split('/').filter(Boolean);
+  const maybeLocale = segments[0];
+  const res = NextResponse.next();
+
+  // Helper to set the language cookie consistently
+  const setLangCookie = (lang: string) => {
+    res.cookies.set('language', lang, {
+      path: '/',
+      httpOnly: false,
+      sameSite: 'lax',
+      maxAge: 60 * 60 * 24 * 365, // 1 year
+    });
+  };
+
+  // If URL is prefixed with a supported locale, strip it and set cookie.
+  if (SUPPORTED.includes(maybeLocale)) {
+    const rest = '/' + segments.slice(1).join('/');
+    const locale = maybeLocale;
+    const url = req.nextUrl.clone();
+    url.pathname = rest || '/';
+    setLangCookie(locale);
+    return NextResponse.rewrite(url, { request: req, headers: res.headers });
+  }
+
+  // No prefix: ensure we have a language cookie. If missing, detect from headers
+  const cookieLang = req.cookies.get('language')?.value;
+  if (!cookieLang || !SUPPORTED.includes(cookieLang)) {
+    const header = req.headers.get('accept-language') || '';
+    const detected = header.toLowerCase().startsWith('en') ? 'en' : 'zh';
+    setLangCookie(detected || DEFAULT);
+  }
+
+  return res;
 }
 
-// Apply to all routes except static assets and Next internals
 export const config = {
-  matcher: ['/((?!_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml).*)'],
+  matcher: ['/((?!_next|api|.*\.[\w-]+$).*)'],
 };
 

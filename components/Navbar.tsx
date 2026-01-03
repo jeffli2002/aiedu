@@ -4,6 +4,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
+import { normalizeLocale, toBaseLang } from '@/i18n/locale-utils';
 import { Cpu, Menu, X, User, LogOut } from 'lucide-react';
 import { useAuthStore } from '@/store/auth-store';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -30,10 +31,13 @@ export default function Navbar() {
   }, []);
 
   const toggleLanguage = () => {
-    const newLang = i18n.language === 'zh' ? 'en' : 'zh';
-    i18n.changeLanguage(newLang);
+    const current = normalizeLocale(i18n.language);
+    const next = current === 'zh-CN' ? 'en-US' : 'zh-CN';
+    const nextBase = toBaseLang(next);
+    i18n.changeLanguage(nextBase);
     if (typeof window !== 'undefined') {
-      localStorage.setItem('language', newLang);
+      localStorage.setItem('language', nextBase);
+      if (document?.documentElement) document.documentElement.lang = nextBase;
     }
   };
 
@@ -88,7 +92,7 @@ export default function Navbar() {
               onClick={toggleLanguage}
               className="text-slate-600 hover:text-blue-600 transition-colors text-xs font-bold tracking-widest"
             >
-              {i18n.language === 'zh' ? 'EN' : 'CN'}
+              {toBaseLang(normalizeLocale(i18n.language)) === 'zh' ? 'EN' : 'CN'}
             </button>
             {isInitialized && isAuthenticated && user ? (
               <div className="relative">
@@ -229,7 +233,6 @@ export default function Navbar() {
     </nav>
   );
 }
-
 
 
 
