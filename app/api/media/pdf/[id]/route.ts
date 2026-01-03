@@ -81,8 +81,27 @@ export async function GET(
     // - docs/<id>/full.pdf
     // - docs/<id>/preview.pdf (first 10% pages)
     const target = entitled ? 'full.pdf' : 'preview.pdf';
-    const key = `${baseKey}/${target}`;
-    const { body, contentType } = await r2StorageService.getAsset(key);
+    let key = `${baseKey}/${target}`;
+    let asset;
+    try {
+      asset = await r2StorageService.getAsset(key);
+    } catch (e) {
+      // Backward-compat: some older uploads used c101 instead of c201.
+      // Try a fallback by swapping course id segment if applicable.
+      if (id.includes('/c201/')) {
+        const altId = id.replace('/c201/', '/c101/');
+        const altKey = `docs/${altId}/${target}`;
+        try {
+          asset = await r2StorageService.getAsset(altKey);
+          key = altKey;
+        } catch {
+          throw e;
+        }
+      } else {
+        throw e;
+      }
+    }
+    const { body, contentType } = asset;
     const stream = (body as any)?.pipe ? Readable.toWeb(body as any) : (body as ReadableStream<Uint8Array>);
     return new Response(stream as any, {
       status: 200,

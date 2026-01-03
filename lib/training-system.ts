@@ -172,6 +172,22 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
             tools: ['Veo', 'Suno', '剪映'], 
             outcome: '一部包含特效与配音的完整 30 秒科幻短片。' 
           }
+        ],
+        materials: [
+          {
+            id: 'c202-guide-t01',
+            title: 'AI 视频创作 魔法学徒指南 T01（PDF）',
+            type: 'pdf',
+            mediaId: 'training/c202/zh/ai-video-synthesis-apprentice-guide_T01',
+            language: 'zh',
+          },
+          {
+            id: 'c202-video-magic-t01',
+            title: '未来的导演：AI视频的魔法 T01（视频）',
+            type: 'video',
+            mediaId: 'training/c202/zh/future-director-ai-video-magic_T01',
+            language: 'zh',
+          },
         ]
       },
       { 
