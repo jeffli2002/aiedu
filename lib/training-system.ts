@@ -82,6 +82,15 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
             tools: ['Markdown', '系统指令'], 
             outcome: '一个能自主处理背包、对话和剧情分支的文字冒险游戏。' 
           }
+        ],
+        materials: [
+          {
+            id: 'f102-prompt-engineering-t01',
+            title: '提示词工程精通 T01（PDF）',
+            type: 'pdf',
+            mediaId: 'training/f102/zh/prompt-engineering-mastery_T01',
+            language: 'zh',
+          },
         ]
       },
       { 
