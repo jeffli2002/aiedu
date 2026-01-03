@@ -19,7 +19,25 @@ function AuthProviderContent() {
     const state = searchParams.get('state');
     const authCallback = searchParams.get('authCallback');
     const cbParam = searchParams.get('callbackUrl');
-    const target = cbParam && cbParam.startsWith('/') ? cbParam : '/training';
+    // Default to current path so post-login returns to the same page (e.g., course landing),
+    // not the training hub when callbackUrl isn't present.
+    const defaultTarget = typeof window !== 'undefined' ? window.location.pathname : '/training';
+    let target = defaultTarget;
+    if (cbParam) {
+      if (cbParam.startsWith('/')) {
+        target = cbParam;
+      } else if (typeof window !== 'undefined') {
+        try {
+          const u = new URL(cbParam);
+          // Accept absolute same-origin callback and convert to path+search
+          if (u.origin === window.location.origin) {
+            target = u.pathname + (u.search || '');
+          }
+        } catch {
+          // ignore invalid URLs
+        }
+      }
+    }
 
     if (code || state || authCallback) {
       const timer = setTimeout(async () => {

@@ -4,7 +4,6 @@ export interface CourseMaterial {
   type: 'video' | 'pdf';
   mediaId: string; // maps to R2 path id, e.g., videos/{mediaId}/full.mp4 or docs/{mediaId}/full.pdf
   language?: 'zh' | 'en';
-  thumbKey?: string; // optional R2 key for custom thumbnail path
 }
 
 export interface Module {

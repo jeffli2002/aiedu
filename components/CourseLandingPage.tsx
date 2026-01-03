@@ -37,8 +37,7 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
     (m) => !m.language || m.language === lang
   );
 
-  // Prefer same-origin thumbnail proxy to avoid any CDN/CORS issues
-  const getThumbUrl = (thumbKey: string) => `/api/media/thumbnail?key=${encodeURIComponent(thumbKey.startsWith('/') ? thumbKey.slice(1) : thumbKey)}`;
+  // Thumbnails are served via normalized endpoints backed by R2 keys.
 
   useEffect(() => {
     setIsClient(true);
@@ -56,7 +55,7 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
   }, [fullscreenPdf]);
 
   const handleBack = () => {
-    router.push('/training');
+    router.push(`/${lang}/training`);
   };
 
   if (!isClient || !i18n.isInitialized) {
@@ -190,38 +189,23 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
                         </div>
                         <div className="p-2">
                           <div className="relative w-full aspect-video rounded-xl border border-slate-200 bg-slate-50 overflow-hidden">
-                            {m.thumbKey ? (
-                              <img
-                                alt={m.title}
-                                className="w-full h-full object-cover"
-                                src={getThumbUrl(m.thumbKey)}
-                                onContextMenu={(e) => e.preventDefault()}
-                                onError={(e) => {
-                                  const target = e.target as HTMLImageElement;
-                                  if (!target.src.includes('?thumb=1')) {
-                                    target.src = `/api/media/pdf/${encodeURIComponent(m.mediaId)}?thumb=1`;
+                            <img
+                              alt={m.title}
+                              className="w-full h-full object-cover"
+                              src={`/api/media/pdf/${encodeURIComponent(m.mediaId)}?thumb=1`}
+                              onContextMenu={(e) => e.preventDefault()}
+                              onError={(e) => {
+                                const target = e.target as HTMLImageElement;
+                                // as last resort try CDN direct jpg then png
+                                const base = `${(process.env.NEXT_PUBLIC_R2_PUBLIC_URL || '').replace(/\/$/, '')}/docs/${encodeURIComponent(m.mediaId)}`;
+                                target.src = `${base}/thumb.jpg`;
+                                setTimeout(() => {
+                                  if (!target.complete || target.naturalWidth === 0) {
+                                    target.src = `${base}/thumb.png`;
                                   }
-                                }}
-                              />
-                            ) : (
-                              <img
-                                alt={m.title}
-                                className="w-full h-full object-cover"
-                                src={`/api/media/pdf/${encodeURIComponent(m.mediaId)}?thumb=1`}
-                                onContextMenu={(e) => e.preventDefault()}
-                                onError={(e) => {
-                                  const target = e.target as HTMLImageElement;
-                                  // as last resort try CDN direct jpg then png
-                                  const base = `${(process.env.NEXT_PUBLIC_R2_PUBLIC_URL || '').replace(/\/$/, '')}/docs/${encodeURIComponent(m.mediaId)}`;
-                                  target.src = `${base}/thumb.jpg`;
-                                  setTimeout(() => {
-                                    if (!target.complete || target.naturalWidth === 0) {
-                                      target.src = `${base}/thumb.png`;
-                                    }
-                                  }, 200);
-                                }}
-                              />
-                            )}
+                                }, 200);
+                              }}
+                            />
                             <div className="pointer-events-none absolute bottom-2 right-2 px-2 py-0.5 rounded bg-black/50 text-[10px] text-white">PDF</div>
                           </div>
                         </div>
@@ -238,37 +222,22 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
                         </div>
                         <div className="p-2">
                           <div className="relative w-full aspect-video rounded-xl border border-slate-200 bg-slate-50 overflow-hidden">
-                            {m.thumbKey ? (
-                              <img
-                                alt={m.title}
-                                className="w-full h-full object-cover"
-                                src={getThumbUrl(m.thumbKey)}
-                                onContextMenu={(e) => e.preventDefault()}
-                                onError={(e) => {
-                                  const target = e.target as HTMLImageElement;
-                                  if (!target.src.includes('?thumb=1')) {
-                                    target.src = `/api/media/video/${encodeURIComponent(m.mediaId)}/manifest?thumb=1`;
+                            <img
+                              alt={m.title}
+                              className="w-full h-full object-cover"
+                              src={`/api/media/video/${encodeURIComponent(m.mediaId)}/manifest?thumb=1`}
+                              onContextMenu={(e) => e.preventDefault()}
+                              onError={(e) => {
+                                const target = e.target as HTMLImageElement;
+                                const base = `${(process.env.NEXT_PUBLIC_R2_PUBLIC_URL || '').replace(/\/$/, '')}/videos/${encodeURIComponent(m.mediaId)}`;
+                                target.src = `${base}/thumb.jpg`;
+                                setTimeout(() => {
+                                  if (!target.complete || target.naturalWidth === 0) {
+                                    target.src = `${base}/thumb.png`;
                                   }
-                                }}
-                              />
-                            ) : (
-                              <img
-                                alt={m.title}
-                                className="w-full h-full object-cover"
-                                src={`/api/media/video/${encodeURIComponent(m.mediaId)}/manifest?thumb=1`}
-                                onContextMenu={(e) => e.preventDefault()}
-                                onError={(e) => {
-                                  const target = e.target as HTMLImageElement;
-                                  const base = `${(process.env.NEXT_PUBLIC_R2_PUBLIC_URL || '').replace(/\/$/, '')}/videos/${encodeURIComponent(m.mediaId)}`;
-                                  target.src = `${base}/thumb.jpg`;
-                                  setTimeout(() => {
-                                    if (!target.complete || target.naturalWidth === 0) {
-                                      target.src = `${base}/thumb.png`;
-                                    }
-                                  }, 200);
-                                }}
-                              />
-                            )}
+                                }, 200);
+                              }}
+                            />
                             <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
                               <div className="w-10 h-10 rounded-full bg-black/50 grid place-items-center text-white">
                                 ▶

@@ -50,7 +50,7 @@ export default function TrainingPageContent() {
 
     return (
       <Link
-        href={`/training/${m.id}`}
+        href={`/${lang}/training/${m.id}`}
         key={m.id} 
         className={`group relative bg-white p-8 rounded-[2.5rem] border transition-all duration-500 flex flex-col h-full text-left w-full hover:scale-[1.02] hover:-translate-y-2 shadow-sm hover:shadow-xl ${categoryColor}`}
       >
@@ -321,4 +321,3 @@ export default function TrainingPageContent() {
     </div>
   );
 }
-
