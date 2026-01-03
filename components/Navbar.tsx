@@ -4,7 +4,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { normalizeLocale, toBaseLang } from '@/i18n/locale-utils';
+import { normalizeLocale, toBaseLang, withLocalePath } from '@/i18n/locale-utils';
 import { Cpu, Menu, X, User, LogOut } from 'lucide-react';
 import { useAuthStore } from '@/store/auth-store';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -51,24 +51,25 @@ export default function Navbar() {
     if (!isClient || !i18n.isInitialized) {
       // 服务器端或未初始化时返回默认中文
       return [
-        { href: '/image-generation', label: 'AI 图像' },
-        { href: '/video-generation', label: 'AI 视频' },
-        { href: '/training', label: '训练课程' },
-        { href: '/assets', label: '我的作品' },
+        { href: '/zh/image-generation', label: 'AI 图像' },
+        { href: '/zh/video-generation', label: 'AI 视频' },
+        { href: '/zh/training', label: '训练课程' },
+        { href: '/zh/assets', label: '我的作品' },
       ];
     }
+    const base = toBaseLang(normalizeLocale(i18n.language));
     return [
-      { href: '/image-generation', label: t('nav.aiImage') },
-      { href: '/video-generation', label: t('nav.aiVideo') },
-      { href: '/training', label: t('nav.training') },
-      { href: '/assets', label: t('nav.myAssets') },
+      { href: withLocalePath('/image-generation', base), label: t('nav.aiImage') },
+      { href: withLocalePath('/video-generation', base), label: t('nav.aiVideo') },
+      { href: withLocalePath('/training', base), label: t('nav.training') },
+      { href: withLocalePath('/assets', base), label: t('nav.myAssets') },
     ];
   }, [t, isClient, i18n.isInitialized]);
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200/50 px-8 py-5 backdrop-blur-xl">
       <div className="max-w-[1440px] mx-auto flex justify-between items-center">
-        <Link href="/" className="flex items-center space-x-3 group">
+        <Link href={withLocalePath('/', toBaseLang(normalizeLocale(i18n.language)))} className="flex items-center space-x-3 group">
           <div className="bg-gradient-to-tr from-violet-600 to-blue-500 p-2.5 rounded-2xl group-hover:rotate-12 transition-transform duration-500">
             <Cpu className="text-white w-5 h-5" />
           </div>
@@ -92,7 +93,11 @@ export default function Navbar() {
               onClick={toggleLanguage}
               className="text-slate-600 hover:text-blue-600 transition-colors text-xs font-bold tracking-widest"
             >
-              {toBaseLang(normalizeLocale(i18n.language)) === 'zh' ? 'EN' : 'CN'}
+              <span suppressHydrationWarning>
+                {isClient && i18n.isInitialized
+                  ? (toBaseLang(normalizeLocale(i18n.language)) === 'zh' ? 'EN' : 'CN')
+                  : 'EN'}
+              </span>
             </button>
             {isInitialized && isAuthenticated && user ? (
               <div className="relative">
@@ -233,8 +238,6 @@ export default function Navbar() {
     </nav>
   );
 }
-
-
 
 
 

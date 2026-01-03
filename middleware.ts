@@ -31,14 +31,10 @@ export function middleware(req: NextRequest) {
     });
   };
 
-  // If URL is prefixed with a supported locale, strip it and set cookie.
+  // If URL is prefixed with a supported locale, keep it and set cookie.
   if (SUPPORTED.includes(maybeLocale)) {
-    const rest = '/' + segments.slice(1).join('/');
-    const locale = maybeLocale;
-    const url = req.nextUrl.clone();
-    url.pathname = rest || '/';
-    setLangCookie(locale);
-    return NextResponse.rewrite(url, { request: req, headers: res.headers });
+    setLangCookie(maybeLocale);
+    return res;
   }
 
   // No prefix: ensure we have a language cookie. If missing, detect from headers
@@ -47,12 +43,18 @@ export function middleware(req: NextRequest) {
     const header = req.headers.get('accept-language') || '';
     const detected = header.toLowerCase().startsWith('en') ? 'en' : 'zh';
     setLangCookie(detected || DEFAULT);
+    // Redirect to prefixed URL for canonical locale links
+    const url = req.nextUrl.clone();
+    url.pathname = `/${detected}${pathname}`;
+    return NextResponse.redirect(url);
   }
 
-  return res;
+  // Cookie exists but path is not prefixed → redirect to canonical prefixed path
+  const url = req.nextUrl.clone();
+  url.pathname = `/${cookieLang}${pathname}`;
+  return NextResponse.redirect(url);
 }
 
 export const config = {
   matcher: ['/((?!_next|api|.*\.[\w-]+$).*)'],
 };
-

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { cookies } from 'next/headers';
 import { Inter, Plus_Jakarta_Sans, Poppins } from 'next/font/google';
 import './globals.css';
 import { I18nProvider } from '@/components/I18nProvider';
@@ -31,8 +32,10 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const cookieStore = cookies();
+  const lang = cookieStore.get('language')?.value || 'zh';
   return (
-    <html lang="zh" className={`${inter.variable} ${poppins.variable} ${plusJakarta.variable}`}>
+    <html lang={lang} className={`${inter.variable} ${poppins.variable} ${plusJakarta.variable}`}>
       <body className="antialiased bg-grid">
         <I18nProvider>
           <AuthProvider />
@@ -43,4 +46,3 @@ export default function RootLayout({
     </html>
   );
 }
-

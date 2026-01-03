@@ -48,3 +48,10 @@ export function localeLabel(locale: Locale): string {
   }
 }
 
+// Prefix a path with the given base language (zh|en).
+export function withLocalePath(path: string, lang: 'zh' | 'en'): string {
+  const p = path.startsWith('/') ? path : `/${path}`;
+  const stripped = p.replace(/^\/(zh|en)(?=\/|$)/, '');
+  const rest = stripped === '/' ? '' : stripped;
+  return `/${lang}${rest}` || `/${lang}`;
+}
