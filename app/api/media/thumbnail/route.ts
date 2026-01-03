@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { r2StorageService } from '@/lib/storage/r2';
+import { Readable } from 'node:stream';
 
 export const dynamic = 'force-dynamic';
 export const fetchCache = 'force-no-store';
@@ -45,3 +46,41 @@ export async function POST(request: Request) {
   }
 }
 
+/**
+ * Public thumbnail fetcher by R2 key.
+ * GET /api/media/thumbnail?key=<r2-key>
+ * Streams the image with long-lived public caching.
+ */
+export async function GET(request: Request) {
+  try {
+    const url = new URL(request.url);
+    const key = url.searchParams.get('key') || '';
+    if (!key) {
+      return NextResponse.json({ error: 'Missing key' }, { status: 400 });
+    }
+
+    // Basic allowlist to avoid arbitrary bucket reads
+    if (!/^((docs|videos)\/)\S+\.(png|jpg|jpeg|webp)$/i.test(key)) {
+      return NextResponse.json({ error: 'Invalid key' }, { status: 400 });
+    }
+
+    const asset = await r2StorageService.getAsset(key);
+    const { body, contentType } = asset;
+    const stream = (body as any)?.pipe
+      ? Readable.toWeb(body as any)
+      : (body as ReadableStream<Uint8Array>);
+
+    return new Response(stream as any, {
+      status: 200,
+      headers: {
+        'Content-Type': contentType || (key.toLowerCase().endsWith('.png') ? 'image/png' : 'image/jpeg'),
+        'Cache-Control': 'public, max-age=31536000, immutable',
+      },
+    });
+  } catch (error) {
+    return NextResponse.json(
+      { error: 'Failed to fetch thumbnail', details: error instanceof Error ? error.message : String(error) },
+      { status: 500 }
+    );
+  }
+}

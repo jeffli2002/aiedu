@@ -37,15 +37,8 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
     (m) => !m.language || m.language === lang
   );
 
-  // Get R2 public URL for thumbnails
-  const getR2ThumbnailUrl = (thumbKey: string) => {
-    const baseUrl = process.env.NEXT_PUBLIC_R2_PUBLIC_URL || '';
-    if (!baseUrl) return '';
-    // Ensure proper URL construction (avoid double slashes)
-    const cleanKey = thumbKey.startsWith('/') ? thumbKey.slice(1) : thumbKey;
-    const cleanBase = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
-    return `${cleanBase}/${cleanKey}`;
-  };
+  // Prefer same-origin thumbnail proxy to avoid any CDN/CORS issues
+  const getThumbUrl = (thumbKey: string) => `/api/media/thumbnail?key=${encodeURIComponent(thumbKey.startsWith('/') ? thumbKey.slice(1) : thumbKey)}`;
 
   useEffect(() => {
     setIsClient(true);
@@ -139,7 +132,17 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
             {[
               { icon: <Clock className="w-6 h-6 text-blue-600" />, label: t('training.courseLanding.totalTime'), value: course.duration },
               { icon: <Cpu className="w-6 h-6 text-purple-600" />, label: t('training.courseLanding.format'), value: t(`training.courseLanding.format${course.format}`) },
-              { icon: <Target className="w-6 h-6 text-emerald-600" />, label: t('training.courseLanding.skillLevel'), value: course.type === 'vibe' ? t('training.courseLanding.vibeAgeRange') : t('training.courseLanding.ageRange') },
+              { 
+                icon: <Target className="w-6 h-6 text-emerald-600" />, 
+                label: t('training.courseLanding.skillLevel'), 
+                value: course.type === 'vibe' 
+                  ? t('training.courseLanding.vibeAgeRange')
+                  : course.type === 'creation'
+                  ? t('training.courseLanding.creationAgeRange')
+                  : course.type === 'efficiency'
+                  ? t('training.courseLanding.efficiencyAgeRange')
+                  : t('training.courseLanding.ageRange')
+              },
             ].map((item, i) => (
               <div key={i} className="space-y-2">
                 <div className="flex items-center gap-3">
@@ -191,10 +194,9 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
                               <img
                                 alt={m.title}
                                 className="w-full h-full object-cover"
-                                src={`${(process.env.NEXT_PUBLIC_R2_PUBLIC_URL || '').replace(/\/$/, '')}/${m.thumbKey.replace(/^\//, '')}`}
+                                src={getThumbUrl(m.thumbKey)}
                                 onContextMenu={(e) => e.preventDefault()}
                                 onError={(e) => {
-                                  // Fallback to API thumbnail if thumbKey fails
                                   const target = e.target as HTMLImageElement;
                                   if (!target.src.includes('?thumb=1')) {
                                     target.src = `/api/media/pdf/${encodeURIComponent(m.mediaId)}?thumb=1`;
@@ -240,10 +242,9 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
                               <img
                                 alt={m.title}
                                 className="w-full h-full object-cover"
-                                src={`${(process.env.NEXT_PUBLIC_R2_PUBLIC_URL || '').replace(/\/$/, '')}/${m.thumbKey.replace(/^\//, '')}`}
+                                src={getThumbUrl(m.thumbKey)}
                                 onContextMenu={(e) => e.preventDefault()}
                                 onError={(e) => {
-                                  // Fallback to API thumbnail if thumbKey fails
                                   const target = e.target as HTMLImageElement;
                                   if (!target.src.includes('?thumb=1')) {
                                     target.src = `/api/media/video/${encodeURIComponent(m.mediaId)}/manifest?thumb=1`;

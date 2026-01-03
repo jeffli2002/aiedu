@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label';
 import {
   AlertDialog,
   AlertDialogAction,
+  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogHeader,
@@ -265,12 +266,12 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
               </div>
             </div>
             <AlertDialogTitle className="text-2xl font-bold text-gray-900 mb-4">
-              Check your inbox
+              {t('signup.checkInbox')}
             </AlertDialogTitle>
             <AlertDialogDescription className="text-base text-gray-700">
-              Click on the link we sent to{' '}
-              <span className="font-semibold text-gray-900">{signupEmail || 'your email'}</span> to
-              finish your account setup.
+              {t('signup.emailVerificationMessage', {
+                email: signupEmail || t('signup.yourEmail'),
+              })}
             </AlertDialogDescription>
           </AlertDialogHeader>
 
@@ -305,7 +306,7 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
                   d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
                 />
               </svg>
-              <span className="font-semibold">Open Gmail</span>
+              <span className="font-semibold">{t('signup.openGmail')}</span>
             </Button>
             <Button
               type="button"
@@ -329,7 +330,7 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
                   d="M12 8c2.21 0 4 1.79 4 4s-1.79 4-4 4-4-1.79-4-4 1.79-4 4-4zm0 6c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"
                 />
               </svg>
-              <span className="font-semibold">Open Outlook</span>
+              <span className="font-semibold">{t('signup.openOutlook')}</span>
             </Button>
             <Button
               type="button"
@@ -353,33 +354,35 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
                   opacity="0.3"
                 />
               </svg>
-              <span className="font-semibold">Open QQ Mail</span>
+              <span className="font-semibold">{t('signup.openQQMail')}</span>
             </Button>
           </div>
 
           {/* Helper links */}
           <div className="space-y-2 text-sm text-gray-600 text-center">
             <p>
-              No email in your inbox or spam folder?{' '}
+              {t('signup.noEmailInInbox')}{' '}
               <button
                 type="button"
                 onClick={handleResendVerification}
                 disabled={!signupEmail || resendCooldown > 0}
                 className="text-blue-600 underline hover:text-blue-700 disabled:text-gray-400 disabled:no-underline"
               >
-                {resendCooldown > 0 ? `Resend in ${resendCooldown}s` : "Let's resend it."}
+                {resendCooldown > 0
+                  ? t('signup.resendIn', { seconds: resendCooldown })
+                  : t('signup.resendIt')}
               </button>
             </p>
             <p>
-              Wrong address?{' '}
+              {t('signup.wrongAddress')}{' '}
               <button
                 type="button"
                 onClick={handleLogout}
                 className="text-blue-600 underline hover:text-blue-700"
               >
-                Log out
+                {t('signup.logOut')}
               </button>{' '}
-              to sign in with a different email.
+              {t('signup.logOutToSignIn')}
             </p>
           </div>
 
@@ -388,6 +391,18 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
               {resendStatus}
             </div>
           )}
+
+          {/* Close button */}
+          <div className="mt-6 flex justify-end">
+            <AlertDialogCancel asChild>
+              <Button
+                type="button"
+                className="bg-teal-600 hover:bg-teal-700 text-white"
+              >
+                {t('common.close')}
+              </Button>
+            </AlertDialogCancel>
+          </div>
         </AlertDialogContent>
       </AlertDialog>
       {!showVerificationNotice && (
@@ -412,7 +427,7 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
                       onClick={clearError}
                       className="ml-2 underline hover:no-underline"
                     >
-                      Close
+                      {t('common.close')}
                     </button>
                   </div>
                 )}

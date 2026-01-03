@@ -9,6 +9,7 @@ import type { LoginFormProps } from '@/types/login';
 import { AlertCircle } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export function LoginForm({
   className,
@@ -21,6 +22,7 @@ export function LoginForm({
   onClearError,
   ...props
 }: LoginFormProps & React.ComponentProps<'div'>) {
+  const { t } = useTranslation();
   const [isInWebView, setIsInWebView] = useState(false);
   const [showWebViewWarning, setShowWebViewWarning] = useState(false);
   const [showVerificationBanner, setShowVerificationBanner] = useState(false);
@@ -105,18 +107,19 @@ export function LoginForm({
     <div className={cn('flex flex-col gap-6', className)} {...props}>
       <Card>
         <CardHeader className="text-center">
-          <CardTitle className="text-xl">Welcome Back</CardTitle>
-          <CardDescription>Sign in with your account</CardDescription>
+          <CardTitle className="text-xl">{t('signin.welcomeBack')}</CardTitle>
+          <CardDescription>{t('signin.signInWithAccountDesc')}</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={onEmailLogin} data-testid="login-form">
             <div className="grid gap-6">
               {showVerificationBanner && (
                 <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-amber-800 text-sm">
-                  <p className="font-semibold">Check your email to continue</p>
+                  <p className="font-semibold">{t('signin.checkEmailToContinue')}</p>
                   <p className="mt-1">
-                    We sent a confirmation link to {verificationEmail || 'your inbox'}. Confirm
-                    your email to finish setting up your account.
+                    {t('signin.emailConfirmationMessage', {
+                      email: verificationEmail || t('signin.yourInbox'),
+                    })}
                   </p>
                 </div>
               )}
@@ -129,14 +132,14 @@ export function LoginForm({
                     onClick={onClearError}
                     className="ml-2 underline hover:no-underline"
                   >
-                    Close
+                    {t('common.close')}
                   </button>
                 </div>
               )}
               {isEmailNotVerified && (
                 <div className="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-slate-700 text-sm">
-                  <p className="font-semibold">Need a new confirmation email?</p>
-                  <p className="mt-1">We can resend the verification link to your email.</p>
+                  <p className="font-semibold">{t('signin.needNewConfirmation')}</p>
+                  <p className="mt-1">{t('signin.resendVerificationMessage')}</p>
                   <div className="mt-3 flex flex-wrap items-center gap-3">
                     <Button
                       type="button"
@@ -144,7 +147,7 @@ export function LoginForm({
                       onClick={handleResendVerification}
                       disabled={isResending}
                     >
-                      {isResending ? 'Sending...' : 'Resend confirmation email'}
+                      {isResending ? t('signin.sending') : t('signin.resendConfirmationEmail')}
                     </Button>
                     {resendStatus && <span className="text-slate-600">{resendStatus}</span>}
                   </div>
@@ -156,13 +159,11 @@ export function LoginForm({
                 <div className="flex items-start gap-2 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-amber-800 text-sm">
                   <AlertCircle className="mt-0.5 h-5 w-5 flex-shrink-0" />
                   <div className="flex-1">
-                    <p className="font-semibold">Unable to sign in from this browser</p>
-                    <p className="mt-1">
-                      Google sign-in is not supported in embedded browsers. Please:
-                    </p>
+                    <p className="font-semibold">{t('signin.unableToSignIn')}</p>
+                    <p className="mt-1">{t('signin.googleSignInNotSupported')}</p>
                     <ul className="mt-1 list-inside list-disc space-y-1">
-                      <li>Use the "Open in Browser" option from your app's menu</li>
-                      <li>Or sign in with email and password below</li>
+                      <li>{t('signin.useOpenInBrowser')}</li>
+                      <li>{t('signin.orSignInWithEmail')}</li>
                     </ul>
                     <Button
                       type="button"
@@ -171,10 +172,10 @@ export function LoginForm({
                       className="mt-2 bg-white"
                       onClick={() => {
                         navigator.clipboard.writeText(window.location.href);
-                        alert('URL copied! Open it in Safari (iOS) or Chrome (Android)');
+                        alert(t('signin.urlCopied'));
                       }}
                     >
-                      Copy URL to Open in Browser
+                      {t('signin.copyUrlToOpenInBrowser')}
                     </Button>
                   </div>
                 </div>
@@ -214,7 +215,7 @@ export function LoginForm({
                       d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"
                     />
                   </svg>
-                  {isLoading ? 'Signing in...' : 'Sign in with Google'}
+                  {isLoading ? t('signin.signingIn') : t('signin.signInWithGoogle')}
                 </Button>
               </div>
 
@@ -223,14 +224,14 @@ export function LoginForm({
                   <div className="w-full border-t border-gray-200" />
                 </div>
                 <div className="relative flex justify-center text-sm">
-                  <span className="bg-white px-4 text-gray-500 font-medium">Or use email</span>
+                  <span className="bg-white px-4 text-gray-500 font-medium">{t('signin.orUseEmail')}</span>
                 </div>
               </div>
 
               {/* Email password login */}
               <div className="grid gap-6">
                 <div className="grid gap-3">
-                  <Label htmlFor="email">Email</Label>
+                  <Label htmlFor="email">{t('signin.email')}</Label>
                   <Input
                     id="email"
                     type="email"
@@ -245,12 +246,12 @@ export function LoginForm({
                 </div>
                 <div className="grid gap-3">
                   <div className="flex items-center">
-                    <Label htmlFor="password">Password</Label>
+                    <Label htmlFor="password">{t('signin.password')}</Label>
                     <a
                       href="/reset-password"
                       className="ml-auto text-sm underline-offset-4 hover:underline"
                     >
-                      Forgot password?
+                      {t('signin.forgotPassword')}
                     </a>
                   </div>
                   <Input
@@ -270,14 +271,14 @@ export function LoginForm({
                   disabled={isLoading || !formData.email || !formData.password}
                   data-testid="login-button"
                 >
-                  {isLoading ? 'Signing in...' : 'Sign In'}
+                  {isLoading ? t('signin.signingIn') : t('signin.submit')}
                 </Button>
               </div>
 
               <div className="text-center text-sm">
-                Don't have an account?{' '}
+                {t('signin.dontHaveAccount')}{' '}
                 <a href="/signup" className="underline underline-offset-4">
-                  Sign up
+                  {t('signin.signupLink')}
                 </a>
               </div>
             </div>
