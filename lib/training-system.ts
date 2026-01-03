@@ -91,6 +91,13 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
             mediaId: 'training/f102/zh/prompt-engineering-mastery_T01',
             language: 'zh',
           },
+          {
+            id: 'f102-prompt-engineering-video-t01',
+            title: '提示词工程精通 T01（视频）',
+            type: 'video',
+            mediaId: 'training/f102/zh/prompt-engineering-mastery_T01',
+            language: 'zh',
+          },
         ]
       },
       { 
