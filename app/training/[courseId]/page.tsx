@@ -8,7 +8,7 @@ import CourseLandingPage from '@/components/CourseLandingPage';
 
 export default function CoursePage() {
   const params = useParams();
-  const courseId = params?.courseId as string;
+  const courseId = (params?.courseId as string) || '';
   const { i18n } = useTranslation();
   const [course, setCourse] = useState<Module | null>(null);
   const [isClient, setIsClient] = useState(false);
@@ -17,8 +17,28 @@ export default function CoursePage() {
     setIsClient(true);
   }, []);
 
+  // Normalize old IDs (e.g. f1 -> f101, c2 -> c202, etc.)
+  const normalizeCourseId = (id: string): string => {
+    if (!id) return id;
+    const mOld = id.match(/^([fcev])(\d)$/i);
+    if (mOld) {
+      const letter = mOld[1].toLowerCase();
+      const idxMap: Record<string, string> = { f: '1', c: '2', e: '3', v: '4' };
+      const moduleIndex = idxMap[letter] || '1';
+      const cc = mOld[2].padStart(2, '0');
+      return `${letter}${moduleIndex}${cc}`;
+    }
+    return id.toLowerCase();
+  };
+
   useEffect(() => {
     if (!courseId || !isClient || !i18n.isInitialized) return;
+
+    const normId = normalizeCourseId(courseId);
+    if (normId !== courseId) {
+      // Update URL to new ID format
+      window.history.replaceState(null, '', `/training/${normId}`);
+    }
 
     const lang = i18n.language === 'zh' ? 'zh' : 'en';
     const system = TRAINING_SYSTEM[lang];
@@ -28,8 +48,8 @@ export default function CoursePage() {
       ...system.efficiency,
       ...system.vibe,
     ];
-    
-    const foundCourse = allCourses.find(c => c.id === courseId);
+
+    const foundCourse = allCourses.find((c) => c.id === normId);
     setCourse(foundCourse || null);
   }, [courseId, isClient, i18n.isInitialized, i18n.language]);
 
@@ -50,4 +70,3 @@ export default function CoursePage() {
 
   return <CourseLandingPage course={course} />;
 }
-

@@ -34,7 +34,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
   zh: {
     foundations: [
       { 
-        id: 'f1', title: '大模型概论', duration: '45m', type: 'foundation', format: 'Online', 
+        id: 'f101', title: '大模型概论', duration: '45m', type: 'foundation', format: 'Online', 
         description: 'Gemini、GPT 等大模型的演进历程与底层核心原理。理解 AI 的"大脑"。', skills: ['AI 发展史', 'Token 原理', '神经网络'],
         heroImage: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=1200',
         syllabus: [
@@ -52,25 +52,25 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
         ],
         materials: [
           {
-            id: 'f1-lecture',
+            id: 'f101-lecture',
             title: '课程讲解视频',
             type: 'video',
-            mediaId: 'training/AI大模型进化T1',
+            mediaId: 'training/f101/ai-llm-evolution_T01_zh',
             language: 'zh',
-            thumbKey: 'videos/training/thumbnail_T1_mp4.png',
+            thumbKey: 'videos/training/f101/ai-llm-evolution_T01_zh/thumb.jpg',
           },
           {
-            id: 'f1-ai-evolution-t1',
+            id: 'f101-ai-evolution-t1',
             title: 'AI 进化故事 T1（PDF）',
             type: 'pdf',
-            mediaId: 'training/AI_Evolution_Story_T1',
+            mediaId: 'training/f101/ai-evolution-story_T01_zh',
             language: 'zh',
-            thumbKey: 'docs/training/thumbnail_T1_pdf.png',
+            thumbKey: 'docs/training/f101/ai-evolution-story_T01_zh/thumb.jpg',
           },
         ]
       },
       { 
-        id: 'f2', title: '提示词工程', duration: '60m', type: 'foundation', format: 'Online', 
+        id: 'f102', title: '提示词工程', duration: '60m', type: 'foundation', format: 'Online', 
         description: '系统化的 AI 沟通框架，实现精准任务指令与自动化。', skills: ['思维链', '少样本提示', '指令微调'],
         heroImage: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&q=80&w=1200',
         syllabus: [
@@ -88,7 +88,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
         ]
       },
       { 
-        id: 'f3', title: 'AI 安全与风险', duration: '60m', type: 'foundation', format: 'Online', 
+        id: 'f103', title: 'AI 安全与风险', duration: '60m', type: 'foundation', format: 'Online', 
         description: '应对 AI 时代的挑战：深度伪造、算法偏见、数据隐私与创作伦理。', skills: ['AI 安全', '批判性思维', '隐私保护'],
         heroImage: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1200',
         syllabus: [
@@ -106,7 +106,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
         ]
       },
       { 
-        id: 'f4', title: 'AI 多模态基础', duration: '90m', type: 'foundation', format: 'Mixed', 
+        id: 'f104', title: 'AI 多模态基础', duration: '90m', type: 'foundation', format: 'Mixed', 
         description: '探索 AI 如何连接文本、视觉与音频，实现与真实世界的深度交互。', skills: ['视觉语言', '语音合成', '实时对话'],
         heroImage: 'https://images.unsplash.com/photo-1507146426996-ef05306b995a?auto=format&fit=crop&q=80&w=1200',
         syllabus: [
@@ -126,7 +126,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
     ],
     creation: [
       { 
-        id: 'c1', title: 'AI 绘图创作', duration: '135m', type: 'creation', format: 'Mixed', 
+        id: 'c201', title: 'AI 绘图创作', duration: '135m', type: 'creation', format: 'Mixed', 
         theoryDuration: '45m', practiceDuration: '90m', description: '扩散模型深度解析，掌握专业设计级的视觉提示词实操。', skills: ['Nano banana', 'Seeddreem', 'Midjourney', '构图美学'],
         heroImage: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=1200',
         syllabus: [
@@ -141,10 +141,19 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
             tools: ['Midjourney', 'Canva'], 
             outcome: '一张达到专业出版标准的电影感高清海报。' 
           }
+        ],
+        materials: [
+          {
+            id: 'c201-imagination-t01',
+            title: 'AI 绘画解锁想象力 T01（PDF）',
+            type: 'pdf',
+            mediaId: 'training/c201/ai-drawing-unlock-imagination_T01_zh',
+            language: 'zh',
+          },
         ]
       },
       { 
-        id: 'c2', title: 'AI 视频创作', duration: '180m', type: 'creation', format: 'Mixed', 
+        id: 'c202', title: 'AI 视频创作', duration: '180m', type: 'creation', format: 'Mixed', 
         theoryDuration: '60m', practiceDuration: '120m', description: '运动控制、时序一致性与 AI 驱动的影视语言表达。', skills: ['SORA', 'VEO', 'Kling', 'WAN'],
         heroImage: 'https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&q=80&w=1200',
         syllabus: [
@@ -162,7 +171,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
         ]
       },
       { 
-        id: 'c3', title: 'AI 写作与叙事', duration: '120m', type: 'creation', format: 'Online', 
+        id: 'c203', title: 'AI 写作与叙事', duration: '120m', type: 'creation', format: 'Online', 
         description: '掌握创意写作与生成式文本智能体，打造高影响力的故事作品。', skills: ['叙事设计', '风格模拟', '协同创作'],
         heroImage: 'https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&q=80&w=1200',
         syllabus: [
@@ -180,7 +189,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
         ]
       },
       { 
-        id: 'c4', title: 'AI 音频与播客', duration: '150m', type: 'creation', format: 'Mixed', 
+        id: 'c204', title: 'AI 音频与播客', duration: '150m', type: 'creation', format: 'Mixed', 
         theoryDuration: '45m', practiceDuration: '105m', description: '声音克隆、音乐生成与自动化播客制作全流程。', skills: ['音频工程', '语音合成', '音效设计'],
         heroImage: 'https://images.unsplash.com/photo-1590602847446-24da7b1fd0df?auto=format&fit=crop&q=80&w=1200',
         syllabus: [
@@ -198,7 +207,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
         ]
       },
       { 
-        id: 'c5', title: 'AI 数字人与虚拟形象', duration: '165m', type: 'creation', format: 'Mixed', 
+        id: 'c205', title: 'AI 数字人与虚拟形象', duration: '165m', type: 'creation', format: 'Mixed', 
         theoryDuration: '45m', practiceDuration: '120m', description: '构建高写实的数字人形象与虚拟分身，掌握视觉生成与语音同步的核心技术。', skills: ['HeyGen', 'D-ID', '唇形同步', '形象设计'],
         heroImage: 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&q=80&w=1200',
         syllabus: [
@@ -218,7 +227,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
     ],
     efficiency: [
       { 
-        id: 'e1', title: 'AI 阅读与写作', duration: '75m', type: 'efficiency', format: 'Online', 
+        id: 'e301', title: 'AI 阅读与写作', duration: '75m', type: 'efficiency', format: 'Online', 
         description: '利用 AI 搜索与大模型实现信息获取与创作的 10 倍提效。', skills: ['Perplexity', 'Claude', '知识管理'],
         heroImage: 'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&q=80&w=1200',
         syllabus: [
@@ -236,7 +245,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
         ]
       },
       { 
-        id: 'e2', title: 'AI PPT 创作', duration: '90m', type: 'efficiency', format: 'Mixed', 
+        id: 'e302', title: 'AI PPT 创作', duration: '90m', type: 'efficiency', format: 'Mixed', 
         theoryDuration: '45m', practiceDuration: '45m', description: '将创意笔记瞬间转化为高质量、具备商业说服力的演示文稿。', skills: ['信息设计', 'Gamma', '结构化思维'],
         heroImage: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&q=80&w=1200',
         syllabus: [
@@ -254,7 +263,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
         ]
       },
       { 
-        id: 'e3', title: 'AI 工作流 (n8n/Coze)', duration: '120m', type: 'efficiency', format: 'Mixed', 
+        id: 'e303', title: 'AI 工作流 (n8n/Coze)', duration: '120m', type: 'efficiency', format: 'Mixed', 
         theoryDuration: '60m', practiceDuration: '60m', description: '构建自动化业务流程与多节点智能体，实现无人值守提效。', skills: ['自动化', '无代码', 'Coze', 'n8n'],
         heroImage: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=1200',
         syllabus: [
@@ -274,7 +283,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
     ],
     vibe: [
       { 
-        id: 'v1', title: 'Vibe Principles', duration: 'Day 1', type: 'vibe', format: 'Offline', 
+        id: 'v401', title: 'Vibe Principles', duration: 'Day 1', type: 'vibe', format: 'Offline', 
         description: '理解直觉驱动的自然语言编程、Bug 修复与云端发布全流程。', skills: ['工作流策略', 'Vibe 编程', '快速原型'],
         heroImage: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=1200',
         syllabus: [
@@ -292,7 +301,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
         ]
       },
       { 
-        id: 'v2', title: '工具与流程', duration: 'Day 2', type: 'vibe', format: 'Offline', 
+        id: 'v402', title: '工具与流程', duration: 'Day 2', type: 'vibe', format: 'Offline', 
         description: '深度掌握 AI 原生 IDE 与迭代反馈闭环，实现超高速开发。', skills: ['Cursor', 'Bolt.new', 'GitHub'],
         heroImage: 'https://images.unsplash.com/photo-1542831371-29b0f74f9713?auto=format&fit=crop&q=80&w=1200',
         syllabus: [
@@ -310,7 +319,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
         ]
       },
       { 
-        id: 'v3', title: 'Config & Deployment', duration: 'Day 3', type: 'vibe', format: 'Offline', 
+        id: 'v403', title: 'Config & Deployment', duration: 'Day 3', type: 'vibe', format: 'Offline', 
         description: '连接数据库、管理环境变量并实现专业的云端发布。', skills: ['Supabase', 'Vercel', 'Backend Logic'],
         heroImage: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=1200',
         syllabus: [
@@ -328,7 +337,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
         ]
       },
       { 
-        id: 'v4', title: 'Demo & Sharing', duration: 'Day 4-5', type: 'vibe', format: 'Offline', 
+        id: 'v404', title: 'Demo & Sharing', duration: 'Day 4-5', type: 'vibe', format: 'Offline', 
         description: '打磨产品细节、记录创作历程并向全球观众进行演示。', skills: ['演讲技巧', '用户体验', '性能优化'],
         heroImage: 'https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&q=80&w=1200',
         syllabus: [
@@ -350,7 +359,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
   en: {
     foundations: [
       { 
-        id: 'f1', title: 'Large Models Intro', duration: '45m', type: 'foundation', format: 'Online', 
+        id: 'f101', title: 'Large Models Intro', duration: '45m', type: 'foundation', format: 'Online', 
         description: 'Evolution and core principles of LLMs like Gemini and GPT. Understand the "brain" behind the AI.', skills: ['AI History', 'Tokenization', 'Neural Networks'],
         heroImage: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=1200',
         syllabus: [
@@ -368,7 +377,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
         ]
       },
       { 
-        id: 'f2', title: 'Prompt Engineering', duration: '60m', type: 'foundation', format: 'Online', 
+        id: 'f102', title: 'Prompt Engineering', duration: '60m', type: 'foundation', format: 'Online', 
         description: 'Systematic frameworks for precise AI communication and task automation.', skills: ['CoT', 'Few-shot', 'Instruction Tuning'],
         heroImage: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&q=80&w=1200',
         syllabus: [
@@ -386,7 +395,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
         ]
       },
       { 
-        id: 'f3', title: 'AI Safety & Ethics', duration: '60m', type: 'foundation', format: 'Online', 
+        id: 'f103', title: 'AI Safety & Ethics', duration: '60m', type: 'foundation', format: 'Online', 
         description: 'Navigating the risks of AI: deepfakes, bias, data privacy, and ethical creation.', skills: ['AI Safety', 'Critical Thinking', 'Privacy'],
         heroImage: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1200',
         syllabus: [
@@ -404,7 +413,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
         ]
       },
       { 
-        id: 'f4', title: 'AI Multimodality', duration: '90m', type: 'foundation', format: 'Mixed', 
+        id: 'f104', title: 'AI Multimodality', duration: '90m', type: 'foundation', format: 'Mixed', 
         description: 'Exploring how AI connects text, vision, and audio to interact with the real world.', skills: ['Vision-Language', 'Audio Synthesis', 'Gemini Live'],
         heroImage: 'https://images.unsplash.com/photo-1507146426996-ef05306b995a?auto=format&fit=crop&q=80&w=1200',
         syllabus: [
@@ -424,7 +433,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
     ],
     creation: [
       { 
-        id: 'c1', title: 'AI Image Artistry', duration: '135m', type: 'creation', format: 'Mixed', 
+        id: 'c201', title: 'AI Image Artistry', duration: '135m', type: 'creation', format: 'Mixed', 
         theoryDuration: '45m', practiceDuration: '90m', description: 'Diffusion models and visual prompt mastery for professional-grade design.', skills: ['Nano banana', 'Seeddreem', 'Midjourney', 'Composition'],
         heroImage: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=1200',
         syllabus: [
@@ -442,7 +451,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
         ]
       },
       { 
-        id: 'c2', title: 'AI Video Synthesis', duration: '180m', type: 'creation', format: 'Mixed', 
+        id: 'c202', title: 'AI Video Synthesis', duration: '180m', type: 'creation', format: 'Mixed', 
         theoryDuration: '60m', practiceDuration: '120m', description: 'Motion control, temporal consistency, and AI-driven cinematography.', skills: ['SORA', 'VEO', 'Kling', 'WAN'],
         heroImage: 'https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&q=80&w=1200',
         syllabus: [
@@ -460,7 +469,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
         ]
       },
       { 
-        id: 'c3', title: 'AI Writing & Narrative', duration: '120m', type: 'creation', format: 'Online', 
+        id: 'c203', title: 'AI Writing & Narrative', duration: '120m', type: 'creation', format: 'Online', 
         description: 'Mastering creative storytelling and high-impact writing with generative text agents.', skills: ['Narrative Design', 'Style Mimicry', 'Co-writing'],
         heroImage: 'https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&q=80&w=1200',
         syllabus: [
@@ -478,7 +487,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
         ]
       },
       { 
-        id: 'c4', title: 'AI Audio & Podcasts', duration: '150m', type: 'creation', format: 'Mixed', 
+        id: 'c204', title: 'AI Audio & Podcasts', duration: '150m', type: 'creation', format: 'Mixed', 
         theoryDuration: '45m', practiceDuration: '105m', description: 'Voice cloning, music generation, and automated podcast production.', skills: ['Audio Engineering', 'Voice Synthesis', 'Sound Design'],
         heroImage: 'https://images.unsplash.com/photo-1590602847446-24da7b1fd0df?auto=format&fit=crop&q=80&w=1200',
         syllabus: [
@@ -496,7 +505,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
         ]
       },
       { 
-        id: 'c5', title: 'AI Digital Humans & Avatars', duration: '165m', type: 'creation', format: 'Mixed', 
+        id: 'c205', title: 'AI Digital Humans & Avatars', duration: '165m', type: 'creation', format: 'Mixed', 
         theoryDuration: '45m', practiceDuration: '120m', description: 'Building hyper-realistic digital personas and lifelike avatars using generative visual and voice synchronization.', skills: ['HeyGen', 'D-ID', 'Lip Sync', 'Character Design'],
         heroImage: 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&q=80&w=1200',
         syllabus: [
@@ -516,7 +525,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
     ],
     efficiency: [
       { 
-        id: 'e1', title: 'AI Research & Writing', duration: '75m', type: 'efficiency', format: 'Online', 
+        id: 'e301', title: 'AI Research & Writing', duration: '75m', type: 'efficiency', format: 'Online', 
         description: 'Accelerate reading and writing by 10x using research agents and LLMs.', skills: ['Perplexity', 'Claude', 'Note-taking'],
         heroImage: 'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&q=80&w=1200',
         syllabus: [
@@ -534,7 +543,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
         ]
       },
       { 
-        id: 'e2', title: 'AI PPT Mastery', duration: '90m', type: 'efficiency', format: 'Mixed', 
+        id: 'e302', title: 'AI PPT Mastery', duration: '90m', type: 'efficiency', format: 'Mixed', 
         theoryDuration: '45m', practiceDuration: '45m', description: 'Transforming ideas into high-impact slide decks automatically.', skills: ['Information Design', 'Gamma', 'Structuring'],
         heroImage: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&q=80&w=1200',
         syllabus: [
@@ -552,7 +561,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
         ]
       },
       { 
-        id: 'e3', title: 'AI Workflows (n8n/Coze)', duration: '120m', type: 'efficiency', format: 'Mixed', 
+        id: 'e303', title: 'AI Workflows (n8n/Coze)', duration: '120m', type: 'efficiency', format: 'Mixed', 
         theoryDuration: '60m', practiceDuration: '60m', description: 'Building automated processes and multi-node intelligent agents.', skills: ['Automation', 'No-code', 'Coze', 'n8n'],
         heroImage: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=1200',
         syllabus: [
@@ -572,7 +581,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
     ],
     vibe: [
       { 
-        id: 'v1', title: 'Vibe Principles', duration: 'Day 1', type: 'vibe', format: 'Offline', 
+        id: 'v401', title: 'Vibe Principles', duration: 'Day 1', type: 'vibe', format: 'Offline', 
         description: 'The philosophy and practice of intuitive natural language coding and deployment.', skills: ['Workflow Strategy', 'Vibe Coding', 'Rapid Prototyping'],
         heroImage: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=1200',
         syllabus: [
@@ -590,7 +599,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
         ]
       },
       { 
-        id: 'v2', title: 'Vibe Tools & Workflows', duration: 'Day 2', type: 'vibe', format: 'Offline', 
+        id: 'v402', title: 'Vibe Tools & Workflows', duration: 'Day 2', type: 'vibe', format: 'Offline', 
         description: 'Mastering AI-native IDEs and the iterative feedback loop for high-speed creation.', skills: ['Cursor', 'Bolt.new', 'GitHub'],
         heroImage: 'https://images.unsplash.com/photo-1542831371-29b0f74f9713?auto=format&fit=crop&q=80&w=1200',
         syllabus: [
@@ -608,7 +617,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
         ]
       },
       { 
-        id: 'v3', title: 'Config & Deployment', duration: 'Day 3', type: 'vibe', format: 'Offline', 
+        id: 'v403', title: 'Config & Deployment', duration: 'Day 3', type: 'vibe', format: 'Offline', 
         description: 'Connecting to databases, managing environment variables, and professional hosting.', skills: ['Supabase', 'Vercel', 'Backend Logic'],
         heroImage: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=1200',
         syllabus: [
@@ -626,7 +635,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
         ]
       },
       { 
-        id: 'v4', title: 'Demo & Sharing', duration: 'Day 4-5', type: 'vibe', format: 'Offline', 
+        id: 'v404', title: 'Demo & Sharing', duration: 'Day 4-5', type: 'vibe', format: 'Offline', 
         description: 'Polishing your project, documenting the journey, and presenting to a global audience.', skills: ['Storytelling', 'UX Design', 'Performance'],
         heroImage: 'https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&q=80&w=1200',
         syllabus: [
