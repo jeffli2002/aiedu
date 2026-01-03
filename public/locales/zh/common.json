@@ -197,7 +197,7 @@
     "sending": "发送中...",
     "unableToSignIn": "无法从此浏览器登录",
     "googleSignInNotSupported": "Google 登录在嵌入式浏览器中不受支持。请：",
-    "useOpenInBrowser": "使用应用菜单中的"在浏览器中打开"选项",
+    "useOpenInBrowser": "使用应用菜单中的\"在浏览器中打开\"选项",
     "orSignInWithEmail": "或使用下方的邮箱和密码登录",
     "copyUrlToOpenInBrowser": "复制 URL 以在浏览器中打开",
     "urlCopied": "URL 已复制！在 Safari（iOS）或 Chrome（Android）中打开它"
