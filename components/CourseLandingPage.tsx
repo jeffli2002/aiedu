@@ -1,21 +1,24 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { 
-  ArrowLeft, 
-  Clock, 
-  Target, 
-  Cpu, 
+import {
+  ArrowLeft,
+  Clock,
+  Target,
+  Cpu,
   CheckCircle,
   Code2,
   Presentation,
   Rocket,
   Star,
   ChevronRight,
-  X
+  X,
+  Loader2,
+  FileText,
+  Play
 } from 'lucide-react';
 import { Module } from '@/lib/training-system';
 import Navbar from '@/components/Navbar';
@@ -31,11 +34,26 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
   const router = useRouter();
   const [isClient, setIsClient] = useState(false);
   const [fullscreenPdf, setFullscreenPdf] = useState<{ mediaId: string; title: string } | null>(null);
+  const [loadingMedia, setLoadingMedia] = useState<Record<string, boolean>>({});
+  const [fullscreenLoading, setFullscreenLoading] = useState(false);
   const isAuthenticated = useIsAuthenticated();
   const lang = i18n.language === 'zh' ? 'zh' : 'en';
   const visibleMaterials = (course.materials || []).filter(
     (m) => !m.language || m.language === lang
   );
+
+  // Initialize loading states for all materials
+  useEffect(() => {
+    const initialLoadingState: Record<string, boolean> = {};
+    visibleMaterials.forEach((m) => {
+      initialLoadingState[m.id] = true;
+    });
+    setLoadingMedia(initialLoadingState);
+  }, [course.id, lang]);
+
+  const handleMediaLoaded = useCallback((mediaId: string) => {
+    setLoadingMedia((prev) => ({ ...prev, [mediaId]: false }));
+  }, []);
 
   // Thumbnails are served via normalized endpoints backed by R2 keys.
 
@@ -53,6 +71,29 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
     document.addEventListener('keydown', handleEscape);
     return () => document.removeEventListener('keydown', handleEscape);
   }, [fullscreenPdf]);
+
+  // Fallback timeout to hide loading overlay if onLoad doesn't fire (common with <object> PDFs)
+  useEffect(() => {
+    if (!fullscreenPdf) return;
+    const timeout = setTimeout(() => {
+      setFullscreenLoading(false);
+    }, 8000); // Hide after 8 seconds max
+    return () => clearTimeout(timeout);
+  }, [fullscreenPdf]);
+
+  // Fallback timeout for inline media loading states
+  useEffect(() => {
+    const timeouts: NodeJS.Timeout[] = [];
+    Object.entries(loadingMedia).forEach(([id, isLoading]) => {
+      if (isLoading) {
+        const timeout = setTimeout(() => {
+          setLoadingMedia((prev) => ({ ...prev, [id]: false }));
+        }, 10000); // Hide after 10 seconds max
+        timeouts.push(timeout);
+      }
+    });
+    return () => timeouts.forEach(clearTimeout);
+  }, [loadingMedia]);
 
   const handleBack = () => {
     router.push(`/${lang}/training`);
@@ -260,35 +301,81 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
                     </div>
                     <div className="p-4">
                       {m.type === 'video' ? (
-                        <video
-                          key={m.mediaId}
-                          controls
-                          controlsList="nodownload noplaybackrate"
-                          disablePictureInPicture
-                          className="w-full rounded-2xl border border-slate-200"
-                          onContextMenu={(e) => e.preventDefault()}
-                          preload="metadata"
-                          src={`/api/media/video/${encodeURIComponent(m.mediaId)}/manifest?authOnly=1`}
-                        />
+                        <div className="relative">
+                          {/* Loading overlay for video */}
+                          {loadingMedia[m.id] && (
+                            <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-slate-100 rounded-2xl border border-slate-200">
+                              <div className="flex flex-col items-center gap-3">
+                                <div className="relative">
+                                  <div className="w-16 h-16 rounded-full bg-blue-50 flex items-center justify-center">
+                                    <Play className="w-6 h-6 text-blue-600" />
+                                  </div>
+                                  <Loader2 className="absolute -top-1 -left-1 w-[72px] h-[72px] text-blue-600 animate-spin" />
+                                </div>
+                                <p className="text-sm font-medium text-slate-600">
+                                  {lang === 'zh' ? '正在加载视频...' : 'Loading video...'}
+                                </p>
+                              </div>
+                            </div>
+                          )}
+                          <video
+                            key={m.mediaId}
+                            controls
+                            controlsList="nodownload noplaybackrate"
+                            disablePictureInPicture
+                            className="w-full rounded-2xl border border-slate-200"
+                            onContextMenu={(e) => e.preventDefault()}
+                            preload="metadata"
+                            src={`/api/media/video/${encodeURIComponent(m.mediaId)}/manifest?authOnly=1`}
+                            poster={`/api/media/video/${encodeURIComponent(m.mediaId)}/manifest?thumb=1`}
+                            onLoadedData={() => handleMediaLoaded(m.id)}
+                            onCanPlay={() => handleMediaLoaded(m.id)}
+                          />
+                        </div>
                       ) : (
                         <div>
-                          <object
-                            key={m.mediaId}
-                            data={`/api/media/pdf/${encodeURIComponent(m.mediaId)}?authOnly=1#toolbar=0&navpanes=0&scrollbar=0`}
-                            type="application/pdf"
-                            className="w-full h-[70vh] rounded-2xl border border-slate-200 bg-white"
-                          >
-                            <a
-                              href={`/api/media/pdf/${encodeURIComponent(m.mediaId)}?authOnly=1`}
-                              className="text-blue-600 underline"
+                          <div className="relative">
+                            {/* Loading overlay for PDF */}
+                            {loadingMedia[m.id] && (
+                              <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-slate-50 rounded-2xl border border-slate-200">
+                                <div className="flex flex-col items-center gap-3">
+                                  <div className="relative">
+                                    <div className="w-16 h-16 rounded-full bg-blue-50 flex items-center justify-center">
+                                      <FileText className="w-6 h-6 text-blue-600" />
+                                    </div>
+                                    <Loader2 className="absolute -top-1 -left-1 w-[72px] h-[72px] text-blue-600 animate-spin" />
+                                  </div>
+                                  <p className="text-sm font-medium text-slate-600">
+                                    {lang === 'zh' ? '正在加载文档...' : 'Loading document...'}
+                                  </p>
+                                  <p className="text-xs text-slate-400">
+                                    {lang === 'zh' ? '首次加载可能需要几秒钟' : 'First load may take a few seconds'}
+                                  </p>
+                                </div>
+                              </div>
+                            )}
+                            <object
+                              key={m.mediaId}
+                              data={`/api/media/pdf/${encodeURIComponent(m.mediaId)}?authOnly=1#toolbar=0&navpanes=0&scrollbar=0`}
+                              type="application/pdf"
+                              className="w-full h-[70vh] rounded-2xl border border-slate-200 bg-white"
+                              onLoad={() => handleMediaLoaded(m.id)}
                             >
-                              {t('training.courseLanding.openDocument') || '打开文档'}
-                            </a>
-                          </object>
+                              <a
+                                href={`/api/media/pdf/${encodeURIComponent(m.mediaId)}?authOnly=1`}
+                                className="text-blue-600 underline"
+                              >
+                                {t('training.courseLanding.openDocument') || '打开文档'}
+                              </a>
+                            </object>
+                          </div>
                           <div className="mt-3 flex items-center gap-3">
                             <button
                               type="button"
-                              onClick={() => setFullscreenPdf({ mediaId: m.mediaId, title: m.title })}
+                              onClick={() => {
+                                setFullscreenLoading(true);
+                                setFullscreenPdf({ mediaId: m.mediaId, title: m.title });
+                              }}
                               className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900 text-white text-xs font-bold hover:bg-blue-600 transition-colors"
                             >
                               {t('training.courseLanding.viewFullscreen') || '全屏阅读'}
@@ -439,7 +526,7 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
 
           {/* PDF Container */}
           <div
-            className="flex-1 overflow-hidden"
+            className="flex-1 overflow-hidden relative"
             onClick={(e) => e.stopPropagation()}
             onKeyDown={(e) => {
               if (e.key === 'Escape') {
@@ -448,10 +535,30 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
               }
             }}
           >
+            {/* Loading overlay for fullscreen PDF */}
+            {fullscreenLoading && (
+              <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-slate-900">
+                <div className="flex flex-col items-center gap-4">
+                  <div className="relative">
+                    <div className="w-20 h-20 rounded-full bg-slate-800 flex items-center justify-center">
+                      <FileText className="w-8 h-8 text-blue-400" />
+                    </div>
+                    <Loader2 className="absolute -top-1 -left-1 w-[88px] h-[88px] text-blue-400 animate-spin" />
+                  </div>
+                  <p className="text-base font-medium text-white">
+                    {lang === 'zh' ? '正在加载文档...' : 'Loading document...'}
+                  </p>
+                  <p className="text-sm text-slate-400">
+                    {lang === 'zh' ? '首次加载可能需要几秒钟' : 'First load may take a few seconds'}
+                  </p>
+                </div>
+              </div>
+            )}
             <object
               data={`/api/media/pdf/${encodeURIComponent(fullscreenPdf.mediaId)}?authOnly=1#toolbar=1&navpanes=1&scrollbar=1`}
               type="application/pdf"
               className="w-full h-full"
+              onLoad={() => setFullscreenLoading(false)}
             >
               <div className="flex items-center justify-center h-full text-white">
                 <div className="text-center">
