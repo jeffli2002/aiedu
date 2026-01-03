@@ -31,10 +31,15 @@ export function middleware(req: NextRequest) {
     });
   };
 
-  // If URL is prefixed with a supported locale, keep it and set cookie.
+  // If URL is prefixed with a supported locale, rewrite internally to the
+  // unprefixed path so we don't need duplicate route files, while keeping
+  // the canonical locale prefix in the browser URL.
   if (SUPPORTED.includes(maybeLocale)) {
+    const rest = '/' + segments.slice(1).join('/');
+    const url = req.nextUrl.clone();
+    url.pathname = rest || '/';
     setLangCookie(maybeLocale);
-    return res;
+    return NextResponse.rewrite(url, { request: req, headers: res.headers });
   }
 
   // No prefix: ensure we have a language cookie. If missing, detect from headers
