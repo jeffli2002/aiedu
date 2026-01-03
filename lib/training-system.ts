@@ -147,7 +147,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
             id: 'c201-imagination-t01',
             title: 'AI 绘画解锁想象力 T01（PDF）',
             type: 'pdf',
-            mediaId: 'training/c201/ai-drawing-unlock-imagination_T01_zh',
+            mediaId: 'training/c101/ai-drawing-unlock-imagination_T01_zh',
             language: 'zh',
           },
         ]
