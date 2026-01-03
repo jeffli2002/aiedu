@@ -63,7 +63,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
             id: 'f101-ai-evolution-t1',
             title: 'AI 进化故事 T1（PDF）',
             type: 'pdf',
-            mediaId: 'training/f101/ai-evolution-story_T01_zh',
+            mediaId: 'training/f101/zh/ai-evolution-story_T01',
             language: 'zh',
             thumbKey: 'docs/training/f101/ai-evolution-story_T01_zh/thumb.jpg',
           },
@@ -149,6 +149,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
             type: 'pdf',
             mediaId: 'training/c101/ai-drawing-unlock-imagination_T01_zh',
             language: 'zh',
+            thumbKey: 'docs/training/c101/ai-drawing-unlock-imagination_T01_zh/thumb.jpg',
           },
         ]
       },
