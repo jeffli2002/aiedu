@@ -1,11 +1,11 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslations, useLocale } from 'next-intl';
 import Link from 'next/link';
-import { 
-  BookOpen, 
-  Clock, 
+import {
+  BookOpen,
+  Clock,
   Zap,
   Terminal,
   Share2,
@@ -25,9 +25,11 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
 export default function TrainingPageContent() {
-  const { t, i18n } = useTranslation();
+  const t = useTranslations('training');
+  const tc = useTranslations('common');
+  const locale = useLocale();
   const [isClient, setIsClient] = useState(false);
-  const lang = i18n.language === 'zh' ? 'zh' : 'en';
+  const lang = locale === 'zh' ? 'zh' : 'en';
   const system = TRAINING_SYSTEM[lang];
 
   useEffect(() => {
@@ -79,8 +81,8 @@ export default function TrainingPageContent() {
         {hasPracticeSplit ? (
           <div className="space-y-4 mb-8 relative z-10 w-full">
             <div className="flex justify-between text-[10px] font-black uppercase tracking-[0.15em]">
-              <span className="text-blue-500 flex items-center gap-1">{isClient && i18n.isInitialized ? t('training.theoryLabel') : '理论'}</span>
-              <span className="text-purple-500 flex items-center gap-1">{isClient && i18n.isInitialized ? t('training.practiceLabel') : '实践'}</span>
+              <span className="text-blue-500 flex items-center gap-1">{isClient ? t('theoryLabel') : '理论'}</span>
+              <span className="text-purple-500 flex items-center gap-1">{isClient ? t('practiceLabel') : '实践'}</span>
             </div>
             <div className="h-2 w-full bg-slate-100 rounded-full flex overflow-hidden">
               <div className="h-full bg-blue-500 transition-all duration-700" style={{ width: '35%' }} />
@@ -110,14 +112,14 @@ export default function TrainingPageContent() {
     );
   };
 
-  if (!isClient || !i18n.isInitialized) {
+  if (!isClient) {
     return (
       <div className="min-h-screen bg-[#f8fafc]">
         <Navbar />
         <div className="pt-24 pb-20 flex items-center justify-center">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-            <p className="mt-4 text-slate-600">{t('common.loading')}</p>
+            <p className="mt-4 text-slate-600">{tc('loading')}</p>
           </div>
         </div>
         <Footer />
@@ -125,8 +127,18 @@ export default function TrainingPageContent() {
     );
   }
 
-  const pblSteps = t('training.pblSteps', { returnObjects: true }) as Array<{ label: string; desc: string }>;
-  const milestones = t('training.milestones', { returnObjects: true }) as string[];
+  const pblSteps = [
+    { label: t('pblSteps.0.label'), desc: t('pblSteps.0.desc') },
+    { label: t('pblSteps.1.label'), desc: t('pblSteps.1.desc') },
+    { label: t('pblSteps.2.label'), desc: t('pblSteps.2.desc') },
+    { label: t('pblSteps.3.label'), desc: t('pblSteps.3.desc') }
+  ];
+  const milestones = [
+    t('milestones.0'),
+    t('milestones.1'),
+    t('milestones.2'),
+    t('milestones.3')
+  ];
 
   return (
     <div className="min-h-screen bg-[#f8fafc] text-slate-900 overflow-x-hidden">
@@ -149,16 +161,16 @@ export default function TrainingPageContent() {
         <div className="max-w-7xl mx-auto text-center relative z-10">
           <div className="inline-flex items-center gap-3 px-5 py-2 rounded-full bg-white/80 backdrop-blur-md border border-blue-100 text-blue-600 text-[10px] font-black tracking-[0.25em] uppercase mb-8 animate-in fade-in slide-in-from-bottom-4 duration-700 shadow-md">
             <Star className="w-3.5 h-3.5 fill-blue-500 text-blue-500" />
-            {t('training.academyTag')}
+            {t('academyTag')}
             <Star className="w-3.5 h-3.5 fill-blue-500 text-blue-500" />
           </div>
           
           <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold font-display text-slate-900 tracking-tight leading-[1.1] animate-in fade-in slide-in-from-bottom-6 duration-700 delay-100 mb-8 max-w-4xl mx-auto">
-            {t('training.heroTitle')}
+            {t('heroTitle')}
           </h1>
           
           <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed mb-10 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-200 font-medium">
-            {t('training.heroSubtitle')}
+            {t('heroSubtitle')}
           </p>
 
           <div className="flex flex-col sm:flex-row justify-center items-center gap-8 animate-in fade-in slide-in-from-bottom-10 duration-700 delay-300">
@@ -171,8 +183,8 @@ export default function TrainingPageContent() {
                   ))}
                 </div>
                 <div className="text-left border-l border-slate-200 pl-4 ml-1">
-                  <p className="text-[10px] font-black text-slate-900 uppercase tracking-widest">{t('training.studentJoin')}</p>
-                  <p className="text-[10px] font-bold text-blue-600 uppercase">{t('training.pioneersTag')}</p>
+                  <p className="text-[10px] font-black text-slate-900 uppercase tracking-widest">{t('studentJoin')}</p>
+                  <p className="text-[10px] font-bold text-blue-600 uppercase">{t('pioneersTag')}</p>
                 </div>
              </div>
           </div>
@@ -190,14 +202,14 @@ export default function TrainingPageContent() {
              <div className="flex-1 text-center lg:text-left">
                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 text-slate-500 text-[9px] font-black tracking-widest uppercase mb-4 group-hover:bg-blue-50 group-hover:text-blue-600 transition-colors">
                  <Flame className="w-3.5 h-3.5 text-orange-500" />
-                 {t('training.pblBadge')}
+                 {t('pblBadge')}
                </div>
                
                <h2 className="text-2xl md:text-4xl font-bold font-display mb-4 text-slate-900 tracking-tight group-hover:text-blue-700 transition-all duration-500 group-hover:-translate-y-1 group-hover:scale-[1.02] origin-left">
-                 {t('training.modules.pbl')}
+                 {t('modules.pbl')}
                </h2>
                <p className="text-slate-500 text-base md:text-xl max-w-4xl leading-relaxed group-hover:text-slate-700 transition-colors duration-500 group-hover:translate-x-1">
-                 {t('training.pblContent')}
+                 {t('pblContent')}
                </p>
                
                <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 mt-10">
@@ -220,8 +232,8 @@ export default function TrainingPageContent() {
               <BookOpen className="w-6 h-6" />
             </div>
             <div>
-              <span className="text-[9px] font-black text-emerald-500 uppercase tracking-widest block">{t('training.sectionLabels.foundations')}</span>
-              <h2 className="text-2xl md:text-4xl font-bold font-display text-slate-900 tracking-tight">{t('training.modules.foundations')}</h2>
+              <span className="text-[9px] font-black text-emerald-500 uppercase tracking-widest block">{t('sectionLabels.foundations')}</span>
+              <h2 className="text-2xl md:text-4xl font-bold font-display text-slate-900 tracking-tight">{t('modules.foundations')}</h2>
             </div>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -236,8 +248,8 @@ export default function TrainingPageContent() {
               <Mic className="w-6 h-6" />
             </div>
             <div>
-              <span className="text-[9px] font-black text-purple-500 uppercase tracking-widest block">{t('training.sectionLabels.creation')}</span>
-              <h2 className="text-2xl md:text-4xl font-bold font-display text-slate-900 tracking-tight">{t('training.modules.creation')}</h2>
+              <span className="text-[9px] font-black text-purple-500 uppercase tracking-widest block">{t('sectionLabels.creation')}</span>
+              <h2 className="text-2xl md:text-4xl font-bold font-display text-slate-900 tracking-tight">{t('modules.creation')}</h2>
             </div>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -252,8 +264,8 @@ export default function TrainingPageContent() {
               <TrendingUp className="w-6 h-6" />
             </div>
             <div>
-              <span className="text-[9px] font-black text-orange-500 uppercase tracking-widest block">{t('training.sectionLabels.efficiency')}</span>
-              <h2 className="text-2xl md:text-4xl font-bold font-display text-slate-900 tracking-tight">{t('training.modules.efficiency')}</h2>
+              <span className="text-[9px] font-black text-orange-500 uppercase tracking-widest block">{t('sectionLabels.efficiency')}</span>
+              <h2 className="text-2xl md:text-4xl font-bold font-display text-slate-900 tracking-tight">{t('modules.efficiency')}</h2>
             </div>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -268,8 +280,8 @@ export default function TrainingPageContent() {
               <Terminal className="w-6 h-6" />
             </div>
             <div>
-              <span className="text-[9px] font-black text-blue-600 uppercase tracking-widest block">{t('training.sectionLabels.vibe')}</span>
-              <h2 className="text-2xl md:text-4xl font-bold font-display text-slate-900 tracking-tight">{t('training.hackathonTitle')}</h2>
+              <span className="text-[9px] font-black text-blue-600 uppercase tracking-widest block">{t('sectionLabels.vibe')}</span>
+              <h2 className="text-2xl md:text-4xl font-bold font-display text-slate-900 tracking-tight">{t('hackathonTitle')}</h2>
             </div>
           </div>
 
@@ -277,7 +289,7 @@ export default function TrainingPageContent() {
             <div className="lg:col-span-4 space-y-8">
                <div className="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
                  <h4 className="text-xl font-bold mb-6 flex items-center gap-2 text-slate-900">
-                   <Award className="text-yellow-500 w-6 h-6" /> {t('training.milestonesTitle')}
+                   <Award className="text-yellow-500 w-6 h-6" /> {t('milestonesTitle')}
                  </h4>
                  <ul className="space-y-6">
                     {[
@@ -298,13 +310,13 @@ export default function TrainingPageContent() {
                  <div className="absolute top-0 right-0 -mr-12 -mt-12 w-32 h-32 bg-blue-500/10 blur-[40px] rounded-full" />
                  <div className="relative z-10">
                    <div className="flex justify-between items-start mb-8">
-                      <p className="text-[9px] font-black uppercase tracking-[0.2em] text-blue-400">{t('training.nextCohort')}</p>
+                      <p className="text-[9px] font-black uppercase tracking-[0.2em] text-blue-400">{t('nextCohort')}</p>
                       <Zap className="w-5 h-5 text-yellow-400 fill-yellow-400" />
                    </div>
-                   <h4 className="text-3xl font-bold font-display mb-2 tracking-tight">{t('training.cohortName')}</h4>
-                   <p className="text-xs opacity-60 mb-8 font-medium">{t('training.cohortDetails')}</p>
+                   <h4 className="text-3xl font-bold font-display mb-2 tracking-tight">{t('cohortName')}</h4>
+                   <p className="text-xs opacity-60 mb-8 font-medium">{t('cohortDetails')}</p>
                    <button className="w-full bg-blue-600 text-white py-4 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-blue-500 transition-all shadow-md active:scale-95">
-                      {t('training.waitingListBtn')}
+                      {t('waitingListBtn')}
                    </button>
                  </div>
                </div>

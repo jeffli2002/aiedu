@@ -1,17 +1,17 @@
 import { defineRouting } from 'next-intl/routing';
 
+export const locales = ['en', 'zh'] as const;
+export type Locale = (typeof locales)[number];
+
 export const routing = defineRouting({
-  locales: ['en', 'zh', 'es', 'fr', 'de', 'ja'],
-  defaultLocale: 'en',
-  localePrefix: 'always', // Always show locale prefix
+  locales,
+  defaultLocale: 'zh',
+  localePrefix: 'always', // Always show locale prefix for SEO
   localeDetection: true, // Auto-detect locale from browser
 });
 
-export const locales = [
-  { name: 'English', locale: 'en' },
-  { name: '中文', locale: 'zh' },
-  { name: 'Español', locale: 'es' },
-  { name: 'Français', locale: 'fr' },
-  { name: 'Deutsch', locale: 'de' },
-  { name: '日本語', locale: 'ja' },
-];
+// Locale display names for UI
+export const localeNames: Record<Locale, string> = {
+  en: 'English',
+  zh: '中文',
+};

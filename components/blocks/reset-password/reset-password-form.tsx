@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
 import { Loader2, Mail, ShieldAlert, ShieldCheck } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
@@ -19,11 +19,7 @@ type StatusState = {
 const MIN_PASSWORD_LENGTH = 8;
 
 export function ResetPasswordForm({ className }: { className?: string }) {
-  const { t } = useTranslation();
-  const tr = (key: string, options?: Record<string, unknown>): string => {
-    const res = t(`resetPassword.${key}`, options as never);
-    return typeof res === 'string' ? res : String(res);
-  };
+  const t = useTranslations('resetPassword');
   const searchParams = useSearchParams();
   const token = searchParams.get('token');
   const tokenError = searchParams.get('error');
@@ -67,13 +63,13 @@ export function ResetPasswordForm({ className }: { className?: string }) {
 
       setStatus({
         type: 'success',
-        message: data?.message || tr('requestSuccess'),
+        message: data?.message || t('requestSuccess'),
       });
       setEmail('');
     } catch (error) {
       setStatus({
         type: 'error',
-        message: error instanceof Error ? error.message : tr('requestError'),
+        message: error instanceof Error ? error.message : t('requestError'),
       });
     } finally {
       setIsSubmitting(false);
@@ -87,7 +83,7 @@ export function ResetPasswordForm({ className }: { className?: string }) {
     if (newPassword.length < MIN_PASSWORD_LENGTH) {
       setStatus({
         type: 'error',
-        message: tr('passwordTooShort', { count: MIN_PASSWORD_LENGTH }),
+        message: t('passwordTooShort', { count: MIN_PASSWORD_LENGTH }),
       });
       return;
     }
@@ -95,7 +91,7 @@ export function ResetPasswordForm({ className }: { className?: string }) {
     if (newPassword !== confirmPassword) {
       setStatus({
         type: 'error',
-        message: tr('passwordMismatch'),
+        message: t('passwordMismatch'),
       });
       return;
     }
@@ -120,14 +116,14 @@ export function ResetPasswordForm({ className }: { className?: string }) {
 
       setStatus({
         type: 'success',
-        message: tr('resetSuccess'),
+        message: t('resetSuccess'),
       });
       setNewPassword('');
       setConfirmPassword('');
     } catch (error) {
       setStatus({
         type: 'error',
-        message: error instanceof Error ? error.message : tr('resetError'),
+        message: error instanceof Error ? error.message : t('resetError'),
       });
     } finally {
       setIsSubmitting(false);
@@ -157,10 +153,10 @@ export function ResetPasswordForm({ className }: { className?: string }) {
     <Card className={cn('w-full', className)}>
       <CardHeader className="space-y-2 text-center">
         <CardTitle className="text-2xl font-semibold">
-          {isResetMode ? tr('titleReset') : tr('titleRequest')}
+          {isResetMode ? t('titleReset') : t('titleRequest')}
         </CardTitle>
         <CardDescription>
-          {isResetMode ? tr('descriptionReset') : tr('descriptionRequest')}
+          {isResetMode ? t('descriptionReset') : t('descriptionRequest')}
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
@@ -168,8 +164,8 @@ export function ResetPasswordForm({ className }: { className?: string }) {
           <div className="flex items-start gap-3 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-amber-800 text-sm">
             <ShieldAlert className="mt-0.5 h-4 w-4 flex-shrink-0" />
             <div>
-              <p className="font-medium">{tr('tokenErrorTitle')}</p>
-              <p className="text-amber-700">{tr('tokenErrorBody')}</p>
+              <p className="font-medium">{t('tokenErrorTitle')}</p>
+              <p className="text-amber-700">{t('tokenErrorBody')}</p>
             </div>
           </div>
         )}
@@ -179,11 +175,11 @@ export function ResetPasswordForm({ className }: { className?: string }) {
         {!isResetMode && (
           <form className="space-y-5" onSubmit={handleRequestLink}>
             <div className="space-y-2">
-              <Label htmlFor="reset-email">{tr('emailLabel')}</Label>
+              <Label htmlFor="reset-email">{t('emailLabel')}</Label>
               <Input
                 id="reset-email"
                 type="email"
-                placeholder={tr('emailPlaceholder')}
+                placeholder={t('emailPlaceholder')}
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
                 required
@@ -194,12 +190,12 @@ export function ResetPasswordForm({ className }: { className?: string }) {
               {isSubmitting ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  {tr('sendingLink')}
+                  {t('sendingLink')}
                 </>
               ) : (
                 <>
                   <Mail className="mr-2 h-4 w-4" />
-                  {tr('sendLink')}
+                  {t('sendLink')}
                 </>
               )}
             </Button>
@@ -209,29 +205,29 @@ export function ResetPasswordForm({ className }: { className?: string }) {
         {isResetMode && (
           <form className="space-y-5" onSubmit={handleResetPassword}>
             <div className="space-y-2">
-              <Label htmlFor="new-password">{tr('newPasswordLabel')}</Label>
+              <Label htmlFor="new-password">{t('newPasswordLabel')}</Label>
               <Input
                 id="new-password"
                 type="password"
                 value={newPassword}
                 onChange={(event) => setNewPassword(event.target.value)}
                 minLength={MIN_PASSWORD_LENGTH}
-                placeholder={tr('newPasswordPlaceholder')}
+                placeholder={t('newPasswordPlaceholder')}
                 required
               />
               <p className="text-muted-foreground text-xs">
-                {tr('passwordHint', { count: MIN_PASSWORD_LENGTH })}
+                {t('passwordHint', { count: MIN_PASSWORD_LENGTH })}
               </p>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="confirm-password">{tr('confirmPasswordLabel')}</Label>
+              <Label htmlFor="confirm-password">{t('confirmPasswordLabel')}</Label>
               <Input
                 id="confirm-password"
                 type="password"
                 value={confirmPassword}
                 onChange={(event) => setConfirmPassword(event.target.value)}
                 minLength={MIN_PASSWORD_LENGTH}
-                placeholder={tr('confirmPasswordPlaceholder')}
+                placeholder={t('confirmPasswordPlaceholder')}
                 required
               />
             </div>
@@ -239,19 +235,19 @@ export function ResetPasswordForm({ className }: { className?: string }) {
               {isSubmitting ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  {tr('updatingPassword')}
+                  {t('updatingPassword')}
                 </>
               ) : (
-                tr('updatePassword')
+                t('updatePassword')
               )}
             </Button>
           </form>
         )}
 
         <p className="text-center text-sm text-muted-foreground">
-          {tr('rememberText')}{' '}
+          {t('rememberText')}{' '}
           <Link href="/signin" className="text-primary underline-offset-4 hover:underline">
-            {tr('backToLogin')}
+            {t('backToLogin')}
           </Link>
         </p>
       </CardContent>

@@ -9,7 +9,7 @@ import type { LoginFormProps } from '@/types/login';
 import { AlertCircle } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslations } from 'next-intl';
 
 export function LoginForm({
   className,
@@ -22,7 +22,7 @@ export function LoginForm({
   onClearError,
   ...props
 }: LoginFormProps & React.ComponentProps<'div'>) {
-  const { t } = useTranslation();
+  const t = useTranslations();
   const [isInWebView, setIsInWebView] = useState(false);
   const [showWebViewWarning, setShowWebViewWarning] = useState(false);
   const [showVerificationBanner, setShowVerificationBanner] = useState(false);

@@ -32,7 +32,8 @@
     "batchVideoGeneration": "Vidéos en lot",
     "batchVideoGenerationDesc": "Génération de vidéos en lot",
     "batchGeneration": "Génération en lot",
-    "assets": "Ressources",
+    "assets": "Mes Créations",
+    "training": "Formation",
     "dashboard": "Tableau de bord",
     "login": "Connexion",
     "signup": "S'inscrire",
@@ -220,6 +221,8 @@
     "progressRecovered": "Résultat précédent récupéré",
     "progressReady": "Image prête !",
     "imageWillAppearHere": "Votre image générée apparaîtra ici",
+    "textPromptPlaceholder": "Un jardin japonais serein avec des cerisiers en fleurs, des carpes koï nageant dans un étang cristallin, un pont en bois traditionnel, une douce lumière matinale filtrant à travers les érables, ultra-réaliste, haute définition",
+    "imagePromptPlaceholder": "Transformez cette image en style aquarelle, couleurs pastel douces, coups de pinceau artistiques",
     "download": "Télécharger",
     "share": "Partager",
     "shareCopied": "URL de l'image copiée dans le presse-papiers !",
@@ -263,11 +266,12 @@
     "videoPromotionCtaPrimary": "Essayer l'IA image vers vidéo",
     "videoPromotionCtaSecondary": "Aller au générateur vidéo",
     "imageStyles": {
-      "studio-shot": "Photo studio",
-      "lifestyle": "Lifestyle",
-      "minimalist": "Minimaliste",
-      "seasonal": "Saisonnier",
-      "infographic": "Infographie"
+      "modern-manga": "Manga Moderne",
+      "ghibli": "Style Ghibli",
+      "cyberpunk": "Cyberpunk",
+      "chinese-classical": "Classique Chinois",
+      "realism": "Réalisme",
+      "hand-drawn": "Illustration Dessinée à la Main"
     },
     "dragDropUpload": "Glissez-déposez des images ou cliquez pour télécharger (JPEG, PNG, WebP, max 10 Mo chacune)",
     "imagesSelected": "{count} / {max} images sélectionnées",
@@ -461,11 +465,12 @@
     "aspectRatio4:3": "4:3",
     "aspectRatio3:4": "3:4",
     "imageStyles": {
-      "studio-shot": "Photo studio",
-      "lifestyle": "Lifestyle",
-      "minimalist": "Minimaliste",
-      "seasonal": "Saisonnier",
-      "infographic": "Infographie"
+      "modern-manga": "Manga Moderne",
+      "ghibli": "Style Ghibli",
+      "cyberpunk": "Cyberpunk",
+      "chinese-classical": "Classique Chinois",
+      "realism": "Réalisme",
+      "hand-drawn": "Illustration Dessinée à la Main"
     },
     "videoStyles": {
       "spoken-script": "Script parlé",
@@ -570,8 +575,8 @@
     "used": "Utilisé"
   },
   "assets": {
-    "title": "Bibliothèque de ressources",
-    "subtitle": "Consultez et gérez tout le contenu généré",
+    "title": "Mes Créations",
+    "subtitle": "Consultez et gérez tout votre contenu créé",
     "generateNew": "Générer un nouveau contenu",
     "searchPlaceholder": "Rechercher des prompts...",
     "filterType": "Filtrer le type",

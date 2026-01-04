@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState, useCallback } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslations, useLocale } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import {
@@ -30,14 +30,16 @@ interface CourseLandingPageProps {
 }
 
 export default function CourseLandingPage({ course }: CourseLandingPageProps) {
-  const { t, i18n } = useTranslation();
+  const t = useTranslations('training');
+  const tc = useTranslations('common');
+  const locale = useLocale();
   const router = useRouter();
   const [isClient, setIsClient] = useState(false);
   const [fullscreenPdf, setFullscreenPdf] = useState<{ mediaId: string; title: string } | null>(null);
   const [loadingMedia, setLoadingMedia] = useState<Record<string, boolean>>({});
   const [fullscreenLoading, setFullscreenLoading] = useState(false);
   const isAuthenticated = useIsAuthenticated();
-  const lang = i18n.language === 'zh' ? 'zh' : 'en';
+  const lang = locale === 'zh' ? 'zh' : 'en';
   const visibleMaterials = (course.materials || []).filter(
     (m) => !m.language || m.language === lang
   );
@@ -99,14 +101,14 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
     router.push(`/${lang}/training`);
   };
 
-  if (!isClient || !i18n.isInitialized) {
+  if (!isClient) {
     return (
       <div className="min-h-screen bg-white">
         <Navbar />
         <div className="pt-24 pb-20 flex items-center justify-center">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-            <p className="mt-4 text-slate-600">{t('common.loading')}</p>
+            <p className="mt-4 text-slate-600">{tc('loading')}</p>
           </div>
         </div>
         <Footer />
@@ -114,8 +116,8 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
     );
   }
 
-  const courseTypeLabel = t(`training.courseLanding.courseType.${course.type}`);
-  const masteryLabel = t('training.courseLanding.mastery');
+  const courseTypeLabel = t(`courseLanding.courseType.${course.type}`);
+  const masteryLabel = t('courseLanding.mastery');
 
   return (
     <div className="min-h-screen bg-white pb-32">
@@ -146,7 +148,7 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
           >
             <ArrowLeft className="w-5 h-5 text-blue-600 group-hover:-translate-x-1 transition-transform" />
             <span className="font-black uppercase tracking-widest text-[10px] text-slate-900">
-              {t('training.courseLanding.backBtn')}
+              {t('courseLanding.backBtn')}
             </span>
           </button>
 
@@ -170,18 +172,18 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
         <div className="bg-white/90 backdrop-blur-xl p-8 md:p-12 rounded-[3.5rem] border border-slate-100 shadow-2xl flex flex-wrap gap-12 md:gap-24 items-center justify-between">
           <div className="flex flex-wrap gap-12 md:gap-24">
             {[
-              { icon: <Clock className="w-6 h-6 text-blue-600" />, label: t('training.courseLanding.totalTime'), value: course.duration },
-              { icon: <Cpu className="w-6 h-6 text-purple-600" />, label: t('training.courseLanding.format'), value: t(`training.courseLanding.format${course.format}`) },
+              { icon: <Clock className="w-6 h-6 text-blue-600" />, label: t('courseLanding.totalTime'), value: course.duration },
+              { icon: <Cpu className="w-6 h-6 text-purple-600" />, label: t('courseLanding.format'), value: t(`courseLanding.format${course.format}`) },
               { 
                 icon: <Target className="w-6 h-6 text-emerald-600" />, 
-                label: t('training.courseLanding.skillLevel'), 
+                label: t('courseLanding.skillLevel'), 
                 value: course.type === 'vibe' 
-                  ? t('training.courseLanding.vibeAgeRange')
+                  ? t('courseLanding.vibeAgeRange')
                   : course.type === 'creation'
-                  ? t('training.courseLanding.creationAgeRange')
+                  ? t('courseLanding.creationAgeRange')
                   : course.type === 'efficiency'
-                  ? t('training.courseLanding.efficiencyAgeRange')
-                  : t('training.courseLanding.ageRange')
+                  ? t('courseLanding.efficiencyAgeRange')
+                  : t('courseLanding.ageRange')
               },
             ].map((item, i) => (
               <div key={i} className="space-y-2">
@@ -198,7 +200,7 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
             href="/#apply"
             className="px-10 py-5 bg-blue-600 hover:bg-blue-700 text-white rounded-[2rem] font-black text-xs uppercase tracking-[0.2em] transition-all shadow-xl shadow-blue-500/20 active:scale-95 inline-block text-center"
           >
-            {t('training.courseLanding.enrollBtn')}
+            {t('courseLanding.enrollBtn')}
           </Link>
         </div>
       </div>
@@ -211,7 +213,7 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
               <div className="p-4 bg-blue-50 rounded-2xl border border-blue-100">
                 <Presentation className="w-6 h-6 text-blue-600" />
               </div>
-              <h3 className="text-2xl md:text-3xl font-bold text-slate-900">{t('training.courseLanding.materials') || '课程资料'}</h3>
+              <h3 className="text-2xl md:text-3xl font-bold text-slate-900">{t('courseLanding.materials') || '课程资料'}</h3>
             </div>
 
             {!isAuthenticated ? (
@@ -365,7 +367,7 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
                                 href={`/api/media/pdf/${encodeURIComponent(m.mediaId)}?authOnly=1`}
                                 className="text-blue-600 underline"
                               >
-                                {t('training.courseLanding.openDocument') || '打开文档'}
+                                {t('courseLanding.openDocument') || '打开文档'}
                               </a>
                             </object>
                           </div>
@@ -378,18 +380,18 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
                               }}
                               className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900 text-white text-xs font-bold hover:bg-blue-600 transition-colors"
                             >
-                              {t('training.courseLanding.viewFullscreen') || '全屏阅读'}
+                              {t('courseLanding.viewFullscreen') || '全屏阅读'}
                             </button>
                             <a
                               href={`/api/media/pdf/${encodeURIComponent(m.mediaId)}?authOnly=1`}
                               className="text-[12px] text-blue-600 underline"
                             >
-                              {t('training.courseLanding.openInNewTab') || '在新标签打开'}
+                              {t('courseLanding.openInNewTab') || '在新标签打开'}
                             </a>
                           </div>
                         </div>
                       )}
-                      <div className="mt-3 text-xs text-slate-400">{t('training.courseLanding.noDownload') || '为保护版权，本资料仅支持在线阅读/观看，已禁用右键、下载、Picture-in-Picture 与播放速度调节。'}</div>
+                      <div className="mt-3 text-xs text-slate-400">{t('courseLanding.noDownload') || '为保护版权，本资料仅支持在线阅读/观看，已禁用右键、下载、Picture-in-Picture 与播放速度调节。'}</div>
                     </div>
                   </div>
                 ))}
@@ -404,7 +406,7 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
         <div className="lg:col-span-7">
           <div className="flex items-center gap-4 mb-16">
             <div className="w-1.5 h-12 bg-blue-600 rounded-full" />
-            <h2 className="text-4xl md:text-5xl font-bold font-display text-slate-900">{t('training.courseLanding.syllabusTitle')}</h2>
+            <h2 className="text-4xl md:text-5xl font-bold font-display text-slate-900">{t('courseLanding.syllabusTitle')}</h2>
           </div>
 
           <div className="space-y-12">
@@ -415,7 +417,7 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
                 
                 <div className="p-10 rounded-[2.5rem] bg-slate-50 border border-transparent hover:border-blue-100 hover:bg-white hover:shadow-xl transition-all duration-500 group-hover:-translate-y-1">
                   <div className="text-[10px] font-black text-blue-400 uppercase tracking-widest mb-3">
-                    {t('training.courseLanding.stage')} 0{idx + 1}
+                    {t('courseLanding.stage')} 0{idx + 1}
                   </div>
                   <h3 className="text-2xl font-bold mb-4 text-slate-900 group-hover:text-blue-600 transition-colors">{item.title}</h3>
                   <p className="text-slate-500 leading-relaxed text-lg font-medium">{item.description}</p>
@@ -432,7 +434,7 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
               <div className="p-4 bg-slate-900 rounded-2xl">
                 <Rocket className="w-6 h-6 text-blue-400" />
               </div>
-              <h3 className="text-3xl font-bold font-display text-slate-900">{t('training.courseLanding.projectsTitle')}</h3>
+              <h3 className="text-3xl font-bold font-display text-slate-900">{t('courseLanding.projectsTitle')}</h3>
             </div>
 
             <div className="space-y-8">
@@ -447,12 +449,12 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
                   
                   <div className="space-y-10">
                     <div className="space-y-3">
-                      <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{t('training.courseLanding.mission')}</div>
+                      <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{t('courseLanding.mission')}</div>
                       <p className="text-lg font-bold leading-snug text-slate-700 group-hover:text-slate-900 transition-colors">{project.goal}</p>
                     </div>
 
                     <div className="space-y-4">
-                      <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{t('training.courseLanding.tools')}</div>
+                      <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{t('courseLanding.tools')}</div>
                       <div className="flex flex-wrap gap-2">
                         {project.tools.map(tool => (
                           <span key={tool} className="px-4 py-1.5 bg-slate-50 rounded-xl border border-slate-200 text-xs font-black text-slate-500 uppercase group-hover:bg-blue-50 group-hover:text-blue-600 transition-colors">{tool}</span>
@@ -463,7 +465,7 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
                     <div className="p-8 rounded-[2rem] bg-blue-50 border border-blue-100 shadow-sm transition-all group-hover:bg-blue-600 group-hover:border-blue-500">
                       <div className="flex items-center gap-2 mb-3">
                         <CheckCircle className="w-5 h-5 text-blue-600 group-hover:text-white" />
-                        <span className="text-[10px] font-black uppercase tracking-widest text-blue-800 group-hover:text-blue-100">{t('training.courseLanding.outcome')}</span>
+                        <span className="text-[10px] font-black uppercase tracking-widest text-blue-800 group-hover:text-blue-100">{t('courseLanding.outcome')}</span>
                       </div>
                       <p className="text-base font-bold leading-relaxed text-slate-900 group-hover:text-white">{project.outcome}</p>
                     </div>
@@ -477,7 +479,7 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
                 href="/#apply"
                 className="w-full bg-slate-900 text-white py-7 rounded-[2.5rem] font-black text-sm uppercase tracking-[0.25em] hover:bg-blue-600 transition-all flex items-center justify-center gap-4 active:scale-[0.98] shadow-2xl"
               >
-                {t('training.courseLanding.enrollBtn')}
+                {t('courseLanding.enrollBtn')}
                 <ChevronRight className="w-6 h-6" />
               </Link>
             </div>
@@ -490,7 +492,7 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
                    </div>
                  ))}
                </div>
-               <span className="text-xs font-black uppercase tracking-wider text-slate-500">{t('training.courseLanding.enrolledStudents')}</span>
+               <span className="text-xs font-black uppercase tracking-wider text-slate-500">{t('courseLanding.enrolledStudents')}</span>
             </div>
           </div>
         </div>
@@ -562,14 +564,14 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
             >
               <div className="flex items-center justify-center h-full text-white">
                 <div className="text-center">
-                  <p className="mb-4">{t('training.courseLanding.pdfLoadError') || '无法加载 PDF 文档'}</p>
+                  <p className="mb-4">{t('courseLanding.pdfLoadError') || '无法加载 PDF 文档'}</p>
                   <a
                     href={`/api/media/pdf/${encodeURIComponent(fullscreenPdf.mediaId)}?authOnly=1`}
                     className="text-blue-400 underline"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    {t('training.courseLanding.openInNewTab') || '在新标签页中打开'}
+                    {t('courseLanding.openInNewTab') || '在新标签页中打开'}
                   </a>
                 </div>
               </div>

@@ -32,7 +32,8 @@
     "batchVideoGeneration": "Videos por lotes",
     "batchVideoGenerationDesc": "Generación de videos por lotes",
     "batchGeneration": "Generación por lotes",
-    "assets": "Recursos",
+    "assets": "Mis Obras",
+    "training": "Capacitación",
     "dashboard": "Panel",
     "login": "Iniciar sesión",
     "signup": "Registrarse",
@@ -220,6 +221,8 @@
     "progressRecovered": "Resultado anterior recuperado",
     "progressReady": "¡Imagen lista!",
     "imageWillAppearHere": "Tu imagen generada aparecerá aquí",
+    "textPromptPlaceholder": "Un sereno jardín japonés con cerezos en flor, peces koi nadando en un estanque cristalino, puente de madera tradicional, suave luz matutina filtrándose a través de los arces, ultra-realista, alto detalle",
+    "imagePromptPlaceholder": "Transforma esta imagen en estilo acuarela, colores pastel suaves, pinceladas artísticas",
     "download": "Descargar",
     "share": "Compartir",
     "shareCopied": "¡URL de imagen copiada al portapapeles!",
@@ -263,11 +266,12 @@
     "videoPromotionCtaPrimary": "Probar IA de imagen a video",
     "videoPromotionCtaSecondary": "Ir al generador de video",
     "imageStyles": {
-      "studio-shot": "Foto de estudio",
-      "lifestyle": "Estilo de vida",
-      "minimalist": "Minimalista",
-      "seasonal": "Estacional",
-      "infographic": "Infografía"
+      "modern-manga": "Manga Moderno",
+      "ghibli": "Estilo Ghibli",
+      "cyberpunk": "Cyberpunk",
+      "chinese-classical": "Clásico Chino",
+      "realism": "Realismo",
+      "hand-drawn": "Ilustración a Mano"
     },
     "dragDropUpload": "Arrastra y suelta imágenes o haz clic para cargar (JPEG, PNG, WebP, máx. 10MB cada una)",
     "imagesSelected": "{count} / {max} imágenes seleccionadas",
@@ -461,11 +465,12 @@
     "aspectRatio4:3": "4:3",
     "aspectRatio3:4": "3:4",
     "imageStyles": {
-      "studio-shot": "Foto de estudio",
-      "lifestyle": "Estilo de vida",
-      "minimalist": "Minimalista",
-      "seasonal": "Estacional",
-      "infographic": "Infografía"
+      "modern-manga": "Manga Moderno",
+      "ghibli": "Estilo Ghibli",
+      "cyberpunk": "Cyberpunk",
+      "chinese-classical": "Clásico Chino",
+      "realism": "Realismo",
+      "hand-drawn": "Ilustración a Mano"
     },
     "videoStyles": {
       "spoken-script": "Guion hablado",
@@ -570,8 +575,8 @@
     "used": "Usado"
   },
   "assets": {
-    "title": "Biblioteca de recursos",
-    "subtitle": "Visualiza y gestiona todo el contenido generado",
+    "title": "Mis Obras",
+    "subtitle": "Visualiza y gestiona todo tu contenido creado",
     "generateNew": "Generar nuevo contenido",
     "searchPlaceholder": "Buscar prompts...",
     "filterType": "Filtrar tipo",

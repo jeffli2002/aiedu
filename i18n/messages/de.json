@@ -32,7 +32,8 @@
     "batchVideoGeneration": "Stapel-Videos",
     "batchVideoGenerationDesc": "Stapel-Videogenerierung",
     "batchGeneration": "Stapelgenerierung",
-    "assets": "Assets",
+    "assets": "Meine Werke",
+    "training": "Training",
     "dashboard": "Dashboard",
     "login": "Anmelden",
     "signup": "Registrieren",
@@ -220,6 +221,8 @@
     "progressRecovered": "Vorheriges Ergebnis wiederhergestellt",
     "progressReady": "Bild fertig!",
     "imageWillAppearHere": "Ihr generiertes Bild wird hier erscheinen",
+    "textPromptPlaceholder": "Ein ruhiger japanischer Garten mit blühenden Kirschbäumen, Koi-Fische schwimmen in einem kristallklaren Teich, traditionelle Holzbrücke, sanftes Morgenlicht durch Ahornbäume, ultra-realistisch, hohe Detailtreue",
+    "imagePromptPlaceholder": "Wandeln Sie dieses Bild in einen Aquarellstil um, sanfte Pastellfarben, künstlerische Pinselstriche",
     "download": "Herunterladen",
     "share": "Teilen",
     "shareCopied": "Bild-URL in Zwischenablage kopiert!",
@@ -263,11 +266,12 @@
     "videoPromotionCtaPrimary": "Bild-zu-Video-KI ausprobieren",
     "videoPromotionCtaSecondary": "Zum Videogenerator",
     "imageStyles": {
-      "studio-shot": "Studio-Aufnahme",
-      "lifestyle": "Lifestyle",
-      "minimalist": "Minimalistisch",
-      "seasonal": "Saisonal",
-      "infographic": "Infografik"
+      "modern-manga": "Moderner Manga",
+      "ghibli": "Ghibli-Stil",
+      "cyberpunk": "Cyberpunk",
+      "chinese-classical": "Chinesisch Klassisch",
+      "realism": "Realismus",
+      "hand-drawn": "Handgezeichnete Illustration"
     },
     "dragDropUpload": "Bilder hierher ziehen oder zum Hochladen klicken (JPEG, PNG, WebP, max. 10MB pro Bild)",
     "imagesSelected": "{count} / {max} Bilder ausgewählt",
@@ -461,11 +465,12 @@
     "aspectRatio4:3": "4:3",
     "aspectRatio3:4": "3:4",
     "imageStyles": {
-      "studio-shot": "Studio-Aufnahme",
-      "lifestyle": "Lifestyle",
-      "minimalist": "Minimalistisch",
-      "seasonal": "Saisonal",
-      "infographic": "Infografik"
+      "modern-manga": "Moderner Manga",
+      "ghibli": "Ghibli-Stil",
+      "cyberpunk": "Cyberpunk",
+      "chinese-classical": "Chinesisch Klassisch",
+      "realism": "Realismus",
+      "hand-drawn": "Handgezeichnete Illustration"
     },
     "videoStyles": {
       "spoken-script": "Gesprochenes Skript",
@@ -570,8 +575,8 @@
     "used": "Verwendet"
   },
   "assets": {
-    "title": "Asset-Bibliothek",
-    "subtitle": "Alle generierten Inhalte anzeigen und verwalten",
+    "title": "Meine Werke",
+    "subtitle": "Alle erstellten Inhalte anzeigen und verwalten",
     "generateNew": "Neuen Inhalt generieren",
     "searchPlaceholder": "Prompts durchsuchen...",
     "filterType": "Typ filtern",

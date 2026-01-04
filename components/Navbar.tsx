@@ -1,10 +1,11 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslations, useLocale } from 'next-intl';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { normalizeLocale, toBaseLang, withLocalePath } from '@/i18n/locale-utils';
+import { withLocalePath } from '@/i18n/locale-utils';
+import type { Locale } from '@/i18n/routing';
 import { Cpu, Menu, X, User, LogOut } from 'lucide-react';
 import { useAuthStore } from '@/store/auth-store';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -18,7 +19,8 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 export default function Navbar() {
-  const { t, i18n } = useTranslation();
+  const t = useTranslations();
+  const locale = useLocale() as Locale;
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isClient, setIsClient] = useState(false);
   const pathname = usePathname();
@@ -31,19 +33,16 @@ export default function Navbar() {
   }, []);
 
   const toggleLanguage = () => {
-    const current = normalizeLocale(i18n.language);
-    const next = current === 'zh-CN' ? 'en-US' : 'zh-CN';
-    const nextBase = toBaseLang(next);
-    i18n.changeLanguage(nextBase);
+    const nextLocale = locale === 'zh' ? 'en' : 'zh';
     if (typeof window !== 'undefined') {
-      localStorage.setItem('language', nextBase);
-      if (document?.documentElement) document.documentElement.lang = nextBase;
+      localStorage.setItem('language', nextLocale);
+      if (document?.documentElement) document.documentElement.lang = nextLocale;
       try {
-        document.cookie = `language=${nextBase}; path=/; max-age=${60 * 60 * 24 * 365}; samesite=lax`;
+        document.cookie = `language=${nextLocale}; path=/; max-age=${60 * 60 * 24 * 365}; samesite=lax`;
       } catch {}
       // Navigate to locale-prefixed path
       const path = pathname || '/';
-      const nextUrl = withLocalePath(path, nextBase);
+      const nextUrl = withLocalePath(path, nextLocale);
       router.replace(nextUrl);
     }
   };
@@ -55,7 +54,7 @@ export default function Navbar() {
 
   // 使用 useMemo 确保只在客户端准备好后计算翻译
   const navLinks = useMemo(() => {
-    if (!isClient || !i18n.isInitialized) {
+    if (!isClient) {
       // 服务器端或未初始化时返回默认中文
       return [
         { href: '/zh/image-generation', label: 'AI 图像' },
@@ -64,19 +63,18 @@ export default function Navbar() {
         { href: '/zh/assets', label: '我的作品' },
       ];
     }
-    const base = toBaseLang(normalizeLocale(i18n.language));
     return [
-      { href: withLocalePath('/image-generation', base), label: t('nav.aiImage') },
-      { href: withLocalePath('/video-generation', base), label: t('nav.aiVideo') },
-      { href: withLocalePath('/training', base), label: t('nav.training') },
-      { href: withLocalePath('/assets', base), label: t('nav.myAssets') },
+      { href: withLocalePath('/image-generation', locale), label: t('nav.imageGeneration') },
+      { href: withLocalePath('/video-generation', locale), label: t('nav.videoGeneration') },
+      { href: withLocalePath('/training', locale), label: t('nav.training') },
+      { href: withLocalePath('/assets', locale), label: t('nav.assets') },
     ];
-  }, [t, isClient, i18n.isInitialized]);
+  }, [t, isClient, locale]);
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200/50 px-8 py-5 backdrop-blur-xl">
       <div className="max-w-[1440px] mx-auto flex justify-between items-center">
-        <Link href={withLocalePath('/', toBaseLang(normalizeLocale(i18n.language)))} className="flex items-center space-x-3 group">
+        <Link href={withLocalePath('/', locale)} className="flex items-center space-x-3 group">
           <div className="bg-gradient-to-tr from-violet-600 to-blue-500 p-2.5 rounded-2xl group-hover:rotate-12 transition-transform duration-500">
             <Cpu className="text-white w-5 h-5" />
           </div>
@@ -101,8 +99,8 @@ export default function Navbar() {
               className="text-slate-600 hover:text-blue-600 transition-colors text-xs font-bold tracking-widest"
             >
               <span suppressHydrationWarning>
-                {isClient && i18n.isInitialized
-                  ? (toBaseLang(normalizeLocale(i18n.language)) === 'zh' ? 'EN' : 'CN')
+                {isClient
+                  ? (locale === 'zh' ? 'EN' : 'CN')
                   : 'EN'}
               </span>
             </button>
@@ -136,12 +134,12 @@ export default function Navbar() {
                   </DropdownMenuLabel>
                   <DropdownMenuItem asChild>
                     <Link href="/dashboard">
-                      {isClient && i18n.isInitialized ? t('dashboard.title') : '控制台'}
+                      {isClient ? t('nav.dashboard') : '控制台'}
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={handleSignOut}>
                     <LogOut className="mr-2 h-4 w-4" />
-                    {isClient && i18n.isInitialized ? t('common.logout') : '退出登录'}
+                    {isClient ? t('nav.logout') : '退出登录'}
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -152,13 +150,13 @@ export default function Navbar() {
                   href="/signin"
                   className="text-slate-600 hover:text-violet-600 transition-colors text-xs font-bold uppercase tracking-[0.2em]"
                 >
-                  {isClient && i18n.isInitialized ? t('nav.signin') : '登录'}
+                  {isClient ? t('nav.login') : '登录'}
                 </Link>
                 <Link
                   href="/signup"
                   className="bg-gradient-to-r from-violet-600 to-blue-600 text-white px-8 py-3 rounded-full font-black text-xs uppercase tracking-[0.15em] hover:from-violet-700 hover:to-blue-700 transition-all transform hover:scale-105 btn-shimmer shadow-lg"
                 >
-                  {isClient && i18n.isInitialized ? t('nav.apply') : '注册'}
+                  {isClient ? t('nav.signup') : '注册'}
                 </Link>
               </>
             )}
@@ -208,7 +206,7 @@ export default function Navbar() {
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="text-left font-black text-xl uppercase text-slate-900 hover:text-violet-600"
                 >
-                  {isClient && i18n.isInitialized ? t('dashboard.title') : '控制台'}
+                  {isClient ? t('nav.dashboard') : '控制台'}
                 </Link>
                 <button
                   onClick={() => {
@@ -218,7 +216,7 @@ export default function Navbar() {
                   className="text-left font-black text-xl uppercase text-slate-900 hover:text-violet-600 flex items-center gap-2"
                 >
                   <LogOut className="h-5 w-5" />
-                  {isClient && i18n.isInitialized ? t('common.logout') : '退出登录'}
+                  {isClient ? t('nav.logout') : '退出登录'}
                 </button>
               </>
             ) : (
@@ -228,14 +226,14 @@ export default function Navbar() {
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="text-left font-black text-xl uppercase text-slate-900 hover:text-violet-600"
                 >
-                  {isClient && i18n.isInitialized ? t('nav.signin') : '登录'}
+                  {isClient ? t('nav.login') : '登录'}
                 </Link>
                 <Link
                   href="/signup"
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="bg-gradient-to-r from-violet-600 to-blue-600 text-white text-center py-5 rounded-2xl font-black uppercase tracking-widest"
                 >
-                  {isClient && i18n.isInitialized ? t('nav.apply') : '注册'}
+                  {isClient ? t('nav.signup') : '注册'}
                 </Link>
               </>
             )}

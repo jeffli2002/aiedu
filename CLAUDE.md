@@ -36,7 +36,7 @@ npm run upload:thumbs           # Upload thumbnails to R2
 - **Auth**: better-auth with email/password + Google OAuth
 - **Storage**: Cloudflare R2 (S3-compatible)
 - **Payments**: Creem payment provider
-- **i18n**: Custom middleware for zh/en locale routing
+- **i18n**: next-intl with URL-based locale routing (`/en/...`, `/zh/...`)
 
 ### Key Directories
 
@@ -82,13 +82,74 @@ Key table groups in `server/db/schema.ts`:
 
 Note: `drizzle.config.ts` references `./src/server/db/schema.ts` but actual schema is at `./server/db/schema.ts`
 
-### Internationalization
+### Internationalization (next-intl)
 
-The middleware (`middleware.ts`) handles locale routing:
-- Supported locales: `en`, `zh` (default: `zh`)
-- URL pattern: `/{locale}/path` rewrites internally to `/path`
-- Language stored in cookie with 1-year expiry
-- Auto-detects from Accept-Language header if no cookie
+This project uses **next-intl** for internationalization, optimized for Next.js App Router with Server Components support.
+
+#### Why next-intl (not react-i18next)
+- Native App Router & RSC support
+- URL-based locale routing (`/en/...`, `/zh/...`) for SEO
+- Automatic `<html lang>` and hreflang meta tags
+- Smaller bundle size, no hydration mismatches
+
+#### Key Files
+
+```
+i18n/
+├── routing.ts          # Locale config (locales: ['en', 'zh'], default: 'zh')
+├── locale-utils.ts     # Helper functions (withLocalePath, toBaseLang)
+└── messages/
+    ├── en.json         # English translations
+    └── zh.json         # Chinese translations
+
+middleware.ts           # next-intl middleware for locale routing
+app/[locale]/layout.tsx # Provides NextIntlClientProvider with messages
+```
+
+#### Usage in Components
+
+**Client Components:**
+```typescript
+'use client';
+import { useTranslations, useLocale } from 'next-intl';
+
+export default function MyComponent() {
+  const t = useTranslations('namespace');  // Scoped to namespace
+  const locale = useLocale();              // 'en' | 'zh'
+
+  return <h1>{t('title')}</h1>;
+}
+```
+
+**Server Components:**
+```typescript
+import { getTranslations } from 'next-intl/server';
+
+export default async function Page() {
+  const t = await getTranslations('namespace');
+  return <h1>{t('title')}</h1>;
+}
+```
+
+#### Language Switching
+
+Language switching is URL-based (not client-side state):
+```typescript
+import { useLocale } from 'next-intl';
+import { useRouter } from 'next/navigation';
+import { withLocalePath } from '@/i18n/locale-utils';
+
+const locale = useLocale();
+const router = useRouter();
+const nextLocale = locale === 'zh' ? 'en' : 'zh';
+router.replace(withLocalePath(pathname, nextLocale));
+```
+
+#### Adding Translations
+
+1. Add keys to both `i18n/messages/en.json` and `i18n/messages/zh.json`
+2. Use nested structure: `{ "namespace": { "key": "value" } }`
+3. Access via `useTranslations('namespace')` then `t('key')`
 
 ### Environment Variables
 

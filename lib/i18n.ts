@@ -26,15 +26,28 @@ try {
   };
 }
 
+// Helper to detect locale from URL path on client
+function getLocaleFromPath(): string | null {
+  if (typeof window === 'undefined') return null;
+  const pathSegments = window.location.pathname.split('/').filter(Boolean);
+  const maybeLocale = pathSegments[0];
+  if (maybeLocale === 'en' || maybeLocale === 'zh') {
+    return maybeLocale;
+  }
+  return null;
+}
+
 // 只在客户端初始化
 if (typeof window !== 'undefined' && !i18n.isInitialized) {
   // Client: initialize synchronously with bundled resources to avoid hydration mismatch
+  // Priority: URL path > document.lang > localStorage > default 'zh'
+  const pathLang = getLocaleFromPath();
   const htmlLang =
     typeof document !== 'undefined' && document.documentElement?.lang
       ? document.documentElement.lang
       : undefined;
   const storedLang = window.localStorage?.getItem('language') || undefined;
-  const initialLang = htmlLang || storedLang || 'zh';
+  const initialLang = pathLang || htmlLang || storedLang || 'zh';
 
   i18n
     .use(initReactI18next)

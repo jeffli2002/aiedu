@@ -17,7 +17,7 @@ import { translations, Language } from '@/translations';
 import Link from 'next/link';
 import Footer from '@/components/Footer';
 import Navbar from '@/components/Navbar';
-import { useTranslation } from 'react-i18next';
+import { useLocale } from 'next-intl';
 
 const Hero = ({ lang }: { lang: Language }) => {
   const t = translations[lang].hero;
@@ -708,15 +708,15 @@ const About = ({ lang }: { lang: Language }) => {
 
 
 export default function Home() {
-  const { i18n } = useTranslation();
+  const locale = useLocale();
   const [isClient, setIsClient] = useState(false);
-  
+
   useEffect(() => {
     setIsClient(true);
   }, []);
 
-  // Map react-i18next language to our Language type
-  const lang: Language = isClient && i18n.isInitialized && i18n.language === 'en' ? 'en' : 'cn';
+  // Map next-intl locale to our Language type
+  const lang: Language = locale === 'en' ? 'en' : 'cn';
   const coreValue = translations[lang].coreValue;
 
   return (

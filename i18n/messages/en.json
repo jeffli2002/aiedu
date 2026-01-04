@@ -18,7 +18,61 @@
     "filter": "Filter",
     "all": "All",
     "selectAll": "Select All",
-    "deselectAll": "Deselect All"
+    "deselectAll": "Deselect All",
+    "signingUp": "Signing up...",
+    "orContinueWith": "or continue with"
+  },
+  "signin": {
+    "welcomeBack": "Welcome back",
+    "signInWithAccountDesc": "Sign in with your account",
+    "checkEmailToContinue": "Check your email to continue",
+    "emailConfirmationMessage": "We sent a confirmation email to {{email}}. Please check your inbox and click the link to verify your account.",
+    "yourInbox": "your inbox",
+    "needNewConfirmation": "Need a new confirmation email?",
+    "resendVerificationMessage": "Click below to resend the verification email.",
+    "sending": "Sending...",
+    "resendConfirmationEmail": "Resend confirmation email",
+    "unableToSignIn": "Unable to sign in",
+    "googleSignInNotSupported": "Google Sign-in is not supported in this browser.",
+    "useOpenInBrowser": "Use 'Open in Browser' option",
+    "orSignInWithEmail": "Or sign in with email and password",
+    "urlCopied": "URL copied to clipboard!",
+    "copyUrlToOpenInBrowser": "Copy URL to open in browser",
+    "signInWithGoogle": "Sign in with Google",
+    "signingIn": "Signing in...",
+    "orUseEmail": "or use email",
+    "email": "Email",
+    "password": "Password",
+    "forgotPassword": "Forgot password?",
+    "submit": "Sign in",
+    "dontHaveAccount": "Don't have an account?",
+    "signupLink": "Sign up"
+  },
+  "signup": {
+    "title": "Create an account",
+    "signUpWithAccount": "Sign up with your account details",
+    "signUpWithGoogle": "Sign up with Google",
+    "name": "Name",
+    "email": "Email",
+    "password": "Password",
+    "passwordHint": "Must be at least {{count}} characters",
+    "confirmPassword": "Confirm password",
+    "submit": "Sign up",
+    "haveAccount": "Already have an account?",
+    "signinLink": "Sign in",
+    "passwordMismatch": "Passwords do not match",
+    "checkInbox": "Check your inbox",
+    "emailVerificationMessage": "We sent a verification email to {{email}}. Please check your inbox and click the link to verify your account.",
+    "yourEmail": "your email",
+    "openGmail": "Open Gmail",
+    "openOutlook": "Open Outlook",
+    "openQQMail": "Open QQ Mail",
+    "noEmailInInbox": "Can't find the email?",
+    "resendIt": "Resend it",
+    "resendIn": "Resend in {{seconds}}s",
+    "wrongAddress": "Wrong email address?",
+    "logOut": "Log out",
+    "logOutToSignIn": "to sign up with a different email"
   },
   "nav": {
     "home": "Home",
@@ -32,7 +86,8 @@
     "batchVideoGeneration": "Batch Videos",
     "batchVideoGenerationDesc": "Batch video generation",
     "batchGeneration": "Batch Generation",
-    "assets": "Assets",
+    "assets": "My Works",
+    "training": "Training",
     "dashboard": "Dashboard",
     "login": "Login",
     "signup": "Sign Up",
@@ -220,6 +275,8 @@
     "progressRecovered": "Recovered previous result",
     "progressReady": "Image ready!",
     "imageWillAppearHere": "Your generated image will appear here",
+    "textPromptPlaceholder": "A serene Japanese garden with cherry blossoms in full bloom, koi fish swimming in a crystal-clear pond, traditional wooden bridge, soft morning light filtering through maple trees, ultra-realistic, high detail",
+    "imagePromptPlaceholder": "Transform this image into a watercolor painting style, soft pastel colors, artistic brush strokes",
     "download": "Download",
     "share": "Share",
     "shareCopied": "Image URL copied to clipboard!",
@@ -263,11 +320,12 @@
     "videoPromotionCtaPrimary": "Try Image to Video AI",
     "videoPromotionCtaSecondary": "Go to Video Generator",
     "imageStyles": {
-      "studio-shot": "Studio Shot",
-      "lifestyle": "Lifestyle",
-      "minimalist": "Minimalist",
-      "seasonal": "Seasonal",
-      "infographic": "Infographic"
+      "modern-manga": "Modern Manga",
+      "ghibli": "Ghibli Style",
+      "cyberpunk": "Cyberpunk",
+      "chinese-classical": "Chinese Classical",
+      "realism": "Realism",
+      "hand-drawn": "Hand-drawn Illustration"
     },
     "dragDropUpload": "Drag & drop images or click to upload (JPEG, PNG, WebP, max 10MB each)",
     "imagesSelected": "{count} / {max} images selected",
@@ -461,11 +519,12 @@
     "aspectRatio4:3": "4:3",
     "aspectRatio3:4": "3:4",
     "imageStyles": {
-      "studio-shot": "Studio Shot",
-      "lifestyle": "Lifestyle",
-      "minimalist": "Minimalist",
-      "seasonal": "Seasonal",
-      "infographic": "Infographic"
+      "modern-manga": "Modern Manga",
+      "ghibli": "Ghibli Style",
+      "cyberpunk": "Cyberpunk",
+      "chinese-classical": "Chinese Classical",
+      "realism": "Realism",
+      "hand-drawn": "Hand-drawn Illustration"
     },
     "videoStyles": {
       "spoken-script": "Spoken Script",
@@ -570,8 +629,8 @@
     "used": "Used"
   },
   "assets": {
-    "title": "Asset Library",
-    "subtitle": "View and manage all generated content",
+    "title": "My Works",
+    "subtitle": "View and manage all your created content",
     "generateNew": "Generate New Content",
     "searchPlaceholder": "Search prompts...",
     "filterType": "Filter Type",
@@ -985,6 +1044,111 @@
     "maliciousRegistration": {
       "title": "3.1 Prohibition of Malicious Registration",
       "description": "Users are strictly prohibited from creating multiple accounts or engaging in any form of malicious registration to obtain sign-up bonus credits. If Viecom discovers that a user has maliciously registered multiple accounts to obtain sign-up bonus credits, Viecom reserves the right to immediately ban and close such accounts without prior notice or user consent. In such cases, all images and videos previously generated by the banned account will no longer be saved or accessible, and Viecom will not be liable for any loss of content or data resulting from such account closure."
+    }
+  },
+  "footer": {
+    "description": "Mastering the language of the future. Join us in building a world where children use AI to create meaningful change.",
+    "explore": "Explore",
+    "contact": "Contact"
+  },
+  "training": {
+    "title": "AI Training Program",
+    "subtitle": "From fundamentals to real projects in a structured learning path.",
+    "highlightsTitle": "Program Highlights",
+    "highlight1": "Small groups with mentor guidance",
+    "highlight2": "Hands-on weekly builds and critique",
+    "highlight3": "Portfolio-ready capstone",
+    "modulesTitle": "Training Modules",
+    "module1": {
+      "title": "Foundations",
+      "description": "AI literacy, prompting, and responsible use."
+    },
+    "module2": {
+      "title": "Creation Lab",
+      "description": "Image, video, and app prototyping with AI tools."
+    },
+    "module3": {
+      "title": "Showcase Sprint",
+      "description": "Ship a project and present your story."
+    },
+    "cta": "Join the Training",
+    "heroTitle": "Systematic Learning Path",
+    "heroSubtitle": "From foundations to hackathons. Driven by the Project-Based Learning (PBL) methodology.",
+    "academyTag": "Academy of Innovation",
+    "studentJoin": "Join 1200+",
+    "pioneersTag": "AI Pioneers",
+    "theoryLabel": "Theory",
+    "practiceLabel": "Practice",
+    "pathwayTitle": "Curriculum Architecture",
+    "hackathonTitle": "Vibe Coding (Web development)",
+    "hackathonDesc": "The ultimate creation mode. 2-3 days of high-intensity sprinting, 0-1 building and launching your own exclusive application.",
+    "pblBadge": "PBL Framework",
+    "pblContent": "Learning through creation. We use Project-Based Learning to help students solve real-world problems with AI tools, turning knowledge into impact.",
+    "pblSteps": {
+      "0": { "label": "Discover", "desc": "Identify Needs" },
+      "1": { "label": "Ideate", "desc": "AI Prompting" },
+      "2": { "label": "Build", "desc": "Rapid Iteration" },
+      "3": { "label": "Launch", "desc": "Global Impact" }
+    },
+    "milestonesTitle": "Milestones",
+    "milestones": {
+      "0": "Vibe-First Workflow",
+      "1": "Iterative Prototyping",
+      "2": "Cloud Launching",
+      "3": "Global Demo Day"
+    },
+    "nextCohort": "Next Cohort",
+    "cohortName": "Spring Intensive",
+    "cohortDetails": "5 Days · Offline Sprint",
+    "waitingListBtn": "Join Waiting List",
+    "sectionLabels": {
+      "foundations": "Core Skills",
+      "creation": "Expression",
+      "efficiency": "Productivity",
+      "vibe": "The Sprint"
+    },
+    "modules": {
+      "foundations": "AI Foundations",
+      "creation": "Multimodality Creation",
+      "efficiency": "Learning & Work Efficiency",
+      "vibe": "Vibe Coding",
+      "pbl": "PBL Methodology"
+    },
+    "courseLanding": {
+      "backBtn": "Back to Academy",
+      "totalTime": "Total Time",
+      "format": "Format",
+      "skillLevel": "Skill Level",
+      "ageRange": "10+",
+      "vibeAgeRange": "14+",
+      "creationAgeRange": "12+",
+      "efficiencyAgeRange": "16+",
+      "enrollBtn": "Enroll Today",
+      "syllabusTitle": "Detailed Syllabus",
+      "projectsTitle": "Hands-on Projects",
+      "mission": "The Mission",
+      "tools": "Stack & Tools",
+      "outcome": "Outcome",
+      "enrolledStudents": "120+ Students enrolled",
+      "courseType": {
+        "foundation": "FOUNDATION",
+        "creation": "CREATION",
+        "efficiency": "EFFICIENCY",
+        "vibe": "VIBE"
+      },
+      "mastery": "MASTERY",
+      "stage": "STAGE",
+      "formatOnline": "Online",
+      "formatOffline": "Offline",
+      "formatMixed": "Mixed",
+      "materials": "Course Materials",
+      "signInToView": "Sign in to view the course materials online (downloading disabled).",
+      "signInHint": "Click the Sign In button at the top-right, then refresh this page.",
+      "noDownload": "To protect copyright, these materials are restricted to online viewing only. Right-click, downloading, Picture-in-Picture, and playback speed controls are disabled.",
+      "openDocument": "Open document",
+      "viewFullscreen": "View fullscreen",
+      "openInNewTab": "Open in new tab",
+      "pdfLoadError": "Failed to load PDF"
     }
   }
 }

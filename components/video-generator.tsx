@@ -46,7 +46,7 @@ import {
   Video as VideoIcon,
   X,
 } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
+import { useTranslations } from 'next-intl';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
@@ -62,9 +62,9 @@ type GenerationMode = 'text-to-video' | 'image-to-video';
 const GENERATION_REQUEST_COOLDOWN_MS = 4000;
 
 export default function VideoGenerator() {
-  const { t } = useTranslation();
+  const t = useTranslations('videoGeneration');
   const tg = (key: string, options?: Record<string, unknown>): string => {
-    const result = t(`videoGeneration.${key}`, options as never);
+    const result = t(key, options as never);
     return typeof result === 'string' ? result : String(result);
   };
   const searchParams = useSearchParams();

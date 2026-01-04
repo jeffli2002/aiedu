@@ -32,7 +32,8 @@
     "batchVideoGeneration": "一括動画生成",
     "batchVideoGenerationDesc": "複数の動画を一括生成",
     "batchGeneration": "一括生成",
-    "assets": "アセット",
+    "assets": "マイ作品",
+    "training": "トレーニング",
     "dashboard": "ダッシュボード",
     "login": "ログイン",
     "signup": "新規登録",
@@ -220,6 +221,8 @@
     "progressRecovered": "前回の結果を復元しました",
     "progressReady": "画像の準備ができました!",
     "imageWillAppearHere": "生成された画像がここに表示されます",
+    "textPromptPlaceholder": "満開の桜が咲く静かな日本庭園、澄んだ池で泳ぐ錦鯉、伝統的な木橋、楓の木々を透過する柔らかな朝の光、超リアル、高精細",
+    "imagePromptPlaceholder": "この画像を水彩画風に変換、柔らかなパステルカラー、芸術的な筆致",
     "download": "ダウンロード",
     "share": "共有",
     "shareCopied": "画像URLがクリップボードにコピーされました!",
@@ -263,11 +266,12 @@
     "videoPromotionCtaPrimary": "画像から動画AIを試す",
     "videoPromotionCtaSecondary": "動画ジェネレーターへ",
     "imageStyles": {
-      "studio-shot": "スタジオショット",
-      "lifestyle": "ライフスタイル",
-      "minimalist": "ミニマリスト",
-      "seasonal": "季節",
-      "infographic": "インフォグラフィック"
+      "modern-manga": "モダンマンガ",
+      "ghibli": "ジブリ風",
+      "cyberpunk": "サイバーパンク",
+      "chinese-classical": "中国古典",
+      "realism": "リアリズム",
+      "hand-drawn": "手描きイラスト"
     },
     "dragDropUpload": "画像をドラッグ&ドロップ、またはクリックしてアップロード(JPEG、PNG、WebP、各最大10MB)",
     "imagesSelected": "{count} / {max} 画像が選択されました",
@@ -461,11 +465,12 @@
     "aspectRatio4:3": "4:3",
     "aspectRatio3:4": "3:4",
     "imageStyles": {
-      "studio-shot": "スタジオショット",
-      "lifestyle": "ライフスタイル",
-      "minimalist": "ミニマリスト",
-      "seasonal": "季節",
-      "infographic": "インフォグラフィック"
+      "modern-manga": "モダンマンガ",
+      "ghibli": "ジブリ風",
+      "cyberpunk": "サイバーパンク",
+      "chinese-classical": "中国古典",
+      "realism": "リアリズム",
+      "hand-drawn": "手描きイラスト"
     },
     "videoStyles": {
       "spoken-script": "スポークンスクリプト",
@@ -570,8 +575,8 @@
     "used": "使用済み"
   },
   "assets": {
-    "title": "アセットライブラリ",
-    "subtitle": "生成されたすべてのコンテンツを表示・管理",
+    "title": "マイ作品",
+    "subtitle": "作成したすべてのコンテンツを表示・管理",
     "generateNew": "新しいコンテンツを生成",
     "searchPlaceholder": "プロンプトを検索...",
     "filterType": "タイプでフィルター",

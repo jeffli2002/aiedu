@@ -2,13 +2,13 @@
 
 import { Suspense } from 'react';
 import { Loader2 } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
+import { useTranslations } from 'next-intl';
 import ImageGenerator from '@/components/image-generator';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
 export default function ImageGenerationPage() {
-  const { t } = useTranslation();
+  const t = useTranslations('imageGeneration');
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50 flex flex-col">
@@ -17,10 +17,10 @@ export default function ImageGenerationPage() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
             <h1 className="text-5xl md:text-6xl font-display font-bold text-slate-900 mb-4">
-              {t('imageGeneration.title')}
+              {t('title')}
             </h1>
             <p className="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto">
-              {t('imageGeneration.subtitle')}
+              {t('subtitle')}
             </p>
           </div>
           <Suspense

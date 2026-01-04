@@ -54,7 +54,7 @@ import {
   Upload,
   X,
 } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
+import { useTranslations } from 'next-intl';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { toast } from 'sonner';
@@ -128,9 +128,9 @@ const isRecoverableNetworkError = (message: string | undefined) => {
 };
 
 export default function ImageGenerator() {
-  const { t } = useTranslation();
+  const t = useTranslations('imageGeneration');
   const tg = (key: string, options?: Record<string, unknown>): string => {
-    const result = t(`imageGeneration.${key}`, options as never);
+    const result = t(key, options as never);
     return typeof result === 'string' ? result : String(result);
   };
   const searchParams = useSearchParams();
@@ -205,10 +205,8 @@ export default function ImageGenerator() {
   const [brandAnalysis, setBrandAnalysis] = useState<BrandToneAnalysis | null>(null);
 
   const maxPromptLength = 2000;
-  const textDefaultPrompt =
-    'A serene Japanese garden with cherry blossoms in full bloom, koi fish swimming in a crystal-clear pond, traditional wooden bridge, soft morning light filtering through maple trees, ultra-realistic, high detail';
-  const imageDefaultPrompt =
-    'Transform this image into a watercolor painting style, soft pastel colors, artistic brush strokes';
+  const textDefaultPrompt = tg('textPromptPlaceholder');
+  const imageDefaultPrompt = tg('imagePromptPlaceholder');
 
   const imageCreditCost = useMemo(() => {
     return getModelCost(

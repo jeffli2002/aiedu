@@ -18,7 +18,61 @@
     "filter": "筛选",
     "all": "全部",
     "selectAll": "全选",
-    "deselectAll": "取消全选"
+    "deselectAll": "取消全选",
+    "signingUp": "注册中...",
+    "orContinueWith": "或继续使用"
+  },
+  "signin": {
+    "welcomeBack": "欢迎回来",
+    "signInWithAccountDesc": "使用您的账号登录",
+    "checkEmailToContinue": "请查收邮件以继续",
+    "emailConfirmationMessage": "我们已发送确认邮件至 {{email}}。请查收邮箱并点击链接验证您的账号。",
+    "yourInbox": "您的邮箱",
+    "needNewConfirmation": "需要重新发送确认邮件？",
+    "resendVerificationMessage": "点击下方按钮重新发送验证邮件。",
+    "sending": "发送中...",
+    "resendConfirmationEmail": "重新发送确认邮件",
+    "unableToSignIn": "无法登录",
+    "googleSignInNotSupported": "此浏览器不支持 Google 登录。",
+    "useOpenInBrowser": "请使用「在浏览器中打开」选项",
+    "orSignInWithEmail": "或使用邮箱和密码登录",
+    "urlCopied": "链接已复制到剪贴板！",
+    "copyUrlToOpenInBrowser": "复制链接在浏览器中打开",
+    "signInWithGoogle": "使用 Google 登录",
+    "signingIn": "登录中...",
+    "orUseEmail": "或使用邮箱",
+    "email": "邮箱",
+    "password": "密码",
+    "forgotPassword": "忘记密码？",
+    "submit": "登录",
+    "dontHaveAccount": "还没有账号？",
+    "signupLink": "立即注册"
+  },
+  "signup": {
+    "title": "创建账号",
+    "signUpWithAccount": "使用您的账号信息注册",
+    "signUpWithGoogle": "使用 Google 注册",
+    "name": "姓名",
+    "email": "邮箱",
+    "password": "密码",
+    "passwordHint": "至少 {{count}} 个字符",
+    "confirmPassword": "确认密码",
+    "submit": "注册",
+    "haveAccount": "已有账号？",
+    "signinLink": "立即登录",
+    "passwordMismatch": "两次输入的密码不一致",
+    "checkInbox": "请查收邮件",
+    "emailVerificationMessage": "我们已发送验证邮件至 {{email}}。请查收邮箱并点击链接验证您的账号。",
+    "yourEmail": "您的邮箱",
+    "openGmail": "打开 Gmail",
+    "openOutlook": "打开 Outlook",
+    "openQQMail": "打开 QQ 邮箱",
+    "noEmailInInbox": "没收到邮件？",
+    "resendIt": "重新发送",
+    "resendIn": "{{seconds}}秒后可重发",
+    "wrongAddress": "邮箱地址错误？",
+    "logOut": "退出登录",
+    "logOutToSignIn": "使用其他邮箱注册"
   },
   "nav": {
     "home": "首页",
@@ -32,7 +86,8 @@
     "batchVideoGeneration": "批量生视频",
     "batchVideoGenerationDesc": "批量生成视频",
     "batchGeneration": "批量生成",
-    "assets": "资产库",
+    "assets": "我的作品",
+    "training": "训练课程",
     "dashboard": "控制台",
     "login": "登录",
     "signup": "注册",
@@ -220,6 +275,8 @@
     "progressRecovered": "已恢复上次的生成结果",
     "progressReady": "图片已准备好！",
     "imageWillAppearHere": "生成的图片将显示在此处",
+    "textPromptPlaceholder": "静谧的日式庭园，樱花盛开，锦鲤在清澈的池塘中游弋，传统木桥，柔和的晨光透过枫树，超写实，高细节",
+    "imagePromptPlaceholder": "将这张图片转换为水彩画风格，柔和的粉彩色调，艺术笔触",
     "download": "下载",
     "share": "分享",
     "shareCopied": "图片链接已复制！",
@@ -263,11 +320,12 @@
     "videoPromotionCtaPrimary": "试用图片转视频 AI",
     "videoPromotionCtaSecondary": "前往视频生成器",
     "imageStyles": {
-      "studio-shot": "影棚拍摄",
-      "lifestyle": "生活方式",
-      "minimalist": "极简主义",
-      "seasonal": "季节主题",
-      "infographic": "信息图表"
+      "modern-manga": "现代漫画",
+      "ghibli": "吉卜力风格",
+      "cyberpunk": "赛博朋克风格",
+      "chinese-classical": "中国古风",
+      "realism": "写实艺术",
+      "hand-drawn": "手绘插画风格"
     },
     "dragDropUpload": "拖放图片或点击上传（JPEG、PNG、WebP，每个最大 10MB）",
     "imagesSelected": "{count} / {max} 张图片已选择",
@@ -461,11 +519,12 @@
     "aspectRatio4:3": "4:3",
     "aspectRatio3:4": "3:4",
     "imageStyles": {
-      "studio-shot": "影棚拍摄",
-      "lifestyle": "生活方式",
-      "minimalist": "极简主义",
-      "seasonal": "季节主题",
-      "infographic": "信息图表"
+      "modern-manga": "现代漫画",
+      "ghibli": "吉卜力风格",
+      "cyberpunk": "赛博朋克风格",
+      "chinese-classical": "中国古风",
+      "realism": "写实艺术",
+      "hand-drawn": "手绘插画风格"
     },
     "videoStyles": {
       "spoken-script": "口播文案型",
@@ -570,8 +629,8 @@
     "used": "已使用"
   },
   "assets": {
-    "title": "资产库",
-    "subtitle": "查看和管理所有生成的内容",
+    "title": "我的作品",
+    "subtitle": "查看和管理你创作的所有内容",
     "generateNew": "生成新内容",
     "searchPlaceholder": "搜索提示词...",
     "filterType": "筛选类型",
@@ -985,6 +1044,111 @@
     "maliciousRegistration": {
       "title": "3.1 禁止恶意注册",
       "description": "严格禁止用户创建多个账户或进行任何形式的恶意注册以获取注册奖励积分。如果 Viecom 发现用户恶意注册多个账户以获取注册奖励积分，Viecom 有权立即禁止并关闭此类账户，无需事先通知或用户同意。在此情况下，被禁止账户之前生成的所有图片和视频将不再保存或可访问，Viecom 不对因账户关闭导致的任何内容或数据丢失承担责任。"
+    }
+  },
+  "footer": {
+    "description": "掌握未来语言。加入我们，让孩子用 AI 创造有意义的改变。",
+    "explore": "探索",
+    "contact": "联系我们"
+  },
+  "training": {
+    "title": "AI 训练课程",
+    "subtitle": "从基础到实战项目的系统学习路径。",
+    "highlightsTitle": "课程亮点",
+    "highlight1": "小班教学 + 导师带练",
+    "highlight2": "每周实操创作与反馈",
+    "highlight3": "作品集级别的毕业项目",
+    "modulesTitle": "课程模块",
+    "module1": {
+      "title": "基础能力",
+      "description": "AI 素养、提示工程与安全使用。"
+    },
+    "module2": {
+      "title": "创作实验室",
+      "description": "图像、视频与应用原型的 AI 创作。"
+    },
+    "module3": {
+      "title": "展示冲刺",
+      "description": "完成项目并讲好你的作品故事。"
+    },
+    "cta": "加入训练课程",
+    "heroTitle": "系统化学习路径",
+    "heroSubtitle": "从基础通识到黑客松实战。以 PBL 项目制学习为核心实现形式。",
+    "academyTag": "创新学院",
+    "studentJoin": "加入 1200+",
+    "pioneersTag": "AI 先锋",
+    "theoryLabel": "理论",
+    "practiceLabel": "实践",
+    "pathwayTitle": "核心课程架构",
+    "hackathonTitle": "Vibe Coding （氛围编程）",
+    "hackathonDesc": "终极创作模式，2-3 天高强度冲刺，0-1打造上线专属自己的应用。",
+    "pblBadge": "PBL 教学法",
+    "pblContent": "在创造中学习。我们采用 PBL 项目制教学法，引导学生使用 AI 工具解决真实世界的问题，将知识转化为实际影响力。",
+    "pblSteps": {
+      "0": { "label": "发现", "desc": "识别需求" },
+      "1": { "label": "构思", "desc": "AI 提示词" },
+      "2": { "label": "构建", "desc": "快速迭代" },
+      "3": { "label": "发布", "desc": "全球影响力" }
+    },
+    "milestonesTitle": "核心里程碑",
+    "milestones": {
+      "0": "Vibe 优先工作流",
+      "1": "迭代原型设计",
+      "2": "云端发布部署",
+      "3": "全球演示日"
+    },
+    "nextCohort": "下一期课程",
+    "cohortName": "春季集训营",
+    "cohortDetails": "5 天 · 线下冲刺",
+    "waitingListBtn": "加入候补名单",
+    "sectionLabels": {
+      "foundations": "核心素养",
+      "creation": "创意表达",
+      "efficiency": "效率提效",
+      "vibe": "黑客冲刺"
+    },
+    "modules": {
+      "foundations": "AI 通识基础",
+      "creation": "多模态创作",
+      "efficiency": "学习工作提效",
+      "vibe": "Vibe 编程",
+      "pbl": "PBL 教学法"
+    },
+    "courseLanding": {
+      "backBtn": "返回课程中心",
+      "totalTime": "总时长",
+      "format": "授课形式",
+      "skillLevel": "适合人群",
+      "ageRange": "10+",
+      "vibeAgeRange": "14+",
+      "creationAgeRange": "12+",
+      "efficiencyAgeRange": "16+",
+      "enrollBtn": "立即报名",
+      "syllabusTitle": "详细课程大纲",
+      "projectsTitle": "实战项目示例",
+      "mission": "项目使命",
+      "tools": "技术与工具",
+      "outcome": "最终成果",
+      "enrolledStudents": "已有 120+ 学员报名",
+      "courseType": {
+        "foundation": "基础",
+        "creation": "创作",
+        "efficiency": "效率",
+        "vibe": "VIBE"
+      },
+      "mastery": "大师课",
+      "stage": "阶段",
+      "formatOnline": "在线",
+      "formatOffline": "线下",
+      "formatMixed": "混合",
+      "materials": "课程资料",
+      "signInToView": "登录后可在线阅读/观看课程资料（禁止下载）。",
+      "signInHint": "请点击页面右上角登录按钮后刷新本页。",
+      "noDownload": "为保护版权，本资料仅支持在线阅读/观看，已禁用右键、下载、画中画与播放速度调节。",
+      "openDocument": "打开文档",
+      "viewFullscreen": "全屏阅读",
+      "openInNewTab": "在新标签打开",
+      "pdfLoadError": "无法加载 PDF 文档"
     }
   }
 }
