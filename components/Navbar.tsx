@@ -147,13 +147,13 @@ export default function Navbar() {
             ) : (
               <>
                 <Link
-                  href="/signin"
+                  href={withLocalePath('/signin', locale)}
                   className="text-slate-600 hover:text-violet-600 transition-colors text-xs font-bold uppercase tracking-[0.2em]"
                 >
                   {isClient ? t('nav.login') : '登录'}
                 </Link>
                 <Link
-                  href="/signup"
+                  href={withLocalePath('/signup', locale)}
                   className="bg-gradient-to-r from-violet-600 to-blue-600 text-white px-8 py-3 rounded-full font-black text-xs uppercase tracking-[0.15em] hover:from-violet-700 hover:to-blue-700 transition-all transform hover:scale-105 btn-shimmer shadow-lg"
                 >
                   {isClient ? t('nav.signup') : '注册'}
@@ -222,14 +222,14 @@ export default function Navbar() {
             ) : (
               <>
                 <Link
-                  href="/signin"
+                  href={withLocalePath('/signin', locale)}
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="text-left font-black text-xl uppercase text-slate-900 hover:text-violet-600"
                 >
                   {isClient ? t('nav.login') : '登录'}
                 </Link>
                 <Link
-                  href="/signup"
+                  href={withLocalePath('/signup', locale)}
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="bg-gradient-to-r from-violet-600 to-blue-600 text-white text-center py-5 rounded-2xl font-black uppercase tracking-widest"
                 >
