@@ -1,8 +1,12 @@
 'use client';
 
-import HomePage from '@/app/page';
+import { useLocale } from 'next-intl';
+import HomePage from '@/components/pages/HomePage';
+import type { Language } from '@/translations';
 
 export default function LocaleHomePage() {
-  return <HomePage />;
+  const locale = useLocale();
+  const lang: Language = locale === 'en' ? 'en' : 'cn';
+  return <HomePage lang={lang} />;
 }
 

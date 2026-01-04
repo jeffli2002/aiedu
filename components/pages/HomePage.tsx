@@ -17,7 +17,6 @@ import { translations, Language } from '@/translations';
 import Link from 'next/link';
 import Footer from '@/components/Footer';
 import Navbar from '@/components/Navbar';
-import { useLocale } from 'next-intl';
 
 const Hero = ({ lang }: { lang: Language }) => {
   const t = translations[lang].hero;
@@ -707,16 +706,19 @@ const About = ({ lang }: { lang: Language }) => {
 };
 
 
-export default function Home() {
-  const locale = useLocale();
+export interface HomePageProps {
+  lang?: Language;
+}
+
+export default function Home({ lang: propLang }: HomePageProps = {}) {
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
   }, []);
 
-  // Map next-intl locale to our Language type
-  const lang: Language = locale === 'en' ? 'en' : 'cn';
+  // Use provided lang prop, or default to 'cn'
+  const lang: Language = propLang ?? 'cn';
   const coreValue = translations[lang].coreValue;
 
   return (

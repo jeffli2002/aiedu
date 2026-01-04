@@ -4,6 +4,8 @@ import { ensureSubscriptionCredits } from '@/lib/credits/ensure-subscription-cre
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: NextRequest) {
   try {
     const session = await auth.api.getSession({

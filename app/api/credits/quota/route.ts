@@ -7,6 +7,8 @@ import { paymentRepository } from '@/server/db/repositories/payment-repository';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
+export const dynamic = 'force-dynamic';
+
 export interface QuotaUsageResponse {
   storage: {
     used: number;

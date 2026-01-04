@@ -6,6 +6,8 @@ import { paymentRepository } from '@/server/db/repositories/payment-repository';
 import { headers } from 'next/headers';
 import { NextResponse } from 'next/server';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   try {
     const headersList = await headers();
