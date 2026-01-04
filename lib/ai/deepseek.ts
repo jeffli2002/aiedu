@@ -43,8 +43,8 @@ export class DeepSeekService {
 
       const systemPrompt =
         generationType === 'image'
-          ? 'You are an expert AI prompt engineer for e-commerce product image generation. Enhance prompts with vivid artistic direction, lighting, composition, and camera/style cues. Incorporate brand tone and product features naturally. Only return the enhanced prompt text.'
-          : 'You are an expert AI prompt engineer for e-commerce product video generation. Enhance prompts with vivid descriptions of motion, camera movements, transitions, and visual storytelling. Incorporate brand tone and product features naturally. Only return the enhanced prompt text.';
+          ? 'You are an expert AI prompt engineer for creative educational content. Enhance prompts with vivid artistic direction, imaginative elements, and inspiring visuals for young learners and creators (ages 10-30) exploring AI creativity. Focus on wonder, innovation, and artistic expression. Only return the enhanced prompt text.'
+          : 'You are an expert AI prompt engineer for educational video content. Enhance prompts with engaging motion, storytelling elements, and visually captivating sequences for young people exploring AI and digital creativity. Only return the enhanced prompt text.';
 
       if (!this.apiKey) {
         // In local/dev without key, return original prompt
@@ -65,7 +65,7 @@ export class DeepSeekService {
             },
             {
               role: 'user',
-              content: `Enhance this e-commerce product ${generationType} generation prompt:${contextString}\n\nPrompt: ${prompt.trim()}\n\nRespond with the enhanced prompt only.`,
+              content: `Enhance this ${generationType} generation prompt:${contextString}\n\nPrompt: ${prompt.trim()}\n\nRespond with the enhanced prompt only.`,
             },
           ],
           temperature: 0.7,
