@@ -25,7 +25,7 @@ import {
   useSignInWithGoogle,
   useSignOut,
 } from '@/store/auth-store';
-import { useTranslation } from 'react-i18next';
+import { useTranslations } from 'next-intl';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 
@@ -36,7 +36,7 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
   const router = useRouter();
   const searchParams = useSearchParams();
   const toastMessages = useToastMessages();
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   const isLoading = useAuthLoading();
   const error = useAuthError();
