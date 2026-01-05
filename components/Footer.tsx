@@ -44,6 +44,7 @@ export default function Footer({ fixed }: { fixed?: boolean } = {}) {
             <ul className="space-y-3 text-sm text-slate-500 font-medium">
               <li><Link href={withLocalePath('/', lang)} className="hover:text-blue-600 transition-colors">{tn('home')}</Link></li>
               <li><Link href={withLocalePath('/training', lang)} className="hover:text-blue-600 transition-colors">{tn('training')}</Link></li>
+              <li><Link href={withLocalePath('/blog', lang)} className="hover:text-blue-600 transition-colors">{tn('blog')}</Link></li>
               <li><Link href={withLocalePath('/image-generation', lang)} className="hover:text-blue-600 transition-colors">{tn('imageGeneration')}</Link></li>
               <li><Link href={withLocalePath('/video-generation', lang)} className="hover:text-blue-600 transition-colors">{tn('videoGeneration')}</Link></li>
               <li><Link href={withLocalePath('/assets', lang)} className="hover:text-blue-600 transition-colors">{tn('assets')}</Link></li>
@@ -63,7 +64,6 @@ export default function Footer({ fixed }: { fixed?: boolean } = {}) {
     </footer>
   );
 }
-
 
 
 
