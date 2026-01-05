@@ -516,6 +516,22 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
             tools: ['Midjourney', 'Canva'], 
             outcome: 'A high-res cinematic poster ready for global publication.' 
           }
+        ],
+        materials: [
+          {
+            id: 'c201-imagination-t01-en',
+            title: 'AI Spellbook: Digital Creation Quest T01 (PDF)',
+            type: 'pdf',
+            mediaId: 'training/c201/en/ai-spellbook-digital-creation-quest_T01',
+            language: 'en',
+          },
+          {
+            id: 'c201-video-analysis-t01-en',
+            title: 'The Canvas of Algorithms T01 (Video)',
+            type: 'video',
+            mediaId: 'training/c201/en/the-canvas-of-algorithms_T01',
+            language: 'en',
+          },
         ]
       },
       { 
