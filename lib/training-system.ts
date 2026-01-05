@@ -550,6 +550,22 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
             tools: ['Veo', 'Suno', 'CapCut'], 
             outcome: 'A complete 30-second sci-fi movie teaser with SFX.' 
           }
+        ],
+        materials: [
+          {
+            id: 'c202-words-into-worlds-t01-en',
+            title: 'Words Into Worlds T01 (PDF)',
+            type: 'pdf',
+            mediaId: 'training/c202/en/words-into-worlds_T01',
+            language: 'en',
+          },
+          {
+            id: 'c202-future-director-video-t01-en',
+            title: 'Future Director: The Magic of AI Video T01 (Video)',
+            type: 'video',
+            mediaId: 'training/c202/en/future-director-ai-video-magic_T01',
+            language: 'en',
+          },
         ]
       },
       { 
