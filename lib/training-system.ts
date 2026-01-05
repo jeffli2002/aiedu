@@ -410,6 +410,22 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
             tools: ['Gemini', 'Google Search'],
             outcome: 'A fact-checking report showing how models can "hallucinate".'
           }
+        ],
+        materials: [
+          {
+            id: 'f101-ai-evolution-story-t1-en',
+            title: 'AI Evolution Story T01 (PDF)',
+            type: 'pdf',
+            mediaId: 'training/f101/en/ai-evolution-story_T01',
+            language: 'en',
+          },
+          {
+            id: 'f101-ai-llm-evolution-video-t1-en',
+            title: 'AI LLM Evolution T01 (Video)',
+            type: 'video',
+            mediaId: 'training/f101/en/ai-llm-evolution_T01',
+            language: 'en',
+          },
         ]
       },
       { 
@@ -428,6 +444,22 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
             tools: ['Markdown', 'System Instructions'],
             outcome: 'A playable text adventure that handles inventory and dialogue autonomously.'
           }
+        ],
+        materials: [
+          {
+            id: 'f102-prompting-architecture-t01',
+            title: 'Prompting is Architecture T01 (PDF)',
+            type: 'pdf',
+            mediaId: 'training/f102/en/prompting-is-architecture_T01',
+            language: 'en',
+          },
+          {
+            id: 'f102-prompt-engineering-video-t01-en',
+            title: 'Mastering Prompt Engineering T01 (Video)',
+            type: 'video',
+            mediaId: 'training/f102/en/mastering-prompt-engineering_T01',
+            language: 'en',
+          },
         ]
       },
       { 
