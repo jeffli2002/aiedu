@@ -456,7 +456,7 @@ export async function POST(request: NextRequest) {
                     provider: 'creem',
                     creditDifference,
                   }),
-                });
+                } as any);
               });
 
               console.log(
