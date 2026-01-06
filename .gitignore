@@ -1,0 +1,121 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Testing
+coverage/
+.nyc_output
+
+# Next.js
+.next/
+out/
+build/
+dist/
+
+# Production
+*.log
+*.lock
+
+# Misc
+.DS_Store
+*.pem
+.env*.local
+.venv/
+.vscode/
+.idea/
+
+# Debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Local env files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Vercel
+.vercel
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# Large files (over 10MB)
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.webm
+
+# Large PDFs (over 10MB)
+public/courses/*.pdf
+training/**/*.pdf
+
+# Archives
+*.zip
+*.tar
+*.tar.gz
+*.rar
+*.7z
+
+# Large images (optional, uncomment if needed)
+# *.png
+# *.jpg
+# *.jpeg
+
+# Training media files and directories
+training/**/*.mp4
+training/**/*.mov
+training/**/*.avi
+training/**/*.pdf
+training/**/*.png
+training/**/*.jpg
+training/**/*.jpeg
+training/**/src/
+training/**/en/
+training/**/zh/
+
+# Output directories
+outputs/
+.claude/
+.codex/
+tools/
+
+# Temporary files
+*.tmp
+*.temp
+nul
+
+# OS files
+Thumbs.db
+Desktop.ini
+
+# Project specific large files
+AI_Future_Youth_Education_Proposal.pdf
+Body section.png
+Desktop.png
+Future AI creator.png
+Mobile.png
+Tablet.png
+Thumbnail.png
+future-ai-creators*.zip
+future-ai-creators/
+future-ai-creators2/
+
+# Documentation builds
+docs/seo/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# ESLint cache
+.eslintcache
+
