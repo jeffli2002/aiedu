@@ -73,7 +73,6 @@ export async function createPublishSubmission(input: CreateSubmissionInput) {
       assetId: assetId ?? null,
       assetUrl,
       previewUrl: previewUrl || assetUrl,
-    } as any)
       assetType: assetType || 'image',
       title: normalizedTitle,
       prompt: prompt || null,
@@ -84,7 +83,7 @@ export async function createPublishSubmission(input: CreateSubmissionInput) {
       metadata: metadata ?? null,
       createdAt: now,
       updatedAt: now,
-    })
+    } as any)
     .returning();
 
   return created;

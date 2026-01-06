@@ -60,7 +60,6 @@ export async function updateQuotaUsage(params: UpdateQuotaUsageParams): Promise<
         usedAmount: sql`${userQuotaUsage.usedAmount} + ${amount}`,
         updatedAt: new Date(),
       } as any)
-      })
       .where(
         and(
           eq(userQuotaUsage.userId, userId),

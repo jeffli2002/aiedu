@@ -218,7 +218,6 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
           .update(generatedAsset)
           .set({
             status: 'completed',
-          } as any)
             r2Key: r2Result.key,
             publicUrl: r2Result.url,
             fileSize,
@@ -228,7 +227,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
               completedAt: new Date().toISOString(),
             },
             updatedAt: new Date(),
-          })
+          } as any)
           .where(eq(generatedAsset.id, asset.id));
 
         // Unfreeze and charge credits
