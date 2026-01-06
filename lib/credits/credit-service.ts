@@ -79,7 +79,7 @@ export class CreditService {
           totalEarned: 0,
           totalSpent: 0,
           frozenBalance: 0,
-        })
+        } as typeof userCredits.$inferInsert)
         .returning();
 
       return creditAccount[0] as UserCreditAccount;

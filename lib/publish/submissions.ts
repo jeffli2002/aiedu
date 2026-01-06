@@ -82,7 +82,7 @@ export async function createPublishSubmission(input: CreateSubmissionInput) {
       metadata: metadata ?? null,
       createdAt: now,
       updatedAt: now,
-    })
+    } as typeof publishSubmissions.$inferInsert)
     .returning();
 
   return created;

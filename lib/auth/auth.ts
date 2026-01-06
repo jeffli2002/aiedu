@@ -121,8 +121,12 @@ export const auth = betterAuth({
       create: {
         after: async (newUser) => {
           try {
-            if (newUser.emailVerified) {
-              await grantSignupCreditsAndWelcomeEmail(newUser);
+            if (newUser.emailVerified && newUser.email) {
+              await grantSignupCreditsAndWelcomeEmail({
+                id: newUser.id,
+                email: newUser.email,
+                name: newUser.name,
+              });
             }
           } catch (error) {
             console.error(
@@ -191,7 +195,13 @@ export const auth = betterAuth({
     },
     afterEmailVerification: async (verifiedUser) => {
       try {
-        await grantSignupCreditsAndWelcomeEmail(verifiedUser);
+        if (verifiedUser.email) {
+          await grantSignupCreditsAndWelcomeEmail({
+            id: verifiedUser.id,
+            email: verifiedUser.email,
+            name: verifiedUser.name,
+          });
+        }
       } catch (error) {
         console.error(
           `[auth] Failed to process signup credits after verification for ${verifiedUser?.email ?? 'unknown user'}:`,
