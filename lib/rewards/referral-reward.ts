@@ -11,7 +11,7 @@ interface FinalizeReferralOptions {
   reason: 'first_generation' | 'subscription' | 'credit_pack' | 'paid';
   description: string;
   metadata?: Record<string, unknown>;
-  updateFields?: Partial<typeof userReferrals.$inferInsert>;
+  updateFields?: Partial<typeof userReferrals.$inferSelect>;
 }
 
 async function finalizeReferralReward(
