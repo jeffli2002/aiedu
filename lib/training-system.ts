@@ -494,6 +494,22 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
             tools: ['Claude', 'Canva'],
             outcome: 'A visual guide for peers on how to use AI safely and ethically.'
           }
+        ],
+        materials: [
+          {
+            id: 'f103-ai-safety-ethics-t01-en',
+            title: 'The AI Rules of the Road T01 (PDF)',
+            type: 'pdf',
+            mediaId: 'training/f103/en/ai-safety-ethics_T01',
+            language: 'en',
+          },
+          {
+            id: 'f103-ai-safety-ethics-video-t01-en',
+            title: 'Driving the Future T01 (Video)',
+            type: 'video',
+            mediaId: 'training/f103/en/ai-safety-ethics_T01',
+            language: 'en',
+          },
         ]
       },
       { 
