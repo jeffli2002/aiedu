@@ -65,7 +65,6 @@ export async function POST(request: NextRequest) {
       .update(user)
       .set({
         emailVerified: true,
-        updatedAt: new Date(),
       })
       .where(eq(user.id, foundUser.id))
       .returning();
