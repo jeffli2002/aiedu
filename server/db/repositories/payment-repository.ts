@@ -4,6 +4,32 @@ import { db } from '@/server/db';
 import { payment, paymentEvent } from '@/server/db/schema';
 import { and, desc, eq, inArray, not, sql } from 'drizzle-orm';
 
+type PaymentWriteOverrides = Partial<
+  Pick<
+    typeof payment.$inferSelect,
+    | 'provider'
+    | 'productId'
+    | 'interval'
+    | 'subscriptionId'
+    | 'periodStart'
+    | 'periodEnd'
+    | 'cancelAtPeriodEnd'
+    | 'trialStart'
+    | 'trialEnd'
+    | 'affiliateId'
+    | 'affiliateCode'
+    | 'scheduledPlanId'
+    | 'scheduledInterval'
+    | 'scheduledPeriodStart'
+    | 'scheduledPeriodEnd'
+    | 'scheduledAt'
+    | 'updatedAt'
+  >
+>;
+
+type PaymentInsertValues = typeof payment.$inferInsert & PaymentWriteOverrides;
+type PaymentUpdateValues = Partial<PaymentInsertValues>;
+
 export interface CreatePaymentData {
   id?: string;
   provider?: 'stripe' | 'creem';
@@ -71,24 +97,6 @@ export class PaymentRepository {
     const paymentId = data.id || randomUUID();
 
     // Extend insert typing with optional columns when Drizzle narrows to required fields.
-    type PaymentInsertValues = typeof payment.$inferInsert &
-      Partial<
-        Pick<
-          typeof payment.$inferSelect,
-          | 'provider'
-          | 'productId'
-          | 'interval'
-          | 'subscriptionId'
-          | 'periodStart'
-          | 'periodEnd'
-          | 'cancelAtPeriodEnd'
-          | 'trialStart'
-          | 'trialEnd'
-          | 'affiliateId'
-          | 'affiliateCode'
-        >
-      >;
-
     const insertValues: PaymentInsertValues = {
       id: paymentId,
       provider: data.provider || 'stripe',
@@ -307,7 +315,7 @@ export class PaymentRepository {
    * 更新支付记录
    */
   async update(id: string, data: UpdatePaymentData): Promise<PaymentRecord | null> {
-    const updateData: Partial<typeof payment.$inferInsert> = {
+    const updateData: PaymentUpdateValues = {
       updatedAt: new Date(),
     };
 
