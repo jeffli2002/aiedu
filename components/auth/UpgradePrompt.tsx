@@ -1,4 +1,3 @@
-// @ts-nocheck
 'use client';
 
 import { Badge } from '@/components/ui/badge';
@@ -30,7 +29,7 @@ export default function UpgradePrompt({
   onClose,
   onContinue,
   creditsUsed = 0,
-  creditsLimit: _creditsLimit = 5,
+  creditsLimit = 5,
   type = 'credits',
   feature,
   isAuthenticated = true,
@@ -111,7 +110,7 @@ export default function UpgradePrompt({
     }
   };
 
-  const _contentType = getContentType();
+  void getContentType();
 
   // Calculate approximate images and videos based on Nano Banana (5 credits) and Sora 2 720P 10s (15 credits)
   const approxImages = Math.floor(targetPlanCredits / imageCreditCost);
@@ -133,11 +132,7 @@ export default function UpgradePrompt({
     };
   }
 
-  const _resetTime = limitType === 'daily' ? 'midnight UTC' : 'the 1st of next month';
-
-  if (!isOpen) {
-    return null;
-  }
+  void (limitType === 'daily' ? 'midnight UTC' : 'the 1st of next month');
 
   if (!isOpen) {
     return null;

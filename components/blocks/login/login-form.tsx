@@ -56,7 +56,7 @@ export function LoginForm({
         setVerificationEmail(parsed.email);
       }
       setShowVerificationBanner(true);
-    } catch (_storageError) {
+    } catch {
       if (verifyParam) {
         setShowVerificationBanner(true);
       }

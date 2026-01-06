@@ -64,7 +64,7 @@ export async function POST(request: NextRequest) {
       try {
         const existingTransactions = await creditService.getTransactionHistory(userId, 1);
         isNewAccount = existingTransactions.length === 0;
-      } catch (_txErr) {
+      } catch {
         // Fallback: infer by zero totals on the account to avoid blocking bonus grant
         isNewAccount = creditAccount.totalEarned === 0 && creditAccount.totalSpent === 0;
       }

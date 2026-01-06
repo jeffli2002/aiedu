@@ -1,7 +1,6 @@
 'use client';
 
 import { Suspense } from 'react';
-import { Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { SignupForm } from '@/components/blocks/signup/signup-form';
 

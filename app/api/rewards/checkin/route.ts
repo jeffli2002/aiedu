@@ -137,7 +137,8 @@ export async function POST(request: NextRequest) {
     });
 
     // Create checkin record first
-    await db.insert(userDailyCheckin).values({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    await db.insert(userDailyCheckin).overridingSystemValue().values({
       id: checkinId,
       userId,
       checkinDate: today,

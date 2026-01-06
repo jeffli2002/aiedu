@@ -1,7 +1,7 @@
 'use client';
 
 import { Suspense } from 'react';
-import { Loader2, Sparkles, Video } from 'lucide-react';
+import { Video } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import VideoGenerator from '@/components/video-generator';
 import Navbar from '@/components/Navbar';

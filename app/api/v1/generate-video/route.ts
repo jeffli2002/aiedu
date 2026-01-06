@@ -449,7 +449,7 @@ export async function POST(request: NextRequest) {
     if (!isTestMode) {
       try {
         const assetId = randomUUID();
-        await db.insert(generatedAsset).values({
+        await db.insert(generatedAsset).overridingSystemValue().values({
           id: assetId,
           userId,
           assetType: 'video',
@@ -566,7 +566,7 @@ export async function POST(request: NextRequest) {
       // Record failed task in database even if polling fails
       if (!isTestMode) {
         try {
-          await db.insert(generatedAsset).values({
+          await db.insert(generatedAsset).overridingSystemValue().values({
             id: randomUUID(),
             userId,
             assetType: 'video',
@@ -630,7 +630,7 @@ export async function POST(request: NextRequest) {
       // Record failed task in database
       if (!isTestMode) {
         try {
-          await db.insert(generatedAsset).values({
+          await db.insert(generatedAsset).overridingSystemValue().values({
             id: randomUUID(),
             userId,
             assetType: 'video',
@@ -695,7 +695,7 @@ export async function POST(request: NextRequest) {
         // Record failed task in database
         if (!isTestMode) {
           try {
-            await db.insert(generatedAsset).values({
+            await db.insert(generatedAsset).overridingSystemValue().values({
               id: randomUUID(),
               userId,
               assetType: 'video',
@@ -759,7 +759,7 @@ export async function POST(request: NextRequest) {
       // Record failed task in database
       if (!isTestMode) {
         try {
-          await db.insert(generatedAsset).values({
+          await db.insert(generatedAsset).overridingSystemValue().values({
             id: randomUUID(),
             userId,
             assetType: 'video',
@@ -845,7 +845,7 @@ export async function POST(request: NextRequest) {
       // Record failed task in database
       if (!isTestMode) {
         try {
-          await db.insert(generatedAsset).values({
+          await db.insert(generatedAsset).overridingSystemValue().values({
             id: randomUUID(),
             userId,
             assetType: 'video',
@@ -910,7 +910,7 @@ export async function POST(request: NextRequest) {
       for (let saveAttempt = 1; saveAttempt <= MAX_SAVE_RETRIES; saveAttempt++) {
         try {
           savedAssetId = randomUUID();
-          await db.insert(generatedAsset).values({
+          await db.insert(generatedAsset).overridingSystemValue().values({
             id: savedAssetId,
             userId,
             assetType: 'video',
@@ -992,7 +992,7 @@ export async function POST(request: NextRequest) {
         // Try to create a minimal record to track this issue
         try {
           const fallbackId = randomUUID();
-          await db.insert(generatedAsset).values({
+          await db.insert(generatedAsset).overridingSystemValue().values({
             id: fallbackId,
             userId,
             assetType: 'video',
@@ -1346,7 +1346,7 @@ export async function POST(request: NextRequest) {
     // Try to record failed task if we have taskId
     if (taskId && !isTestMode) {
       try {
-        await db.insert(generatedAsset).values({
+        await db.insert(generatedAsset).overridingSystemValue().values({
           id: randomUUID(),
           userId,
           assetType: 'video',

@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import Link from 'next/link';
 import { withLocalePath } from '@/i18n/locale-utils';
-import { Sparkles, Instagram, Twitter, Linkedin, Mail, ArrowUpRight } from 'lucide-react';
+import { Sparkles, Twitter, Mail, ArrowUpRight } from 'lucide-react';
 
 /**
  * Footer - Editorial Minimal Design
@@ -48,21 +48,18 @@ export default function Footer({ fixed }: { fixed?: boolean } = {}) {
             &copy; {year} Future AI Creators
           </p>
           <div className="flex gap-4">
-            {['Instagram', 'Twitter', 'LinkedIn'].map((social) => (
-              <a
-                key={social}
-                href="#"
-                aria-label={social}
-                className="p-2 rounded-lg transition-colors"
-                style={{ color: '#999' }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = '#ff6b35')}
-                onMouseLeave={(e) => (e.currentTarget.style.color = '#999')}
-              >
-                {social === 'Instagram' && <Instagram className="w-4 h-4" />}
-                {social === 'Twitter' && <Twitter className="w-4 h-4" />}
-                {social === 'LinkedIn' && <Linkedin className="w-4 h-4" />}
-              </a>
-            ))}
+            <a
+              href="https://x.com/jeffli2002"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Twitter"
+              className="p-2 rounded-lg transition-colors"
+              style={{ color: '#999' }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = '#ff6b35')}
+              onMouseLeave={(e) => (e.currentTarget.style.color = '#999')}
+            >
+              <Twitter className="w-4 h-4" />
+            </a>
           </div>
         </div>
       </footer>
@@ -106,31 +103,26 @@ export default function Footer({ fixed }: { fixed?: boolean } = {}) {
 
             {/* Social links */}
             <div className="flex gap-3">
-              {[
-                { icon: Instagram, label: 'Instagram' },
-                { icon: Twitter, label: 'Twitter' },
-                { icon: Linkedin, label: 'LinkedIn' },
-              ].map(({ icon: Icon, label }) => (
-                <a
-                  key={label}
-                  href="#"
-                  aria-label={label}
-                  className="w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-200 border"
-                  style={{ borderColor: '#e5e5e5', color: '#999' }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.borderColor = '#ff6b35';
-                    e.currentTarget.style.color = '#ff6b35';
-                    e.currentTarget.style.backgroundColor = 'rgba(255, 107, 53, 0.05)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.borderColor = '#e5e5e5';
-                    e.currentTarget.style.color = '#999';
-                    e.currentTarget.style.backgroundColor = 'transparent';
-                  }}
-                >
-                  <Icon className="w-4 h-4" />
-                </a>
-              ))}
+              <a
+                href="https://x.com/jeffli2002"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Twitter"
+                className="w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-200 border"
+                style={{ borderColor: '#e5e5e5', color: '#999' }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = '#ff6b35';
+                  e.currentTarget.style.color = '#ff6b35';
+                  e.currentTarget.style.backgroundColor = 'rgba(255, 107, 53, 0.05)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = '#e5e5e5';
+                  e.currentTarget.style.color = '#999';
+                  e.currentTarget.style.backgroundColor = 'transparent';
+                }}
+              >
+                <Twitter className="w-4 h-4" />
+              </a>
             </div>
           </div>
 

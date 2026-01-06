@@ -1,7 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import { getAffiliateProgramConfig } from '@/lib/affiliate/affiliate-program';
 import { db } from '@/server/db';
-import { affiliate, affiliateCommission, affiliateWalletLedger } from '@/server/db/schema';
+import { affiliate, affiliateCommission } from '@/server/db/schema';
 import { and, eq } from 'drizzle-orm';
 
 type RecordCommissionParams = {

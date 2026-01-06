@@ -83,7 +83,7 @@ export async function updateQuotaUsage(params: UpdateQuotaUsageParams): Promise<
       updatedAt: new Date(),
     };
 
-    const inserted = await db.insert(userQuotaUsage).values(newRecord).returning();
+    const inserted = await db.insert(userQuotaUsage).overridingSystemValue().values(newRecord).returning();
 
     return inserted[0] as QuotaUsageRecord;
   } catch (error) {
@@ -193,7 +193,7 @@ export async function initializeQuotaUsage(
           updatedAt: new Date(),
         };
 
-        const inserted = await db.insert(userQuotaUsage).values(newRecord).returning();
+        const inserted = await db.insert(userQuotaUsage).overridingSystemValue().values(newRecord).returning();
 
         records.push(inserted[0] as QuotaUsageRecord);
       } else {

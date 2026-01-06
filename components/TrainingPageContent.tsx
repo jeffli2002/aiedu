@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import Link from 'next/link';
 import {
@@ -16,7 +16,6 @@ import {
   ArrowRight,
   TrendingUp,
   Award,
-  Star,
   Flame,
   Mic,
   Sparkles
@@ -45,7 +44,6 @@ export default function TrainingPageContent() {
 
   const renderModule = (m: Module) => {
     const hasPracticeSplit = m.theoryDuration || m.practiceDuration;
-    const isVibe = m.type === 'vibe';
 
     const colors = {
       foundation: { border: 'border-slate-100 hover:border-[#2ec4b6]', accent: '#2ec4b6', bg: 'bg-[#2ec4b6]/5' },

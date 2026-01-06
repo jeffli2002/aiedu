@@ -65,8 +65,7 @@ async function createCreditTables() {
           SELECT 1 FROM pg_indexes WHERE indexname = 'credit_user_reference_unique'
         ) THEN
           CREATE UNIQUE INDEX credit_user_reference_unique
-            ON credit_transactions (user_id, reference_id)
-            WHERE reference_id IS NOT NULL;
+            ON credit_transactions (user_id, reference_id);
         END IF;
       END $$;
     `;

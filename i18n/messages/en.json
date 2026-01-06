@@ -584,6 +584,7 @@
   },
   "dashboard": {
     "title": "Dashboard",
+    "dashboardTag": "Dashboard",
     "welcome": "Welcome back",
     "creditBalance": "Credit Balance",
     "subscriptionPlan": "Subscription Plan",
@@ -1150,6 +1151,114 @@
       "viewFullscreen": "View fullscreen",
       "openInNewTab": "Open in new tab",
       "pdfLoadError": "Failed to load PDF"
+    }
+  },
+  "terms": {
+    "title": "Terms of Service",
+    "description": "Terms of Service for Future AI Creators platform",
+    "lastUpdated": "Last Updated",
+    "sections": {
+      "introduction": {
+        "title": "1. Introduction",
+        "content": "Welcome to Future AI Creators (\"we,\" \"our,\" or \"us\"). These Terms of Service (\"Terms\") govern your access to and use of our AI education platform, including our website, mobile applications, and related services (collectively, the \"Service\"). By accessing or using our Service, you agree to be bound by these Terms."
+      },
+      "acceptance": {
+        "title": "2. Acceptance of Terms",
+        "content": "By creating an account, accessing, or using our Service, you acknowledge that you have read, understood, and agree to be bound by these Terms and our Privacy Policy. If you do not agree to these Terms, you may not use our Service."
+      },
+      "ageRequirement": {
+        "title": "3. Age Requirement",
+        "content": "Our Service is designed for students aged 10 and above. Users under the age of 18 must have parental or guardian consent to use our Service. By using our Service, you represent and warrant that you meet the age requirement and have obtained necessary consent if applicable."
+      },
+      "account": {
+        "title": "4. Account Registration",
+        "content": "To access certain features of our Service, you must create an account. You are responsible for maintaining the confidentiality of your account credentials and for all activities that occur under your account. You agree to provide accurate, current, and complete information during registration and to update such information as necessary."
+      },
+      "useOfService": {
+        "title": "5. Use of Service",
+        "content": "You agree to use our Service only for lawful purposes and in accordance with these Terms. You agree not to:",
+        "prohibited": {
+          "1": "Use the Service in any way that violates applicable laws or regulations",
+          "2": "Attempt to gain unauthorized access to our systems or other users' accounts",
+          "3": "Upload, post, or transmit any content that is harmful, offensive, or violates others' rights",
+          "4": "Use automated systems or bots to access the Service without our prior written consent"
+        }
+      },
+      "intellectualProperty": {
+        "title": "6. Intellectual Property",
+        "content": "All content on our Service, including but not limited to text, graphics, logos, images, and software, is the property of Future AI Creators or its licensors and is protected by copyright and other intellectual property laws. You retain ownership of content you create using our Service, but grant us a license to use, display, and distribute such content as necessary to provide the Service."
+      },
+      "credits": {
+        "title": "7. Credits and Payments",
+        "content": "Our Service uses a credit-based system for AI generation features. Credits may be purchased or earned through various activities. All purchases are final unless otherwise stated. Credits do not expire unless your account is inactive for an extended period as specified in our policies."
+      },
+      "liability": {
+        "title": "8. Limitation of Liability",
+        "content": "To the maximum extent permitted by law, Future AI Creators shall not be liable for any indirect, incidental, special, consequential, or punitive damages, or any loss of profits or revenues, whether incurred directly or indirectly, or any loss of data, use, goodwill, or other intangible losses resulting from your use of the Service."
+      },
+      "changes": {
+        "title": "9. Changes to Terms",
+        "content": "We reserve the right to modify these Terms at any time. We will notify users of any material changes by posting the updated Terms on our website. Your continued use of the Service after such changes constitutes your acceptance of the new Terms."
+      },
+      "contact": {
+        "title": "10. Contact Us",
+        "content": "If you have any questions about these Terms, please contact us at"
+      }
+    }
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "description": "Privacy Policy for Future AI Creators platform",
+    "lastUpdated": "Last Updated",
+    "sections": {
+      "introduction": {
+        "title": "1. Introduction",
+        "content": "Future AI Creators (\"we,\" \"our,\" or \"us\") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our AI education platform and services."
+      },
+      "collection": {
+        "title": "2. Information We Collect",
+        "content": "We collect information that you provide directly to us and information that is automatically collected when you use our Service:",
+        "items": {
+          "account": "Account information (name, email address, password)",
+          "usage": "Usage data (courses accessed, features used, generation history)",
+          "device": "Device information (IP address, browser type, operating system)",
+          "cookies": "Cookies and similar tracking technologies"
+        }
+      },
+      "use": {
+        "title": "3. How We Use Your Information",
+        "content": "We use the information we collect to:",
+        "items": {
+          "1": "Provide, maintain, and improve our Service",
+          "2": "Process transactions and send related information",
+          "3": "Send technical notices, updates, and support messages",
+          "4": "Respond to your comments, questions, and requests"
+        }
+      },
+      "sharing": {
+        "title": "4. Information Sharing and Disclosure",
+        "content": "We do not sell your personal information. We may share your information only in the following circumstances: (1) with your consent, (2) to comply with legal obligations, (3) to protect our rights and safety, or (4) with service providers who assist us in operating our Service, subject to confidentiality obligations."
+      },
+      "security": {
+        "title": "5. Data Security",
+        "content": "We implement appropriate technical and organizational measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction. However, no method of transmission over the Internet or electronic storage is 100% secure."
+      },
+      "children": {
+        "title": "6. Children's Privacy",
+        "content": "Our Service is designed for users aged 10 and above. We take special care to protect the privacy of young users. We do not knowingly collect personal information from children under 10 without parental consent. If you believe we have collected information from a child under 10, please contact us immediately."
+      },
+      "rights": {
+        "title": "7. Your Rights",
+        "content": "You have the right to access, update, or delete your personal information at any time through your account settings. You may also request a copy of your data or request that we delete your account and associated data."
+      },
+      "changes": {
+        "title": "8. Changes to This Privacy Policy",
+        "content": "We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the \"Last Updated\" date."
+      },
+      "contact": {
+        "title": "9. Contact Us",
+        "content": "If you have any questions about this Privacy Policy, please contact us at"
+      }
     }
   }
 }

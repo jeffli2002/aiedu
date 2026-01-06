@@ -66,10 +66,13 @@ export async function GET(request: Request) {
 
     const asset = await r2StorageService.getAsset(key);
     const { body, contentType } = asset;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const stream = (body as any)?.pipe
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       ? Readable.toWeb(body as any)
       : (body as ReadableStream<Uint8Array>);
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return new Response(stream as any, {
       status: 200,
       headers: {

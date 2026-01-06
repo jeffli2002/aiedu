@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { auth } from '@/lib/auth/auth';
 import { db } from '@/server/db';
 import { verification, user, account } from '@/server/db/schema';
-import { eq, and, gt, sql } from 'drizzle-orm';
+import { eq, and, gt } from 'drizzle-orm';
 import { randomUUID } from 'crypto';
 
 export async function POST(request: NextRequest) {
@@ -61,6 +60,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Verify email - use type assertion to work around Drizzle type inference issue
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     await db
       .update(user)
       .set({
@@ -139,7 +139,8 @@ export async function POST(request: NextRequest) {
     // Create a temporary session token that allows passwordless login
     // This token will be used by the client to automatically sign in
     const sessionToken = randomUUID();
-    await db.insert(verification).values({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    await db.insert(verification).overridingSystemValue().values({
       id: randomUUID(),
       identifier: `otp-session:${updatedUser.id}`,
       value: sessionToken,

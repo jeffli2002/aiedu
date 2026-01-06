@@ -74,7 +74,7 @@ export class PaymentRepository {
       .insert(payment)
       .values({
         id: paymentId,
-        provider: data.provider || 'creem',
+        provider: data.provider || 'stripe',
         priceId: data.priceId,
         productId: data.productId || null,
         type: data.type,
@@ -332,7 +332,7 @@ export class PaymentRepository {
    * 创建支付事件记录
    */
   async createEvent(data: CreatePaymentEventData): Promise<void> {
-    await db.insert(paymentEvent).values({
+    await db.insert(paymentEvent).overridingSystemValue().values({
       id: randomUUID(),
       paymentId: data.paymentId,
       eventType: data.eventType,
@@ -691,7 +691,7 @@ export class PaymentRepository {
       scheduledAt: record.scheduledAt || undefined,
       createdAt: record.createdAt,
       updatedAt: record.updatedAt,
-      provider: (record.provider as 'stripe' | 'creem') || 'creem',
+      provider: record.provider as 'stripe' | 'creem' | undefined,
     };
   }
 

@@ -1,7 +1,6 @@
 import { randomUUID } from 'node:crypto';
 import { creditsConfig } from '@/config/credits.config';
 import { auth } from '@/lib/auth/auth';
-import { creditService } from '@/lib/credits';
 import { db } from '@/server/db';
 import { user, userReferrals } from '@/server/db/schema';
 import { eq } from 'drizzle-orm';
@@ -61,7 +60,8 @@ export async function POST(request: NextRequest) {
 
     // Create referral record
     const referralId = randomUUID();
-    await db.insert(userReferrals).values({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    await db.insert(userReferrals).overridingSystemValue().values({
       id: referralId,
       referrerId,
       referredId: referredUserId,

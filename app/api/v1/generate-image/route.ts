@@ -1,5 +1,5 @@
 import { randomUUID } from 'node:crypto';
-import { creditsConfig, getModelCost } from '@/config/credits.config';
+import { getModelCost } from '@/config/credits.config';
 import { MAX_SOURCE_IMAGES } from '@/config/image-upload.config';
 import { auth } from '@/lib/auth/auth';
 import { creditService } from '@/lib/credits';
@@ -8,7 +8,7 @@ import {
   releaseGenerationLock,
   updateGenerationLock,
 } from '@/lib/generation/generation-lock';
-import { getQuotaUsageByService, updateQuotaUsage } from '@/lib/quota/quota-service';
+import { updateQuotaUsage } from '@/lib/quota/quota-service';
 import { checkAndAwardReferralReward } from '@/lib/rewards/referral-reward';
 import { db } from '@/server/db';
 import { generatedAsset, user as userTable } from '@/server/db/schema';
@@ -734,7 +734,7 @@ export async function POST(request: NextRequest) {
           if (!isTestMode) {
             try {
               savedAssetId = randomUUID();
-              await db.insert(generatedAsset).values({
+              await db.insert(generatedAsset).overridingSystemValue().values({
                 id: savedAssetId,
                 userId,
                 assetType: 'image',
@@ -768,6 +768,7 @@ export async function POST(request: NextRequest) {
                   clientRequestId: requestId,
                   sourceImages: sourceImagePublicUrls,
                 },
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
               } as any);
             } catch (saveError) {
               console.error('Failed to persist generated image asset:', saveError);

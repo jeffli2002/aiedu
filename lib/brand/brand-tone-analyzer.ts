@@ -167,7 +167,7 @@ All text must be in English.`,
       const jsonMatch = content.match(/```(?:json)?\s*(\{[\s\S]*\})\s*```/);
       const jsonString = jsonMatch ? jsonMatch[1] : content;
       analysis = JSON.parse(jsonString);
-    } catch (_parseError) {
+    } catch {
       // Fallback: try to extract structured data from text
       console.warn('Failed to parse JSON, using fallback parsing');
       analysis = parseBrandAnalysisFromText(content);

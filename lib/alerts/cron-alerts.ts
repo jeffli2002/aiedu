@@ -3,7 +3,6 @@
  * Sends notifications to Slack/Discord when issues are detected
  */
 
-import { env } from '@/env';
 
 interface CronAlertData {
   jobName: string;

@@ -71,32 +71,21 @@ const initializeUserCredits = async (userId: string, retries = 3): Promise<void>
 const appendOAuthCallbackParam = (url?: string, provider = 'google') => {
   const target = url && url.trim().length > 0 ? url : '/';
 
-  // Normalize to a relative path to avoid cross-host mismatches
-  const normalizeToRelative = (input: string) => {
-    try {
-      if (input.startsWith('http://') || input.startsWith('https://')) {
-        const u = new URL(input);
-        return `${u.pathname}${u.search}${u.hash}` || '/';
-      }
-    } catch {
-      // Fall through
-    }
-    if (!input || input === '') return '/';
-    return input.startsWith('/') ? input : `/${input}`;
-  };
-
-  const base = normalizeToRelative(target);
-
-  if (base.includes('authCallback=')) {
-    return base;
+  if (target.includes('authCallback=')) {
+    return target;
   }
 
-  const [pathWithQuery = base, hash] = base.split('#', 2);
+  const [pathWithQuery = target, hash] = target.split('#', 2);
   const separator = pathWithQuery.includes('?') ? '&' : '?';
   const updatedPath = `${pathWithQuery}${separator}authCallback=${provider}`;
   const withHash = hash ? `${updatedPath}#${hash}` : updatedPath;
 
-  // Always return a relative callback path
+  // Better Auth expects absolute callback URLs in some deployments
+  if (typeof window !== 'undefined' && !withHash.startsWith('http')) {
+    const absolute = new URL(withHash, window.location.origin);
+    return absolute.toString();
+  }
+
   return withHash;
 };
 
@@ -291,14 +280,7 @@ export const useAuthStore = create<AuthState>()(
                 return { success: true };
               }
 
-              // Handle rate limit errors with friendly messages
-              let message = result.error?.message || 'Invalid email or password';
-              
-              // Check if it's a rate limit error
-              if (result.error?.status === 429 || message.toLowerCase().includes('too many requests')) {
-                message = 'Too many login attempts. Please wait a few minutes before trying again.';
-              }
-              
+              const message = result.error?.message || 'Invalid email or password';
               set({ isLoading: false, error: message });
               return {
                 success: false,
@@ -317,10 +299,6 @@ export const useAuthStore = create<AuthState>()(
             set({ isLoading: true, error: null });
 
             try {
-              console.log('[Auth] Attempting signup for:', email);
-              console.log('[Auth] BaseURL:', typeof window !== 'undefined' ? window.location.origin : 'server-side');
-              console.log('[Auth] CallbackURL:', callbackURL);
-              
               const result = await authClient.signUp.email({
                 email: email,
                 password,
@@ -328,71 +306,11 @@ export const useAuthStore = create<AuthState>()(
                 ...(callbackURL ? { callbackURL } : {}),
               });
 
-              console.log('[Auth] Signup result:', { 
-                hasData: !!result.data, 
-                hasUser: !!result.data?.user,
-                hasError: !!result.error,
-                errorMessage: result.error?.message 
-              });
-
-              // Check for errors first
-              if (result.error) {
-                console.error('[Auth] Signup error object:', result.error);
-                console.error('[Auth] Signup error details:', {
-                  status: result.error.status,
-                  statusText: result.error.statusText,
-                  message: result.error.message,
-                  code: result.error.code,
-                  // 'cause' may not exist on all error shapes
-                  cause: (result.error as any)?.cause,
-                  toString: result.error.toString(),
-                  keys: Object.keys(result.error),
-                });
-                
-                // Extract error message from various possible formats
-                let errorMessage = 'Signup failed. Please try again.';
-                if (result.error.message) {
-                  errorMessage = result.error.message;
-                } else if (result.error.status === 500) {
-                  errorMessage = 'Server error. Please check server logs or try again later.';
-                } else if (result.error.status === 400) {
-                  errorMessage = 'Invalid request. Please check your input.';
-                } else if (result.error.status === 409) {
-                  errorMessage = 'Email already exists. Please use a different email or sign in.';
-                } else if (result.error.status === 429) {
-                  errorMessage = 'Too many signup attempts. Please wait a few minutes before trying again.';
-                } else {
-                  // Handle other error types
-                  const error = result.error as any;
-                  if (typeof error === 'string') {
-                    errorMessage = error;
-                  } else if (error && typeof error === 'object' && 'toString' in error && typeof error.toString === 'function') {
-                    const errorString = error.toString();
-                    if (errorString !== '[object Object]') {
-                      errorMessage = errorString;
-                    }
-                  }
-                }
-                
-                // Check if error message contains rate limit keywords
-                if (errorMessage.toLowerCase().includes('too many requests') || 
-                    errorMessage.toLowerCase().includes('rate limit')) {
-                  errorMessage = 'Too many requests. Please wait a few minutes before trying again.';
-                }
-                
-                set({ isLoading: false, error: errorMessage });
-                return {
-                  success: false,
-                  error: errorMessage,
-                };
-              }
-
               if (result.data?.user) {
                 const user = result.data.user as ExtendedUser;
 
                 // Check if user exists and has an id
                 if (!user || !user.id) {
-                  console.error('[Auth] Invalid user data received:', user);
                   set({ isLoading: false, error: 'Invalid user data' });
                   return {
                     success: false,
@@ -401,7 +319,6 @@ export const useAuthStore = create<AuthState>()(
                 }
 
                 if (!user.emailVerified) {
-                  console.log('[Auth] User created but email not verified:', user.email);
                   set({
                     user,
                     isAuthenticated: false,
@@ -411,7 +328,6 @@ export const useAuthStore = create<AuthState>()(
                   return { success: true };
                 }
 
-                console.log('[Auth] User created and email verified:', user.email);
                 set({
                   user,
                   isAuthenticated: true,
@@ -430,36 +346,17 @@ export const useAuthStore = create<AuthState>()(
 
                 return { success: true };
               }
-
-              // If no user data and no error, treat as success (might be email verification required)
-              console.log('[Auth] Signup completed without user data (likely requires email verification)');
-              set({ isLoading: false });
-              return { success: true };
-            } catch (error) {
-              console.error('[Auth] Signup exception:', error);
-              console.error('[Auth] Error details:', {
-                name: error instanceof Error ? error.name : 'Unknown',
-                message: error instanceof Error ? error.message : String(error),
-                stack: error instanceof Error ? error.stack : undefined,
-                cause: error instanceof Error ? error.cause : undefined,
-              });
-              
-              // Extract more detailed error message
-              let errorMessage = 'Signup failed. Please try again.';
-              if (error instanceof Error) {
-                errorMessage = error.message || errorMessage;
-                // Check for network errors
-                if (error.message.includes('fetch') || error.message.includes('network')) {
-                  errorMessage = 'Network error. Please check your connection and try again.';
-                }
-                // Check for CORS errors
-                if (error.message.includes('CORS') || error.message.includes('cross-origin')) {
-                  errorMessage = 'CORS error. Please check server configuration.';
-                }
-              } else if (typeof error === 'string') {
-                errorMessage = error;
+              if (!result.error) {
+                set({ isLoading: false });
+                return { success: true };
               }
-              
+              set({ isLoading: false });
+              return {
+                success: false,
+                error: result.error?.message || 'signUp error',
+              };
+            } catch (error) {
+              const errorMessage = error instanceof Error ? error.message : 'signUp error';
               set({ error: errorMessage, isLoading: false });
               return {
                 success: false,

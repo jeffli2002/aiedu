@@ -36,9 +36,10 @@ async function checkTables(): Promise<TableCheck[]> {
           WHERE table_schema = 'public' AND table_name = ${tableName}
         );
       `) as unknown as Array<{ exists: boolean }>;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const exists = Boolean(rows && rows[0] && (rows[0] as any).exists);
       results.push({ name: tableName, exists });
-    } catch (_err) {
+    } catch {
       results.push({ name: tableName, exists: false });
     }
   }

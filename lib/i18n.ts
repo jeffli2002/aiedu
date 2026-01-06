@@ -9,9 +9,9 @@ import { initReactI18next } from 'react-i18next';
 let serverResources: Resource | undefined;
 try {
   // These imports are only used during SSR branch below
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   const zhCommon = require('@/public/locales/zh/common.json');
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   const enCommon = require('@/public/locales/en/common.json');
   serverResources = {
     zh: { common: zhCommon },

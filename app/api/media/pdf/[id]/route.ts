@@ -40,7 +40,9 @@ export async function GET(
         asset = await r2StorageService.getAsset(key);
       }
       const { body, contentType } = asset;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const stream = (body as any)?.pipe ? Readable.toWeb(body as any) : (body as ReadableStream<Uint8Array>);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       return new Response(stream as any, {
         status: 200,
         headers: {
@@ -102,7 +104,9 @@ export async function GET(
       }
     }
     const { body, contentType } = asset;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const stream = (body as any)?.pipe ? Readable.toWeb(body as any) : (body as ReadableStream<Uint8Array>);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return new Response(stream as any, {
       status: 200,
       headers: {

@@ -4,7 +4,6 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
 import { creditsConfig } from '@/config/credits.config';
 import { paymentConfig } from '@/config/payment.config';
 import { useSubscription } from '@/hooks/use-subscription';
@@ -18,12 +17,9 @@ import {
   CreditCard,
   History,
   ImageIcon,
-  Loader2,
   RefreshCw,
-  Sparkles,
   TrendingDown,
   TrendingUp,
-  Video,
 } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -113,6 +109,7 @@ const formatDateDisplay = (value?: string | null) => {
 
 function DashboardPageContent() {
   const t = useTranslations('dashboard');
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const tg = (key: string, options?: Record<string, unknown>) => t(key as any, options as any);
 
   const {
@@ -123,7 +120,7 @@ function DashboardPageContent() {
   } = useAuthStore();
   const router = useRouter();
   const [creditBalance, setCreditBalance] = useState<CreditBalance | null>(null);
-  const [quotaUsage, setQuotaUsage] = useState<QuotaUsage | null>(null);
+  const [, setQuotaUsage] = useState<QuotaUsage | null>(null);
   const [transactions, setTransactions] = useState<CreditTransaction[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -240,18 +237,19 @@ function DashboardPageContent() {
     }
   };
 
-  const shouldShowQuota = (quota?: { used: number; limit: number; isUnlimited: boolean }) => {
-    if (!quota) return false;
-    if (quota.isUnlimited) return true;
-    const limit = quota.limit ?? 0;
-    const used = quota.used ?? 0;
-    return limit > 0 || used > 0;
-  };
+  // These functions are defined but not currently used
+  // const shouldShowQuota = (quota?: { used: number; limit: number; isUnlimited: boolean }) => {
+  //   if (!quota) return false;
+  //   if (quota.isUnlimited) return true;
+  //   const limit = quota.limit ?? 0;
+  //   const used = quota.used ?? 0;
+  //   return limit > 0 || used > 0;
+  // };
 
-  const calculateUsagePercent = (quota?: { used: number; limit: number }) => {
-    if (!quota || !quota.limit || quota.limit <= 0) return 0;
-    return Math.min(100, ((quota.used || 0) / quota.limit) * 100);
-  };
+  // const calculateUsagePercent = (quota?: { used: number; limit: number }) => {
+  //   if (!quota || !quota.limit || quota.limit <= 0) return 0;
+  //   return Math.min(100, ((quota.used || 0) / quota.limit) * 100);
+  // };
 
   const imageCredits = creditsConfig.consumption.imageGeneration['nano-banana'];
   const videoCredits = creditsConfig.consumption.videoGeneration['sora-2-720p-15s'];

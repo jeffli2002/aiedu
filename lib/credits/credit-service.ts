@@ -2,7 +2,7 @@ import { randomUUID } from 'node:crypto';
 import { db } from '@/server/db';
 import { creditTransactions, userCredits } from '@/server/db/schema';
 import { DatabaseError } from '@/server/db/types';
-import { and, desc, eq } from 'drizzle-orm';
+import { and, desc, eq, notInArray } from 'drizzle-orm';
 
 // Credit transaction types
 export type CreditTransactionType =
@@ -145,7 +145,7 @@ export class CreditService {
 
       if (account.length === 0) {
         // Create account if doesn't exist
-        await db.insert(userCredits).values({
+        await db.insert(userCredits).overridingSystemValue().values({
           id: randomUUID(),
           userId,
           balance: 0,
@@ -307,7 +307,13 @@ export class CreditService {
       const transactions = await db
         .select()
         .from(creditTransactions)
-        .where(eq(creditTransactions.userId, userId))
+        .where(
+          and(
+            eq(creditTransactions.userId, userId),
+            // Exclude internal bookkeeping entries from user-facing history
+            notInArray(creditTransactions.type, ['freeze', 'unfreeze'])
+          )
+        )
         .orderBy(desc(creditTransactions.createdAt))
         .limit(limit)
         .offset(offset);

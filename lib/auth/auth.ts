@@ -169,7 +169,7 @@ export const auth = betterAuth({
         if (sent) {
           console.log(`[auth] Verification email sent to ${user.email}`);
           try {
-            await db.insert(verification).values({
+            await db.insert(verification).overridingSystemValue().values({
               id: randomUUID(),
               identifier,
               value: 'email-verification',

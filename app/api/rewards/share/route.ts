@@ -96,7 +96,7 @@ export async function POST(request: NextRequest) {
     const shareReferenceId = referenceId || `share_${userId}_${Date.now()}`;
 
     // Create share record first; if credit awarding fails we remove the record.
-    await db.insert(socialShares).values({
+    await db.insert(socialShares).overridingSystemValue().values({
       id: shareId,
       userId,
       assetId: assetId || null,
@@ -104,6 +104,7 @@ export async function POST(request: NextRequest) {
       shareUrl: shareUrl || null,
       creditsEarned: creditsToAward,
       referenceId: shareReferenceId,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } as any);
 
     try {

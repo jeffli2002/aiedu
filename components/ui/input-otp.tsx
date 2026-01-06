@@ -41,6 +41,7 @@ function InputOTPSlot({
   index: number;
 }) {
   // Cast context to any to avoid tight coupling to library internals across versions
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const inputOTPContext = React.useContext(OTPInputContext) as any;
   const slot = inputOTPContext?.slots?.[index] ?? {};
   const { char, hasFakeCaret, isActive } = slot as { char?: string; hasFakeCaret?: boolean; isActive?: boolean };

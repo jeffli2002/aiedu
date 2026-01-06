@@ -3,15 +3,10 @@ import { env } from '@/env';
 import { analyzeBrandTone } from '@/lib/brand/brand-tone-analyzer';
 import { creditService } from '@/lib/credits';
 // Publishing to e-commerce platforms is out of scope for this project.
-type EcommercePlatform = never;
-type PublishResult = never;
 import { updateQuotaUsage } from '@/lib/quota/quota-service';
 import { r2StorageService } from '@/lib/storage/r2';
-import * as XLSX from 'xlsx';
 
 type BrandAnalysisResult = Awaited<ReturnType<typeof analyzeBrandTone>>;
-type PublishResultWithPlatform = never;
-const isEcommercePlatform = (_value: string): _value is EcommercePlatform => false;
 
 export interface WorkflowInput {
   companyUrl?: string;
@@ -273,7 +268,7 @@ export class WorkflowEngine {
       model?: string;
       aspectRatio?: string;
     },
-    _workflowId: string
+    _workflowId: string // eslint-disable-line @typescript-eslint/no-unused-vars
   ): Promise<WorkflowResult['generatedAssets'][0] & { creditsSpent: number }> {
     const { prompt, mode, type, baseImage, model = 'nano-banana', aspectRatio = '1:1' } = params;
 
@@ -460,13 +455,7 @@ export class WorkflowEngine {
       await new Promise((resolve) => setTimeout(resolve, 5000)); // Wait 5 seconds
 
       const statusResponse = await kieApiService.getTaskStatus(taskId);
-      const mapped = statusResponse.data.status ??
-        (statusResponse.data.state === 'success'
-          ? 'completed'
-          : statusResponse.data.state === 'fail'
-            ? 'failed'
-            : statusResponse.data.state);
-      status = mapped ?? status;
+      status = statusResponse.data.status;
 
       if (status === 'completed') {
         const videoUrl = statusResponse.data.result?.videoUrl;

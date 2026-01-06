@@ -279,7 +279,7 @@ export class KIEAPIService {
     let data: KIETaskResponse;
     try {
       data = JSON.parse(responseText) as KIETaskResponse;
-    } catch (_error) {
+    } catch {
       console.error(`KIE API parse error (${model}):`, responseText.substring(0, 500));
       throw new Error(`KIE API parse error (${model}): ${(responseText || '').slice(0, 200)}`);
     }

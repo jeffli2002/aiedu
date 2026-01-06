@@ -26,7 +26,7 @@ export async function isEntitledForPremium(userId: string, userEmail?: string | 
 
     const active = await paymentRepository.findActiveSubscriptionByUserId(userId);
     return Boolean(active);
-  } catch (_err) {
+  } catch {
     // On error, fall back to not entitled
     return false;
   }

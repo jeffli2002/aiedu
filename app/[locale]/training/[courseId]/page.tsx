@@ -56,10 +56,10 @@ export default function CoursePage() {
 
   if (!isClient || !course) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
+      <div className="min-h-screen bg-[var(--color-light)] flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-slate-600">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[var(--color-primary)] mx-auto"></div>
+          <p className="mt-4 text-muted">
             {isClient ? t('loading') : '加载中...'}
           </p>
         </div>

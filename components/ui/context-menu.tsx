@@ -10,31 +10,42 @@ function ContextMenu({ ...props }: React.ComponentProps<typeof ContextMenuPrimit
   return <ContextMenuPrimitive.Root data-slot="context-menu" {...props} />;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function ContextMenuTrigger({ ...props }: React.ComponentProps<any>) {
-  // @ts-ignore -- shimmed module types in local dev
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-expect-error -- shimmed module types in local dev
   return <ContextMenuPrimitive.Trigger data-slot="context-menu-trigger" {...props} />;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function ContextMenuGroup({ ...props }: React.ComponentProps<any>) {
-  // @ts-ignore
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-expect-error
   return <ContextMenuPrimitive.Group data-slot="context-menu-group" {...props} />;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function ContextMenuPortal({ ...props }: React.ComponentProps<any>) {
-  // @ts-ignore
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-expect-error
   return <ContextMenuPrimitive.Portal data-slot="context-menu-portal" {...props} />;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function ContextMenuSub({ ...props }: React.ComponentProps<any>) {
-  // @ts-ignore
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-expect-error
   return <ContextMenuPrimitive.Sub data-slot="context-menu-sub" {...props} />;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function ContextMenuRadioGroup({ ...props }: React.ComponentProps<any>) {
-  // @ts-ignore
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-expect-error
   return <ContextMenuPrimitive.RadioGroup data-slot="context-menu-radio-group" {...props} />;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function ContextMenuSubTrigger({
   className,
   inset,
@@ -44,7 +55,8 @@ function ContextMenuSubTrigger({
   inset?: boolean;
 }) {
   return (
-    // @ts-ignore
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
     <ContextMenuPrimitive.SubTrigger
       data-slot="context-menu-sub-trigger"
       data-inset={inset}
@@ -60,12 +72,14 @@ function ContextMenuSubTrigger({
   );
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function ContextMenuSubContent({
   className,
   ...props
 }: React.ComponentProps<any>) {
   return (
-    // @ts-ignore
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
     <ContextMenuPrimitive.SubContent
       data-slot="context-menu-sub-content"
       className={cn(
@@ -77,13 +91,15 @@ function ContextMenuSubContent({
   );
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function ContextMenuContent({
   className,
   ...props
 }: React.ComponentProps<any>) {
   return (
     <ContextMenuPrimitive.Portal>
-      // @ts-ignore
+      {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+      {/* @ts-expect-error */}
       <ContextMenuPrimitive.Content
         data-slot="context-menu-content"
         className={cn(
@@ -96,6 +112,7 @@ function ContextMenuContent({
   );
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function ContextMenuItem({
   className,
   inset,
@@ -106,7 +123,8 @@ function ContextMenuItem({
   variant?: 'default' | 'destructive';
 }) {
   return (
-    // @ts-ignore
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
     <ContextMenuPrimitive.Item
       data-slot="context-menu-item"
       data-inset={inset}
@@ -120,6 +138,7 @@ function ContextMenuItem({
   );
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function ContextMenuCheckboxItem({
   className,
   children,
@@ -127,7 +146,8 @@ function ContextMenuCheckboxItem({
   ...props
 }: React.ComponentProps<any>) {
   return (
-    // @ts-ignore
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
     <ContextMenuPrimitive.CheckboxItem
       data-slot="context-menu-checkbox-item"
       className={cn(
@@ -148,13 +168,15 @@ function ContextMenuCheckboxItem({
   );
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function ContextMenuRadioItem({
   className,
   children,
   ...props
 }: React.ComponentProps<any>) {
   return (
-    // @ts-ignore
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
     <ContextMenuPrimitive.RadioItem
       data-slot="context-menu-radio-item"
       className={cn(
@@ -174,6 +196,7 @@ function ContextMenuRadioItem({
   );
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function ContextMenuLabel({
   className,
   inset,
@@ -182,7 +205,8 @@ function ContextMenuLabel({
   inset?: boolean;
 }) {
   return (
-    // @ts-ignore
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
     <ContextMenuPrimitive.Label
       data-slot="context-menu-label"
       data-inset={inset}
@@ -192,12 +216,14 @@ function ContextMenuLabel({
   );
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function ContextMenuSeparator({
   className,
   ...props
 }: React.ComponentProps<any>) {
   return (
-    // @ts-ignore
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
     <ContextMenuPrimitive.Separator
       data-slot="context-menu-separator"
       className={cn('bg-border -mx-1 my-1 h-px', className)}

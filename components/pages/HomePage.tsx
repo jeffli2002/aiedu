@@ -181,45 +181,47 @@ const Hero = ({ lang }: { lang: Language }) => {
               ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-12'}`}
           >
             {/* Main image with creative framing */}
-            <div className="relative">
+            <div className="relative group">
               {/* Background accent */}
               <div
-                className="absolute -inset-4 rounded-[2rem] -rotate-2"
+                className="absolute -inset-4 rounded-[2rem] -rotate-2 transition-all duration-500 group-hover:rotate-[-4deg] group-hover:opacity-0.15"
                 style={{ backgroundColor: '#ff6b35', opacity: 0.08 }}
               />
 
               {/* Image container */}
-              <div className="relative aspect-[4/3] rounded-[1.5rem] overflow-hidden border-2 border-white shadow-2xl">
+              <div className="relative aspect-[4/3] rounded-[1.5rem] overflow-hidden border-2 border-white shadow-2xl transition-all duration-500 group-hover:shadow-[0_25px_60px_-12px_rgba(255,107,53,0.3)] group-hover:-translate-y-2">
                 <img
                   src="/homepage/hero.jpg"
                   alt="AI Education"
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   onError={(e) => {
                     e.currentTarget.src = 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=1200';
                   }}
                 />
+                {/* Overlay gradient on hover */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#ff6b35]/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               </div>
 
               {/* Floating stat card */}
               <div
-                className="absolute -bottom-6 -left-6 bg-white px-6 py-4 rounded-2xl shadow-xl border border-slate-100"
+                className="absolute -bottom-6 -left-6 bg-white px-6 py-4 rounded-2xl shadow-xl border border-slate-100 transition-all duration-500 group-hover:scale-110 group-hover:shadow-2xl group-hover:-translate-y-1"
                 style={{ fontFamily: 'DM Sans, sans-serif' }}
               >
                 <p
-                  className="text-3xl font-bold"
+                  className="text-3xl font-bold transition-colors duration-300 group-hover:text-[#ff6b35]"
                   style={{ color: '#ff6b35', fontFamily: '"Instrument Serif", serif' }}
                 >
-                  12-18
+                  10+
                 </p>
-                <p className="text-sm text-slate-500 mt-1">
+                <p className="text-sm text-slate-500 mt-1 transition-colors duration-300 group-hover:text-slate-700">
                   {lang === 'cn' ? '适龄年龄' : 'Age Range'}
                 </p>
               </div>
 
               {/* Play button overlay hint */}
-              <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full flex items-center gap-2 shadow-lg">
-                <Play className="w-4 h-4 text-[#ff6b35]" fill="#ff6b35" />
-                <span className="text-xs font-semibold text-slate-700">
+              <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full flex items-center gap-2 shadow-lg transition-all duration-300 group-hover:bg-[#ff6b35] group-hover:text-white group-hover:scale-110 group-hover:shadow-xl">
+                <Play className="w-4 h-4 text-[#ff6b35] group-hover:text-white transition-colors duration-300" style={{ fill: 'currentColor' }} />
+                <span className="text-xs font-semibold text-slate-700 group-hover:text-white transition-colors duration-300">
                   {lang === 'cn' ? '开始学习' : 'Start Learning'}
                 </span>
               </div>
@@ -263,25 +265,30 @@ const CoreValue = ({ lang }: { lang: Language }) => {
             className={`col-span-12 lg:col-span-5 relative transition-all duration-1000
               ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-12'}`}
           >
-            <div className="relative">
+            <div className="relative group">
               <div
-                className="absolute -inset-3 rounded-[2rem] rotate-3"
+                className="absolute -inset-3 rounded-[2rem] rotate-3 transition-all duration-500 group-hover:rotate-6 group-hover:opacity-0.2"
                 style={{ backgroundColor: '#2ec4b6', opacity: 0.1 }}
               />
-              <div className="aspect-[4/5] rounded-[1.5rem] overflow-hidden shadow-2xl">
+              <div className="aspect-[4/5] rounded-[1.5rem] overflow-hidden shadow-2xl transition-all duration-500 group-hover:shadow-[0_25px_60px_-12px_rgba(46,196,182,0.3)] group-hover:-translate-y-2">
                 <img
-                  src="/core_vision.jpg"
+                  src="/homepage/core-value.jpg"
                   alt={coreValue.title}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  onError={(e) => {
+                    e.currentTarget.src = '/core_vision.jpg';
+                  }}
                 />
+                {/* Overlay gradient on hover */}
+                <div className="absolute inset-0 bg-gradient-to-br from-[#2ec4b6]/10 via-transparent to-[#ff6b35]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               </div>
               {/* Floating badge */}
               <div
-                className="absolute -bottom-4 -right-4 bg-[#ff6b35] text-white px-6 py-3 rounded-xl shadow-lg"
+                className="absolute -bottom-4 -right-4 bg-[#ff6b35] text-white px-6 py-3 rounded-xl shadow-lg transition-all duration-500 group-hover:scale-110 group-hover:rotate-3 group-hover:shadow-2xl group-hover:bg-[#2ec4b6]"
                 style={{ fontFamily: 'DM Sans, sans-serif' }}
               >
-                <p className="text-2xl font-bold">{coreValue.statValue}</p>
-                <p className="text-xs opacity-80">{coreValue.statLabel}</p>
+                <p className="text-2xl font-bold transition-transform duration-300 group-hover:scale-105">{coreValue.statValue}</p>
+                <p className="text-xs opacity-80 group-hover:opacity-100 transition-opacity duration-300">{coreValue.statLabel}</p>
               </div>
             </div>
           </div>
@@ -322,7 +329,7 @@ const CoreValue = ({ lang }: { lang: Language }) => {
                   className="text-4xl font-bold"
                   style={{ color: '#2ec4b6', fontFamily: '"Instrument Serif", serif' }}
                 >
-                  4
+                  10
                 </p>
                 <p className="text-sm text-slate-500 mt-1">
                   {lang === 'cn' ? '核心课程' : 'Core Courses'}
@@ -513,31 +520,37 @@ const About = ({ lang }: { lang: Language }) => {
           ].map((item, idx) => (
             <div
               key={idx}
-              className={`p-10 rounded-[1.5rem] border border-slate-100 transition-all duration-700
-                ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+              className={`group p-10 rounded-[1.5rem] border border-slate-100 transition-all duration-500 cursor-pointer
+                ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}
+                hover:-translate-y-2 hover:shadow-2xl hover:border-transparent`}
               style={{
                 transitionDelay: `${idx * 150}ms`,
                 backgroundColor: '#fafaf9',
               }}
             >
               <span
-                className="text-5xl font-light opacity-20"
+                className="text-5xl font-light opacity-20 transition-all duration-500 group-hover:opacity-30 group-hover:scale-110 inline-block"
                 style={{ color: item.color, fontFamily: '"Instrument Serif", serif' }}
               >
                 {item.num}
               </span>
               <h3
-                className="text-2xl mt-4 mb-4"
+                className="text-2xl mt-4 mb-4 transition-colors duration-300 group-hover:text-[#1a1a2e]"
                 style={{ fontFamily: '"Instrument Serif", Georgia, serif', color: '#1a1a2e' }}
               >
                 {item.data.title}
               </h3>
               <p
-                className="leading-relaxed"
+                className="leading-relaxed transition-colors duration-300 group-hover:text-slate-700"
                 style={{ fontFamily: 'DM Sans, sans-serif', color: '#666' }}
               >
                 {item.data.desc}
               </p>
+              {/* Hover accent line */}
+              <div
+                className="h-1 w-0 mt-6 transition-all duration-500 group-hover:w-full rounded-full"
+                style={{ backgroundColor: item.color }}
+              />
             </div>
           ))}
         </div>
@@ -552,7 +565,7 @@ const faqData = {
     {
       category: 'Platform & Courses',
       items: [
-        { q: 'What courses are available on the platform?', a: 'We offer AI Foundations, AI Image Creation, AI Video Production, and AI-assisted coding courses. All courses are designed for students aged 12-18 with hands-on projects.' },
+        { q: 'What courses are available on the platform?', a: 'We offer AI Foundations, AI Image Creation, AI Video Production, and AI-assisted coding courses. All courses are designed for students aged 10+ with hands-on projects.' },
         { q: 'How do I access the training materials?', a: 'After signing in, navigate to the Training section. Materials include video lessons, PDFs, and interactive exercises. Premium content requires a subscription.' },
         { q: 'Are courses available in both Chinese and English?', a: 'Yes! All our courses are fully bilingual (Chinese/English). You can switch languages anytime using the language toggle.' },
       ],
@@ -568,7 +581,7 @@ const faqData = {
     {
       category: 'Age & Requirements',
       items: [
-        { q: 'What age group is this platform for?', a: 'Our platform is designed for students aged 12-18. Content is age-appropriate and focuses on creative, educational AI applications.' },
+        { q: 'What age group is this platform for?', a: 'Our platform is designed for students aged 10+. Content is age-appropriate and focuses on creative, educational AI applications.' },
         { q: 'Do I need coding experience?', a: 'No coding experience required for most courses. AI Foundations and Creation courses are beginner-friendly.' },
         { q: 'What devices can I use?', a: 'Our platform works on any modern browser - desktop, tablet, or mobile. We recommend laptop or desktop for best experience.' },
       ],
@@ -578,7 +591,7 @@ const faqData = {
     {
       category: '平台与课程',
       items: [
-        { q: '平台提供哪些课程？', a: '我们提供AI基础、AI图像创作、AI视频制作和AI辅助编程课程。所有课程专为12-18岁学生设计，包含实践项目。' },
+        { q: '平台提供哪些课程？', a: '我们提供AI基础、AI图像创作、AI视频制作和AI辅助编程课程。所有课程专为10岁以上学生设计，包含实践项目。' },
         { q: '如何访问培训材料？', a: '登录后，进入"训练课程"板块。材料包括视频课程、PDF和互动练习。高级内容需要订阅会员。' },
         { q: '课程是否提供中英双语？', a: '是的！所有课程都是中英双语。您可以随时使用语言切换功能。' },
       ],
@@ -594,7 +607,7 @@ const faqData = {
     {
       category: '年龄与要求',
       items: [
-        { q: '这个平台适合什么年龄段？', a: '我们的平台专为12-18岁学生设计。内容适合该年龄段，专注于AI的创意和教育应用。' },
+        { q: '这个平台适合什么年龄段？', a: '我们的平台专为10岁以上学生设计。内容适合该年龄段，专注于AI的创意和教育应用。' },
         { q: '需要编程基础吗？', a: '大多数课程不需要编程经验。AI基础和创作课程对初学者友好。' },
         { q: '可以使用哪些设备？', a: '支持任何现代浏览器——电脑、平板或手机。建议使用电脑获得最佳体验。' },
       ],
@@ -672,20 +685,23 @@ const FAQ = ({ lang }: { lang: Language }) => {
                   return (
                     <div
                       key={id}
-                      className="bg-white rounded-xl border border-slate-100 overflow-hidden hover:shadow-md transition-shadow"
+                      className="group bg-white rounded-xl border border-slate-100 overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-[#ff6b35]/20"
                     >
                       <button
                         onClick={() => toggleItem(id)}
-                        className="w-full px-6 py-5 text-left flex items-center justify-between gap-4"
+                        className="w-full px-6 py-5 text-left flex items-center justify-between gap-4 transition-colors group-hover:bg-[#fff7f2]"
                         style={{ fontFamily: 'DM Sans, sans-serif' }}
                       >
-                        <span className="font-semibold" style={{ color: '#1a1a2e' }}>
+                        <span
+                          className="font-semibold text-[#1a1a2e] transition-colors group-hover:text-[#ff6b35]"
+                          style={{ fontFamily: 'DM Sans, sans-serif' }}
+                        >
                           {item.q}
                         </span>
                         {isOpen ? (
-                          <ChevronUp className="w-5 h-5 text-slate-400 flex-shrink-0" />
+                          <ChevronUp className="w-5 h-5 text-slate-400 flex-shrink-0 transition-colors group-hover:text-[#ff6b35]" />
                         ) : (
-                          <ChevronDown className="w-5 h-5 text-slate-400 flex-shrink-0" />
+                          <ChevronDown className="w-5 h-5 text-slate-400 flex-shrink-0 transition-colors group-hover:text-[#ff6b35]" />
                         )}
                       </button>
                       <div

@@ -1,12 +1,10 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
   AlertDialog,
-  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
@@ -64,9 +62,9 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
   const [signupEmail, setSignupEmail] = useState('');
   const [resendStatus, setResendStatus] = useState<string | null>(null);
   const [resendCooldown, setResendCooldown] = useState(0);
-  const [showChangeEmail, setShowChangeEmail] = useState(false);
+  const [, setShowChangeEmail] = useState(false);
   const [newEmail, setNewEmail] = useState('');
-  const [changeEmailStatus, setChangeEmailStatus] = useState<string | null>(null);
+  const [, setChangeEmailStatus] = useState<string | null>(null);
 
   // Redirect email verification back to signup with a flag so AuthProvider refreshes session
   const verificationCallbackPath = '/signup?authCallback=verified';
@@ -94,7 +92,7 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
     }
   }, [isAuthenticated, showVerificationNotice, router, getRedirectTarget]);
 
-  const handleSocialLogin = async (_provider: 'google') => {
+  const handleSocialLogin = async () => {
     try {
       clearError();
       const { localized } = getRedirectTarget();
@@ -133,7 +131,7 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
           'viecom:verification-email',
           JSON.stringify({ email, ts: Date.now() })
         );
-      } catch (_storageError) {
+      } catch {
         // Ignore storage failures (privacy mode, etc.)
       }
       setShowVerificationNotice(true);
@@ -173,6 +171,7 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
     }
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleChangeEmail = async () => {
     if (!newEmail) {
       setChangeEmailStatus('Please enter a valid email address.');

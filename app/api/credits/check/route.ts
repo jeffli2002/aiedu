@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
         hasAccount: true,
         balance: creditAccount.balance,
       });
-    } catch (_error) {
+    } catch {
       return NextResponse.json({
         success: true,
         hasAccount: false,

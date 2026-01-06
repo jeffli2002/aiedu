@@ -39,7 +39,9 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
 
 export function generateStaticParams(): Params[] {
   // Pre-render all slugs for all locales based on registry
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   const { blogPosts } = require('@/lib/blog/posts');
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const slugArrays: string[][] = blogPosts.map((p: any) => String(p.slug).split('/'));
   const params: Params[] = [];
   for (const locale of locales) {

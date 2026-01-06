@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next';
 import { locales, type Locale } from '@/i18n/routing';
+import { blogPosts } from '@/lib/blog/posts';
 
 const FALLBACK_APP_URL = 'http://localhost:3003';
 const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? FALLBACK_APP_URL;
@@ -10,6 +11,7 @@ const staticPages = [
   '/signin',
   '/reset-password',
   '/training',
+  '/blog',
 ];
 
 // Training course IDs (add more as courses are added)
@@ -64,6 +66,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Training course pages
   for (const courseId of courseIds) {
     entries.push(...createSitemapEntry(`/training/${courseId}`, 0.7, 'weekly'));
+  }
+
+  // Blog pages
+  for (const post of blogPosts) {
+    entries.push(
+      ...createSitemapEntry(`/blog/${post.slug}`, 0.7, 'weekly')
+    );
   }
 
   return entries;

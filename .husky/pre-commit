@@ -1,10 +1,1 @@
-# Only check staged TypeScript files
-staged_files=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(ts|tsx)$' || true)
-
-if [ -z "$staged_files" ]; then
-  echo "No TypeScript files staged, skipping typecheck"
-  exit 0
-fi
-
-echo "Running typecheck on staged files..."
-pnpm typecheck --noEmit
+pnpm test

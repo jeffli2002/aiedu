@@ -74,8 +74,7 @@ export const verification = pgTable('verification', {
 });
 
 export const rateLimit = pgTable('rateLimit', {
-  id: text('id').primaryKey(),
-  key: text('key').notNull(),
+  key: text('key').primaryKey(),
   count: integer('count').notNull(),
   lastRequest: bigint('last_request', { mode: 'number' }).notNull(),
 });
@@ -349,7 +348,7 @@ export const payment = pgTable('payment', {
   id: text('id').primaryKey(),
   provider: text('provider', { enum: ['stripe', 'creem'] })
     .notNull()
-    .default('creem'),
+    .default('stripe'),
   priceId: text('price_id').notNull(),
   productId: text('product_id'),
   type: text('type').notNull(),
@@ -503,6 +502,35 @@ export const brandToneProfile = pgTable('brand_tone_profile', {
     .notNull(),
 });
 
+// Batch Generation Jobs
+export const batchGenerationJob = pgTable('batch_generation_job', {
+  id: text('id').primaryKey(),
+  userId: text('user_id')
+    .notNull()
+    .references(() => user.id, { onDelete: 'cascade' }),
+  jobName: text('job_name'),
+  status: text('status', {
+    enum: ['pending', 'processing', 'completed', 'failed', 'cancelled'],
+  })
+    .notNull()
+    .default('pending'),
+  totalRows: integer('total_rows').notNull(),
+  processedRows: integer('processed_rows').notNull().default(0),
+  successfulRows: integer('successful_rows').notNull().default(0),
+  failedRows: integer('failed_rows').notNull().default(0),
+  csvFileKey: text('csv_file_key'), // R2 key for uploaded CSV/Excel
+  columnMapping: jsonb('column_mapping'), // Maps CSV columns to generation inputs
+  errorReport: text('error_report'), // JSON string with detailed errors
+  zipFileKey: text('zip_file_key'), // R2 key for final ZIP download
+  createdAt: timestamp('created_at')
+    .$defaultFn(() => new Date())
+    .notNull(),
+  updatedAt: timestamp('updated_at')
+    .$defaultFn(() => new Date())
+    .notNull(),
+  completedAt: timestamp('completed_at'),
+});
+
 export const generationLock = pgTable(
   'generation_lock',
   {
@@ -540,6 +568,9 @@ export const generatedAsset = pgTable('generated_asset', {
   userId: text('user_id')
     .notNull()
     .references(() => user.id, { onDelete: 'cascade' }),
+  batchJobId: text('batch_job_id').references(() => batchGenerationJob.id, {
+    onDelete: 'set null',
+  }),
   assetType: text('asset_type', {
     enum: ['image', 'video'],
   }).notNull(),
@@ -676,7 +707,59 @@ export const showcaseGallery = pgTable('showcase_gallery', {
 });
 
 // E-commerce Platform Publishing
-// NOTE: platform publishing table removed for AI education project scope
+export const platformPublish = pgTable('platform_publish', {
+  id: text('id').primaryKey(),
+  userId: text('user_id')
+    .notNull()
+    .references(() => user.id, { onDelete: 'cascade' }),
+  assetId: text('asset_id')
+    .notNull()
+    .references(() => generatedAsset.id, { onDelete: 'cascade' }),
+  platform: text('platform', {
+    enum: ['tiktok', 'amazon', 'shopify', 'taobao', 'douyin', 'temu', 'other'],
+  }).notNull(),
+  platformAccountId: text('platform_account_id'), // User's account ID on the platform
+  // Product Information
+  productId: text('product_id'), // Platform-specific product ID (if updating existing product)
+  productName: text('product_name'), // Product title/name
+  productDescription: text('product_description'), // Product description
+  productCategory: text('product_category'), // Product category
+  productBrand: text('product_brand'), // Brand name
+  productModel: text('product_model'), // Model number
+  productSku: text('product_sku'), // SKU
+  productUpc: text('product_upc'), // UPC/EAN/ISBN code (for Amazon)
+  productCountryOfOrigin: text('product_country_of_origin'), // COO (for Amazon)
+  // Pricing Information
+  standardPrice: decimal('standard_price', { precision: 10, scale: 2 }), // Standard price
+  salePrice: decimal('sale_price', { precision: 10, scale: 2 }), // Sale/promotional price (for TikTok)
+  currency: text('currency').default('USD'), // Currency code
+  // Inventory Information
+  inventoryQuantity: integer('inventory_quantity'), // Stock quantity
+  minPurchaseQuantity: integer('min_purchase_quantity').default(1),
+  maxPurchaseQuantity: integer('max_purchase_quantity'),
+  // Media Information
+  imageId: text('image_id'), // Platform-specific image ID
+  videoId: text('video_id'), // Platform-specific video ID
+  thumbnailId: text('thumbnail_id'), // Thumbnail ID
+  // Publishing Status
+  publishStatus: text('publish_status', {
+    enum: ['pending', 'publishing', 'published', 'failed'],
+  })
+    .notNull()
+    .default('pending'),
+  publishUrl: text('publish_url'), // URL of the published content
+  publishId: text('publish_id'), // Platform-specific publish ID
+  errorMessage: text('error_message'),
+  publishMetadata: jsonb('publish_metadata'), // Platform-specific metadata
+  scheduledAt: timestamp('scheduled_at'), // For scheduled publishing
+  publishedAt: timestamp('published_at'),
+  createdAt: timestamp('created_at')
+    .$defaultFn(() => new Date())
+    .notNull(),
+  updatedAt: timestamp('updated_at')
+    .$defaultFn(() => new Date())
+    .notNull(),
+});
 
 // Platform Account Connections (OAuth tokens, API keys, etc.)
 export const platformAccount = pgTable('platform_account', {

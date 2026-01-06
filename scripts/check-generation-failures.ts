@@ -4,7 +4,7 @@ config({ path: '.env.local' });
 import { neon } from '@neondatabase/serverless';
 import { drizzle } from 'drizzle-orm/neon-http';
 import { and, eq, inArray, sql, desc } from 'drizzle-orm';
-import { user, generatedAsset } from '../server/db/schema';
+import { user, generatedAsset, batchGenerationJob } from '../server/db/schema';
 
 type FailureSummary = {
   email: string;
@@ -57,8 +57,12 @@ async function main() {
       .where(and(eq(generatedAsset.userId, u.id), eq(generatedAsset.status, 'failed')));
     const assetsFailed = assetsFailedRows[0]?.count ?? 0;
 
-    // Count failed batch jobs (batch generation feature removed)
-    const batchJobsFailed = 0;
+    // Count failed batch jobs
+    const batchFailedRows = await db
+      .select({ count: sql<number>`cast(count(*) as int)` })
+      .from(batchGenerationJob)
+      .where(and(eq(batchGenerationJob.userId, u.id), eq(batchGenerationJob.status, 'failed')));
+    const batchJobsFailed = batchFailedRows[0]?.count ?? 0;
 
     // Latest 3 failed assets with timestamps and error message
     const latestAssetFailures = await db

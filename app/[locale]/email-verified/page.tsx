@@ -14,7 +14,7 @@ function EmailVerifiedContent() {
   const [isChecking, setIsChecking] = useState(true);
   const [hasError, setHasError] = useState(false);
   // Note: use a local attempt counter passed into the checker to avoid stale closures
-  const [retryCount, setRetryCount] = useState(0);
+  const [, setRetryCount] = useState(0);
 
   // Check if there's a token or code in the URL (from Better Auth verification)
   const token = searchParams.get('token');
@@ -112,6 +112,7 @@ function EmailVerifiedContent() {
 
     // Start checking immediately
     checkAndRedirect(0);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router, refreshSession, initialize, token, code]);
 
   // Also check when auth state changes (this is a backup check)

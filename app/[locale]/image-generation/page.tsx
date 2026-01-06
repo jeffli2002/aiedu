@@ -1,7 +1,7 @@
 'use client';
 
 import { Suspense } from 'react';
-import { Loader2, Sparkles } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import ImageGenerator from '@/components/image-generator';
 import Navbar from '@/components/Navbar';

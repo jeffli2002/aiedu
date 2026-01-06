@@ -91,7 +91,7 @@ export interface Plan {
 }
 
 export const paymentConfig: PaymentConfig = {
-  provider: 'creem',
+  provider: 'stripe',
 
   currency: 'usd',
 

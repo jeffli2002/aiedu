@@ -55,7 +55,7 @@ export default function ApplyPage() {
         parentContact: '',
         interests: [],
       });
-    } catch (error) {
+    } catch {
       setSubmitStatus('error');
     } finally {
       setIsSubmitting(false);

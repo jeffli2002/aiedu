@@ -8,14 +8,10 @@ import { createAuthClient } from 'better-auth/react';
 const getBaseURL = () => {
   if (typeof window !== 'undefined') {
     // Client-side: use current origin to avoid CORS issues with subdomains
-    const origin = window.location.origin;
-    console.log('[Auth Client] Using baseURL:', origin);
-    return origin;
+    return window.location.origin;
   }
-  // Server-side: use environment variable with fallback
-  const baseURL = env.NEXT_PUBLIC_APP_URL || 'http://localhost:3003';
-  console.log('[Auth Client] Using baseURL from env:', baseURL);
-  return baseURL;
+  // Server-side: use environment variable
+  return env.NEXT_PUBLIC_APP_URL;
 };
 
 export const authClient = createAuthClient({

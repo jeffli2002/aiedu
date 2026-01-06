@@ -8,7 +8,6 @@ import {
 } from '@/lib/creem/plan-utils';
 import { normalizeCreemStatus } from '@/lib/creem/status-utils';
 import { grantSubscriptionCredits } from '@/lib/creem/subscription-credits';
-import type { PaymentStatus } from '@/payment/types';
 import { paymentRepository } from '@/server/db/repositories/payment-repository';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
@@ -430,6 +429,7 @@ export async function POST(request: NextRequest) {
                   newPlanId: newCreditInfo.planId,
                 });
 
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 await tx
                   .update(userCredits)
                   .set({
@@ -438,6 +438,7 @@ export async function POST(request: NextRequest) {
                   } as any)
                   .where(eq(userCredits.userId, userId));
 
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 await tx.insert(creditTransactions).values({
                   id: randomUUID(),
                   userId,

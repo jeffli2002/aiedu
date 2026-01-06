@@ -1,6 +1,4 @@
-// @ts-nocheck
 import crypto from 'node:crypto';
-import { paymentConfig } from '@/config/payment.config';
 import { env } from '@/env';
 import { getCreditPackByIdentifier } from '@/lib/admin/revenue-utils';
 
@@ -109,7 +107,7 @@ class CreemPaymentService {
     planId,
     interval,
     successUrl,
-    cancelUrl: _cancelUrl,
+    cancelUrl,
     currentPlan = 'free',
     affiliateCode,
   }: CreateCheckoutSessionParams) {
@@ -179,7 +177,7 @@ class CreemPaymentService {
           sessionId: checkout.id,
           url: checkout.checkoutUrl,
         };
-      } catch (_sdkError) {
+      } catch {
         // Fallback to direct API call if SDK not available
         console.log('[Creem] SDK not available, using direct API call');
         const baseUrl = getCreemBaseUrl();
@@ -218,7 +216,7 @@ class CreemPaymentService {
     userEmail,
     productKey,
     successUrl,
-    cancelUrl: _cancelUrl,
+    cancelUrl,
     affiliateCode,
   }: {
     userId: string;
@@ -283,7 +281,7 @@ class CreemPaymentService {
           sessionId: checkout.id,
           url: checkout.checkoutUrl,
         };
-      } catch (_sdkError) {
+      } catch {
         // Fallback to direct API call if SDK not available
         console.log('[Creem] SDK not available, using direct API call');
         const baseUrl = getCreemBaseUrl();
@@ -340,7 +338,7 @@ class CreemPaymentService {
           success: true,
           subscription: result,
         };
-      } catch (_sdkError) {
+      } catch {
         // Fallback to direct API call
         const baseUrl = getCreemBaseUrl();
         const response = await fetch(`${baseUrl}/v1/subscriptions/${subscriptionId}`, {
@@ -411,7 +409,7 @@ class CreemPaymentService {
           success: true,
           subscription: result,
         };
-      } catch (_sdkError) {
+      } catch {
         // Fallback to direct API call
         const baseUrl = getCreemBaseUrl();
         const response = await fetch(`${baseUrl}/v1/subscriptions/${subscriptionId}`, {
@@ -482,7 +480,7 @@ class CreemPaymentService {
           success: true,
           subscription: result,
         };
-      } catch (_sdkError) {
+      } catch {
         // Fallback to direct API call
         console.log('[Creem] Using direct API call for upgrade (SDK failed)');
         const baseUrl = getCreemBaseUrl();
@@ -612,7 +610,7 @@ class CreemPaymentService {
             subscription: result,
             scheduledAtPeriodEnd: true,
           };
-        } catch (_sdkError) {
+        } catch {
           // Fallback to direct API call
           const baseUrl = getCreemBaseUrl();
           const response = await fetch(`${baseUrl}/v1/subscriptions/${subscriptionId}/upgrade`, {
@@ -690,7 +688,7 @@ class CreemPaymentService {
           success: true,
           subscription: result,
         };
-      } catch (_sdkError) {
+      } catch {
         // Fallback to direct API call
         const baseUrl = getCreemBaseUrl();
         const response = await fetch(`${baseUrl}/v1/subscriptions/${subscriptionId}`, {
@@ -756,7 +754,7 @@ class CreemPaymentService {
           success: true,
           subscription: result,
         };
-      } catch (_sdkError) {
+      } catch {
         // Fallback to direct API call
         const baseUrl = getCreemBaseUrl();
         const response = await fetch(`${baseUrl}/v1/subscriptions/${subscriptionId}`, {
@@ -796,7 +794,7 @@ class CreemPaymentService {
     }
   }
 
-  async generateCustomerPortalLink(customerId: string, _returnUrl: string) {
+  async generateCustomerPortalLink(customerId: string) {
     try {
       console.log('[Creem] Generating customer portal link for:', customerId);
       const CREEM_API_KEY = getCreemApiKey();
@@ -820,7 +818,7 @@ class CreemPaymentService {
           success: true,
           url: result.customerPortalLink,
         };
-      } catch (_sdkError) {
+      } catch {
         // Fallback to direct API call
         const baseUrl = getCreemBaseUrl();
         const response = await fetch(`${baseUrl}/v1/customers/billing`, {

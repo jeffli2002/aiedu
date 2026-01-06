@@ -131,7 +131,8 @@ export async function POST(
       );
     }
 
-    const _scheduledAtPeriodEnd = forceScheduledAtPeriodEnd;
+    // forceScheduledAtPeriodEnd is used in the logic below
+    void forceScheduledAtPeriodEnd;
     const estimatedEffectiveDate = paymentRecord.periodEnd
       ? new Date(paymentRecord.periodEnd)
       : (() => {

@@ -1,4 +1,3 @@
-import { auth } from '@/lib/auth/auth';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {
@@ -29,7 +28,7 @@ export async function POST(request: NextRequest) {
       }
     );
 
-    const response = await fetch(internalRequest);
+    await fetch(internalRequest);
 
     // Always return success to prevent email enumeration
     return NextResponse.json({
