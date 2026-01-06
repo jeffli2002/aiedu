@@ -116,6 +116,22 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
             tools: ['Claude', 'Canva'], 
             outcome: '一份面向同学的 AI 安全使用视觉指南。' 
           }
+        ],
+        materials: [
+          {
+            id: 'f103-safety-ethics-t01',
+            title: 'AI 安全与风险 T01（PDF）',
+            type: 'pdf',
+            mediaId: 'training/f103/zh/ai-safety-ethics_T01',
+            language: 'zh',
+          },
+          {
+            id: 'f103-safety-ethics-video-t01',
+            title: 'AI 安全与风险 T01（视频）',
+            type: 'video',
+            mediaId: 'training/f103/zh/ai-safety-ethics_T01',
+            language: 'zh',
+          },
         ]
       },
       { 
