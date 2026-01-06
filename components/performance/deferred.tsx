@@ -18,8 +18,7 @@ export function Deferred({ children, timeoutMs = 1200 }: DeferredProps) {
 
     let handle: number | undefined;
     if ('requestIdleCallback' in window) {
-      // @ts-expect-error - not in libdom
-      handle = window.requestIdleCallback(enable, { timeout: timeoutMs });
+      handle = (window as Window & { requestIdleCallback: (callback: () => void, options?: { timeout?: number }) => number }).requestIdleCallback(enable, { timeout: timeoutMs });
     } else {
       handle = window.setTimeout(enable, timeoutMs);
     }
@@ -31,9 +30,11 @@ export function Deferred({ children, timeoutMs = 1200 }: DeferredProps) {
       window.removeEventListener('pointerdown', enable);
       window.removeEventListener('scroll', enable);
       if (!handle) return;
-      // @ts-expect-error - not in libdom
-      if ('cancelIdleCallback' in window) window.cancelIdleCallback(handle);
-      else window.clearTimeout(handle);
+      if ('cancelIdleCallback' in window) {
+        (window as Window & { cancelIdleCallback: (handle: number) => void }).cancelIdleCallback(handle);
+      } else {
+        window.clearTimeout(handle);
+      }
     };
   }, [ready, timeoutMs]);
 
