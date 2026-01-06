@@ -3,6 +3,7 @@ import { auth } from '@/lib/auth/auth';
 import { releaseGenerationLock } from '@/lib/generation/generation-lock';
 import { db } from '@/server/db';
 import { generatedAsset } from '@/server/db/schema';
+import type { InferSelectModel } from 'drizzle-orm';
 import { eq } from 'drizzle-orm';
 import { type NextRequest, NextResponse } from 'next/server';
 
@@ -149,7 +150,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
               failedAt: new Date().toISOString(),
               kieError: errorMsg,
             },
-          })
+          } as Partial<InferSelectModel<typeof generatedAsset>>)
           .where(eq(generatedAsset.id, asset.id));
 
         // Unfreeze credits (refund)

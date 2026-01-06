@@ -14,6 +14,7 @@ import { checkAndAwardReferralReward } from '@/lib/rewards/referral-reward';
 import { r2StorageService } from '@/lib/storage/r2';
 import { db } from '@/server/db';
 import { generatedAsset, user as userTable } from '@/server/db/schema';
+import type { InferSelectModel } from 'drizzle-orm';
 import { eq, sql } from 'drizzle-orm';
 import { type NextRequest, NextResponse } from 'next/server';
 
@@ -1223,7 +1224,7 @@ export async function POST(request: NextRequest) {
                     credits: creditCost,
                   })}::jsonb
                 )`,
-              })
+              } as Partial<InferSelectModel<typeof generatedAsset>>)
               .where(eq(generatedAsset.id, savedAssetId));
           } catch (updateError) {
             console.error('[Video Generation] Failed to update asset with credit charge failure:', {

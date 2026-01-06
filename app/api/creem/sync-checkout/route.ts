@@ -9,6 +9,8 @@ import {
 import { normalizeCreemStatus } from '@/lib/creem/status-utils';
 import { grantSubscriptionCredits } from '@/lib/creem/subscription-credits';
 import { paymentRepository } from '@/server/db/repositories/payment-repository';
+import { creditTransactions } from '@/server/db/schema';
+import type { InferInsertModel } from 'drizzle-orm';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
@@ -397,7 +399,7 @@ export async function POST(request: NextRequest) {
 
             // Apply credit difference immediately
             const { db } = await import('@/server/db');
-            const { creditTransactions, userCredits } = await import('@/server/db/schema');
+            const { userCredits } = await import('@/server/db/schema');
             const { eq } = await import('drizzle-orm');
             const { randomUUID } = await import('node:crypto');
 
@@ -457,7 +459,7 @@ export async function POST(request: NextRequest) {
                     provider: 'creem',
                     creditDifference,
                   }),
-                });
+                } as InferInsertModel<typeof creditTransactions>);
               });
 
               console.log(
