@@ -25,10 +25,55 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
 /**
- * Training Page - Editorial Minimal Design
- * Colors: Coral Orange (#ff6b35), Teal (#2ec4b6)
- * Typography: Instrument Serif (headlines), DM Sans (body)
+ * Training Page - Warm Editorial System
+ * Palette: ink, warm/cool accents, soft sand canvas.
+ * Typography: Instrument Serif (headlines), DM Sans (body).
  */
+
+const THEME = {
+  fonts: {
+    display: '"Instrument Serif", Georgia, serif',
+    body: '"DM Sans", system-ui, sans-serif'
+  },
+  colors: {
+    ink: '#1a1a2e',
+    body: '#4a4a4a',
+    muted: '#6f6b66',
+    faint: '#9a948e',
+    border: '#ece6dd',
+    canvas: '#faf7f2',
+    surface: '#ffffff',
+    chip: '#f6f2eb'
+  },
+  accents: {
+    warm: { base: '#ff6b35', soft: 'rgba(255, 107, 53, 0.12)', border: 'rgba(255, 107, 53, 0.25)' },
+    cool: { base: '#2ec4b6', soft: 'rgba(46, 196, 182, 0.12)', border: 'rgba(46, 196, 182, 0.25)' },
+    ink: { base: '#1a1a2e', soft: 'rgba(26, 26, 46, 0.08)', border: 'rgba(26, 26, 46, 0.2)' }
+  }
+} as const;
+
+type AccentKey = keyof typeof THEME.accents;
+
+const labelClass = 'text-[11px] font-semibold uppercase tracking-[0.22em]';
+
+const iconFrameStyle = (tone: AccentKey) => ({
+  backgroundColor: THEME.accents[tone].soft,
+  borderColor: THEME.accents[tone].border,
+  color: THEME.accents[tone].base
+});
+
+const iconChipStyle = (tone: AccentKey) => ({
+  backgroundColor: THEME.accents[tone].soft,
+  color: THEME.accents[tone].base
+});
+
+const MODULE_ACCENTS: Record<string, AccentKey> = {
+  foundation: 'cool',
+  creation: 'warm',
+  efficiency: 'cool',
+  vibe: 'warm',
+  pbl: 'ink'
+};
 
 export default function TrainingPageContent() {
   const t = useTranslations('training');
@@ -44,37 +89,53 @@ export default function TrainingPageContent() {
 
   const renderModule = (m: Module) => {
     const hasPracticeSplit = m.theoryDuration || m.practiceDuration;
-
-    const colors = {
-      foundation: { border: 'border-slate-100 hover:border-[#2ec4b6]', accent: '#2ec4b6', bg: 'bg-[#2ec4b6]/5' },
-      creation: { border: 'border-slate-100 hover:border-[#ff6b35]', accent: '#ff6b35', bg: 'bg-[#ff6b35]/5' },
-      efficiency: { border: 'border-slate-100 hover:border-[#2ec4b6]', accent: '#2ec4b6', bg: 'bg-[#2ec4b6]/5' },
-      vibe: { border: 'border-slate-100 hover:border-[#ff6b35]', accent: '#ff6b35', bg: 'bg-[#ff6b35]/5' },
-      pbl: { border: 'border-slate-100 hover:border-[#1a1a2e]', accent: '#1a1a2e', bg: 'bg-slate-50' }
+    const accentKey = MODULE_ACCENTS[m.type] || 'ink';
+    const moduleStyles: Record<AccentKey, { borderClass: string; accent: string; soft: string; tagHoverClass: string }> = {
+      warm: {
+        borderClass: 'border-[#ece6dd] hover:border-[#ff6b35]',
+        accent: THEME.accents.warm.base,
+        soft: THEME.accents.warm.soft,
+        tagHoverClass: 'group-hover:bg-[#ff6b35]/10 group-hover:border-[#ff6b35]/25'
+      },
+      cool: {
+        borderClass: 'border-[#ece6dd] hover:border-[#2ec4b6]',
+        accent: THEME.accents.cool.base,
+        soft: THEME.accents.cool.soft,
+        tagHoverClass: 'group-hover:bg-[#2ec4b6]/10 group-hover:border-[#2ec4b6]/25'
+      },
+      ink: {
+        borderClass: 'border-[#ece6dd] hover:border-[#1a1a2e]',
+        accent: THEME.accents.ink.base,
+        soft: THEME.accents.ink.soft,
+        tagHoverClass: 'group-hover:bg-[#1a1a2e]/10 group-hover:border-[#1a1a2e]/25'
+      }
     };
-
-    const colorSet = colors[m.type as keyof typeof colors] || colors.pbl;
+    const colorSet = moduleStyles[accentKey];
+    const formatDotColor = m.format === 'Online'
+      ? THEME.accents.cool.base
+      : m.format === 'Offline'
+        ? THEME.accents.warm.base
+        : THEME.accents.ink.base;
 
     return (
       <Link
         href={`/${lang}/training/${m.id}`}
         key={m.id}
-        className={`group relative bg-white p-8 rounded-[1.5rem] border transition-all duration-300 flex flex-col h-full text-left w-full hover:-translate-y-1 hover:shadow-lg ${colorSet.border}`}
-        style={{ fontFamily: '"DM Sans", system-ui, sans-serif' }}
+        className={`group relative bg-white p-8 rounded-[1.5rem] border transition-all duration-300 flex flex-col h-full text-left w-full hover:-translate-y-1 hover:shadow-lg ${colorSet.borderClass}`}
       >
         <div className="flex justify-between items-center mb-6">
           <div className="flex items-center gap-2">
             <div
               className="w-2 h-2 rounded-full"
-              style={{ backgroundColor: m.format === 'Online' ? '#2ec4b6' : m.format === 'Offline' ? '#ff6b35' : '#1a1a2e' }}
+              style={{ backgroundColor: formatDotColor }}
             />
-            <span className="text-[10px] font-semibold uppercase tracking-wider text-[#999]">
+            <span className={labelClass} style={{ color: THEME.colors.faint }}>
               {m.format}
             </span>
           </div>
           <div
-            className="flex items-center gap-1.5 text-[10px] font-semibold px-3 py-1.5 rounded-full"
-            style={{ backgroundColor: `${colorSet.accent}10`, color: colorSet.accent }}
+            className="flex items-center gap-1.5 text-[11px] font-semibold tracking-wide px-3 py-1.5 rounded-full"
+            style={{ backgroundColor: colorSet.soft, color: colorSet.accent }}
           >
             <Clock className="w-3.5 h-3.5" />
             {m.duration}
@@ -85,38 +146,38 @@ export default function TrainingPageContent() {
           <h4
             className="text-xl mb-3 leading-tight transition-colors duration-300"
             style={{
-              fontFamily: '"Instrument Serif", Georgia, serif',
-              color: '#1a1a2e'
+              fontFamily: THEME.fonts.display,
+              color: THEME.colors.ink
             }}
           >
             {m.title}
           </h4>
-          <p className="text-sm leading-relaxed line-clamp-2 min-h-[3rem]" style={{ color: '#666' }}>
+          <p className="text-sm leading-relaxed line-clamp-2 min-h-[3rem]" style={{ color: THEME.colors.muted }}>
             {m.description}
           </p>
         </div>
 
         {hasPracticeSplit ? (
           <div className="space-y-3 mb-6 w-full">
-            <div className="flex justify-between text-[10px] font-semibold uppercase tracking-wider">
-              <span style={{ color: '#2ec4b6' }}>{isClient ? t('theoryLabel') : '理论'}</span>
-              <span style={{ color: '#ff6b35' }}>{isClient ? t('practiceLabel') : '实践'}</span>
+            <div className={`${labelClass} flex justify-between`}>
+              <span style={{ color: THEME.accents.cool.base }}>{isClient ? t('theoryLabel') : '理论'}</span>
+              <span style={{ color: THEME.accents.warm.base }}>{isClient ? t('practiceLabel') : '实践'}</span>
             </div>
-            <div className="h-1.5 w-full bg-slate-100 rounded-full flex overflow-hidden">
-              <div className="h-full rounded-full" style={{ width: '35%', backgroundColor: '#2ec4b6' }} />
-              <div className="h-full rounded-full ml-0.5" style={{ width: '65%', backgroundColor: '#ff6b35' }} />
+            <div className="h-1.5 w-full rounded-full flex overflow-hidden" style={{ backgroundColor: THEME.colors.chip }}>
+              <div className="h-full rounded-full" style={{ width: '35%', backgroundColor: THEME.accents.cool.base }} />
+              <div className="h-full rounded-full ml-0.5" style={{ width: '65%', backgroundColor: THEME.accents.warm.base }} />
             </div>
           </div>
         ) : (
           <div className="mb-6 h-8" />
         )}
 
-        <div className="mt-auto pt-6 border-t border-slate-100 w-full flex flex-wrap gap-2">
+        <div className="mt-auto pt-6 border-t w-full flex flex-wrap gap-2" style={{ borderColor: THEME.colors.border }}>
           {m.skills.map((s: string) => (
             <span
               key={s}
-              className="text-[10px] font-medium px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-100 transition-colors duration-300 group-hover:bg-[#ff6b35]/5 group-hover:border-[#ff6b35]/20"
-              style={{ color: '#666' }}
+              className={`text-[11px] font-medium tracking-wide px-3 py-1.5 rounded-lg border transition-colors duration-300 ${colorSet.tagHoverClass}`}
+              style={{ color: THEME.colors.muted, backgroundColor: THEME.colors.chip, borderColor: THEME.colors.border }}
             >
               {s}
             </span>
@@ -124,7 +185,7 @@ export default function TrainingPageContent() {
         </div>
 
         <div className="absolute bottom-6 right-6 opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
-          <div className="p-2.5 rounded-xl text-white" style={{ backgroundColor: '#ff6b35' }}>
+          <div className="p-2.5 rounded-xl text-white" style={{ backgroundColor: colorSet.accent }}>
             <ArrowRight className="w-4 h-4" />
           </div>
         </div>

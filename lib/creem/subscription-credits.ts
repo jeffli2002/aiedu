@@ -3,7 +3,7 @@ import { type BillingInterval, formatPlanName, getCreditsForPlan } from '@/lib/c
 import { awardReferralForPaidUser } from '@/lib/rewards/referral-reward';
 import { db } from '@/server/db';
 import { creditTransactions, userCredits } from '@/server/db/schema';
-import { and, eq } from 'drizzle-orm';
+import { eq } from 'drizzle-orm';
 
 /**
  * Grant subscription credits to user with idempotency

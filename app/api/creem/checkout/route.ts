@@ -50,7 +50,8 @@ export async function POST(request: Request) {
       );
     }
 
-    let { planId, priceId, interval, successUrl, cancelUrl } = validation.data;
+    let { planId, priceId, interval } = validation.data;
+    const { successUrl, cancelUrl } = validation.data;
 
     if (!planId && !priceId) {
       return NextResponse.json(

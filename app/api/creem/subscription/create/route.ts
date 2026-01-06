@@ -1,6 +1,5 @@
 import { auth } from '@/lib/auth/auth';
 import { isCreemConfigured } from '@/lib/creem/creem-config';
-import { creemService } from '@/lib/creem/creem-service';
 import { headers } from 'next/headers';
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
@@ -27,7 +26,8 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json();
-    const validatedData = subscriptionSchema.parse(body);
+    // Validate request body matches schema (even though we don't use it)
+    subscriptionSchema.parse(body);
 
     // Note: Subscriptions are created via checkout sessions, not directly
     // This endpoint should redirect to checkout or return an error

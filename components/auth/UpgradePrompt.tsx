@@ -29,7 +29,7 @@ export default function UpgradePrompt({
   onClose,
   onContinue,
   creditsUsed = 0,
-  creditsLimit = 5,
+  creditsLimit: _creditsLimit = 5,
   type = 'credits',
   feature,
   isAuthenticated = true,

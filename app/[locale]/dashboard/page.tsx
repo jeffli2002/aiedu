@@ -18,6 +18,7 @@ import {
   History,
   ImageIcon,
   RefreshCw,
+  Sparkles,
   TrendingDown,
   TrendingUp,
 } from 'lucide-react';
