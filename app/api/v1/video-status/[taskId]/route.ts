@@ -138,7 +138,6 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
         // Update database
         const metadataWithoutLock = { ...assetMetadata, generationLockId: undefined };
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         await db
           .update(generatedAsset)
           .set({
@@ -150,6 +149,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
               failedAt: new Date().toISOString(),
               kieError: errorMsg,
             },
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
           } as any)
           .where(eq(generatedAsset.id, asset.id));
 

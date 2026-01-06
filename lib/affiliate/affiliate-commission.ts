@@ -63,6 +63,7 @@ export async function recordAffiliateCommission(params: RecordCommissionParams):
       status: 'pending',
       availableAt,
       createdAt: new Date(),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } as any)
     .onConflictDoNothing()
     .returning({ id: affiliateCommission.id });

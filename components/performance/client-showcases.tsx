@@ -1,22 +1,23 @@
 'use client';
 
-import dynamic from 'next/dynamic';
+// TODO: These components are not yet implemented
+// import dynamic from 'next/dynamic';
 
-const VideoGenerationShowcase = dynamic(
-  () =>
-    import('@/components/blocks/video-generation-showcase').then((m) => m.VideoGenerationShowcase),
-  { ssr: false }
-);
+// const VideoGenerationShowcase = dynamic(
+//   () =>
+//     import('@/components/blocks/video-generation-showcase').then((m) => m.VideoGenerationShowcase),
+//   { ssr: false }
+// );
 
-const ShowcaseGallery = dynamic(
-  () => import('@/components/blocks/showcase-gallery').then((m) => m.ShowcaseGallery),
-  { ssr: false }
-);
+// const ShowcaseGallery = dynamic(
+//   () => import('@/components/blocks/showcase-gallery').then((m) => m.ShowcaseGallery),
+//   { ssr: false }
+// );
 
 export function ClientVideoGenerationShowcase() {
-  return <VideoGenerationShowcase />;
+  return null; // <VideoGenerationShowcase />;
 }
 
 export function ClientShowcaseGallery() {
-  return <ShowcaseGallery />;
+  return null; // <ShowcaseGallery />;
 }

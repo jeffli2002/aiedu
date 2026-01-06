@@ -139,12 +139,12 @@ export async function POST(request: NextRequest) {
     // Create a temporary session token that allows passwordless login
     // This token will be used by the client to automatically sign in
     const sessionToken = randomUUID();
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     await db.insert(verification).overridingSystemValue().values({
       id: randomUUID(),
       identifier: `otp-session:${updatedUser.id}`,
       value: sessionToken,
       expiresAt: new Date(Date.now() + 5 * 60 * 1000), // 5 minutes
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } as any);
 
     // Return session token for client to use for auto-login

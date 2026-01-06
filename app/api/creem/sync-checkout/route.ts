@@ -439,7 +439,6 @@ export async function POST(request: NextRequest) {
                   } as any)
                   .where(eq(userCredits.userId, userId));
 
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 await tx.insert(creditTransactions).values({
                   id: randomUUID(),
                   userId,
@@ -458,6 +457,7 @@ export async function POST(request: NextRequest) {
                     provider: 'creem',
                     creditDifference,
                   }),
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 } as any);
               });
 

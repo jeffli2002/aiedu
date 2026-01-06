@@ -113,7 +113,6 @@ function ContextMenuContent({
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function ContextMenuItem({
   className,
   inset,
@@ -139,7 +138,6 @@ function ContextMenuItem({
   );
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function ContextMenuCheckboxItem({
   className,
@@ -171,7 +169,6 @@ function ContextMenuCheckboxItem({
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function ContextMenuRadioItem({
   className,
   children,
@@ -200,7 +197,6 @@ function ContextMenuRadioItem({
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function ContextMenuLabel({
   className,
   inset,
@@ -220,7 +216,6 @@ function ContextMenuLabel({
   );
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function ContextMenuSeparator({
   className,

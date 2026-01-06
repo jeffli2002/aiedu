@@ -54,6 +54,7 @@ export async function acquireGenerationLock(
       metadata: (params.metadata ?? null) as Record<string, unknown> | null,
       expiresAt,
       updatedAt: new Date(),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } as any)
     .onConflictDoNothing({
       target: [generationLock.userId, generationLock.assetType],

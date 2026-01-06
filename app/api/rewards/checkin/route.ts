@@ -137,7 +137,6 @@ export async function POST(request: NextRequest) {
     });
 
     // Create checkin record first
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     await db.insert(userDailyCheckin).overridingSystemValue().values({
       id: checkinId,
       userId,
@@ -145,6 +144,7 @@ export async function POST(request: NextRequest) {
       consecutiveDays,
       creditsEarned: totalCredits,
       weeklyBonusEarned,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } as any);
 
     console.log('[Checkin] Checkin record created, awarding credits...');

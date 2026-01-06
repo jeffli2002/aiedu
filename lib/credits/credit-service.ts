@@ -194,6 +194,7 @@ export class CreditService {
           description,
           referenceId,
           metadata: metadata ? JSON.stringify(metadata) : null,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } as any)
         .returning();
 
@@ -239,8 +240,8 @@ export class CreditService {
       const newTotalSpent = currentAccount.totalSpent + amount;
 
       // Update credit account
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       await db
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         .update(userCredits)
         .set({
           balance: newBalance,
@@ -263,6 +264,7 @@ export class CreditService {
           description,
           referenceId,
           metadata: metadata ? JSON.stringify(metadata) : null,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } as any)
         .returning();
 
@@ -411,6 +413,7 @@ export class CreditService {
         .set({
           frozenBalance: newFrozenBalance,
           updatedAt: new Date(),
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } as any)
         .where(eq(userCredits.userId, userId));
 
@@ -427,6 +430,7 @@ export class CreditService {
           source: 'admin',
           description: description || 'Credits frozen',
           referenceId,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } as any)
         .returning();
 
@@ -478,6 +482,7 @@ export class CreditService {
         .set({
           frozenBalance: newFrozenBalance,
           updatedAt: new Date(),
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } as any)
         .where(eq(userCredits.userId, userId));
 
@@ -494,6 +499,7 @@ export class CreditService {
           source: 'admin',
           description: description || 'Credits unfrozen',
           referenceId,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } as any)
         .returning();
 

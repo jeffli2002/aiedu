@@ -83,6 +83,7 @@ export async function createPublishSubmission(input: CreateSubmissionInput) {
       metadata: metadata ?? null,
       createdAt: now,
       updatedAt: now,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } as any)
     .returning();
 

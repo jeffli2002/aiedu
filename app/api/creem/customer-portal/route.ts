@@ -52,8 +52,7 @@ export async function POST(request: Request) {
     }
 
     const result = await creemService.generateCustomerPortalLink(
-      subscription.customerId,
-      returnUrl || `${process.env.NEXT_PUBLIC_APP_URL}/settings/billing`
+      subscription.customerId
     );
 
     if (!result.success) {

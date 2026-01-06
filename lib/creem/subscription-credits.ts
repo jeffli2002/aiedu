@@ -78,6 +78,7 @@ export async function grantSubscriptionCredits(
           balance: newBalance,
           totalEarned: userCredit.totalEarned + creditsToGrant,
           updatedAt: new Date(),
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } as any)
         .where(eq(userCredits.userId, userId));
     } else {

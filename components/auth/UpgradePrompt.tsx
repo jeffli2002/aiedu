@@ -29,7 +29,7 @@ export default function UpgradePrompt({
   onClose,
   onContinue,
   creditsUsed = 0,
-  creditsLimit = 5,
+  creditsLimit = 5, // eslint-disable-line @typescript-eslint/no-unused-vars
   type = 'credits',
   feature,
   isAuthenticated = true,

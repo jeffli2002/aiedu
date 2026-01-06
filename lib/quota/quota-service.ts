@@ -155,6 +155,7 @@ export async function resetQuotaUsage(
       .set({
         usedAmount: 0,
         updatedAt: new Date(),
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } as any)
       .where(and(eq(userQuotaUsage.userId, userId), eq(userQuotaUsage.period, period)));
   } catch (error) {

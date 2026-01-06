@@ -36,26 +36,33 @@ const toneFrameClass: Record<Tone, string> = {
   primary: 'bg-primary-light text-primary border border-[rgba(255,107,53,0.25)]',
   secondary: 'bg-secondary-light text-secondary border border-[rgba(46,196,182,0.25)]'
 };
+// Unused but kept for potential future use
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const toneTextClass: Record<Tone, string> = {
   primary: 'text-primary',
   secondary: 'text-secondary'
 };
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const toneHoverClass: Record<Tone, string> = {
   primary: 'group-hover:bg-[var(--color-primary)] group-hover:text-white group-hover:border-[var(--color-primary)]',
   secondary: 'group-hover:bg-[var(--color-secondary)] group-hover:text-white group-hover:border-[var(--color-secondary)]'
 };
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const toneHoverTextClass: Record<Tone, string> = {
   primary: 'group-hover:text-[var(--color-primary)]',
   secondary: 'group-hover:text-[var(--color-secondary)]'
 };
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const toneChipHoverClass: Record<Tone, string> = {
   primary: 'group-hover:bg-primary-light group-hover:text-[var(--color-primary)]',
   secondary: 'group-hover:bg-secondary-light group-hover:text-[var(--color-secondary)]'
 };
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const tonePanelClass: Record<Tone, string> = {
   primary: 'bg-primary-light border border-[rgba(255,107,53,0.2)] group-hover:bg-[var(--color-primary)] group-hover:border-[var(--color-primary)]',
   secondary: 'bg-secondary-light border border-[rgba(46,196,182,0.2)] group-hover:bg-[var(--color-secondary)] group-hover:border-[var(--color-secondary)]'
 };
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const tonePanelTextClass: Record<Tone, string> = {
   primary: 'text-primary group-hover:text-white',
   secondary: 'text-secondary group-hover:text-white'
@@ -233,7 +240,7 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
           
           <Link
             href="/#apply"
-            className="btn-primary uppercase tracking-[0.2em]"
+            className="btn-primary uppercase tracking-[0.22em]"
           >
             {t('courseLanding.enrollBtn')}
           </Link>
@@ -335,7 +342,7 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
                 {visibleMaterials.map((m) => (
                   <div key={m.id} className="rounded-3xl border border-[var(--color-border-light)] bg-white shadow-sm overflow-hidden">
                     <div className="px-6 py-4 border-b border-[var(--color-border-light)] flex items-center justify-between">
-                      <div className="font-bold text-dark">{m.title}</div>
+                      <div className="font-semibold text-dark">{m.title}</div>
                       <div className={`${labelClass} text-light`}>{m.type.toUpperCase()}</div>
                     </div>
                     <div className="p-4">
@@ -477,46 +484,56 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
             </div>
 
             <div className="space-y-8">
-              {course.projects.map((project, idx) => (
-                <div key={idx} className="bg-white border border-[var(--color-border-light)] rounded-[3rem] p-10 hover:shadow-2xl transition-all duration-700 hover:scale-[1.02] hover:-translate-y-1 group">
-                  <div className="flex items-center gap-4 mb-8">
-                    <div className="w-12 h-12 rounded-2xl bg-[var(--color-light)] flex items-center justify-center group-hover:bg-[var(--color-primary)] transition-colors">
-                      {idx % 2 === 0 ? <Code2 className="w-6 h-6 text-primary group-hover:text-white" /> : <Presentation className="w-6 h-6 text-secondary group-hover:text-white" />}
+              {course.projects.map((project, idx) => {
+                const projectTone: Tone = idx % 2 === 0 ? 'primary' : 'secondary';
+                return (
+                  <div key={idx} className="bg-white border border-[var(--color-border-light)] rounded-[3rem] p-10 hover:shadow-2xl transition-all duration-700 hover:scale-[1.02] hover:-translate-y-1 group">
+                    <div className="flex items-center gap-4 mb-8">
+                      <div className={`w-12 h-12 rounded-2xl border flex items-center justify-center transition-colors ${toneFrameClass[projectTone]} ${toneHoverClass[projectTone]}`}>
+                        {idx % 2 === 0 ? <Code2 className="w-6 h-6" /> : <Presentation className="w-6 h-6" />}
+                      </div>
+                      <h4 className={`text-2xl font-semibold text-dark transition-colors leading-tight ${toneHoverTextClass[projectTone]}`}>
+                        {project.title}
+                      </h4>
                     </div>
-                    <h4 className="text-2xl font-bold text-dark group-hover:text-[var(--color-primary)] transition-colors leading-tight">{project.title}</h4>
-                  </div>
                   
-                  <div className="space-y-10">
-                    <div className="space-y-3">
-                      <div className="text-[10px] font-black text-light uppercase tracking-widest">{t('courseLanding.mission')}</div>
-                      <p className="text-lg font-bold leading-snug text-muted group-hover:text-dark transition-colors">{project.goal}</p>
-                    </div>
-
-                    <div className="space-y-4">
-                      <div className="text-[10px] font-black text-light uppercase tracking-widest">{t('courseLanding.tools')}</div>
-                      <div className="flex flex-wrap gap-2">
-                        {project.tools.map(tool => (
-                          <span key={tool} className="px-4 py-1.5 bg-[var(--color-light)] rounded-xl border border-[var(--color-border)] text-xs font-black text-muted uppercase group-hover:bg-primary-light group-hover:text-[var(--color-primary)] transition-colors">{tool}</span>
-                        ))}
+                    <div className="space-y-10">
+                      <div className="space-y-3">
+                        <div className={`${labelClass} text-light`}>{t('courseLanding.mission')}</div>
+                        <p className="text-lg font-semibold leading-snug text-muted group-hover:text-dark transition-colors">{project.goal}</p>
                       </div>
-                    </div>
 
-                    <div className="p-8 rounded-[2rem] bg-primary-light border border-[rgba(255,107,53,0.2)] shadow-sm transition-all group-hover:bg-[var(--color-primary)] group-hover:border-[var(--color-primary)]">
-                      <div className="flex items-center gap-2 mb-3">
-                        <CheckCircle className="w-5 h-5 text-primary group-hover:text-white" />
-                        <span className="text-[10px] font-black uppercase tracking-widest text-primary group-hover:text-white">{t('courseLanding.outcome')}</span>
+                      <div className="space-y-4">
+                        <div className={`${labelClass} text-light`}>{t('courseLanding.tools')}</div>
+                        <div className="flex flex-wrap gap-2">
+                          {project.tools.map(tool => (
+                            <span
+                              key={tool}
+                              className={`px-4 py-1.5 bg-[var(--color-light)] rounded-xl border border-[var(--color-border)] text-[11px] font-semibold uppercase tracking-[0.18em] text-muted transition-colors ${toneChipHoverClass[projectTone]}`}
+                            >
+                              {tool}
+                            </span>
+                          ))}
+                        </div>
                       </div>
-                      <p className="text-base font-bold leading-relaxed text-dark group-hover:text-white">{project.outcome}</p>
+
+                      <div className={`p-8 rounded-[2rem] shadow-sm transition-all ${tonePanelClass[projectTone]}`}>
+                        <div className="flex items-center gap-2 mb-3">
+                          <CheckCircle className={`w-5 h-5 ${tonePanelTextClass[projectTone]}`} />
+                          <span className={`${labelClass} ${tonePanelTextClass[projectTone]}`}>{t('courseLanding.outcome')}</span>
+                        </div>
+                        <p className="text-base font-semibold leading-relaxed text-dark group-hover:text-white">{project.outcome}</p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
 
             <div className="mt-12">
               <Link
                 href="/#apply"
-                className="btn-primary w-full uppercase tracking-[0.25em]"
+                className="btn-primary w-full uppercase tracking-[0.22em]"
               >
                 {t('courseLanding.enrollBtn')}
                 <ChevronRight className="w-6 h-6" />
@@ -531,7 +548,7 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
                    </div>
                  ))}
                </div>
-               <span className="text-xs font-black uppercase tracking-wider text-light">{t('courseLanding.enrolledStudents')}</span>
+               <span className={`${labelClass} text-light`}>{t('courseLanding.enrolledStudents')}</span>
             </div>
           </div>
         </div>

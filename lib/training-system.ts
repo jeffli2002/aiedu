@@ -29,13 +29,15 @@ export interface TrainingSystem {
   vibe: Module[];
 }
 
+const getCourseHero = (id: string) => `/training/heroes/${id}.jpg`;
+
 export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
   zh: {
     foundations: [
       { 
         id: 'f101', title: '大模型概论', duration: '45m', type: 'foundation', format: 'Online', 
         description: 'Gemini、GPT 等大模型的演进历程与底层核心原理。理解 AI 的"大脑"。', skills: ['AI 发展史', 'Token 原理', '神经网络'],
-        heroImage: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=1200',
+        heroImage: getCourseHero('f101'),
         syllabus: [
           { title: 'AI 的起源', description: '从基于规则的 AI 到深度学习与 Transformer 的飞跃。' },
           { title: '注意力机制', description: '模型如何从海量信息中"聚焦"关键上下文。' },
@@ -69,7 +71,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
       { 
         id: 'f102', title: '提示词工程', duration: '60m', type: 'foundation', format: 'Online', 
         description: '系统化的 AI 沟通框架，实现精准任务指令与自动化。', skills: ['思维链', '少样本提示', '指令微调'],
-        heroImage: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&q=80&w=1200',
+        heroImage: getCourseHero('f102'),
         syllabus: [
           { title: '结构化提示词', description: '掌握上下文 (C)、任务 (T) 和约束 (C) 三位一体框架。' },
           { title: '逻辑推理链', description: '利用思维链 (CoT) 解决复杂的数学与逻辑难题。' },
@@ -103,7 +105,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
       { 
         id: 'f103', title: 'AI 安全与风险', duration: '60m', type: 'foundation', format: 'Online', 
         description: '应对 AI 时代的挑战：深度伪造、算法偏见、数据隐私与创作伦理。', skills: ['AI 安全', '批判性思维', '隐私保护'],
-        heroImage: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1200',
+        heroImage: getCourseHero('f103'),
         syllabus: [
           { title: '深度伪造识别', description: '学习如何辨别 AI 生成的虚假信息与诈骗。' },
           { title: '算法偏见', description: '理解 AI 为何会产生不公，以及如何通过提示词缓解偏见。' },
@@ -137,7 +139,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
       { 
         id: 'f104', title: 'AI 多模态基础', duration: '90m', type: 'foundation', format: 'Mixed', 
         description: '探索 AI 如何连接文本、视觉与音频，实现与真实世界的深度交互。', skills: ['视觉语言', '语音合成', '实时对话'],
-        heroImage: 'https://images.unsplash.com/photo-1507146426996-ef05306b995a?auto=format&fit=crop&q=80&w=1200',
+        heroImage: getCourseHero('f104'),
         syllabus: [
           { title: '视觉智能', description: '模型如何"看懂"图像并描述视觉世界。' },
           { title: '语音技术', description: '类人语音生成与实时对话背后的技术。' },
@@ -157,7 +159,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
       { 
         id: 'c201', title: 'AI 绘图创作', duration: '135m', type: 'creation', format: 'Mixed', 
         theoryDuration: '45m', practiceDuration: '90m', description: '扩散模型深度解析，掌握专业设计级的视觉提示词实操。', skills: ['Nano banana', 'Seeddreem', 'Midjourney', '构图美学'],
-        heroImage: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=1200',
+        heroImage: getCourseHero('c201'),
         syllabus: [
           { title: '扩散模型原理', description: '理解像素生成、潜空间与去噪的底层逻辑。' },
           { title: '审美掌控力', description: '利用提示词精准控制灯光、镜头、材质与画风。' },
@@ -191,7 +193,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
       { 
         id: 'c202', title: 'AI 视频创作', duration: '180m', type: 'creation', format: 'Mixed', 
         theoryDuration: '60m', practiceDuration: '120m', description: '运动控制、时序一致性与 AI 驱动的影视语言表达。', skills: ['SORA', 'VEO', 'Kling', 'WAN'],
-        heroImage: 'https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&q=80&w=1200',
+        heroImage: getCourseHero('c202'),
         syllabus: [
           { title: '时序逻辑一致性', description: '保持生成的每一帧画面在角色和场景上高度统一。' },
           { title: '运镜导演思维', description: '利用镜头移动提示词引导 AI 实现专业的视听表达。' },
@@ -225,7 +227,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
       { 
         id: 'c203', title: 'AI 写作与叙事', duration: '120m', type: 'creation', format: 'Online', 
         description: '掌握创意写作与生成式文本智能体，打造高影响力的故事作品。', skills: ['叙事设计', '风格模拟', '协同创作'],
-        heroImage: 'https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&q=80&w=1200',
+        heroImage: getCourseHero('c203'),
         syllabus: [
           { title: '英雄之旅 AI 建模', description: '利用大模型规划复杂的故事弧线与反转。' },
           { title: '风格与语调控制', description: '精准调优 AI 输出，使其符合特定的文学风格。' },
@@ -243,7 +245,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
       { 
         id: 'c204', title: 'AI 音频与播客', duration: '150m', type: 'creation', format: 'Mixed', 
         theoryDuration: '45m', practiceDuration: '105m', description: '声音克隆、音乐生成与自动化播客制作全流程。', skills: ['音频工程', '语音合成', '音效设计'],
-        heroImage: 'https://images.unsplash.com/photo-1590602847446-24da7b1fd0df?auto=format&fit=crop&q=80&w=1200',
+        heroImage: getCourseHero('c204'),
         syllabus: [
           { title: '人声身份构建', description: '克隆并引导 AI 语音，赋予其情感与节奏感。' },
           { title: '音乐与氛围生成', description: '为作品创作专属的背景音轨与音效。' },
@@ -261,7 +263,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
       { 
         id: 'c205', title: 'AI 数字人与虚拟形象', duration: '165m', type: 'creation', format: 'Mixed', 
         theoryDuration: '45m', practiceDuration: '120m', description: '构建高写实的数字人形象与虚拟分身，掌握视觉生成与语音同步的核心技术。', skills: ['HeyGen', 'D-ID', '唇形同步', '形象设计'],
-        heroImage: 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&q=80&w=1200',
+        heroImage: getCourseHero('c205'),
         syllabus: [
           { title: '虚拟形象生成', description: '从提示词到高保真的数字人格：设计你的数字化身。' },
           { title: '唇形同步与表情', description: '将语音数据与面部肌肉运动进行精准匹配，实现逼真交互。' },
@@ -281,7 +283,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
       { 
         id: 'e301', title: 'AI 阅读与写作', duration: '75m', type: 'efficiency', format: 'Online', 
         description: '利用 AI 搜索与大模型实现信息获取与创作的 10 倍提效。', skills: ['Perplexity', 'Claude', '知识管理'],
-        heroImage: 'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&q=80&w=1200',
+        heroImage: getCourseHero('e301'),
         syllabus: [
           { title: '实时搜索增强', description: '利用联网 AI 获取经核实的、最新的世界级信息。' },
           { title: '长文本浓缩', description: '将数百页的 PDF 文档快速提取为核心行动建议。' },
@@ -299,7 +301,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
       { 
         id: 'e302', title: 'AI PPT 创作', duration: '90m', type: 'efficiency', format: 'Mixed', 
         theoryDuration: '45m', practiceDuration: '45m', description: '将创意笔记瞬间转化为高质量、具备商业说服力的演示文稿。', skills: ['信息设计', 'Gamma', '结构化思维'],
-        heroImage: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&q=80&w=1200',
+        heroImage: getCourseHero('e302'),
         syllabus: [
           { title: '大纲逻辑提取', description: '将原始笔记或文档转化为严密的演示逻辑流。' },
           { title: 'AI 视觉排版', description: '利用智能工具自动生成易读性极佳的图标与布局。' },
@@ -317,7 +319,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
       { 
         id: 'e303', title: 'AI 工作流 (n8n/Coze)', duration: '120m', type: 'efficiency', format: 'Mixed', 
         theoryDuration: '60m', practiceDuration: '60m', description: '构建自动化业务流程与多节点智能体，实现无人值守提效。', skills: ['自动化', '无代码', 'Coze', 'n8n'],
-        heroImage: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=1200',
+        heroImage: getCourseHero('e303'),
         syllabus: [
           { title: '智能体规划思维', description: '设计具备自我规划、推理与执行能力的 AI 助手。' },
           { title: '多节点管道构建', description: '连接搜索、LLM、数据库与通知终端的闭环逻辑。' },
@@ -337,7 +339,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
       { 
         id: 'v401', title: 'Vibe Principles', duration: 'Day 1', type: 'vibe', format: 'Offline', 
         description: '理解直觉驱动的自然语言编程、Bug 修复与云端发布全流程。', skills: ['工作流策略', 'Vibe 编程', '快速原型'],
-        heroImage: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=1200',
+        heroImage: getCourseHero('v401'),
         syllabus: [
           { title: 'Vibe 编程思维', description: '从"如何写代码"转向"要构建什么功能"的认知飞跃。' },
           { title: '对话式调试', description: '通过自然语言描述 Bug 并实现逻辑的持续进化。' },
@@ -355,7 +357,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
       { 
         id: 'v402', title: '工具与流程', duration: 'Day 2', type: 'vibe', format: 'Offline', 
         description: '深度掌握 AI 原生 IDE 与迭代反馈闭环，实现超高速开发。', skills: ['Cursor', 'Bolt.new', 'GitHub'],
-        heroImage: 'https://images.unsplash.com/photo-1542831371-29b0f74f9713?auto=format&fit=crop&q=80&w=1200',
+        heroImage: getCourseHero('v402'),
         syllabus: [
           { title: 'AI 原生 IDE 实战', description: '利用 Cursor 实时生成代码、重构逻辑并进行全库搜索。' },
           { title: '迭代式提示词', description: '通过与代码库的对话，逐步添加复杂的交互功能。' },
@@ -373,7 +375,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
       { 
         id: 'v403', title: 'Config & Deployment', duration: 'Day 3', type: 'vibe', format: 'Offline', 
         description: '连接数据库、管理环境变量并实现专业的云端发布。', skills: ['Supabase', 'Vercel', 'Backend Logic'],
-        heroImage: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=1200',
+        heroImage: getCourseHero('v403'),
         syllabus: [
           { title: '人性化数据库', description: '利用自然语言查询在 Supabase 中创建表并管理数据。' },
           { title: '敏感信息管理', description: '安全处理 API 密钥与环境变量。' },
@@ -391,7 +393,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
       { 
         id: 'v404', title: 'Demo & Sharing', duration: 'Day 4-5', type: 'vibe', format: 'Offline', 
         description: '打磨产品细节、记录创作历程并向全球观众进行演示。', skills: ['演讲技巧', '用户体验', '性能优化'],
-        heroImage: 'https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&q=80&w=1200',
+        heroImage: getCourseHero('v404'),
         syllabus: [
           { title: '细节打磨与 UX', description: '微调动画与响应式设计，赋予产品"大厂级"质感。' },
           { title: '技术路演技巧', description: '学习如何清晰、生动地向非技术观众讲解 AI 创新。' },
@@ -413,7 +415,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
       { 
         id: 'f101', title: 'Large Models Intro', duration: '45m', type: 'foundation', format: 'Online', 
         description: 'Evolution and core principles of LLMs like Gemini and GPT. Understand the "brain" behind the AI.', skills: ['AI History', 'Tokenization', 'Neural Networks'],
-        heroImage: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=1200',
+        heroImage: getCourseHero('f101'),
         syllabus: [
           { title: 'The Genesis', description: 'Evolution from rule-based systems to deep learning and transformers.' },
           { title: 'Attention Mechanism', description: 'How AI "focuses" on important parts of your input.' },
@@ -447,7 +449,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
       { 
         id: 'f102', title: 'Prompt Engineering', duration: '60m', type: 'foundation', format: 'Online', 
         description: 'Systematic frameworks for precise AI communication and task automation.', skills: ['CoT', 'Few-shot', 'Instruction Tuning'],
-        heroImage: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&q=80&w=1200',
+        heroImage: getCourseHero('f102'),
         syllabus: [
           { title: 'Structural Logic', description: 'Mastering Context, Task, and Constraint (CTC) frameworks.' },
           { title: 'Reasoning Chains', description: 'Using Chain-of-Thought (CoT) for complex math and logic solving.' },
@@ -481,7 +483,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
       { 
         id: 'f103', title: 'AI Safety & Ethics', duration: '60m', type: 'foundation', format: 'Online', 
         description: 'Navigating the risks of AI: deepfakes, bias, data privacy, and ethical creation.', skills: ['AI Safety', 'Critical Thinking', 'Privacy'],
-        heroImage: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1200',
+        heroImage: getCourseHero('f103'),
         syllabus: [
           { title: 'Deepfake Awareness', description: 'Learning how to spot AI-generated misinformation and fraud.' },
           { title: 'Algorithmic Bias', description: 'Understanding why AI can be unfair and how to mitigate it.' },
@@ -515,7 +517,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
       { 
         id: 'f104', title: 'AI Multimodality', duration: '90m', type: 'foundation', format: 'Mixed', 
         description: 'Exploring how AI connects text, vision, and audio to interact with the real world.', skills: ['Vision-Language', 'Audio Synthesis', 'Gemini Live'],
-        heroImage: 'https://images.unsplash.com/photo-1507146426996-ef05306b995a?auto=format&fit=crop&q=80&w=1200',
+        heroImage: getCourseHero('f104'),
         syllabus: [
           { title: 'Vision Intelligence', description: 'How models "see" images and describe the visual world.' },
           { title: 'Audio & Speech', description: 'The tech behind human-like voices and real-time conversation.' },
@@ -535,7 +537,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
       { 
         id: 'c201', title: 'AI Image Artistry', duration: '135m', type: 'creation', format: 'Mixed', 
         theoryDuration: '45m', practiceDuration: '90m', description: 'Diffusion models and visual prompt mastery for professional-grade design.', skills: ['Nano banana', 'Seeddreem', 'Midjourney', 'Composition'],
-        heroImage: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=1200',
+        heroImage: getCourseHero('c201'),
         syllabus: [
           { title: 'Diffusion Mechanics', description: 'Mastering pixel generation and the latent space logic.' },
           { title: 'Aesthetic Control', description: 'Directing lighting, camera angles, and textures using language.' },
@@ -569,7 +571,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
       { 
         id: 'c202', title: 'AI Video Synthesis', duration: '180m', type: 'creation', format: 'Mixed', 
         theoryDuration: '60m', practiceDuration: '120m', description: 'Motion control, temporal consistency, and AI-driven cinematography.', skills: ['SORA', 'VEO', 'Kling', 'WAN'],
-        heroImage: 'https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&q=80&w=1200',
+        heroImage: getCourseHero('c202'),
         syllabus: [
           { title: 'Temporal Logic', description: 'Maintaining character and object consistency across frames.' },
           { title: 'Motion Directing', description: 'Using camera movement prompts to guide AI cinematography.' },
@@ -603,7 +605,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
       { 
         id: 'c203', title: 'AI Writing & Narrative', duration: '120m', type: 'creation', format: 'Online', 
         description: 'Mastering creative storytelling and high-impact writing with generative text agents.', skills: ['Narrative Design', 'Style Mimicry', 'Co-writing'],
-        heroImage: 'https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&q=80&w=1200',
+        heroImage: getCourseHero('c203'),
         syllabus: [
           { title: 'The Hero\'s Journey AI', description: 'Using LLMs to map out complex story arcs and plot twists.' },
           { title: 'Style & Tone Control', description: 'Fine-tuning AI outputs to match specific literary styles.' },
@@ -621,7 +623,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
       { 
         id: 'c204', title: 'AI Audio & Podcasts', duration: '150m', type: 'creation', format: 'Mixed', 
         theoryDuration: '45m', practiceDuration: '105m', description: 'Voice cloning, music generation, and automated podcast production.', skills: ['Audio Engineering', 'Voice Synthesis', 'Sound Design'],
-        heroImage: 'https://images.unsplash.com/photo-1590602847446-24da7b1fd0df?auto=format&fit=crop&q=80&w=1200',
+        heroImage: getCourseHero('c204'),
         syllabus: [
           { title: 'Vocal Identity', description: 'Cloning and directing AI voices with emotion and cadence.' },
           { title: 'Music & Ambience', description: 'Generating custom background tracks and sound effects.' },
@@ -639,7 +641,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
       { 
         id: 'c205', title: 'AI Digital Humans & Avatars', duration: '165m', type: 'creation', format: 'Mixed', 
         theoryDuration: '45m', practiceDuration: '120m', description: 'Building hyper-realistic digital personas and lifelike avatars using generative visual and voice synchronization.', skills: ['HeyGen', 'D-ID', 'Lip Sync', 'Character Design'],
-        heroImage: 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&q=80&w=1200',
+        heroImage: getCourseHero('c205'),
         syllabus: [
           { title: 'Avatar Generation', description: 'From prompt to high-fidelity persona: designing your digital self.' },
           { title: 'Lip-Sync & Expression', description: 'Synchronizing voice data with facial muscle movements for realism.' },
@@ -659,7 +661,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
       { 
         id: 'e301', title: 'AI Research & Writing', duration: '75m', type: 'efficiency', format: 'Online', 
         description: 'Accelerate reading and writing by 10x using research agents and LLMs.', skills: ['Perplexity', 'Claude', 'Note-taking'],
-        heroImage: 'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&q=80&w=1200',
+        heroImage: getCourseHero('e301'),
         syllabus: [
           { title: 'Search Grounding', description: 'Using search-enabled AI to find verified real-world data.' },
           { title: 'Synthesis Logic', description: 'Condensing 100+ pages of PDF into core actionable insights.' },
@@ -677,7 +679,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
       { 
         id: 'e302', title: 'AI PPT Mastery', duration: '90m', type: 'efficiency', format: 'Mixed', 
         theoryDuration: '45m', practiceDuration: '45m', description: 'Transforming ideas into high-impact slide decks automatically.', skills: ['Information Design', 'Gamma', 'Structuring'],
-        heroImage: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&q=80&w=1200',
+        heroImage: getCourseHero('e302'),
         syllabus: [
           { title: 'Outline Extraction', description: 'Converting raw documents to logical presentation flows.' },
           { title: 'AI Visual Design', description: 'Auto-generating icons and layouts for readability.' },
@@ -695,7 +697,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
       { 
         id: 'e303', title: 'AI Workflows (n8n/Coze)', duration: '120m', type: 'efficiency', format: 'Mixed', 
         theoryDuration: '60m', practiceDuration: '60m', description: 'Building automated processes and multi-node intelligent agents.', skills: ['Automation', 'No-code', 'Coze', 'n8n'],
-        heroImage: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=1200',
+        heroImage: getCourseHero('e303'),
         syllabus: [
           { title: 'Agentic Thinking', description: 'Designing bots that can plan, reason, and execute.' },
           { title: 'Data Pipelines', description: 'Connecting search, LLM, and output nodes together.' },
@@ -715,7 +717,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
       { 
         id: 'v401', title: 'Vibe Principles', duration: 'Day 1', type: 'vibe', format: 'Offline', 
         description: 'The philosophy and practice of intuitive natural language coding and deployment.', skills: ['Workflow Strategy', 'Vibe Coding', 'Rapid Prototyping'],
-        heroImage: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=1200',
+        heroImage: getCourseHero('v401'),
         syllabus: [
           { title: 'The Vibe Mindset', description: 'Transitioning from "How to Code" to "What to Build".' },
           { title: 'Iterative Debugging', description: 'Fixing complex errors using conversation and intuition.' },
@@ -733,7 +735,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
       { 
         id: 'v402', title: 'Vibe Tools & Workflows', duration: 'Day 2', type: 'vibe', format: 'Offline', 
         description: 'Mastering AI-native IDEs and the iterative feedback loop for high-speed creation.', skills: ['Cursor', 'Bolt.new', 'GitHub'],
-        heroImage: 'https://images.unsplash.com/photo-1542831371-29b0f74f9713?auto=format&fit=crop&q=80&w=1200',
+        heroImage: getCourseHero('v402'),
         syllabus: [
           { title: 'AI-Native IDEs', description: 'Using Cursor to generate code and refactor logic in real-time.' },
           { title: 'Iterative Prompting', description: 'Conversing with your codebase to add complex features.' },
@@ -751,7 +753,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
       { 
         id: 'v403', title: 'Config & Deployment', duration: 'Day 3', type: 'vibe', format: 'Offline', 
         description: 'Connecting to databases, managing environment variables, and professional hosting.', skills: ['Supabase', 'Vercel', 'Backend Logic'],
-        heroImage: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=1200',
+        heroImage: getCourseHero('v403'),
         syllabus: [
           { title: 'Database for Humans', description: 'Setting up Supabase tables using natural language queries.' },
           { title: 'Secrets Management', description: 'Handling API keys and environment variables securely.' },
@@ -769,7 +771,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
       { 
         id: 'v404', title: 'Demo & Sharing', duration: 'Day 4-5', type: 'vibe', format: 'Offline', 
         description: 'Polishing your project, documenting the journey, and presenting to a global audience.', skills: ['Storytelling', 'UX Design', 'Performance'],
-        heroImage: 'https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&q=80&w=1200',
+        heroImage: getCourseHero('v404'),
         syllabus: [
           { title: 'Polish & UX', description: 'Fine-tuning animations and responsive design for a premium feel.' },
           { title: 'The Tech Pitch', description: 'Storytelling techniques for explaining your AI innovation.' },
