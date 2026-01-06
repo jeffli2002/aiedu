@@ -52,16 +52,13 @@ export async function POST(request: NextRequest) {
       'pinterest',
       'tiktok',
       'other',
-    ] as const;
-    if (!validPlatforms.includes(platform as any)) {
+    ];
+    if (!validPlatforms.includes(platform)) {
       return NextResponse.json(
         { success: false, error: `Invalid platform. Must be one of: ${validPlatforms.join(', ')}` },
         { status: 400 }
       );
     }
-
-    // Type assertion after validation
-    const validatedPlatform = platform as 'twitter' | 'facebook' | 'instagram' | 'linkedin' | 'pinterest' | 'tiktok' | 'other';
 
     // Check for duplicate share using referenceId (for idempotency)
     if (referenceId) {
@@ -89,7 +86,7 @@ export async function POST(request: NextRequest) {
         success: true,
         data: {
           shareId: null,
-          platform: validatedPlatform,
+          platform,
           creditsEarned: 0,
         },
       });
@@ -103,11 +100,11 @@ export async function POST(request: NextRequest) {
       id: shareId,
       userId,
       assetId: assetId || null,
-      platform: validatedPlatform,
+      platform,
       shareUrl: shareUrl || null,
       creditsEarned: creditsToAward,
       referenceId: shareReferenceId,
-    });
+    } as any);
 
     try {
       await creditService.earnCredits({
@@ -117,10 +114,10 @@ export async function POST(request: NextRequest) {
         description:
           rewardType === 'publishViecom'
             ? 'Publish on Viecom.pro'
-            : `Social share (${targetPlatform || validatedPlatform})`,
+            : `Social share (${targetPlatform || platform})`,
         referenceId: `social_share_${shareId}`,
         metadata: {
-          platform: validatedPlatform,
+          platform,
           targetPlatform: targetPlatform || null,
           assetId,
           shareUrl,
@@ -136,7 +133,7 @@ export async function POST(request: NextRequest) {
 
     const result = {
       shareId,
-      platform: validatedPlatform,
+      platform,
       creditsEarned: creditsToAward,
       rewardType,
     };
