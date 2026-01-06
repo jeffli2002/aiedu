@@ -70,10 +70,26 @@ export class PaymentRepository {
   async create(data: CreatePaymentData): Promise<PaymentRecord> {
     const paymentId = data.id || randomUUID();
 
-    // Work around insert typing omitting provider while still keeping values typed.
-    const insertValues: typeof payment.$inferInsert & {
-      provider?: 'stripe' | 'creem';
-    } = {
+    // Extend insert typing with optional columns when Drizzle narrows to required fields.
+    type PaymentInsertValues = typeof payment.$inferInsert &
+      Partial<
+        Pick<
+          typeof payment.$inferSelect,
+          | 'provider'
+          | 'productId'
+          | 'interval'
+          | 'subscriptionId'
+          | 'periodStart'
+          | 'periodEnd'
+          | 'cancelAtPeriodEnd'
+          | 'trialStart'
+          | 'trialEnd'
+          | 'affiliateId'
+          | 'affiliateCode'
+        >
+      >;
+
+    const insertValues: PaymentInsertValues = {
       id: paymentId,
       provider: data.provider || 'stripe',
       priceId: data.priceId,
