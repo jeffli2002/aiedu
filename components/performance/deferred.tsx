@@ -17,8 +17,13 @@ export function Deferred({ children, timeoutMs = 1200 }: DeferredProps) {
     if (typeof window === 'undefined') return;
 
     let handle: number | undefined;
-    if ('requestIdleCallback' in window) {
-      handle = (window as Window & { requestIdleCallback: (callback: () => void, options?: { timeout?: number }) => number }).requestIdleCallback(enable, { timeout: timeoutMs });
+    const win = window as Window & {
+      requestIdleCallback?: (callback: () => void, options?: { timeout?: number }) => number;
+      cancelIdleCallback?: (handle: number) => void;
+    };
+    
+    if ('requestIdleCallback' in win && win.requestIdleCallback) {
+      handle = win.requestIdleCallback(enable, { timeout: timeoutMs });
     } else {
       handle = window.setTimeout(enable, timeoutMs);
     }
@@ -30,8 +35,8 @@ export function Deferred({ children, timeoutMs = 1200 }: DeferredProps) {
       window.removeEventListener('pointerdown', enable);
       window.removeEventListener('scroll', enable);
       if (!handle) return;
-      if ('cancelIdleCallback' in window) {
-        (window as Window & { cancelIdleCallback: (handle: number) => void }).cancelIdleCallback(handle);
+      if ('cancelIdleCallback' in win && win.cancelIdleCallback) {
+        win.cancelIdleCallback(handle);
       } else {
         window.clearTimeout(handle);
       }
