@@ -1,7 +1,7 @@
 import { auth } from '@/lib/auth/auth';
 import { creemService } from '@/lib/creem/creem-service';
 import { resolvePlanByIdentifier } from '@/lib/creem/plan-utils';
-import { isCreemConfigured } from '@/payment/creem/client';
+import { isCreemConfigured } from '@/lib/creem/creem-config';
 import { paymentRepository } from '@/server/db/repositories/payment-repository';
 import { cookies, headers } from 'next/headers';
 import { NextResponse } from 'next/server';
@@ -50,7 +50,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const { planId, priceId, interval, successUrl, cancelUrl } = validation.data;
+    let { planId, priceId, interval, successUrl, cancelUrl } = validation.data;
 
     if (!planId && !priceId) {
       return NextResponse.json(

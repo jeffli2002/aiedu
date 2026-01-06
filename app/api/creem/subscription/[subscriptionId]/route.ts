@@ -1,6 +1,6 @@
 import { auth } from '@/lib/auth/auth';
-import { isCreemConfigured } from '@/payment/creem/client';
-import { CreemProvider } from '@/payment/creem/provider';
+import { isCreemConfigured } from '@/lib/creem/creem-config';
+import { creemService } from '@/lib/creem/creem-service';
 import { paymentRepository } from '@/server/db/repositories/payment-repository';
 import { headers } from 'next/headers';
 import { NextResponse } from 'next/server';
@@ -37,10 +37,13 @@ export async function GET(
       return NextResponse.json({ error: 'Subscription not found' }, { status: 404 });
     }
 
-    const creemProvider = new CreemProvider();
-    const subscription = await creemProvider.getSubscription(subscriptionId);
+    const result = await creemService.getSubscription(subscriptionId);
+    
+    if (!result.success) {
+      return NextResponse.json({ error: result.error }, { status: 500 });
+    }
 
-    return NextResponse.json(subscription);
+    return NextResponse.json(result.subscription);
   } catch (error) {
     const { subscriptionId } = await params;
     console.error('[Creem Subscription Get] Error:', error, { subscriptionId });
@@ -76,10 +79,25 @@ export async function PATCH(
     const body = await request.json();
     const validatedData = updateSchema.parse(body);
 
-    const creemProvider = new CreemProvider();
-    const result = await creemProvider.updateSubscription(subscriptionId, validatedData);
+    // Handle cancelAtPeriodEnd update
+    if (validatedData.cancelAtPeriodEnd !== undefined) {
+      const result = await creemService.setCancelAtPeriodEnd(
+        subscriptionId,
+        validatedData.cancelAtPeriodEnd
+      );
+      
+      if (!result.success) {
+        return NextResponse.json({ error: result.error }, { status: 500 });
+      }
 
-    return NextResponse.json(result);
+      return NextResponse.json(result.subscription);
+    }
+
+    // Other updates not supported via this endpoint
+    return NextResponse.json(
+      { error: 'Only cancelAtPeriodEnd updates are supported via this endpoint' },
+      { status: 400 }
+    );
   } catch (error) {
     const { subscriptionId } = await params;
     console.error('[Creem Subscription Update] Error:', error, { subscriptionId });
@@ -120,11 +138,10 @@ export async function DELETE(
       return NextResponse.json({ error: 'Subscription not found' }, { status: 404 });
     }
 
-    const creemProvider = new CreemProvider();
-    const success = await creemProvider.cancelSubscription(subscriptionId);
+    const result = await creemService.cancelSubscription(subscriptionId);
 
-    if (!success) {
-      return NextResponse.json({ error: 'Failed to cancel subscription' }, { status: 500 });
+    if (!result.success) {
+      return NextResponse.json({ error: result.error || 'Failed to cancel subscription' }, { status: 500 });
     }
 
     return NextResponse.json({ success: true });
