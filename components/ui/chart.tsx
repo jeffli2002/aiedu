@@ -106,7 +106,7 @@ function ChartTooltipContent({
   color,
   nameKey,
   labelKey,
-}: Pick<RechartsPrimitive.TooltipProps<unknown, unknown>, 'active' | 'payload' | 'label' | 'labelFormatter' | 'formatter'> &
+}: Pick<RechartsPrimitive.TooltipProps<any, any>, 'active' | 'payload' | 'label' | 'labelFormatter' | 'formatter'> & // eslint-disable-line @typescript-eslint/no-explicit-any
   React.ComponentProps<'div'> & {
     hideLabel?: boolean;
     hideIndicator?: boolean;
