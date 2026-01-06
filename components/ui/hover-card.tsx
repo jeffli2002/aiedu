@@ -20,11 +20,7 @@ function HoverCardContent({
   ...props
 }: React.ComponentProps<typeof HoverCardPrimitive.Content>) {
   return (
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
     <HoverCardPrimitive.Portal data-slot="hover-card-portal">
-      {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-      {/* @ts-expect-error */}
       <HoverCardPrimitive.Content
         data-slot="hover-card-content"
         align={align}

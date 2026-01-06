@@ -20,11 +20,7 @@ function PopoverContent({
   ...props
 }: React.ComponentProps<typeof PopoverPrimitive.Content>) {
   return (
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
     <PopoverPrimitive.Portal>
-      {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-      {/* @ts-expect-error */}
       <PopoverPrimitive.Content
         data-slot="popover-content"
         align={align}
@@ -41,8 +37,6 @@ function PopoverContent({
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function PopoverAnchor({ ...props }: React.ComponentProps<any>) {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-expect-error
   return <PopoverPrimitive.Anchor data-slot="popover-anchor" {...props} />;
 }
 
