@@ -291,7 +291,7 @@ export default function TrainingPageContent() {
             >
               <div className="flex -space-x-2">
                 {[1, 2, 3, 4, 5].map(i => (
-                  <div key={i} className="w-8 h-8 rounded-full border-2 border-white bg-slate-200 overflow-hidden shadow-sm">
+                  <div key={i} className="w-8 h-8 rounded-full border-2 border-white bg-[#e9e4dd] overflow-hidden shadow-sm">
                     <img src={`https://i.pravatar.cc/150?u=student${i + 50}`} alt="student" className="w-full h-full object-cover" />
                   </div>
                 ))}

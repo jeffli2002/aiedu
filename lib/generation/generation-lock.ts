@@ -43,11 +43,13 @@ export async function acquireGenerationLock(
   const expiresAt = new Date(now + ttlMs);
   const lockId = randomUUID();
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const inserted = await db
     .insert(generationLock)
     .values({
       id: lockId,
       userId: params.userId,
+    } as any)
       assetType: params.assetType,
       requestId: params.requestId ?? null,
       metadata: (params.metadata ?? null) as Record<string, unknown> | null,

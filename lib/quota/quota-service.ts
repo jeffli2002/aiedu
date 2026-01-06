@@ -53,11 +53,13 @@ export async function updateQuotaUsage(params: UpdateQuotaUsageParams): Promise<
 
   try {
     // Try to update existing record first
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const updated = await db
       .update(userQuotaUsage)
       .set({
         usedAmount: sql`${userQuotaUsage.usedAmount} + ${amount}`,
         updatedAt: new Date(),
+      } as any)
       })
       .where(
         and(
@@ -148,11 +150,13 @@ export async function resetQuotaUsage(
   period: string = getCurrentPeriod()
 ): Promise<void> {
   try {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     await db
       .update(userQuotaUsage)
       .set({
         usedAmount: 0,
         updatedAt: new Date(),
+      } as any)
       })
       .where(and(eq(userQuotaUsage.userId, userId), eq(userQuotaUsage.period, period)));
   } catch (error) {

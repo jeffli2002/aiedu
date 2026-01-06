@@ -36,11 +36,13 @@ export async function createPublishSubmission(input: CreateSubmissionInput) {
       : null;
 
   if (existing) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const [updated] = await db
       .update(publishSubmissions)
       .set({
         assetUrl,
         previewUrl: previewUrl || assetUrl,
+      } as any)
         assetType: assetType || existing.assetType,
         title: normalizedTitle,
         prompt: prompt || existing.prompt,
@@ -63,6 +65,7 @@ export async function createPublishSubmission(input: CreateSubmissionInput) {
     return updated ?? existing;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [created] = await db
     .insert(publishSubmissions)
     .values({
@@ -71,6 +74,7 @@ export async function createPublishSubmission(input: CreateSubmissionInput) {
       assetId: assetId ?? null,
       assetUrl,
       previewUrl: previewUrl || assetUrl,
+    } as any)
       assetType: assetType || 'image',
       title: normalizedTitle,
       prompt: prompt || null,

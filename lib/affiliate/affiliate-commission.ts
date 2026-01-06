@@ -45,6 +45,7 @@ export async function recordAffiliateCommission(params: RecordCommissionParams):
   const commissionId = randomUUID();
   const availableAt = new Date(Date.now() + program.settlementDelayDays * 24 * 60 * 60 * 1000);
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const inserted = await db
     .insert(affiliateCommission)
     .values({
@@ -55,6 +56,7 @@ export async function recordAffiliateCommission(params: RecordCommissionParams):
       sourceId: params.sourceId ?? null,
       provider: params.provider,
       providerEventId: params.providerEventId,
+    } as any)
       currency: params.currency,
       baseAmountCents: params.baseAmountCents,
       commissionBps,

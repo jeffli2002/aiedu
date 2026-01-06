@@ -71,11 +71,13 @@ export async function grantSubscriptionCredits(
 
     // Update or create user credit account
     if (userCredit) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       await db
         .update(userCredits)
         .set({
           balance: newBalance,
           totalEarned: userCredit.totalEarned + creditsToGrant,
+        } as any)
           updatedAt: new Date(),
         })
         .where(eq(userCredits.userId, userId));

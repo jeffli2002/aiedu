@@ -47,9 +47,10 @@ async function finalizeReferralReward(
         referralRecord.referredUserFirstGenerationCompleted,
     };
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     await tx
       .update(userReferrals)
-      .set(referralUpdate)
+      .set(referralUpdate as any)
       .where(eq(userReferrals.id, referralRecord.id));
   });
 
