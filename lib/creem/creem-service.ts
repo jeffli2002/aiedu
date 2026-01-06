@@ -679,7 +679,7 @@ class CreemPaymentService {
           xApiKey: CREEM_API_KEY,
           updateSubscriptionRequestEntity: {
             cancelAtPeriodEnd: false,
-          },
+          } as Parameters<typeof creem.updateSubscription>[0]['updateSubscriptionRequestEntity'],
         });
 
         console.log('[Creem] Subscription reactivated:', subscriptionId);
@@ -745,7 +745,7 @@ class CreemPaymentService {
           xApiKey: CREEM_API_KEY,
           updateSubscriptionRequestEntity: {
             cancelAtPeriodEnd: cancel,
-          },
+          } as Parameters<typeof creem.updateSubscription>[0]['updateSubscriptionRequestEntity'],
         });
 
         console.log('[Creem] cancel_at_period_end updated:', subscriptionId, 'to', cancel);
