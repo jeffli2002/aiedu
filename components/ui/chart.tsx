@@ -117,7 +117,7 @@ function ChartTooltipContent({
   }>;
   label?: unknown;
   labelFormatter?: (value: unknown, payload: Array<unknown>) => React.ReactNode;
-  formatter?: (value: unknown, name: string, props: unknown) => React.ReactNode;
+  formatter?: (value: unknown, name: string, props: unknown, index?: number, payload?: Record<string, unknown>) => React.ReactNode;
   className?: string;
   hideLabel?: boolean;
   hideIndicator?: boolean;
