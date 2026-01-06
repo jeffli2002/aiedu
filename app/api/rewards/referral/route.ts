@@ -68,7 +68,7 @@ export async function POST(request: NextRequest) {
       referralCode,
       creditsAwarded: false,
       referredUserFirstGenerationCompleted: false,
-    });
+    } as any);
 
     return NextResponse.json({
       success: true,
