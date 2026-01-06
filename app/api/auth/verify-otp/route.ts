@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/lib/auth/auth';
 import { db } from '@/server/db';
 import { verification, user, account } from '@/server/db/schema';
-import { eq, and, gt } from 'drizzle-orm';
+import { eq, and, gt, sql } from 'drizzle-orm';
 import { randomUUID } from 'crypto';
 
 export async function POST(request: NextRequest) {
@@ -60,14 +60,20 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Verify email
-    const [updatedUser] = await db
+    // Verify email - use type assertion to work around Drizzle type inference issue
+    await db
       .update(user)
       .set({
         emailVerified: true,
-      })
+      } as any)
+      .where(eq(user.id, foundUser.id));
+
+    // Fetch updated user
+    const [updatedUser] = await db
+      .select()
+      .from(user)
       .where(eq(user.id, foundUser.id))
-      .returning();
+      .limit(1);
 
     // Delete used OTP
     await db
