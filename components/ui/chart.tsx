@@ -106,16 +106,27 @@ function ChartTooltipContent({
   color,
   nameKey,
   labelKey,
-}: Pick<RechartsPrimitive.TooltipProps<any, any>, 'active' | 'payload' | 'label' | 'labelFormatter' | 'formatter'> & // eslint-disable-line @typescript-eslint/no-explicit-any
-  React.ComponentProps<'div'> & {
-    hideLabel?: boolean;
-    hideIndicator?: boolean;
-    indicator?: 'line' | 'dot' | 'dashed';
-    nameKey?: string;
-    labelKey?: string;
+}: {
+  active?: boolean;
+  payload?: Array<{
+    name?: string;
+    value?: unknown;
+    dataKey?: string;
     color?: string;
-    labelClassName?: string;
-  }) {
+    payload?: Record<string, unknown>;
+  }>;
+  label?: unknown;
+  labelFormatter?: (value: unknown, payload: Array<unknown>) => React.ReactNode;
+  formatter?: (value: unknown, name: string, props: unknown) => React.ReactNode;
+  className?: string;
+  hideLabel?: boolean;
+  hideIndicator?: boolean;
+  indicator?: 'line' | 'dot' | 'dashed';
+  nameKey?: string;
+  labelKey?: string;
+  color?: string;
+  labelClassName?: string;
+} & React.ComponentProps<'div'>) {
   const { config } = useChart();
 
   const tooltipLabel = React.useMemo(() => {
