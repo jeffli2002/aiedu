@@ -1,6 +1,6 @@
 import { mkdir, stat, writeFile } from 'fs/promises';
 import path from 'path';
-import { getKieApiService } from '@/lib/kie/kie-api';
+import { config as loadEnv } from 'dotenv';
 import { TRAINING_SYSTEM } from '@/lib/training-system';
 
 const OUTPUT_DIR = path.join(process.cwd(), 'public', 'training', 'heroes');
@@ -59,6 +59,22 @@ const buildPrompt = (module: ModuleLite) => {
   return `${STYLE_PROMPT} Course focus: ${module.title}. ${module.description}`;
 };
 
+const ensureEnv = () => {
+  loadEnv({ path: path.join(process.cwd(), '.env.local') });
+  loadEnv({ path: path.join(process.cwd(), '.env') });
+
+  const placeholderUrl = 'https://example.com';
+  process.env.DATABASE_URL ||= placeholderUrl;
+  process.env.NEXT_PUBLIC_APP_URL ||= placeholderUrl;
+  process.env.BETTER_AUTH_SECRET ||= 'local-dev';
+  process.env.GOOGLE_CLIENT_ID ||= 'local-dev';
+  process.env.GOOGLE_CLIENT_SECRET ||= 'local-dev';
+
+  if (!process.env.KIE_API_KEY) {
+    throw new Error('KIE_API_KEY is required to generate course hero images.');
+  }
+};
+
 const main = async () => {
   const { onlyIds, force } = parseArgs();
   const modules = collectModules();
@@ -70,6 +86,8 @@ const main = async () => {
   }
 
   await ensureOutputDir();
+  ensureEnv();
+  const { getKieApiService } = await import('@/lib/kie/kie-api');
   const service = getKieApiService();
 
   for (const module of filteredModules) {
@@ -83,7 +101,7 @@ const main = async () => {
     console.log(`Generating hero for ${module.id}...`);
 
     const task = await service.generateImage(
-      { prompt, aspect_ratio: '16:9', resolution: '2K', outputFormat: 'jpeg' },
+      { prompt, aspect_ratio: '16:9', resolution: '2K' },
       'nano-banana-pro'
     );
     const result = await service.pollTaskStatus(task.data.taskId, 'image', 80, 3000);

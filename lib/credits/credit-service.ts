@@ -145,7 +145,6 @@ export class CreditService {
 
       if (account.length === 0) {
         // Create account if doesn't exist
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         await db.insert(userCredits).overridingSystemValue().values({
           id: randomUUID(),
           userId,
@@ -153,6 +152,7 @@ export class CreditService {
           totalEarned: 0,
           totalSpent: 0,
           frozenBalance: 0,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } as any);
 
         account = await db
@@ -170,13 +170,13 @@ export class CreditService {
       const newTotalEarned = currentAccount.totalEarned + amount;
 
       // Update credit account
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       await db
         .update(userCredits)
         .set({
           balance: newBalance,
           totalEarned: newTotalEarned,
           updatedAt: new Date(),
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } as any)
         .where(eq(userCredits.userId, userId));
 
@@ -240,13 +240,13 @@ export class CreditService {
       const newTotalSpent = currentAccount.totalSpent + amount;
 
       // Update credit account
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       await db
         .update(userCredits)
         .set({
           balance: newBalance,
           totalSpent: newTotalSpent,
           updatedAt: new Date(),
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } as any)
         .where(eq(userCredits.userId, userId));
 
@@ -407,12 +407,12 @@ export class CreditService {
       const newFrozenBalance = currentAccount.frozenBalance + amount;
 
       // Update frozen balance
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       await db
         .update(userCredits)
         .set({
           frozenBalance: newFrozenBalance,
           updatedAt: new Date(),
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } as any)
         .where(eq(userCredits.userId, userId));
 
@@ -475,12 +475,12 @@ export class CreditService {
       const newFrozenBalance = currentAccount.frozenBalance - amount;
 
       // Update frozen balance
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       await db
         .update(userCredits)
         .set({
           frozenBalance: newFrozenBalance,
           updatedAt: new Date(),
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } as any)
         .where(eq(userCredits.userId, userId));
 

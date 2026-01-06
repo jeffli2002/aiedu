@@ -60,7 +60,6 @@ export async function POST(request: NextRequest) {
 
     // Create referral record
     const referralId = randomUUID();
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     await db.insert(userReferrals).overridingSystemValue().values({
       id: referralId,
       referrerId,
@@ -68,7 +67,7 @@ export async function POST(request: NextRequest) {
       referralCode,
       creditsAwarded: false,
       referredUserFirstGenerationCompleted: false,
-    } as any);
+    });
 
     return NextResponse.json({
       success: true,

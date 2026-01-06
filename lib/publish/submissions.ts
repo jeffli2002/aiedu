@@ -36,7 +36,6 @@ export async function createPublishSubmission(input: CreateSubmissionInput) {
       : null;
 
   if (existing) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const [updated] = await db
       .update(publishSubmissions)
       .set({
@@ -57,6 +56,7 @@ export async function createPublishSubmission(input: CreateSubmissionInput) {
         approvedAt: null,
         rejectedAt: null,
         updatedAt: now,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } as any)
       .where(eq(publishSubmissions.id, existing.id))
       .returning();
@@ -64,7 +64,6 @@ export async function createPublishSubmission(input: CreateSubmissionInput) {
     return updated ?? existing;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [created] = await db
     .insert(publishSubmissions)
     .values({
@@ -83,8 +82,7 @@ export async function createPublishSubmission(input: CreateSubmissionInput) {
       metadata: metadata ?? null,
       createdAt: now,
       updatedAt: now,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } as any)
+    })
     .returning();
 
   return created;

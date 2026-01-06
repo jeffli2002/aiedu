@@ -110,7 +110,7 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
 
     // Validate password match
     if (password !== confirmPassword) {
-      setError(t('signup.passwordMismatch') || 'Passwords do not match');
+      setError(t('signup.passwordMismatch'));
       return;
     }
 
@@ -159,14 +159,14 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
 
       if (!response.ok) {
         const detail = await response.text();
-        throw new Error(detail || 'Failed to resend verification email');
+        throw new Error(detail || t('signup.resendFailed'));
       }
 
-      setResendStatus('Verification email sent. Please check your inbox.');
+      setResendStatus(t('signup.resendSuccess'));
       setResendCooldown(30);
     } catch (error) {
       setResendStatus(
-        error instanceof Error ? error.message : 'Failed to resend verification email'
+        error instanceof Error ? error.message : t('signup.resendFailed')
       );
     }
   };
@@ -174,7 +174,7 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleChangeEmail = async () => {
     if (!newEmail) {
-      setChangeEmailStatus('Please enter a valid email address.');
+      setChangeEmailStatus(t('signup.changeEmailInvalid'));
       return;
     }
 
@@ -193,16 +193,18 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
 
       if (!response.ok) {
         const detail = await response.text();
-        throw new Error(detail || 'Failed to change email');
+        throw new Error(detail || t('signup.changeEmailFailed'));
       }
 
       setSignupEmail(newEmail);
       setShowChangeEmail(false);
       setNewEmail('');
-      setChangeEmailStatus('Email updated. Please check your inbox for confirmation.');
+      setChangeEmailStatus(t('signup.changeEmailSuccess'));
       setResendCooldown(30);
     } catch (error) {
-      setChangeEmailStatus(error instanceof Error ? error.message : 'Failed to change email');
+      setChangeEmailStatus(
+        error instanceof Error ? error.message : t('signup.changeEmailFailed')
+      );
     }
   };
 
@@ -533,7 +535,7 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
                   <Input
                     id="email"
                     type="email"
-                    placeholder="name@example.com"
+                    placeholder={t('signup.emailPlaceholder')}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
@@ -560,9 +562,6 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
                     data-testid="password-input"
                     className="rounded-xl border-slate-200 py-5 focus:border-[#ff6b35] focus:ring-[#ff6b35]/20"
                   />
-                  <p className="text-xs text-light">
-                    {t('signup.passwordHint', { count: MIN_PASSWORD_LENGTH })}
-                  </p>
                 </div>
 
                 {/* Confirm Password field */}

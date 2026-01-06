@@ -39,7 +39,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const { returnUrl } = validation.data;
+    const { returnUrl: _returnUrl } = validation.data; // eslint-disable-line @typescript-eslint/no-unused-vars
 
     // Find user's subscription to get customer ID
     const subscription = await paymentRepository.findActiveSubscriptionByUserId(session.user.id);

@@ -60,11 +60,11 @@ export async function POST(request: NextRequest) {
     }
 
     // Verify email - use type assertion to work around Drizzle type inference issue
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     await db
       .update(user)
       .set({
         emailVerified: true,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } as any)
       .where(eq(user.id, foundUser.id));
 

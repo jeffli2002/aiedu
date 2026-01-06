@@ -213,10 +213,10 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
               <Star className="w-3.5 h-3.5 fill-current" />
               {courseTypeLabel} {masteryLabel}
             </div>
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-semibold font-display text-dark leading-[0.95] tracking-tight mb-8 drop-shadow-sm">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-semibold font-display text-dark leading-[0.98] tracking-tight mb-6 drop-shadow-sm">
               {course.title}
             </h1>
-            <p className="text-lg md:text-2xl text-muted leading-relaxed font-medium max-w-2xl">
+            <p className="text-base md:text-lg text-muted leading-relaxed font-medium max-w-2xl">
               {course.description}
             </p>
           </div>
@@ -233,7 +233,7 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
                   <div className={`p-2.5 rounded-xl ${toneFrameClass[item.tone]}`}>{item.icon}</div>
                   <span className={`${labelClass} text-light`}>{item.label}</span>
                 </div>
-                <div className="text-2xl font-semibold text-dark ml-1">{item.value}</div>
+                <div className="text-xl md:text-2xl font-semibold text-dark ml-1">{item.value}</div>
               </div>
             ))}
           </div>
@@ -255,7 +255,7 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
               <div className={`p-4 rounded-2xl ${toneFrameClass.secondary}`}>
                 <Presentation className="w-6 h-6" />
               </div>
-              <h3 className="text-2xl md:text-3xl font-semibold font-display text-dark">
+              <h3 className="text-xl md:text-2xl font-semibold font-display text-dark">
                 {t('courseLanding.materials') || '课程资料'}
               </h3>
             </div>
@@ -450,7 +450,7 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
         <div className="lg:col-span-7">
           <div className="flex items-center gap-4 mb-16">
             <div className="w-1.5 h-12 bg-[var(--color-primary)] rounded-full" />
-            <h2 className="text-4xl md:text-5xl font-semibold font-display text-dark">{t('courseLanding.syllabusTitle')}</h2>
+            <h2 className="text-3xl md:text-4xl font-semibold font-display text-dark">{t('courseLanding.syllabusTitle')}</h2>
           </div>
 
           <div className="space-y-12">
@@ -463,7 +463,7 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
                   <div className={`${labelClass} text-secondary mb-3`}>
                     {t('courseLanding.stage')} 0{idx + 1}
                   </div>
-                  <h3 className="text-2xl font-semibold mb-4 text-dark group-hover:text-[var(--color-primary)] transition-colors">
+                  <h3 className="text-xl font-semibold mb-4 text-dark group-hover:text-[var(--color-primary)] transition-colors">
                     {item.title}
                   </h3>
                   <p className="text-muted leading-relaxed text-lg font-medium">{item.description}</p>
@@ -480,7 +480,7 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
               <div className={`p-4 rounded-2xl ${toneFrameClass.secondary}`}>
                 <Rocket className="w-6 h-6" />
               </div>
-              <h3 className="text-3xl font-semibold font-display text-dark">{t('courseLanding.projectsTitle')}</h3>
+              <h3 className="text-2xl md:text-3xl font-semibold font-display text-dark">{t('courseLanding.projectsTitle')}</h3>
             </div>
 
             <div className="space-y-8">
@@ -492,7 +492,7 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
                       <div className={`w-12 h-12 rounded-2xl border flex items-center justify-center transition-colors ${toneFrameClass[projectTone]} ${toneHoverClass[projectTone]}`}>
                         {idx % 2 === 0 ? <Code2 className="w-6 h-6" /> : <Presentation className="w-6 h-6" />}
                       </div>
-                      <h4 className={`text-2xl font-semibold text-dark transition-colors leading-tight ${toneHoverTextClass[projectTone]}`}>
+                      <h4 className={`text-xl font-semibold text-dark transition-colors leading-tight ${toneHoverTextClass[projectTone]}`}>
                         {project.title}
                       </h4>
                     </div>

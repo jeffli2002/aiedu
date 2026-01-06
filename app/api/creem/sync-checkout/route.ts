@@ -430,12 +430,12 @@ export async function POST(request: NextRequest) {
                 });
 
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 await tx
                   .update(userCredits)
                   .set({
                     balance: newBalance,
                     totalEarned: userCredit.totalEarned + creditDifference,
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
                   } as any)
                   .where(eq(userCredits.userId, userId));
 
@@ -457,8 +457,7 @@ export async function POST(request: NextRequest) {
                     provider: 'creem',
                     creditDifference,
                   }),
-                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                } as any);
+                });
               });
 
               console.log(

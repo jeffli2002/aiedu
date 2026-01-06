@@ -149,8 +149,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
               failedAt: new Date().toISOString(),
               kieError: errorMsg,
             },
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          } as any)
+          })
           .where(eq(generatedAsset.id, asset.id));
 
         // Unfreeze credits (refund)
@@ -213,7 +212,6 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
         const metadataWithoutLock = { ...assetMetadata, generationLockId: undefined };
 
         // Update database with completed status
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         await db
           .update(generatedAsset)
           .set({
@@ -227,6 +225,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
               completedAt: new Date().toISOString(),
             },
             updatedAt: new Date(),
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
           } as any)
           .where(eq(generatedAsset.id, asset.id));
 

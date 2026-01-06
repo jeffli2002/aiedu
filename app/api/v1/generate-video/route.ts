@@ -1127,7 +1127,6 @@ export async function POST(request: NextRequest) {
           // Update asset record with credit transaction ID
           if (savedAssetId) {
             try {
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               await db
                 .update(generatedAsset)
                 .set({
@@ -1137,6 +1136,7 @@ export async function POST(request: NextRequest) {
                     '{creditTransactionId}',
                     ${JSON.stringify(creditTransactionId)}::jsonb
                   )`,
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 } as any)
                 .where(eq(generatedAsset.id, savedAssetId));
             } catch (updateError) {
@@ -1223,8 +1223,7 @@ export async function POST(request: NextRequest) {
                     credits: creditCost,
                   })}::jsonb
                 )`,
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              } as any)
+              })
               .where(eq(generatedAsset.id, savedAssetId));
           } catch (updateError) {
             console.error('[Video Generation] Failed to update asset with credit charge failure:', {

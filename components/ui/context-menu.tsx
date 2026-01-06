@@ -45,12 +45,12 @@ function ContextMenuRadioGroup({ ...props }: React.ComponentProps<any>) {
   return <ContextMenuPrimitive.RadioGroup data-slot="context-menu-radio-group" {...props} />;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function ContextMenuSubTrigger({
   className,
   inset,
   children,
   ...props
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 }: React.ComponentProps<any> & {
   inset?: boolean;
 }) {
@@ -72,10 +72,10 @@ function ContextMenuSubTrigger({
   );
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function ContextMenuSubContent({
   className,
   ...props
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 }: React.ComponentProps<any>) {
   return (
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -91,10 +91,10 @@ function ContextMenuSubContent({
   );
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function ContextMenuContent({
   className,
   ...props
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 }: React.ComponentProps<any>) {
   return (
     <ContextMenuPrimitive.Portal>
@@ -112,12 +112,12 @@ function ContextMenuContent({
   );
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function ContextMenuItem({
   className,
   inset,
   variant = 'default',
   ...props
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 }: React.ComponentProps<any> & {
   inset?: boolean;
   variant?: 'default' | 'destructive';
@@ -138,12 +138,12 @@ function ContextMenuItem({
   );
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function ContextMenuCheckboxItem({
   className,
   children,
   checked,
   ...props
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 }: React.ComponentProps<any>) {
   return (
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -168,11 +168,11 @@ function ContextMenuCheckboxItem({
   );
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function ContextMenuRadioItem({
   className,
   children,
   ...props
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 }: React.ComponentProps<any>) {
   return (
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -196,11 +196,11 @@ function ContextMenuRadioItem({
   );
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function ContextMenuLabel({
   className,
   inset,
   ...props
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 }: React.ComponentProps<any> & {
   inset?: boolean;
 }) {
@@ -216,10 +216,10 @@ function ContextMenuLabel({
   );
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function ContextMenuSeparator({
   className,
   ...props
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 }: React.ComponentProps<any>) {
   return (
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
