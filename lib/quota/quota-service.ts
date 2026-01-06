@@ -156,7 +156,6 @@ export async function resetQuotaUsage(
         usedAmount: 0,
         updatedAt: new Date(),
       } as any)
-      })
       .where(and(eq(userQuotaUsage.userId, userId), eq(userQuotaUsage.period, period)));
   } catch (error) {
     console.error('Error resetting quota usage:', error);
