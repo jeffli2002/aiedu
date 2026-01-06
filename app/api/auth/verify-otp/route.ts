@@ -144,9 +144,7 @@ export async function POST(request: NextRequest) {
       identifier: `otp-session:${updatedUser.id}`,
       value: sessionToken,
       expiresAt: new Date(Date.now() + 5 * 60 * 1000), // 5 minutes
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    });
+    } as any);
 
     // Return session token for client to use for auto-login
     // Client will call a special API endpoint with this token to create session
