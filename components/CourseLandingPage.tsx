@@ -29,6 +29,38 @@ interface CourseLandingPageProps {
   course: Module;
 }
 
+type Tone = 'primary' | 'secondary';
+
+const labelClass = 'text-[11px] font-semibold uppercase tracking-[0.22em]';
+const toneFrameClass: Record<Tone, string> = {
+  primary: 'bg-primary-light text-primary border border-[rgba(255,107,53,0.25)]',
+  secondary: 'bg-secondary-light text-secondary border border-[rgba(46,196,182,0.25)]'
+};
+const toneTextClass: Record<Tone, string> = {
+  primary: 'text-primary',
+  secondary: 'text-secondary'
+};
+const toneHoverClass: Record<Tone, string> = {
+  primary: 'group-hover:bg-[var(--color-primary)] group-hover:text-white group-hover:border-[var(--color-primary)]',
+  secondary: 'group-hover:bg-[var(--color-secondary)] group-hover:text-white group-hover:border-[var(--color-secondary)]'
+};
+const toneHoverTextClass: Record<Tone, string> = {
+  primary: 'group-hover:text-[var(--color-primary)]',
+  secondary: 'group-hover:text-[var(--color-secondary)]'
+};
+const toneChipHoverClass: Record<Tone, string> = {
+  primary: 'group-hover:bg-primary-light group-hover:text-[var(--color-primary)]',
+  secondary: 'group-hover:bg-secondary-light group-hover:text-[var(--color-secondary)]'
+};
+const tonePanelClass: Record<Tone, string> = {
+  primary: 'bg-primary-light border border-[rgba(255,107,53,0.2)] group-hover:bg-[var(--color-primary)] group-hover:border-[var(--color-primary)]',
+  secondary: 'bg-secondary-light border border-[rgba(46,196,182,0.2)] group-hover:bg-[var(--color-secondary)] group-hover:border-[var(--color-secondary)]'
+};
+const tonePanelTextClass: Record<Tone, string> = {
+  primary: 'text-primary group-hover:text-white',
+  secondary: 'text-secondary group-hover:text-white'
+};
+
 export default function CourseLandingPage({ course }: CourseLandingPageProps) {
   const t = useTranslations('training');
   const tc = useTranslations('common');
@@ -119,6 +151,22 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
 
   const courseTypeLabel = t(`courseLanding.courseType.${course.type}`);
   const masteryLabel = t('courseLanding.mastery');
+  const infoItems: { icon: JSX.Element; label: string; value: string; tone: Tone }[] = [
+    { icon: <Clock className="w-6 h-6" />, label: t('courseLanding.totalTime'), value: course.duration, tone: 'primary' },
+    { icon: <Cpu className="w-6 h-6" />, label: t('courseLanding.format'), value: t(`courseLanding.format${course.format}`), tone: 'secondary' },
+    {
+      icon: <Target className="w-6 h-6" />,
+      label: t('courseLanding.skillLevel'),
+      value: course.type === 'vibe'
+        ? t('courseLanding.vibeAgeRange')
+        : course.type === 'creation'
+          ? t('courseLanding.creationAgeRange')
+          : course.type === 'efficiency'
+            ? t('courseLanding.efficiencyAgeRange')
+            : t('courseLanding.ageRange'),
+      tone: 'primary'
+    }
+  ];
 
   return (
     <div className="min-h-screen section-light pb-32 font-body">
@@ -148,20 +196,20 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
             className="btn-secondary group mb-12"
           >
             <ArrowLeft className="w-5 h-5 text-primary group-hover:-translate-x-1 transition-transform" />
-            <span className="uppercase tracking-widest text-dark">
+            <span className={`${labelClass} text-dark`}>
               {t('courseLanding.backBtn')}
             </span>
           </button>
 
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary-light backdrop-blur-md border border-[rgba(255,107,53,0.2)] text-primary text-[10px] font-black tracking-widest uppercase mb-6 shadow-sm">
-              <Star className="w-3.5 h-3.5 text-primary fill-current" />
+            <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full backdrop-blur-md mb-6 shadow-sm ${labelClass} ${toneFrameClass.primary}`}>
+              <Star className="w-3.5 h-3.5 fill-current" />
               {courseTypeLabel} {masteryLabel}
             </div>
-            <h1 className="text-5xl md:text-8xl font-bold font-display text-dark leading-[1] tracking-tight mb-8 drop-shadow-sm">
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-semibold font-display text-dark leading-[0.95] tracking-tight mb-8 drop-shadow-sm">
               {course.title}
             </h1>
-            <p className="text-xl md:text-2xl text-muted leading-relaxed font-semibold max-w-2xl">
+            <p className="text-lg md:text-2xl text-muted leading-relaxed font-medium max-w-2xl">
               {course.description}
             </p>
           </div>
@@ -172,27 +220,13 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
       <div className="max-w-7xl mx-auto px-6 -mt-20 relative z-20">
         <div className="bg-white/90 backdrop-blur-xl p-8 md:p-12 rounded-[3.5rem] border border-[var(--color-border-light)] shadow-2xl flex flex-wrap gap-12 md:gap-24 items-center justify-between">
           <div className="flex flex-wrap gap-12 md:gap-24">
-            {[
-              { icon: <Clock className="w-6 h-6 text-primary" />, label: t('courseLanding.totalTime'), value: course.duration },
-              { icon: <Cpu className="w-6 h-6 text-secondary" />, label: t('courseLanding.format'), value: t(`courseLanding.format${course.format}`) },
-              {
-                icon: <Target className="w-6 h-6 text-primary" />,
-                label: t('courseLanding.skillLevel'), 
-                value: course.type === 'vibe' 
-                  ? t('courseLanding.vibeAgeRange')
-                  : course.type === 'creation'
-                  ? t('courseLanding.creationAgeRange')
-                  : course.type === 'efficiency'
-                  ? t('courseLanding.efficiencyAgeRange')
-                  : t('courseLanding.ageRange')
-              },
-            ].map((item, i) => (
+            {infoItems.map((item, i) => (
               <div key={i} className="space-y-2">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 bg-[var(--color-light)] rounded-lg">{item.icon}</div>
-                  <span className="text-[10px] font-black text-light uppercase tracking-widest">{item.label}</span>
+                  <div className={`p-2.5 rounded-xl ${toneFrameClass[item.tone]}`}>{item.icon}</div>
+                  <span className={`${labelClass} text-light`}>{item.label}</span>
                 </div>
-                <div className="text-2xl font-bold text-dark ml-1">{item.value}</div>
+                <div className="text-2xl font-semibold text-dark ml-1">{item.value}</div>
               </div>
             ))}
           </div>
@@ -211,10 +245,12 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
         <section className="max-w-7xl mx-auto px-6 mt-16">
           <div className="bg-white/90 backdrop-blur-xl p-8 md:p-12 rounded-[3.5rem] border border-[var(--color-border-light)] shadow-2xl">
             <div className="flex items-center gap-4 mb-8">
-              <div className="p-4 bg-secondary-light rounded-2xl border border-[rgba(46,196,182,0.2)]">
-                <Presentation className="w-6 h-6 text-secondary" />
+              <div className={`p-4 rounded-2xl ${toneFrameClass.secondary}`}>
+                <Presentation className="w-6 h-6" />
               </div>
-              <h3 className="text-2xl md:text-3xl font-bold text-dark">{t('courseLanding.materials') || '课程资料'}</h3>
+              <h3 className="text-2xl md:text-3xl font-semibold font-display text-dark">
+                {t('courseLanding.materials') || '课程资料'}
+              </h3>
             </div>
 
             {!isAuthenticated ? (
@@ -229,7 +265,7 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
                       >
                         <div className="px-3 py-2 border-b border-[var(--color-border-light)] flex items-center justify-between">
                           <div className="font-semibold text-[13px] truncate text-dark">{m.title}</div>
-                          <div className="text-[9px] font-black uppercase tracking-widest text-light">{m.type.toUpperCase()}</div>
+                          <div className={`${labelClass} text-light`}>{m.type.toUpperCase()}</div>
                         </div>
                         <div className="p-2">
                           <div className="relative w-full aspect-video rounded-xl border border-[var(--color-border)] bg-[var(--color-light)] overflow-hidden">
@@ -262,7 +298,7 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
                       >
                         <div className="px-3 py-2 border-b border-[var(--color-border-light)] flex items-center justify-between">
                           <div className="font-semibold text-[13px] truncate text-dark">{m.title}</div>
-                          <div className="text-[9px] font-black uppercase tracking-widest text-light">{m.type.toUpperCase()}</div>
+                          <div className={`${labelClass} text-light`}>{m.type.toUpperCase()}</div>
                         </div>
                         <div className="p-2">
                           <div className="relative w-full aspect-video rounded-xl border border-[var(--color-border)] bg-[var(--color-light)] overflow-hidden">
@@ -300,7 +336,7 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
                   <div key={m.id} className="rounded-3xl border border-[var(--color-border-light)] bg-white shadow-sm overflow-hidden">
                     <div className="px-6 py-4 border-b border-[var(--color-border-light)] flex items-center justify-between">
                       <div className="font-bold text-dark">{m.title}</div>
-                      <div className="text-xs font-black uppercase tracking-widest text-light">{m.type.toUpperCase()}</div>
+                      <div className={`${labelClass} text-light`}>{m.type.toUpperCase()}</div>
                     </div>
                     <div className="p-4">
                       {m.type === 'video' ? (
@@ -407,7 +443,7 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
         <div className="lg:col-span-7">
           <div className="flex items-center gap-4 mb-16">
             <div className="w-1.5 h-12 bg-[var(--color-primary)] rounded-full" />
-            <h2 className="text-4xl md:text-5xl font-bold font-display text-dark">{t('courseLanding.syllabusTitle')}</h2>
+            <h2 className="text-4xl md:text-5xl font-semibold font-display text-dark">{t('courseLanding.syllabusTitle')}</h2>
           </div>
 
           <div className="space-y-12">
@@ -417,10 +453,12 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
                 <div className="absolute left-[-4px] top-1.5 w-2 h-2 rounded-full bg-[var(--color-primary)] ring-8 ring-[rgba(255,107,53,0.15)] group-hover:scale-125 transition-transform" />
                 
                 <div className="p-10 rounded-[2.5rem] bg-[var(--color-light)] border border-transparent hover:border-[rgba(255,107,53,0.2)] hover:bg-white hover:shadow-xl transition-all duration-500 group-hover:-translate-y-1">
-                  <div className="text-[10px] font-black text-secondary uppercase tracking-widest mb-3">
+                  <div className={`${labelClass} text-secondary mb-3`}>
                     {t('courseLanding.stage')} 0{idx + 1}
                   </div>
-                  <h3 className="text-2xl font-bold mb-4 text-dark group-hover:text-[var(--color-primary)] transition-colors">{item.title}</h3>
+                  <h3 className="text-2xl font-semibold mb-4 text-dark group-hover:text-[var(--color-primary)] transition-colors">
+                    {item.title}
+                  </h3>
                   <p className="text-muted leading-relaxed text-lg font-medium">{item.description}</p>
                 </div>
               </div>
@@ -432,10 +470,10 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
         <div className="lg:col-span-5 space-y-10">
           <div className="sticky top-32">
             <div className="flex items-center gap-4 mb-10">
-              <div className="p-4 bg-[var(--color-dark)] rounded-2xl">
-                <Rocket className="w-6 h-6 text-secondary" />
+              <div className={`p-4 rounded-2xl ${toneFrameClass.secondary}`}>
+                <Rocket className="w-6 h-6" />
               </div>
-              <h3 className="text-3xl font-bold font-display text-dark">{t('courseLanding.projectsTitle')}</h3>
+              <h3 className="text-3xl font-semibold font-display text-dark">{t('courseLanding.projectsTitle')}</h3>
             </div>
 
             <div className="space-y-8">

@@ -107,7 +107,7 @@ class CreemPaymentService {
     planId,
     interval,
     successUrl,
-    cancelUrl: _cancelUrl,
+    cancelUrl: _cancelUrl, // eslint-disable-line @typescript-eslint/no-unused-vars
     currentPlan = 'free',
     affiliateCode,
   }: CreateCheckoutSessionParams) {
@@ -216,7 +216,7 @@ class CreemPaymentService {
     userEmail,
     productKey,
     successUrl,
-    cancelUrl: _cancelUrl,
+    cancelUrl: _cancelUrl, // eslint-disable-line @typescript-eslint/no-unused-vars
     affiliateCode,
   }: {
     userId: string;

@@ -29,7 +29,7 @@ export default function UpgradePrompt({
   onClose,
   onContinue,
   creditsUsed = 0,
-  creditsLimit: _creditsLimit = 5,
+  creditsLimit = 5,
   type = 'credits',
   feature,
   isAuthenticated = true,
@@ -134,10 +134,6 @@ export default function UpgradePrompt({
 
   void (limitType === 'daily' ? 'midnight UTC' : 'the 1st of next month');
 
-  if (!isOpen) {
-    return null;
-  }
-
   useEffect(() => {
     if (!isOpen || !onClose) return;
 
@@ -150,6 +146,10 @@ export default function UpgradePrompt({
     document.addEventListener('keydown', handleEscape);
     return () => document.removeEventListener('keydown', handleEscape);
   }, [isOpen, onClose]);
+
+  if (!isOpen) {
+    return null;
+  }
 
   return (
     <div

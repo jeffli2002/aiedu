@@ -108,8 +108,8 @@ function Carousel({
         carouselRef,
         api: api,
         opts,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         orientation: (orientation as 'horizontal' | 'vertical') ||
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           ((opts as any)?.axis === 'y' ? 'vertical' : 'horizontal'),
         scrollPrev,
         scrollNext,
