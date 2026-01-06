@@ -2,17 +2,21 @@
 
 import { useState, useEffect } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
-import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { withLocalePath } from '@/i18n/locale-utils';
-import { Rocket, Instagram, Twitter, Linkedin, Send } from 'lucide-react';
+import { Sparkles, Instagram, Twitter, Linkedin, Mail, ArrowUpRight } from 'lucide-react';
+
+/**
+ * Footer - Editorial Minimal Design
+ * Typography: Instrument Serif (logo) + DM Sans (body)
+ * Colors: Coral Orange (#ff6b35), Teal (#2ec4b6), Dark (#1a1a2e)
+ */
 
 export default function Footer({ fixed }: { fixed?: boolean } = {}) {
   const t = useTranslations('footer');
   const tn = useTranslations('nav');
   const locale = useLocale();
   const lang = locale === 'zh' ? 'zh' : 'en';
-  const pathname = usePathname();
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
@@ -21,54 +25,223 @@ export default function Footer({ fixed }: { fixed?: boolean } = {}) {
 
   const year = new Date().getFullYear();
 
+  const exploreLinks = [
+    { href: '/', label: isClient ? tn('home') : '首页' },
+    { href: '/training', label: isClient ? tn('training') : '训练课程' },
+    { href: '/blog', label: isClient ? tn('blog') : '博客' },
+  ];
+
+  const toolLinks = [
+    { href: '/image-generation', label: isClient ? tn('imageGeneration') : 'AI 图像' },
+    { href: '/video-generation', label: isClient ? tn('videoGeneration') : 'AI 视频' },
+    { href: '/assets', label: isClient ? tn('assets') : '我的作品' },
+  ];
+
+  if (fixed) {
+    return (
+      <footer
+        className="fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-slate-100"
+        style={{ fontFamily: '"DM Sans", system-ui, sans-serif' }}
+      >
+        <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+          <p className="text-xs" style={{ color: '#999' }}>
+            &copy; {year} Future AI Creators
+          </p>
+          <div className="flex gap-4">
+            {['Instagram', 'Twitter', 'LinkedIn'].map((social) => (
+              <a
+                key={social}
+                href="#"
+                aria-label={social}
+                className="p-2 rounded-lg transition-colors"
+                style={{ color: '#999' }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = '#ff6b35')}
+                onMouseLeave={(e) => (e.currentTarget.style.color = '#999')}
+              >
+                {social === 'Instagram' && <Instagram className="w-4 h-4" />}
+                {social === 'Twitter' && <Twitter className="w-4 h-4" />}
+                {social === 'LinkedIn' && <Linkedin className="w-4 h-4" />}
+              </a>
+            ))}
+          </div>
+        </div>
+      </footer>
+    );
+  }
+
   return (
-    <footer className={`${fixed ? 'fixed bottom-0 left-0 right-0 z-40' : ''} bg-white border-t border-slate-100`}>
-      <div className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ${fixed ? 'py-4' : 'py-20'}`}>
-        <div className="grid md:grid-cols-4 gap-12">
-          <div className="col-span-2 space-y-6">
-            <div className="flex items-center gap-2">
-              <Rocket className="w-6 h-6 text-blue-600" />
-              <span className="text-xl font-bold font-display uppercase tracking-tighter text-slate-900">FUTURE AI CREATORS</span>
-            </div>
-            <p className="text-slate-500 text-sm max-w-sm leading-relaxed">
+    <footer
+      className="bg-white border-t border-slate-100"
+      style={{ fontFamily: '"DM Sans", system-ui, sans-serif' }}
+    >
+      <div className="max-w-7xl mx-auto px-6 lg:px-12 py-20">
+        {/* Top section */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 pb-16 border-b border-slate-100">
+          {/* Brand column */}
+          <div className="lg:col-span-5 space-y-6">
+            <Link href={withLocalePath('/', lang)} className="inline-flex items-center gap-3 group">
+              <div
+                className="w-10 h-10 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
+                style={{ backgroundColor: '#ff6b35' }}
+              >
+                <Sparkles className="w-5 h-5 text-white" />
+              </div>
+              <span
+                className="text-xl font-bold tracking-tight"
+                style={{
+                  fontFamily: '"Instrument Serif", Georgia, serif',
+                  color: '#1a1a2e',
+                }}
+              >
+                Future AI Creators
+              </span>
+            </Link>
+
+            <p
+              className="text-base leading-relaxed max-w-sm"
+              style={{ color: '#666' }}
+            >
               {t('description')}
             </p>
-            <div className="flex gap-4">
-              <a href="#" aria-label="Instagram" className="p-2.5 bg-slate-50 rounded-xl text-slate-400 hover:text-blue-600 transition-all"><Instagram className="w-5 h-5" /></a>
-              <a href="#" aria-label="Twitter" className="p-2.5 bg-slate-50 rounded-xl text-slate-400 hover:text-blue-600 transition-all"><Twitter className="w-5 h-5" /></a>
-              <a href="#" aria-label="LinkedIn" className="p-2.5 bg-slate-50 rounded-xl text-slate-400 hover:text-blue-600 transition-all"><Linkedin className="w-5 h-5" /></a>
+
+            {/* Social links */}
+            <div className="flex gap-3">
+              {[
+                { icon: Instagram, label: 'Instagram' },
+                { icon: Twitter, label: 'Twitter' },
+                { icon: Linkedin, label: 'LinkedIn' },
+              ].map(({ icon: Icon, label }) => (
+                <a
+                  key={label}
+                  href="#"
+                  aria-label={label}
+                  className="w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-200 border"
+                  style={{ borderColor: '#e5e5e5', color: '#999' }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.borderColor = '#ff6b35';
+                    e.currentTarget.style.color = '#ff6b35';
+                    e.currentTarget.style.backgroundColor = 'rgba(255, 107, 53, 0.05)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.borderColor = '#e5e5e5';
+                    e.currentTarget.style.color = '#999';
+                    e.currentTarget.style.backgroundColor = 'transparent';
+                  }}
+                >
+                  <Icon className="w-4 h-4" />
+                </a>
+              ))}
             </div>
           </div>
-          <div>
-            <h4 className="text-slate-900 font-bold text-xs uppercase tracking-widest mb-6">{t('explore')}</h4>
-            <ul className="space-y-3 text-sm text-slate-500 font-medium">
-              <li><Link href={withLocalePath('/', lang)} className="hover:text-blue-600 transition-colors">{tn('home')}</Link></li>
-              <li><Link href={withLocalePath('/training', lang)} className="hover:text-blue-600 transition-colors">{tn('training')}</Link></li>
-              <li><Link href={withLocalePath('/blog', lang)} className="hover:text-blue-600 transition-colors">{tn('blog')}</Link></li>
-              <li><Link href={withLocalePath('/image-generation', lang)} className="hover:text-blue-600 transition-colors">{tn('imageGeneration')}</Link></li>
-              <li><Link href={withLocalePath('/video-generation', lang)} className="hover:text-blue-600 transition-colors">{tn('videoGeneration')}</Link></li>
-              <li><Link href={withLocalePath('/assets', lang)} className="hover:text-blue-600 transition-colors">{tn('assets')}</Link></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="text-slate-900 font-bold text-xs uppercase tracking-widest mb-6">{t('contact')}</h4>
-            <ul className="space-y-4 text-sm text-slate-500">
-              <li className="flex items-center gap-2"><Send className="w-4 h-4" /> support@futurai.org</li>
-            </ul>
-            <div className="mt-8 pt-8 border-t border-slate-50">
-              <p className="text-[10px] text-slate-400 uppercase tracking-[0.2em]">&copy; {year} Future AI Creators.</p>
+
+          {/* Links columns */}
+          <div className="lg:col-span-7 grid grid-cols-2 md:grid-cols-3 gap-8">
+            {/* Explore */}
+            <div>
+              <h4
+                className="text-xs font-semibold uppercase tracking-[0.2em] mb-6"
+                style={{ color: '#ff6b35' }}
+              >
+                {t('explore')}
+              </h4>
+              <ul className="space-y-3">
+                {exploreLinks.map((link) => (
+                  <li key={link.href}>
+                    <Link
+                      href={withLocalePath(link.href, lang)}
+                      className="text-sm font-medium transition-colors duration-200 inline-flex items-center gap-1 group"
+                      style={{ color: '#4a4a4a' }}
+                      onMouseEnter={(e) => (e.currentTarget.style.color = '#ff6b35')}
+                      onMouseLeave={(e) => (e.currentTarget.style.color = '#4a4a4a')}
+                    >
+                      {link.label}
+                      <ArrowUpRight className="w-3 h-3 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
+                    </Link>
+                  </li>
+                ))}
+              </ul>
             </div>
+
+            {/* AI Tools */}
+            <div>
+              <h4
+                className="text-xs font-semibold uppercase tracking-[0.2em] mb-6"
+                style={{ color: '#2ec4b6' }}
+              >
+                {lang === 'zh' ? 'AI 工具' : 'AI Tools'}
+              </h4>
+              <ul className="space-y-3">
+                {toolLinks.map((link) => (
+                  <li key={link.href}>
+                    <Link
+                      href={withLocalePath(link.href, lang)}
+                      className="text-sm font-medium transition-colors duration-200 inline-flex items-center gap-1 group"
+                      style={{ color: '#4a4a4a' }}
+                      onMouseEnter={(e) => (e.currentTarget.style.color = '#2ec4b6')}
+                      onMouseLeave={(e) => (e.currentTarget.style.color = '#4a4a4a')}
+                    >
+                      {link.label}
+                      <ArrowUpRight className="w-3 h-3 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Contact */}
+            <div>
+              <h4
+                className="text-xs font-semibold uppercase tracking-[0.2em] mb-6"
+                style={{ color: '#1a1a2e' }}
+              >
+                {t('contact')}
+              </h4>
+              <ul className="space-y-3">
+                <li>
+                  <a
+                    href="mailto:support@futurai.org"
+                    className="text-sm font-medium transition-colors duration-200 inline-flex items-center gap-2"
+                    style={{ color: '#4a4a4a' }}
+                    onMouseEnter={(e) => (e.currentTarget.style.color = '#ff6b35')}
+                    onMouseLeave={(e) => (e.currentTarget.style.color = '#4a4a4a')}
+                  >
+                    <Mail className="w-4 h-4" />
+                    support@futurai.org
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom section */}
+        <div className="pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-xs" style={{ color: '#999' }}>
+            &copy; {year} Future AI Creators. {lang === 'zh' ? '保留所有权利' : 'All rights reserved'}.
+          </p>
+
+          <div className="flex items-center gap-6">
+            <Link
+              href={withLocalePath('/privacy', lang)}
+              className="text-xs transition-colors duration-200"
+              style={{ color: '#999' }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = '#ff6b35')}
+              onMouseLeave={(e) => (e.currentTarget.style.color = '#999')}
+            >
+              {lang === 'zh' ? '隐私政策' : 'Privacy Policy'}
+            </Link>
+            <Link
+              href={withLocalePath('/terms', lang)}
+              className="text-xs transition-colors duration-200"
+              style={{ color: '#999' }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = '#ff6b35')}
+              onMouseLeave={(e) => (e.currentTarget.style.color = '#999')}
+            >
+              {lang === 'zh' ? '服务条款' : 'Terms of Service'}
+            </Link>
           </div>
         </div>
       </div>
     </footer>
   );
 }
-
-
-
-
-
-
-
-

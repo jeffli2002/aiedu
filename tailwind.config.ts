@@ -1,6 +1,6 @@
-/** JS twin of tailwind.config.ts to ensure CLI/Next can load config in all environments */
-/** @type {import('tailwindcss').Config} */
-module.exports = {
+import type { Config } from 'tailwindcss'
+
+const config: Config = {
   darkMode: ['class'],
   content: [
     './app/**/*.{ts,tsx}',
@@ -20,5 +20,7 @@ module.exports = {
     },
   },
   plugins: [],
-};
+}
+
+export default config
 

@@ -26,8 +26,16 @@ import {
   useSignOut,
 } from '@/store/auth-store';
 import { useTranslations } from 'next-intl';
+import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
+import { Sparkles } from 'lucide-react';
+
+/**
+ * Signup Form - Editorial Minimal Design
+ * Colors: Coral Orange (#ff6b35), Teal (#2ec4b6)
+ * Typography: Instrument Serif (headlines), DM Sans (body)
+ */
 
 const MIN_PASSWORD_LENGTH = 8;
 const isExternalUrl = (value: string) => /^https?:\/\//i.test(value);
@@ -229,7 +237,11 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
   }, [resendCooldown]);
 
   return (
-    <div className={cn('flex w-full flex-col gap-6', className)} {...props}>
+    <div
+      className={cn('flex w-full flex-col gap-6', className)}
+      style={{ fontFamily: '"DM Sans", system-ui, sans-serif' }}
+      {...props}
+    >
       <AlertDialog
         open={showVerificationNotice}
         onOpenChange={(open) => {
@@ -238,17 +250,26 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
           }
         }}
       >
-        <AlertDialogContent className="bg-white max-w-md">
+        <AlertDialogContent className="bg-white max-w-md rounded-[1.5rem]">
           <AlertDialogHeader className="text-center pb-4">
             {/* Illustration */}
             <div className="flex justify-center mb-6">
               <div className="relative w-40 h-40">
-                {/* Teal/mint green rounded organic shape (stylized 'n') */}
-                <div className="absolute top-2 left-4 w-28 h-32 bg-teal-300 rounded-tl-full rounded-bl-full rounded-tr-[60%] rounded-br-[40%] opacity-80"></div>
-                {/* Dark green square */}
-                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-green-600 rounded-lg flex items-center justify-center shadow-lg">
+                {/* Teal rounded organic shape */}
+                <div
+                  className="absolute top-2 left-4 w-28 h-32 rounded-tl-full rounded-bl-full rounded-tr-[60%] rounded-br-[40%] opacity-80"
+                  style={{ backgroundColor: '#2ec4b6' }}
+                />
+                {/* Dark square */}
+                <div
+                  className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-24 h-24 rounded-xl flex items-center justify-center shadow-lg"
+                  style={{ backgroundColor: '#1a1a2e' }}
+                >
                   {/* Orange circle with face */}
-                  <div className="w-16 h-16 bg-orange-500 rounded-full flex items-center justify-center">
+                  <div
+                    className="w-16 h-16 rounded-full flex items-center justify-center"
+                    style={{ backgroundColor: '#ff6b35' }}
+                  >
                     <div className="flex flex-col items-center justify-center">
                       <div className="flex gap-1.5 mb-1.5">
                         <div className="w-2 h-2 bg-white rounded-sm"></div>
@@ -258,17 +279,20 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
                     </div>
                   </div>
                 </div>
-                {/* Purple dots at corners */}
-                <div className="absolute top-2 left-2 w-3 h-3 bg-purple-500 rounded-sm"></div>
-                <div className="absolute top-2 right-2 w-3 h-3 bg-purple-500 rounded-sm"></div>
-                <div className="absolute bottom-2 left-2 w-3 h-3 bg-purple-500 rounded-sm"></div>
-                <div className="absolute bottom-2 right-2 w-3 h-3 bg-purple-500 rounded-sm"></div>
+                {/* Teal dots at corners */}
+                <div className="absolute top-2 left-2 w-3 h-3 rounded-sm" style={{ backgroundColor: '#2ec4b6' }} />
+                <div className="absolute top-2 right-2 w-3 h-3 rounded-sm" style={{ backgroundColor: '#2ec4b6' }} />
+                <div className="absolute bottom-2 left-2 w-3 h-3 rounded-sm" style={{ backgroundColor: '#ff6b35' }} />
+                <div className="absolute bottom-2 right-2 w-3 h-3 rounded-sm" style={{ backgroundColor: '#ff6b35' }} />
               </div>
             </div>
-            <AlertDialogTitle className="text-2xl font-bold text-gray-900 mb-4">
+            <AlertDialogTitle
+              className="text-2xl font-bold mb-4"
+              style={{ fontFamily: '"Instrument Serif", Georgia, serif', color: '#1a1a2e' }}
+            >
               {t('signup.checkInbox')}
             </AlertDialogTitle>
-            <AlertDialogDescription className="text-base text-gray-700">
+            <AlertDialogDescription className="text-base" style={{ color: '#666' }}>
               {t('signup.emailVerificationMessage', {
                 email: signupEmail || t('signup.yourEmail'),
               })}
@@ -397,7 +421,7 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
             <AlertDialogCancel asChild>
               <Button
                 type="button"
-                className="bg-teal-600 hover:bg-teal-700 text-white"
+                className="rounded-xl font-semibold transition-all btn-teal"
               >
                 {t('common.close')}
               </Button>
@@ -406,21 +430,41 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
         </AlertDialogContent>
       </AlertDialog>
       {!showVerificationNotice && (
-        <Card className="w-full bg-white shadow-sm">
-          <CardHeader className="text-center pb-6">
-            <CardTitle className="text-2xl font-semibold text-gray-900 mb-2">
-              {t('signup.title') || 'Log in or create an account to collaborate'}
-            </CardTitle>
-            <CardDescription className="text-gray-600">
-              {t('signup.signUpWithAccount')}
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="px-8 pb-8">
+        <>
+          {/* Logo */}
+          <div className="text-center mb-4">
+            <Link href="/" className="inline-flex items-center gap-3 group">
+              <div
+                className="w-10 h-10 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
+                style={{ backgroundColor: '#ff6b35' }}
+              >
+                <Sparkles className="w-5 h-5 text-white" />
+              </div>
+              <span
+                className="text-lg font-bold tracking-tight"
+                style={{ color: '#1a1a2e' }}
+              >
+                Future AI Creators
+              </span>
+            </Link>
+          </div>
+
+          {/* Card */}
+          <div className="bg-white rounded-[1.5rem] border border-slate-100 shadow-sm p-8">
+            {/* Header */}
+            <div className="text-center mb-8">
+              <h1 className="text-2xl mb-2 font-display text-dark">
+                {t('signup.title') || 'Create your account'}
+              </h1>
+              <p className="text-sm text-muted">
+                {t('signup.signUpWithAccount')}
+              </p>
+            </div>
             <form onSubmit={handleEmailSignup} data-testid="signup-form">
-              <div className="grid gap-6">
+              <div className="grid gap-5">
                 {/* Error message display */}
                 {error && (
-                  <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-red-600 text-sm">
+                  <div className="rounded-xl px-4 py-3 text-sm bg-primary-light text-primary">
                     {error}
                     <button
                       type="button"
@@ -432,161 +476,146 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
                   </div>
                 )}
 
-                {/* Social login buttons */}
-                <div className="flex flex-col gap-4">
-                  <Button
-                    type="button"
-                    variant="outline"
-                    className="w-full h-11 border-gray-300 bg-white text-gray-900 transition-colors hover:bg-gray-50 dark:hover:bg-gray-900"
-                    onClick={() => handleSocialLogin('google')}
+                {/* Google login */}
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="w-full rounded-xl py-6 border-slate-200 hover:border-slate-300 hover:bg-slate-50 transition-colors"
+                  onClick={() => handleSocialLogin('google')}
+                  disabled={isLoading}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 48 48"
+                    className="mr-2 h-5 w-5"
+                    role="img"
+                    aria-label="Google"
+                  >
+                    <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z" />
+                    <path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z" />
+                    <path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z" />
+                    <path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z" />
+                  </svg>
+                  {isLoading ? t('common.signingUp') : t('signup.signUpWithGoogle')}
+                </Button>
+
+                {/* Divider */}
+                <div className="relative py-4">
+                  <div className="absolute inset-0 flex items-center">
+                    <div className="w-full border-t border-slate-200" />
+                  </div>
+                  <div className="relative flex justify-center text-sm">
+                    <span className="bg-white px-4 font-medium text-light">
+                      {t('common.orContinueWith') || 'or'}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Name field */}
+                <div className="grid gap-2">
+                  <Label htmlFor="name" className="text-dark">{t('signup.name')}</Label>
+                  <Input
+                    id="name"
+                    type="text"
+                    placeholder={t('signup.name')}
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    required
                     disabled={isLoading}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 48 48"
-                      className="mr-2 h-5 w-5"
-                      role="img"
-                      aria-label="Google"
-                    >
-                      <path
-                        fill="#FFC107"
-                        d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"
-                      />
-                      <path
-                        fill="#FF3D00"
-                        d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"
-                      />
-                      <path
-                        fill="#4CAF50"
-                        d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"
-                      />
-                      <path
-                        fill="#1976D2"
-                        d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"
-                      />
-                    </svg>
-                    {isLoading ? t('common.signingUp') : t('signup.signUpWithGoogle')}
-                  </Button>
+                    autoComplete="name"
+                    data-testid="name-input"
+                    className="rounded-xl border-slate-200 py-5 focus:border-[#ff6b35] focus:ring-[#ff6b35]/20"
+                  />
                 </div>
 
-                <div className="flex items-center gap-4 text-sm">
-                  <div className="flex-1 border-t border-gray-200" />
-                  <span className="text-gray-500">{t('common.orContinueWith') || 'or'}</span>
-                  <div className="flex-1 border-t border-gray-200" />
+                {/* Email field */}
+                <div className="grid gap-2">
+                  <Label htmlFor="email" className="text-dark">{t('signup.email')}</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="name@example.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    disabled={isLoading}
+                    autoComplete="email"
+                    data-testid="email-input"
+                    className="rounded-xl border-slate-200 py-5 focus:border-[#ff6b35] focus:ring-[#ff6b35]/20"
+                  />
                 </div>
 
-                {/* Email password registration */}
-                <div className="grid gap-5">
-                  <div className="grid gap-2">
-                    <Label htmlFor="name" className="text-xs font-medium text-gray-700 uppercase tracking-wide">
-                      {t('signup.name')}
-                    </Label>
-                    <Input
-                      id="name"
-                      type="text"
-                      placeholder={t('signup.name')}
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      required
-                      disabled={isLoading}
-                      autoComplete="name"
-                      data-testid="name-input"
-                      className="h-11 bg-gray-50 border-gray-300"
-                    />
-                  </div>
-                  <div className="grid gap-2">
-                    <Label htmlFor="email" className="text-xs font-medium text-gray-700 uppercase tracking-wide">
-                      {t('signup.email')}
-                    </Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      placeholder="name@example.com"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      required
-                      disabled={isLoading}
-                      autoComplete="email"
-                      data-testid="email-input"
-                      className="h-11 bg-gray-50 border-gray-300"
-                    />
-                  </div>
-                  <div className="grid gap-2">
-                    <Label htmlFor="password" className="text-xs font-medium text-gray-700 uppercase tracking-wide">
-                      {t('signup.password')}
-                    </Label>
-                    <Input
-                      id="password"
-                      type="password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      required
-                      disabled={isLoading}
-                      minLength={MIN_PASSWORD_LENGTH}
-                      placeholder={t('signup.passwordHint', { count: MIN_PASSWORD_LENGTH })}
-                      autoComplete="new-password"
-                      data-testid="password-input"
-                      className="h-11 bg-gray-50 border-gray-300"
-                    />
-                    <p className="text-gray-500 text-xs">
-                      {t('signup.passwordHint', { count: MIN_PASSWORD_LENGTH })}
-                    </p>
-                  </div>
-                  <div className="grid gap-2">
-                    <Label htmlFor="confirmPassword" className="text-xs font-medium text-gray-700 uppercase tracking-wide">
-                      {t('signup.confirmPassword')}
-                    </Label>
-                    <Input
-                      id="confirmPassword"
-                      type="password"
-                      value={confirmPassword}
-                      onChange={(e) => setConfirmPassword(e.target.value)}
-                      required
-                      disabled={isLoading}
-                      minLength={MIN_PASSWORD_LENGTH}
-                      placeholder={t('signup.passwordHint', { count: MIN_PASSWORD_LENGTH })}
-                      autoComplete="new-password"
-                      data-testid="confirm-password-input"
-                      className="h-11 bg-gray-50 border-gray-300"
-                    />
-                  </div>
-                  <Button
-                    type="submit"
-                    className={cn(
-                      'w-full h-11 font-medium',
-                      password.length >= MIN_PASSWORD_LENGTH &&
-                        password === confirmPassword &&
-                        email &&
-                        name &&
-                        !isLoading
-                        ? 'bg-gray-900 text-white hover:bg-gray-800'
-                        : 'bg-gray-300 text-gray-500 cursor-not-allowed hover:bg-gray-300'
-                    )}
-                    disabled={
-                      isLoading ||
-                      !email ||
-                      !name ||
-                      !password ||
-                      !confirmPassword ||
-                      password.length < MIN_PASSWORD_LENGTH ||
-                      password !== confirmPassword
-                    }
-                    data-testid="signup-button"
-                  >
-                    {isLoading ? t('common.signingUp') : (t('signup.submit') || 'Continue with email')}
-                  </Button>
+                {/* Password field */}
+                <div className="grid gap-2">
+                  <Label htmlFor="password" className="text-dark">{t('signup.password')}</Label>
+                  <Input
+                    id="password"
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    disabled={isLoading}
+                    minLength={MIN_PASSWORD_LENGTH}
+                    placeholder={t('signup.passwordHint', { count: MIN_PASSWORD_LENGTH })}
+                    autoComplete="new-password"
+                    data-testid="password-input"
+                    className="rounded-xl border-slate-200 py-5 focus:border-[#ff6b35] focus:ring-[#ff6b35]/20"
+                  />
+                  <p className="text-xs text-light">
+                    {t('signup.passwordHint', { count: MIN_PASSWORD_LENGTH })}
+                  </p>
                 </div>
 
-                <div className="text-center text-sm">
+                {/* Confirm Password field */}
+                <div className="grid gap-2">
+                  <Label htmlFor="confirmPassword" className="text-dark">{t('signup.confirmPassword')}</Label>
+                  <Input
+                    id="confirmPassword"
+                    type="password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    required
+                    disabled={isLoading}
+                    minLength={MIN_PASSWORD_LENGTH}
+                    placeholder={t('signup.passwordHint', { count: MIN_PASSWORD_LENGTH })}
+                    autoComplete="new-password"
+                    data-testid="confirm-password-input"
+                    className="rounded-xl border-slate-200 py-5 focus:border-[#ff6b35] focus:ring-[#ff6b35]/20"
+                  />
+                </div>
+
+                {/* Submit button */}
+                <Button
+                  type="submit"
+                  className="w-full rounded-xl py-6 font-semibold transition-all active:scale-[0.98] btn-coral"
+                  disabled={
+                    isLoading ||
+                    !email ||
+                    !name ||
+                    !password ||
+                    !confirmPassword ||
+                    password.length < MIN_PASSWORD_LENGTH ||
+                    password !== confirmPassword
+                  }
+                  data-testid="signup-button"
+                >
+                  {isLoading ? t('common.signingUp') : (t('signup.submit') || 'Create account')}
+                </Button>
+
+                {/* Sign in link */}
+                <div className="text-center text-sm text-muted">
                   {t('signup.haveAccount')}{' '}
-                  <a href="/signin" className="underline underline-offset-4">
+                  <a
+                    href="/signin"
+                    className="font-semibold underline underline-offset-4 text-primary"
+                  >
                     {t('signup.signinLink')}
                   </a>
                 </div>
               </div>
             </form>
-          </CardContent>
-        </Card>
+          </div>
+        </>
       )}
 
     </div>

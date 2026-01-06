@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Inter, Plus_Jakarta_Sans, Poppins } from 'next/font/google';
+import { DM_Sans } from 'next/font/google';
 import { notFound } from 'next/navigation';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, setRequestLocale } from 'next-intl/server';
@@ -7,22 +7,13 @@ import { locales, type Locale } from '@/i18n/routing';
 import { Toaster } from '@/components/ui/sonner';
 import { AuthProvider } from '@/components/auth/auth-provider';
 import ScrollGuard from '@/components/ScrollGuard';
-import '../globals.css';
+import { I18nProvider } from '@/components/I18nProvider';
 
-const inter = Inter({
+// Primary body font
+const dmSans = DM_Sans({
   subsets: ['latin'],
-  variable: '--font-inter',
-});
-
-const poppins = Poppins({
+  variable: '--font-dm-sans',
   weight: ['400', '500', '600', '700'],
-  subsets: ['latin'],
-  variable: '--font-poppins',
-});
-
-const plusJakarta = Plus_Jakarta_Sans({
-  subsets: ['latin'],
-  variable: '--font-plus-jakarta',
 });
 
 // Generate static params for all locales
@@ -79,16 +70,20 @@ export default async function LocaleLayout({
   const messages = await getMessages();
 
   return (
-    <html
-      lang={locale}
-      className={`${inter.variable} ${poppins.variable} ${plusJakarta.variable}`}
-    >
+    <html lang={locale} className={dmSans.variable}>
+      <head>
+        {/* Preconnect to Google Fonts for Instrument Serif */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      </head>
       <body className="antialiased bg-grid">
         <NextIntlClientProvider locale={locale} messages={messages}>
-          <AuthProvider />
-          <ScrollGuard />
-          {children}
-          <Toaster />
+          <I18nProvider>
+            <AuthProvider />
+            <ScrollGuard />
+            {children}
+            <Toaster />
+          </I18nProvider>
         </NextIntlClientProvider>
       </body>
     </html>

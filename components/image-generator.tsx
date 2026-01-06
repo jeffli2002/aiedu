@@ -1099,14 +1099,14 @@ export default function ImageGenerator() {
           <TabsList className="mx-auto mb-8 grid w-full max-w-md grid-cols-2 bg-transparent gap-3 p-0">
             <TabsTrigger
               value="text-to-image"
-              className="font-medium rounded-full py-3 transition-all data-[state=active]:border-2 data-[state=active]:border-violet-600 data-[state=active]:bg-violet-50 data-[state=active]:text-violet-700 data-[state=inactive]:border-2 data-[state=inactive]:border-slate-300 data-[state=inactive]:bg-white data-[state=inactive]:text-slate-600"
+              className="tabs-trigger-coral"
             >
               <Sparkles className="mr-2 h-4 w-4" />
               {tg('modeTextToImage')}
             </TabsTrigger>
             <TabsTrigger
               value="image-to-image"
-              className="font-medium rounded-full py-3 transition-all data-[state=active]:border-2 data-[state=active]:border-violet-600 data-[state=active]:bg-violet-50 data-[state=active]:text-violet-700 data-[state=inactive]:border-2 data-[state=inactive]:border-slate-300 data-[state=inactive]:bg-white data-[state=inactive]:text-slate-600"
+              className="tabs-trigger-coral"
             >
               <ImageIcon className="mr-2 h-4 w-4" />
               {tg('modeImageToImage')}
@@ -1117,9 +1117,9 @@ export default function ImageGenerator() {
             <div className="space-y-6">
               <TabsContent value="text-to-image" className="mt-0 space-y-6">
                 {brandAnalysis && (
-                  <div className="rounded-lg border border-violet-200 dark:border-violet-800 bg-violet-50 dark:bg-violet-900/20 p-3">
+                  <div className="brand-context-box">
                     <div className="flex items-center gap-2">
-                      <Sparkles className="h-4 w-4 text-violet-600" />
+                      <Sparkles className="h-4 w-4 text-secondary" />
                       <span className="text-sm font-medium text-default">
                         Brand context will be automatically applied to your generation
                       </span>
@@ -1153,14 +1153,14 @@ export default function ImageGenerator() {
                       onChange={(e) => setPrompt(e.target.value.slice(0, maxPromptLength))}
                       rows={8}
                       ref={promptTextareaRef}
-                      className="resize-none border-gray-200 pr-24 pb-12 font-light focus:border-violet-600 focus:ring-violet-600/20 bg-white text-default"
+                      className="resize-none border-gray-200 pr-24 pb-12 font-light textarea-coral bg-white text-default"
                     />
                     <Button
                       onClick={handleEnhancePrompt}
                       disabled={isEnhancing || !prompt.trim()}
                       size="sm"
                       variant="outline"
-                      className="absolute right-2 bottom-2 inline-flex items-center gap-2 rounded-lg border-2 border-violet-600 bg-white px-3 py-1.5 font-medium text-default text-sm shadow-sm transition-all duration-300 hover:bg-slate-50"
+                      className="absolute right-2 bottom-2 btn-enhance"
                     >
                       {isEnhancing ? (
                         <Loader2 className="h-4 w-4 animate-spin" />
@@ -1174,10 +1174,10 @@ export default function ImageGenerator() {
                     {prompt.length} / {maxPromptLength}
                   </div>
                   {enhancedPrompt && (
-                    <div className="mt-4 rounded-xl border border-violet-200 dark:border-violet-800 bg-violet-50 dark:bg-violet-900/20 p-4 shadow-sm">
+                    <div className="mt-4 enhanced-prompt-box shadow-sm">
                       <div className="mb-2 flex items-center justify-between">
                         <h4 className="flex items-center gap-2 font-semibold text-strong text-sm">
-                          <Sparkles className="h-4 w-4" />
+                          <Sparkles className="h-4 w-4 text-primary" />
                           {tg('enhancedPrompt')}
                         </h4>
                         <div className="flex items-center gap-1">
@@ -1205,10 +1205,10 @@ export default function ImageGenerator() {
                         onChange={(e) =>
                           setEnhancedPrompt(e.target.value.slice(0, maxPromptLength))
                         }
-                        className="resize-none border border-violet-200 dark:border-violet-800 bg-white text-sm"
+                        className="resize-none border border-slate-200 bg-white text-sm textarea-coral"
                         rows={5}
                       />
-                      <p className="mt-1 text-right text-violet-600 text-xs">
+                      <p className="mt-1 text-right text-primary text-xs">
                         {enhancedPrompt.length} / {maxPromptLength}
                       </p>
                     </div>
@@ -1224,14 +1224,14 @@ export default function ImageGenerator() {
                   </Label>
 
                   <div
-                    className="rounded-xl border border-dashed border-gray-300 p-4 transition-colors hover:border-violet-600"
+                    className="upload-area"
                     onDragOver={handleDragOver}
                     onDrop={handleDrop}
                   >
                     {sourceImages.length === 0 ? (
                       <button
                         type="button"
-                        className="hover-card cursor-pointer rounded-xl border border-dashed border-gray-300 p-8 text-center transition-colors hover:border-violet-600 w-full"
+                        className="hover-card cursor-pointer rounded-xl border border-dashed border-gray-300 p-8 text-center transition-colors hover:border-primary w-full"
                         onClick={triggerFileInput}
                         onKeyDown={(e) => {
                           if (e.key === 'Enter' || e.key === ' ') {
@@ -1255,7 +1255,7 @@ export default function ImageGenerator() {
                             <div key={image.id} className="relative w-full">
                               <button
                                 type="button"
-                                className="group w-full overflow-hidden rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-violet-600"
+                                className="group w-full overflow-hidden rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary"
                                 onClick={() => {
                                   if (!previewSrc) return;
                                   setLightboxImage({
@@ -1301,7 +1301,7 @@ export default function ImageGenerator() {
                           <button
                             type="button"
                             onClick={triggerFileInput}
-                            className="flex min-h-48 w-full flex-col items-center justify-center rounded-xl border border-dashed border-gray-300 text-muted transition-colors hover:border-violet-600 hover:text-violet-600"
+                            className="flex min-h-48 w-full flex-col items-center justify-center rounded-xl border border-dashed border-gray-300 text-muted transition-colors hover:border-primary hover:text-primary"
                           >
                             <Upload className="mb-2 h-8 w-8" />
                             <span className="text-sm font-medium">{tg('addAnotherImage')}</span>
@@ -1318,7 +1318,7 @@ export default function ImageGenerator() {
                     <button
                       type="button"
                       onClick={triggerFileInput}
-                      className="text-violet-600 font-medium hover:underline"
+                      className="text-primary font-medium hover:underline"
                     >
                       {tg('uploadImages')}
                     </button>
@@ -1356,7 +1356,7 @@ export default function ImageGenerator() {
                       value={prompt}
                       onChange={(e) => setPrompt(e.target.value.slice(0, maxPromptLength))}
                       rows={4}
-                      className="resize-none border-gray-200 pr-24 pb-12 font-light focus:border-violet-600 focus:ring-violet-600/20 bg-white text-default"
+                      className="resize-none border-gray-200 pr-24 pb-12 font-light textarea-coral bg-white text-default"
                       ref={promptTextareaRef}
                     />
                     <Button
@@ -1364,7 +1364,7 @@ export default function ImageGenerator() {
                       disabled={isEnhancing || !prompt.trim()}
                       size="sm"
                       variant="outline"
-                    className="absolute right-2 bottom-2 inline-flex items-center gap-2 rounded-lg border-2 border-violet-600 bg-white px-3 py-1.5 font-medium text-default text-sm shadow-sm transition-all duration-300 hover:bg-slate-50"
+                    className="absolute right-2 bottom-2 btn-enhance"
                     >
                       {isEnhancing ? (
                         <Loader2 className="h-4 w-4 animate-spin" />
@@ -1378,10 +1378,10 @@ export default function ImageGenerator() {
                     {prompt.length} / {maxPromptLength}
                   </div>
                   {enhancedPrompt && (
-                    <div className="mt-4 rounded-xl border border-violet-200 dark:border-violet-800 bg-violet-50 dark:bg-violet-900/20 p-4 shadow-sm">
+                    <div className="mt-4 enhanced-prompt-box shadow-sm">
                       <div className="mb-2 flex items-center justify-between">
                         <h4 className="flex items-center gap-2 font-semibold text-strong text-sm">
-                          <Sparkles className="h-4 w-4" />
+                          <Sparkles className="h-4 w-4 text-primary" />
                           {tg('enhancedPrompt')}
                         </h4>
                         <div className="flex items-center gap-1">
@@ -1409,10 +1409,10 @@ export default function ImageGenerator() {
                         onChange={(e) =>
                           setEnhancedPrompt(e.target.value.slice(0, maxPromptLength))
                         }
-                        className="resize-none border border-violet-200 dark:border-violet-800 bg-white text-sm"
+                        className="resize-none border border-slate-200 bg-white text-sm textarea-coral"
                         rows={5}
                       />
-                      <p className="mt-1 text-right text-violet-600 text-xs">
+                      <p className="mt-1 text-right text-primary text-xs">
                         {enhancedPrompt.length} / {maxPromptLength}
                       </p>
                     </div>
@@ -1503,12 +1503,12 @@ export default function ImageGenerator() {
                               setResolution(res);
                             }
                           }}
-                          className={`flex flex-col items-center justify-center rounded-lg border-2 py-3 px-4 text-sm font-medium transition-all ${
+                          className={`selection-btn flex-col ${
                             resolution === res
-                              ? 'border-violet-600 bg-violet-50 dark:bg-violet-900/20 text-slate-600 dark:text-slate-300'
+                              ? 'active'
                               : isDisabled
-                                ? 'border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-slate-500 hover:border-violet-600'
-                                : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 hover:border-violet-600'
+                                ? 'bg-slate-100 dark:bg-slate-800 text-slate-500'
+                                : ''
                           }`}
                         >
                           <span className="font-semibold">{res.toUpperCase()}</span>
@@ -1529,11 +1529,7 @@ export default function ImageGenerator() {
                     <button
                       type="button"
                       onClick={() => setOutputFormat('PNG')}
-                      className={`flex items-center justify-center rounded-lg border-2 py-3 px-4 text-sm font-medium transition-all bg-white ${
-                        outputFormat === 'PNG'
-                        ? 'border-violet-600 bg-violet-50 text-slate-600'
-                        : 'border-slate-200 text-slate-700 hover:border-violet-600'
-                      }`}
+                      className={`selection-btn ${outputFormat === 'PNG' ? 'active' : ''}`}
                     >
                     <span>PNG</span>
                     {outputFormat === 'PNG' && (
@@ -1556,11 +1552,7 @@ export default function ImageGenerator() {
                     <button
                       type="button"
                       onClick={() => setOutputFormat('JPEG')}
-                      className={`flex items-center justify-center rounded-lg border-2 py-3 px-4 text-sm font-medium transition-all bg-white ${
-                        outputFormat === 'JPEG'
-                        ? 'border-violet-600 bg-violet-50 text-slate-600'
-                        : 'border-slate-200 text-slate-700 hover:border-violet-600'
-                      }`}
+                      className={`selection-btn ${outputFormat === 'JPEG' ? 'active' : ''}`}
                     >
                     <span>JPEG</span>
                     {outputFormat === 'JPEG' && (
@@ -1586,7 +1578,7 @@ export default function ImageGenerator() {
               <Button
                 onClick={handleGenerate}
                 disabled={isGenerating || !canGenerate}
-                className="w-full bg-gradient-to-r from-violet-600 to-blue-600 text-white hover:from-violet-700 hover:to-blue-700 disabled:from-slate-400 disabled:to-slate-500 disabled:cursor-not-allowed shadow-lg shadow-violet-500/30"
+                className="w-full btn-coral shadow-lg disabled:cursor-not-allowed"
                 size="lg"
               >
                 {isGenerating ? (
@@ -1623,7 +1615,7 @@ export default function ImageGenerator() {
 
                 {isGenerating && (
                   <div className="flex aspect-square flex-col items-center justify-center rounded-xl bg-slate-100 p-6 text-center">
-                    <Loader2 className="mb-4 h-12 w-12 animate-spin text-violet-600" />
+                    <Loader2 className="mb-4 h-12 w-12 animate-spin spinner-coral" />
                     <p className="font-medium text-slate-700 dark:text-slate-300">
                       {progressMessage || tg('generatingImage')}
                     </p>
@@ -1643,7 +1635,7 @@ export default function ImageGenerator() {
                   <div className="space-y-4">
                     <button
                       type="button"
-                      className="w-full overflow-hidden rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-600"
+                      className="w-full overflow-hidden rounded-xl focus:outline-none focus:ring-2 focus:ring-primary"
                       onClick={() =>
                         setLightboxImage({
                           url: result.previewUrl ?? result.imageUrl,
@@ -1687,7 +1679,7 @@ export default function ImageGenerator() {
                           <DropdownMenuLabel>
                             <div className="flex flex-col">
                               <span>{tg('shareSocialLabel')}</span>
-                              <span className="text-xs font-normal text-violet-600">
+                              <span className="text-xs font-normal text-accent-coral">
                                 {tg('shareSocialRewardHint', { credits: socialShareReward })}
                               </span>
                             </div>
@@ -1700,7 +1692,7 @@ export default function ImageGenerator() {
                             >
                               <platform.icon className="mr-2 h-4 w-4" />
                               <span className="flex-1">{platform.label}</span>
-                              <span className="text-xs font-medium text-violet-600">
+                              <span className="text-xs font-medium text-accent-coral">
                                 {tg('shareRewardSuffix', { credits: socialShareReward })}
                               </span>
                             </DropdownMenuItem>
@@ -1709,7 +1701,7 @@ export default function ImageGenerator() {
                           <DropdownMenuLabel>
                             <div className="flex flex-col">
                               <span>{tg('sharePublishOnViecomLabel')}</span>
-                              <span className="text-xs font-normal text-violet-600">
+                              <span className="text-xs font-normal text-accent-coral">
                                 {tg('shareViecomRewardHint', { credits: publishShareReward })}
                               </span>
                             </div>
@@ -1717,7 +1709,7 @@ export default function ImageGenerator() {
                           <DropdownMenuItem onClick={() => void handleShareAction('publish')}>
                             <Globe className="mr-2 h-4 w-4" />
                             <span className="flex-1">{tg('sharePublishOnViecom')}</span>
-                            <span className="text-xs font-medium text-violet-600">
+                            <span className="text-xs font-medium text-accent-coral">
                               {tg('shareRewardSuffix', { credits: publishShareReward })}
                             </span>
                           </DropdownMenuItem>
@@ -1803,7 +1795,7 @@ export default function ImageGenerator() {
           <dialog open className="fixed inset-0 z-50 grid place-items-center bg-black/60 p-4">
             <div className="max-w-md rounded-2xl bg-white p-6 shadow-xl space-y-4 text-slate-700">
               <div className="flex items-start gap-3">
-                <div className="rounded-full bg-violet-100 p-2 text-violet-600">
+                <div className="rounded-full bg-primary-light p-2 text-primary">
                   <Globe className="h-5 w-5" />
                 </div>
                 <div>
@@ -1817,7 +1809,7 @@ export default function ImageGenerator() {
               <div className="flex flex-wrap gap-3">
                 <Button
                   onClick={handleConfirmPublish}
-                  className="flex-1 bg-violet-500 text-white hover:bg-violet-700"
+                  className="flex-1 btn-coral"
                 >
                   {tg('shareConfirmPublish')}
                 </Button>

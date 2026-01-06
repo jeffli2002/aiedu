@@ -733,14 +733,14 @@ export default function VideoGenerator() {
                   <TabsList className="grid w-full grid-cols-2 bg-transparent gap-3 p-0">
                     <TabsTrigger
                       value="text-to-video"
-                      className="font-medium rounded-full py-3 transition-all data-[state=active]:border-2 data-[state=active]:border-violet-600 data-[state=active]:bg-violet-50 data-[state=active]:text-violet-700 data-[state=inactive]:border-2 data-[state=inactive]:border-slate-300 data-[state=inactive]:bg-white data-[state=inactive]:text-slate-600"
+                      className="tabs-trigger-coral"
                     >
                       <Sparkles className="mr-2 h-4 w-4" />
                       {tg('modeTextToVideo')}
                     </TabsTrigger>
                     <TabsTrigger
                       value="image-to-video"
-                      className="font-medium rounded-full py-3 transition-all data-[state=active]:border-2 data-[state=active]:border-violet-600 data-[state=active]:bg-violet-50 data-[state=active]:text-violet-700 data-[state=inactive]:border-2 data-[state=inactive]:border-slate-300 data-[state=inactive]:bg-white data-[state=inactive]:text-slate-600"
+                      className="tabs-trigger-coral"
                     >
                       <VideoIcon className="mr-2 h-4 w-4" />
                       {tg('modeImageToVideo')}
@@ -749,9 +749,9 @@ export default function VideoGenerator() {
 
                   <TabsContent value="text-to-video" className="mt-6 space-y-6">
                     {brandAnalysis && (
-                      <div className="rounded-lg border border-violet-200 dark:border-violet-800 bg-violet-50 dark:bg-violet-900/20 p-3">
+                      <div className="brand-context-box">
                         <div className="flex items-center gap-2">
-                          <Sparkles className="h-4 w-4 text-violet-600" />
+                          <Sparkles className="h-4 w-4 text-secondary" />
                           <span className="text-sm font-medium text-default">
                             Brand context will be automatically applied to your generation
                           </span>
@@ -784,14 +784,14 @@ export default function VideoGenerator() {
                           value={prompt}
                           onChange={(e) => setPrompt(e.target.value.slice(0, maxPromptLength))}
                           rows={6}
-                          className="resize-none border-slate-200 pr-24 pb-12 font-light focus:border-violet-600 focus:ring-teal-500/20 bg-white text-default"
+                          className="resize-none border-slate-200 pr-24 pb-12 font-light textarea-coral bg-white text-default"
                           ref={promptTextareaRef}
                         />
                         <Button
                           onClick={handleEnhancePrompt}
                           disabled={!prompt.trim() || isEnhancing}
                           variant="outline"
-                          className="absolute right-2 bottom-2 inline-flex items-center gap-2 rounded-lg border-2 border-violet-600 !bg-white px-3 py-1.5 font-medium text-slate-600 text-sm shadow-sm transition-all duration-300 hover:!bg-slate-50"
+                          className="absolute right-2 bottom-2 btn-enhance"
                         >
                           {isEnhancing ? (
                             <Loader2 className="h-4 w-4 animate-spin" />
@@ -805,10 +805,10 @@ export default function VideoGenerator() {
                         {prompt.length} / {maxPromptLength}
                       </div>
                       {enhancedPrompt && (
-                        <div className="mt-4 rounded-xl border border-violet-200 dark:border-violet-800 bg-violet-50 dark:bg-violet-900/20 p-4 shadow-sm">
+                        <div className="mt-4 enhanced-prompt-box shadow-sm">
                           <div className="mb-2 flex items-center justify-between">
                             <h4 className="flex items-center gap-2 font-semibold text-slate-600 text-sm">
-                              <Sparkles className="h-4 w-4" />
+                              <Sparkles className="h-4 w-4 text-primary" />
                               {tg('enhancedPrompt')}
                             </h4>
                             <Button
@@ -825,10 +825,10 @@ export default function VideoGenerator() {
                             onChange={(e) =>
                               setEnhancedPrompt(e.target.value.slice(0, maxPromptLength))
                             }
-                            className="resize-none border border-violet-200 dark:border-violet-800 bg-white text-slate-600 text-sm"
+                            className="resize-none border border-slate-200 bg-white text-slate-600 text-sm textarea-coral"
                             rows={5}
                           />
-                          <p className="mt-1 text-right text-violet-600 text-xs">
+                          <p className="mt-1 text-right text-primary text-xs">
                             {enhancedPrompt.length} / {maxPromptLength}
                           </p>
                         </div>
@@ -838,7 +838,7 @@ export default function VideoGenerator() {
 
                   <TabsContent value="image-to-video" className="mt-6 space-y-6">
                     {/* Warning Notice - No People/Faces */}
-                    <div className="rounded-lg border border-amber-200 bg-amber-50 p-4">
+                    <div className="notice-warning">
                       <div className="flex items-start gap-3">
                         <AlertCircle className="h-5 w-5 text-amber-600 flex-shrink-0 mt-0.5" />
                         <div>
@@ -863,7 +863,7 @@ export default function VideoGenerator() {
                           onClick={triggerFileInput}
                           onDragOver={handleDragOver}
                           onDrop={handleDrop}
-                          className="w-full hover-card cursor-pointer rounded-xl border border-dashed border-slate-300 dark:border-slate-700 p-8 text-center transition-colors hover:border-violet-600"
+                          className="w-full upload-area"
                           aria-label={tg('clickToUpload')}
                         >
                           <Upload className="mx-auto mb-3 h-12 w-12 text-muted" />
@@ -922,14 +922,14 @@ export default function VideoGenerator() {
                           value={prompt}
                           onChange={(e) => setPrompt(e.target.value.slice(0, maxPromptLength))}
                           rows={4}
-                          className="resize-none border-slate-200 pr-24 pb-12 font-light focus:border-violet-600 focus:ring-teal-500/20 bg-white text-default"
+                          className="resize-none border-slate-200 pr-24 pb-12 font-light textarea-coral bg-white text-default"
                           ref={promptTextareaRef}
                         />
                         <Button
                           onClick={handleEnhancePrompt}
                           disabled={!prompt.trim() || isEnhancing}
                           variant="outline"
-                          className="absolute right-2 bottom-2 inline-flex items-center gap-2 rounded-lg border-2 border-violet-600 !bg-white px-3 py-1.5 font-medium text-default text-sm shadow-sm transition-all duration-300 hover:!bg-slate-50"
+                          className="absolute right-2 bottom-2 btn-enhance"
                         >
                           {isEnhancing ? (
                             <Loader2 className="h-4 w-4 animate-spin" />
@@ -943,10 +943,10 @@ export default function VideoGenerator() {
                         {prompt.length} / {maxPromptLength}
                       </div>
                       {enhancedPrompt && (
-                        <div className="mt-4 rounded-xl border border-violet-200 dark:border-violet-800 bg-violet-50 dark:bg-violet-900/20 p-4 shadow-sm">
+                        <div className="mt-4 enhanced-prompt-box shadow-sm">
                           <div className="mb-2 flex items-center justify-between">
                             <h4 className="flex items-center gap-2 font-semibold text-strong text-sm">
-                              <Sparkles className="h-4 w-4" />
+                              <Sparkles className="h-4 w-4 text-primary" />
                               {tg('enhancedPrompt')}
                             </h4>
                             <Button
@@ -963,10 +963,10 @@ export default function VideoGenerator() {
                             onChange={(e) =>
                               setEnhancedPrompt(e.target.value.slice(0, maxPromptLength))
                             }
-                            className="resize-none border border-violet-200 dark:border-violet-800 bg-white text-default text-sm"
+                            className="resize-none border border-slate-200 bg-white text-default text-sm textarea-coral"
                             rows={5}
                           />
-                          <p className="mt-1 text-right text-violet-600 text-xs">
+                          <p className="mt-1 text-right text-primary text-xs">
                             {enhancedPrompt.length} / {maxPromptLength}
                           </p>
                         </div>
@@ -1049,11 +1049,7 @@ export default function VideoGenerator() {
                       <button
                         type="button"
                         onClick={() => setQuality('standard')}
-                        className={`flex items-center justify-center rounded-lg border-2 py-3 px-4 text-sm font-medium transition-all ${
-                          quality === 'standard'
-                            ? 'border-violet-600 bg-violet-50 text-slate-600'
-                            : 'border-slate-200 bg-white text-slate-700 hover:border-violet-600'
-                        }`}
+                        className={`selection-btn ${quality === 'standard' ? 'active' : ''}`}
                       >
                         <span>{tg('qualityStandard')}</span>
                         {quality === 'standard' && (
@@ -1076,11 +1072,7 @@ export default function VideoGenerator() {
                       <button
                         type="button"
                         onClick={() => setQuality('high')}
-                        className={`flex items-center justify-center rounded-lg border-2 py-3 px-4 text-sm font-medium transition-all ${
-                          quality === 'high'
-                            ? 'border-violet-600 bg-violet-50 text-slate-600'
-                            : 'border-slate-200 bg-white text-slate-700 hover:border-violet-600'
-                        }`}
+                        className={`selection-btn ${quality === 'high' ? 'active' : ''}`}
                       >
                         <span>{tg('qualityHigh')}</span>
                         {quality === 'high' && (
@@ -1112,11 +1104,7 @@ export default function VideoGenerator() {
                     <button
                       type="button"
                       onClick={() => setDuration(10)}
-                      className={`flex items-center justify-center rounded-lg border-2 py-3 px-4 text-sm font-medium transition-all ${
-                        duration === 10
-                          ? 'border-violet-600 bg-violet-50 text-slate-700'
-                          : 'border-slate-200 bg-white text-slate-700 hover:border-violet-600'
-                      }`}
+                      className={`selection-btn ${duration === 10 ? 'active' : ''}`}
                     >
                       <span>{tg('duration10')}</span>
                       {duration === 10 && (
@@ -1139,11 +1127,7 @@ export default function VideoGenerator() {
                     <button
                       type="button"
                       onClick={() => setDuration(15)}
-                      className={`flex items-center justify-center rounded-lg border-2 py-3 px-4 text-sm font-medium transition-all ${
-                        duration === 15
-                          ? 'border-violet-600 bg-violet-50 text-slate-700'
-                          : 'border-slate-200 bg-white text-slate-700 hover:border-violet-600'
-                      }`}
+                      className={`selection-btn ${duration === 15 ? 'active' : ''}`}
                     >
                       <span>{tg('duration15')}</span>
                       {duration === 15 && (
@@ -1169,7 +1153,7 @@ export default function VideoGenerator() {
                 <Button
                   onClick={handleGenerate}
                   disabled={isGenerating || !canGenerate}
-                  className="w-full bg-gradient-to-r from-violet-600 to-blue-600 text-white hover:from-violet-700 hover:to-blue-700 disabled:from-slate-400 disabled:to-slate-500 disabled:cursor-not-allowed shadow-lg shadow-violet-500/30"
+                  className="w-full btn-coral shadow-lg disabled:cursor-not-allowed"
                   size="lg"
                 >
                   {isGenerating ? (
@@ -1208,7 +1192,7 @@ export default function VideoGenerator() {
 
               {isGenerating && (
                 <div className="flex aspect-video flex-col items-center justify-center rounded-xl bg-slate-100 p-6 text-center">
-                  <Loader2 className="mb-4 h-12 w-12 animate-spin text-violet-600" />
+                  <Loader2 className="mb-4 h-12 w-12 animate-spin spinner-coral" />
                   <p className="font-medium text-slate-700 dark:text-slate-300">
                     {progressMessage || tg('generatingVideo')}
                   </p>
@@ -1225,7 +1209,7 @@ export default function VideoGenerator() {
               )}
 
               {result?.error && (
-                <div className="rounded-xl border border-red-200 bg-red-50 p-6">
+                <div className="notice-error">
                   <div className="mb-2 flex items-center gap-2 text-red-700">
                     <AlertCircle className="h-5 w-5" />
                     <h3 className="font-semibold">{tg('generationFailed')}</h3>
@@ -1274,7 +1258,7 @@ export default function VideoGenerator() {
                         <DropdownMenuLabel>
                           <div className="flex flex-col">
                             <span>{tg('shareSocialLabel')}</span>
-                            <span className="text-xs font-normal text-violet-600">
+                            <span className="text-xs font-normal text-accent-coral">
                               {tg('shareSocialRewardHint', { credits: socialShareReward })}
                             </span>
                           </div>
@@ -1287,7 +1271,7 @@ export default function VideoGenerator() {
                           >
                             <platform.icon className="mr-2 h-4 w-4" />
                             <span className="flex-1">{platform.label}</span>
-                            <span className="text-xs font-medium text-violet-600">
+                            <span className="text-xs font-medium text-accent-coral">
                               {tg('shareRewardSuffix', { credits: socialShareReward })}
                             </span>
                           </DropdownMenuItem>
@@ -1296,7 +1280,7 @@ export default function VideoGenerator() {
                         <DropdownMenuLabel>
                           <div className="flex flex-col">
                             <span>{tg('sharePublishOnViecomLabel')}</span>
-                            <span className="text-xs font-normal text-violet-600">
+                            <span className="text-xs font-normal text-accent-coral">
                               {tg('shareViecomRewardHint', { credits: publishShareReward })}
                             </span>
                           </div>
@@ -1304,7 +1288,7 @@ export default function VideoGenerator() {
                         <DropdownMenuItem onClick={() => void handleShareAction('publish')}>
                           <Globe className="mr-2 h-4 w-4" />
                           <span className="flex-1">{tg('sharePublishOnViecom')}</span>
-                          <span className="text-xs font-medium text-violet-600">
+                          <span className="text-xs font-medium text-accent-coral">
                             {tg('shareRewardSuffix', { credits: publishShareReward })}
                           </span>
                         </DropdownMenuItem>
@@ -1321,7 +1305,7 @@ export default function VideoGenerator() {
         <dialog open className="fixed inset-0 z-50 grid place-items-center bg-black/60 p-4">
           <div className="max-w-md rounded-2xl bg-white p-6 shadow-xl space-y-4 text-slate-700">
             <div className="flex items-start gap-3">
-              <div className="rounded-full bg-violet-100 p-2 text-violet-600">
+              <div className="rounded-full bg-primary-light p-2 text-primary">
                 <Globe className="h-5 w-5" />
               </div>
               <div>
@@ -1335,7 +1319,7 @@ export default function VideoGenerator() {
             <div className="flex flex-wrap gap-3">
               <Button
                 onClick={handleConfirmPublish}
-                className="flex-1 bg-violet-500 text-white hover:bg-violet-700"
+                className="flex-1 btn-coral"
               >
                 {tg('shareConfirmPublish')}
               </Button>
