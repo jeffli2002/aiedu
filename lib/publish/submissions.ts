@@ -42,7 +42,6 @@ export async function createPublishSubmission(input: CreateSubmissionInput) {
       .set({
         assetUrl,
         previewUrl: previewUrl || assetUrl,
-      } as any)
         assetType: assetType || existing.assetType,
         title: normalizedTitle,
         prompt: prompt || existing.prompt,
@@ -58,7 +57,7 @@ export async function createPublishSubmission(input: CreateSubmissionInput) {
         approvedAt: null,
         rejectedAt: null,
         updatedAt: now,
-      })
+      } as any)
       .where(eq(publishSubmissions.id, existing.id))
       .returning();
 

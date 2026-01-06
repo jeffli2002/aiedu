@@ -177,8 +177,8 @@ export default function TrainingPageContent() {
           {m.skills.map((s: string) => (
             <span
               key={s}
-              className={`text-[11px] font-medium tracking-wide px-3 py-1.5 rounded-lg border transition-colors duration-300 ${colorSet.tagHoverClass}`}
-              style={{ color: THEME.colors.muted, backgroundColor: THEME.colors.chip, borderColor: THEME.colors.border }}
+              className={`text-[11px] font-medium tracking-wide px-3 py-1.5 rounded-lg border transition-colors duration-300 bg-[#f6f2eb] border-[#ece6dd] ${colorSet.tagHoverClass}`}
+              style={{ color: THEME.colors.muted }}
             >
               {s}
             </span>

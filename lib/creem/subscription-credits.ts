@@ -77,9 +77,8 @@ export async function grantSubscriptionCredits(
         .set({
           balance: newBalance,
           totalEarned: userCredit.totalEarned + creditsToGrant,
-        } as any)
           updatedAt: new Date(),
-        })
+        } as any)
         .where(eq(userCredits.userId, userId));
     } else {
       await db.insert(userCredits).overridingSystemValue().values({

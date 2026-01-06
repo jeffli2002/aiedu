@@ -145,13 +145,12 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
             status: 'failed',
             errorMessage: errorMsg,
             updatedAt: new Date(),
-          } as any)
             metadata: {
               ...metadataWithoutLock,
               failedAt: new Date().toISOString(),
               kieError: errorMsg,
             },
-          })
+          } as any)
           .where(eq(generatedAsset.id, asset.id));
 
         // Unfreeze credits (refund)

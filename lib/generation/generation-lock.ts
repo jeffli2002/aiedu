@@ -49,13 +49,12 @@ export async function acquireGenerationLock(
     .values({
       id: lockId,
       userId: params.userId,
-    } as any)
       assetType: params.assetType,
       requestId: params.requestId ?? null,
       metadata: (params.metadata ?? null) as Record<string, unknown> | null,
       expiresAt,
       updatedAt: new Date(),
-    })
+    } as any)
     .onConflictDoNothing({
       target: [generationLock.userId, generationLock.assetType],
     })

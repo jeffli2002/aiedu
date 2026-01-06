@@ -56,7 +56,6 @@ export async function recordAffiliateCommission(params: RecordCommissionParams):
       sourceId: params.sourceId ?? null,
       provider: params.provider,
       providerEventId: params.providerEventId,
-    } as any)
       currency: params.currency,
       baseAmountCents: params.baseAmountCents,
       commissionBps,
@@ -64,7 +63,7 @@ export async function recordAffiliateCommission(params: RecordCommissionParams):
       status: 'pending',
       availableAt,
       createdAt: new Date(),
-    })
+    } as any)
     .onConflictDoNothing()
     .returning({ id: affiliateCommission.id });
 
