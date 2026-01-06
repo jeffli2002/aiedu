@@ -464,7 +464,7 @@ class CreemPaymentService {
         const result = await creem.upgradeSubscription({
           id: subscriptionId,
           xApiKey: CREEM_API_KEY,
-          UpgradeSubscriptionRequestEntity: {
+          upgradeSubscriptionRequestEntity: {
             productId: newProductId,
             updateBehavior: useProration ? 'proration-charge' : 'proration-none',
           },
@@ -594,7 +594,7 @@ class CreemPaymentService {
           const result = await creem.upgradeSubscription({
             id: subscriptionId,
             xApiKey: CREEM_API_KEY,
-            UpgradeSubscriptionRequestEntity: {
+            upgradeSubscriptionRequestEntity: {
               productId: newProductId,
               updateBehavior: 'proration-none',
             },
@@ -677,7 +677,7 @@ class CreemPaymentService {
         const result = await creem.updateSubscription({
           id: subscriptionId,
           xApiKey: CREEM_API_KEY,
-          UpdateSubscriptionRequestEntity: {
+          updateSubscriptionRequestEntity: {
             cancelAtPeriodEnd: false,
           },
         });
@@ -743,7 +743,7 @@ class CreemPaymentService {
         const result = await creem.updateSubscription({
           id: subscriptionId,
           xApiKey: CREEM_API_KEY,
-          UpdateSubscriptionRequestEntity: {
+          updateSubscriptionRequestEntity: {
             cancelAtPeriodEnd: cancel,
           },
         });
@@ -810,7 +810,7 @@ class CreemPaymentService {
         const result = await creem.generateCustomerLinks({
           customerId: customerId,
           xApiKey: CREEM_API_KEY,
-        });
+        } as Parameters<typeof creem.generateCustomerLinks>[0]);
 
         console.log('[Creem] Customer portal link generated');
 
@@ -951,15 +951,19 @@ class CreemPaymentService {
       current_period_end_date,
     } = subscription;
 
-    const customerId = typeof customer === 'string' ? customer : customer?.id;
-    const userId = metadata?.userId || customer?.external_id;
+    const customerId = typeof customer === 'string' ? customer : (customer as { id?: string } | undefined)?.id;
+    const userId = metadata?.userId || (typeof customer === 'object' && customer !== null && 'external_id' in customer ? (customer as { external_id?: string }).external_id : undefined);
     const affiliateCode = metadata?.affiliateCode as string | undefined;
 
     if (!id || !customerId) {
       return { success: true };
     }
 
-    const planId = metadata?.planId || this.getPlanFromProduct(subscription.product?.id);
+    const planId = metadata?.planId || this.getPlanFromProduct(
+      typeof subscription.product === 'string' 
+        ? subscription.product 
+        : (subscription.product as { id?: string } | undefined)?.id
+    );
     const subscriptionProductId =
       typeof subscription.product === 'string'
         ? subscription.product
@@ -1169,7 +1173,7 @@ class CreemPaymentService {
 
     // SIMPLIFIED: Use metadata first (like im2prompt), then product
     // This avoids conflicts when Creem sends subscription.update immediately after upgrade
-    const planId = metadata?.planId || this.getPlanFromProduct(productId);
+    const planId = metadata?.planId || this.getPlanFromProduct(typeof productId === 'string' ? productId : undefined);
 
     // Extract billing interval from product
     const productObj = typeof product === 'object' ? product : undefined;
@@ -1316,9 +1320,9 @@ class CreemPaymentService {
 
     return {
       type: 'refund_created',
-      customerId: customer?.id,
-      subscriptionId: subscription?.id,
-      checkoutId: checkout?.id,
+      customerId: typeof customer === 'object' && customer !== null && 'id' in customer ? (customer as { id?: string }).id : undefined,
+      subscriptionId: typeof subscription === 'object' && subscription !== null && 'id' in subscription ? (subscription as { id?: string }).id : undefined,
+      checkoutId: typeof checkout === 'object' && checkout !== null && 'id' in checkout ? (checkout as { id?: string }).id : undefined,
       amount: refund.refund_amount,
     };
   }
@@ -1328,8 +1332,8 @@ class CreemPaymentService {
 
     return {
       type: 'dispute_created',
-      customerId: customer?.id,
-      subscriptionId: subscription?.id,
+      customerId: typeof customer === 'object' && customer !== null && 'id' in customer ? (customer as { id?: string }).id : undefined,
+      subscriptionId: typeof subscription === 'object' && subscription !== null && 'id' in subscription ? (subscription as { id?: string }).id : undefined,
       amount: dispute.amount,
     };
   }
@@ -1339,7 +1343,7 @@ class CreemPaymentService {
 
     const customerId = typeof customer === 'string' ? customer : customer?.id;
     const userId = metadata?.userId;
-    const subscriptionId = subscription?.id || payment.subscription_id;
+    const subscriptionId = (typeof subscription === 'object' && subscription !== null && 'id' in subscription ? (subscription as { id?: string }).id : undefined) || (typeof payment.subscription_id === 'string' ? payment.subscription_id : undefined);
 
     return {
       type: 'payment_failed',
