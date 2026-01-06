@@ -3,16 +3,15 @@ import { creditService } from '@/lib/credits';
 import { db } from '@/server/db';
 import { creditTransactions, userReferrals } from '@/server/db/schema';
 import { and, eq } from 'drizzle-orm';
-import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
+import type { InferSelectModel } from 'drizzle-orm';
 
 type ReferralRecord = InferSelectModel<typeof userReferrals>;
-type ReferralUpdate = Partial<InferInsertModel<typeof userReferrals>>;
 
 interface FinalizeReferralOptions {
   reason: 'first_generation' | 'subscription' | 'credit_pack' | 'paid';
   description: string;
   metadata?: Record<string, unknown>;
-  updateFields?: ReferralUpdate;
+  updateFields?: Partial<typeof userReferrals.$inferInsert>;
 }
 
 async function finalizeReferralReward(
@@ -38,7 +37,7 @@ async function finalizeReferralReward(
       },
     });
 
-    const referralUpdate: ReferralUpdate = {
+    const referralUpdate: Partial<typeof userReferrals.$inferInsert> = {
       ...options.updateFields,
       creditsAwarded: true,
       creditsAwardedAt: new Date(),
@@ -49,8 +48,7 @@ async function finalizeReferralReward(
 
     await tx
       .update(userReferrals)
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      .set(referralUpdate as any)
+      .set(referralUpdate)
       .where(eq(userReferrals.id, referralRecord.id));
   });
 

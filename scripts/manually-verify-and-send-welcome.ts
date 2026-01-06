@@ -49,7 +49,7 @@ async function manuallyVerifyAndSendWelcome(email: string) {
         .set({ 
           emailVerified: true,
           updatedAt: new Date()
-        })
+        } as Partial<typeof user.$inferSelect>)
         .where(eq(user.id, foundUser.id));
       console.log('   ✅ Email verified');
     } else {

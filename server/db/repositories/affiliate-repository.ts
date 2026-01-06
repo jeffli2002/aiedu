@@ -82,7 +82,7 @@ export class AffiliateRepository {
             parentAffiliateId: null,
             createdAt: new Date(),
             updatedAt: new Date(),
-          })
+          } as typeof affiliate.$inferInsert)
           .returning();
 
         if (!row) {

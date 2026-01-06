@@ -810,7 +810,7 @@ class CreemPaymentService {
         const result = await creem.generateCustomerLinks({
           customerId: customerId,
           xApiKey: CREEM_API_KEY,
-        } as Parameters<typeof creem.generateCustomerLinks>[0]);
+        } as unknown as Parameters<typeof creem.generateCustomerLinks>[0]);
 
         console.log('[Creem] Customer portal link generated');
 
@@ -1270,7 +1270,11 @@ class CreemPaymentService {
 
     const customerId = typeof customer === 'string' ? customer : customer?.id;
     const userId = metadata?.userId;
-    const planId = metadata?.planId || this.getPlanFromProduct(product?.id);
+    const planId = metadata?.planId || this.getPlanFromProduct(
+      typeof product === 'object' && product !== null && 'id' in product 
+        ? (product as { id?: unknown }).id as string | undefined
+        : undefined
+    );
     const affiliateCode = metadata?.affiliateCode as string | undefined;
 
     return {
@@ -1288,7 +1292,11 @@ class CreemPaymentService {
 
     const customerId = typeof customer === 'string' ? customer : customer?.id;
     const userId = metadata?.userId;
-    const planId = metadata?.planId || this.getPlanFromProduct(product?.id);
+    const planId = metadata?.planId || this.getPlanFromProduct(
+      typeof product === 'object' && product !== null && 'id' in product 
+        ? (product as { id?: unknown }).id as string | undefined
+        : undefined
+    );
     const affiliateCode = metadata?.affiliateCode as string | undefined;
 
     return {

@@ -154,7 +154,7 @@ export async function resetQuotaUsage(
       .set({
         usedAmount: 0,
         updatedAt: new Date(),
-      })
+      } as Partial<typeof userQuotaUsage.$inferSelect>)
       .where(and(eq(userQuotaUsage.userId, userId), eq(userQuotaUsage.period, period)));
   } catch (error) {
     console.error('Error resetting quota usage:', error);

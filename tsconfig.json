@@ -33,6 +33,11 @@
     "**/*.tsx"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "future-ai-creators",
+    "future-ai-creators2",
+    "tools",
+    "scripts",
+    "D*.pnpm-store"
   ]
 }
