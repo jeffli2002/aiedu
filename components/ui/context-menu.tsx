@@ -216,9 +216,9 @@ function ContextMenuLabel({
   );
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function ContextMenuSeparator({
   className,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ...props
 }: React.ComponentProps<any>) {
   return (

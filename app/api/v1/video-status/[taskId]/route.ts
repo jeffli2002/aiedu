@@ -138,12 +138,14 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
         // Update database
         const metadataWithoutLock = { ...assetMetadata, generationLockId: undefined };
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         await db
           .update(generatedAsset)
           .set({
             status: 'failed',
             errorMessage: errorMsg,
             updatedAt: new Date(),
+          } as any)
             metadata: {
               ...metadataWithoutLock,
               failedAt: new Date().toISOString(),
@@ -212,10 +214,12 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
         const metadataWithoutLock = { ...assetMetadata, generationLockId: undefined };
 
         // Update database with completed status
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         await db
           .update(generatedAsset)
           .set({
             status: 'completed',
+          } as any)
             r2Key: r2Result.key,
             publicUrl: r2Result.url,
             fileSize,

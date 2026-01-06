@@ -64,6 +64,7 @@ const iconFrameStyle = (tone: AccentKey) => ({
 
 const iconChipStyle = (tone: AccentKey) => ({
   backgroundColor: THEME.accents[tone].soft,
+  borderColor: THEME.accents[tone].border,
   color: THEME.accents[tone].base
 });
 
@@ -195,15 +196,15 @@ export default function TrainingPageContent() {
 
   if (!isClient) {
     return (
-      <div className="min-h-screen" style={{ backgroundColor: '#fafaf9' }}>
+      <div className="min-h-screen" style={{ backgroundColor: THEME.colors.canvas, fontFamily: THEME.fonts.body }}>
         <Navbar />
         <div className="pt-24 pb-20 flex items-center justify-center">
           <div className="text-center">
             <div
               className="animate-spin rounded-full h-10 w-10 border-2 mx-auto"
-              style={{ borderColor: '#ff6b35', borderTopColor: 'transparent' }}
+              style={{ borderColor: THEME.accents.warm.base, borderTopColor: 'transparent' }}
             />
-            <p className="mt-4" style={{ color: '#666' }}>{tc('loading')}</p>
+            <p className="mt-4" style={{ color: THEME.colors.muted }}>{tc('loading')}</p>
           </div>
         </div>
         <Footer />
@@ -223,32 +224,48 @@ export default function TrainingPageContent() {
     t('milestones.2'),
     t('milestones.3')
   ];
+  const milestoneItems: { icon: JSX.Element; tone: AccentKey }[] = [
+    { icon: <Code className="w-4 h-4" />, tone: 'cool' },
+    { icon: <Layers className="w-4 h-4" />, tone: 'warm' },
+    { icon: <Layout className="w-4 h-4" />, tone: 'cool' },
+    { icon: <Share2 className="w-4 h-4" />, tone: 'warm' }
+  ];
 
   return (
-    <div className="min-h-screen overflow-x-hidden" style={{ backgroundColor: '#fafaf9', fontFamily: '"DM Sans", system-ui, sans-serif' }}>
+    <div
+      className="min-h-screen overflow-x-hidden"
+      style={{ backgroundColor: THEME.colors.canvas, fontFamily: THEME.fonts.body, color: THEME.colors.body }}
+    >
       <Navbar />
 
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 px-6 lg:px-12 overflow-hidden">
         {/* Decorative elements */}
-        <div className="absolute top-20 right-[10%] w-48 h-48 rounded-full opacity-10 animate-float" style={{ backgroundColor: '#ff6b35' }} />
-        <div className="absolute bottom-20 left-[5%] w-32 h-32 rounded-full opacity-10 animate-float" style={{ backgroundColor: '#2ec4b6', animationDelay: '2s' }} />
+        <div
+          className="absolute top-20 right-[10%] w-48 h-48 rounded-full opacity-10 animate-float"
+          style={{ backgroundColor: THEME.accents.warm.base }}
+        />
+        <div
+          className="absolute bottom-20 left-[5%] w-32 h-32 rounded-full opacity-10 animate-float"
+          style={{ backgroundColor: THEME.accents.cool.base, animationDelay: '2s' }}
+        />
 
         {/* Dot pattern */}
         <div
           className="absolute inset-0 opacity-[0.03]"
           style={{
-            backgroundImage: 'radial-gradient(#1a1a2e 1px, transparent 1px)',
+            backgroundImage: `radial-gradient(${THEME.colors.ink} 1px, transparent 1px)`,
             backgroundSize: '20px 20px',
           }}
         />
 
         <div className="max-w-7xl mx-auto text-center relative z-10">
           <div
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-slate-200 shadow-sm mb-8"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full border shadow-sm mb-8"
+            style={{ backgroundColor: THEME.colors.surface, borderColor: THEME.colors.border }}
           >
-            <Sparkles className="w-4 h-4" style={{ color: '#ff6b35' }} />
-            <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: '#1a1a2e' }}>
+            <Sparkles className="w-4 h-4" style={{ color: THEME.accents.warm.base }} />
+            <span className={labelClass} style={{ color: THEME.colors.ink }}>
               {t('academyTag')}
             </span>
           </div>
@@ -256,19 +273,22 @@ export default function TrainingPageContent() {
           <h1
             className="text-4xl md:text-5xl lg:text-6xl mb-6 max-w-4xl mx-auto leading-tight"
             style={{
-              fontFamily: '"Instrument Serif", Georgia, serif',
-              color: '#1a1a2e'
+              fontFamily: THEME.fonts.display,
+              color: THEME.colors.ink
             }}
           >
             {t('heroTitle')}
           </h1>
 
-          <p className="text-lg md:text-xl max-w-2xl mx-auto leading-relaxed mb-10" style={{ color: '#666' }}>
+          <p className="text-lg md:text-xl max-w-2xl mx-auto leading-relaxed mb-10" style={{ color: THEME.colors.muted }}>
             {t('heroSubtitle')}
           </p>
 
           <div className="flex justify-center">
-            <div className="flex items-center gap-4 bg-white px-5 py-3 rounded-2xl border border-slate-200 shadow-sm">
+            <div
+              className="flex items-center gap-4 px-5 py-3 rounded-2xl border shadow-sm"
+              style={{ backgroundColor: THEME.colors.surface, borderColor: THEME.colors.border }}
+            >
               <div className="flex -space-x-2">
                 {[1, 2, 3, 4, 5].map(i => (
                   <div key={i} className="w-8 h-8 rounded-full border-2 border-white bg-slate-200 overflow-hidden shadow-sm">
@@ -276,9 +296,9 @@ export default function TrainingPageContent() {
                   </div>
                 ))}
               </div>
-              <div className="text-left border-l border-slate-200 pl-4">
-                <p className="text-xs font-semibold" style={{ color: '#1a1a2e' }}>{t('studentJoin')}</p>
-                <p className="text-xs font-medium" style={{ color: '#ff6b35' }}>{t('pioneersTag')}</p>
+              <div className="text-left border-l pl-4" style={{ borderColor: THEME.colors.border }}>
+                <p className="text-xs font-semibold" style={{ color: THEME.colors.ink }}>{t('studentJoin')}</p>
+                <p className="text-xs font-medium" style={{ color: THEME.accents.warm.base }}>{t('pioneersTag')}</p>
               </div>
             </div>
           </div>
@@ -288,18 +308,18 @@ export default function TrainingPageContent() {
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         {/* PBL Methodology */}
         <section className="mb-24">
-          <div className="bg-white rounded-[2rem] p-8 md:p-12 border border-slate-100 flex flex-col lg:flex-row items-center gap-12 transition-all duration-300 hover:shadow-lg hover:border-slate-200 group">
+          <div className="bg-white rounded-[2rem] p-8 md:p-12 border border-[#ece6dd] flex flex-col lg:flex-row items-center gap-12 transition-all duration-300 hover:shadow-lg hover:border-[#d9d2c9] group">
             <div
-              className="w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 transition-all duration-300 group-hover:scale-110"
-              style={{ backgroundColor: '#ff6b35' }}
+              className="w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 transition-all duration-300 group-hover:scale-110 border"
+              style={iconFrameStyle('warm')}
             >
-              <Brain className="w-8 h-8 text-white" />
+              <Brain className="w-8 h-8" />
             </div>
 
             <div className="flex-1 text-center lg:text-left">
               <div
-                className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[10px] font-semibold uppercase tracking-wider mb-4"
-                style={{ backgroundColor: '#ff6b35/10', color: '#ff6b35', backgroundColor: 'rgba(255, 107, 53, 0.1)' }}
+                className={`inline-flex items-center gap-2 px-3 py-1 rounded-full mb-4 ${labelClass}`}
+                style={{ backgroundColor: THEME.accents.warm.soft, color: THEME.accents.warm.base }}
               >
                 <Flame className="w-3.5 h-3.5" />
                 {t('pblBadge')}
@@ -307,22 +327,22 @@ export default function TrainingPageContent() {
 
               <h2
                 className="text-3xl md:text-4xl mb-4"
-                style={{ fontFamily: '"Instrument Serif", Georgia, serif', color: '#1a1a2e' }}
+                style={{ fontFamily: THEME.fonts.display, color: THEME.colors.ink }}
               >
                 {t('modules.pbl')}
               </h2>
-              <p className="text-base md:text-lg max-w-4xl leading-relaxed" style={{ color: '#666' }}>
+              <p className="text-base md:text-lg max-w-4xl leading-relaxed" style={{ color: THEME.colors.muted }}>
                 {t('pblContent')}
               </p>
 
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 mt-10">
                 {pblSteps.map((s, i) => (
                   <div key={i} className="space-y-1.5 group/step">
-                    <div className="text-sm font-semibold" style={{ color: '#1a1a2e' }}>{s.label}</div>
-                    <div className="text-xs" style={{ color: '#999' }}>{s.desc}</div>
+                    <div className="text-sm font-semibold" style={{ color: THEME.colors.ink }}>{s.label}</div>
+                    <div className="text-xs" style={{ color: THEME.colors.faint }}>{s.desc}</div>
                     <div
                       className="h-0.5 w-8 transition-all duration-300 group-hover/step:w-full"
-                      style={{ backgroundColor: '#ff6b35' }}
+                      style={{ backgroundColor: THEME.accents.warm.base }}
                     />
                   </div>
                 ))}
@@ -336,17 +356,17 @@ export default function TrainingPageContent() {
           <div className="flex items-center gap-4 mb-10">
             <div
               className="w-12 h-12 rounded-xl flex items-center justify-center border"
-              style={{ backgroundColor: 'rgba(46, 196, 182, 0.1)', borderColor: 'rgba(46, 196, 182, 0.2)', color: '#2ec4b6' }}
+              style={iconFrameStyle('cool')}
             >
               <BookOpen className="w-6 h-6" />
             </div>
             <div>
-              <span className="text-xs font-semibold uppercase tracking-wider block" style={{ color: '#2ec4b6' }}>
+              <span className={`${labelClass} block`} style={{ color: THEME.accents.cool.base }}>
                 {t('sectionLabels.foundations')}
               </span>
               <h2
                 className="text-2xl md:text-3xl"
-                style={{ fontFamily: '"Instrument Serif", Georgia, serif', color: '#1a1a2e' }}
+                style={{ fontFamily: THEME.fonts.display, color: THEME.colors.ink }}
               >
                 {t('modules.foundations')}
               </h2>
@@ -362,17 +382,17 @@ export default function TrainingPageContent() {
           <div className="flex items-center gap-4 mb-10">
             <div
               className="w-12 h-12 rounded-xl flex items-center justify-center border"
-              style={{ backgroundColor: 'rgba(255, 107, 53, 0.1)', borderColor: 'rgba(255, 107, 53, 0.2)', color: '#ff6b35' }}
+              style={iconFrameStyle('warm')}
             >
               <Mic className="w-6 h-6" />
             </div>
             <div>
-              <span className="text-xs font-semibold uppercase tracking-wider block" style={{ color: '#ff6b35' }}>
+              <span className={`${labelClass} block`} style={{ color: THEME.accents.warm.base }}>
                 {t('sectionLabels.creation')}
               </span>
               <h2
                 className="text-2xl md:text-3xl"
-                style={{ fontFamily: '"Instrument Serif", Georgia, serif', color: '#1a1a2e' }}
+                style={{ fontFamily: THEME.fonts.display, color: THEME.colors.ink }}
               >
                 {t('modules.creation')}
               </h2>
@@ -388,17 +408,17 @@ export default function TrainingPageContent() {
           <div className="flex items-center gap-4 mb-10">
             <div
               className="w-12 h-12 rounded-xl flex items-center justify-center border"
-              style={{ backgroundColor: 'rgba(46, 196, 182, 0.1)', borderColor: 'rgba(46, 196, 182, 0.2)', color: '#2ec4b6' }}
+              style={iconFrameStyle('cool')}
             >
               <TrendingUp className="w-6 h-6" />
             </div>
             <div>
-              <span className="text-xs font-semibold uppercase tracking-wider block" style={{ color: '#2ec4b6' }}>
+              <span className={`${labelClass} block`} style={{ color: THEME.accents.cool.base }}>
                 {t('sectionLabels.efficiency')}
               </span>
               <h2
                 className="text-2xl md:text-3xl"
-                style={{ fontFamily: '"Instrument Serif", Georgia, serif', color: '#1a1a2e' }}
+                style={{ fontFamily: THEME.fonts.display, color: THEME.colors.ink }}
               >
                 {t('modules.efficiency')}
               </h2>
@@ -414,17 +434,17 @@ export default function TrainingPageContent() {
           <div className="flex items-center gap-4 mb-10">
             <div
               className="w-12 h-12 rounded-xl flex items-center justify-center border"
-              style={{ backgroundColor: 'rgba(255, 107, 53, 0.1)', borderColor: 'rgba(255, 107, 53, 0.2)', color: '#ff6b35' }}
+              style={iconFrameStyle('warm')}
             >
               <Terminal className="w-6 h-6" />
             </div>
             <div>
-              <span className="text-xs font-semibold uppercase tracking-wider block" style={{ color: '#ff6b35' }}>
+              <span className={`${labelClass} block`} style={{ color: THEME.accents.warm.base }}>
                 {t('sectionLabels.vibe')}
               </span>
               <h2
                 className="text-2xl md:text-3xl"
-                style={{ fontFamily: '"Instrument Serif", Georgia, serif', color: '#1a1a2e' }}
+                style={{ fontFamily: THEME.fonts.display, color: THEME.colors.ink }}
               >
                 {t('hackathonTitle')}
               </h2>
@@ -433,28 +453,23 @@ export default function TrainingPageContent() {
 
           <div className="grid lg:grid-cols-12 gap-8">
             <div className="lg:col-span-4 space-y-6">
-              <div className="bg-white p-8 rounded-[1.5rem] border border-slate-100">
+              <div className="bg-white p-8 rounded-[1.5rem] border" style={{ borderColor: THEME.colors.border }}>
                 <h4
                   className="text-xl mb-6 flex items-center gap-2"
-                  style={{ fontFamily: '"Instrument Serif", Georgia, serif', color: '#1a1a2e' }}
+                  style={{ fontFamily: THEME.fonts.display, color: THEME.colors.ink }}
                 >
-                  <Award className="w-5 h-5" style={{ color: '#ff6b35' }} /> {t('milestonesTitle')}
+                  <Award className="w-5 h-5" style={{ color: THEME.accents.warm.base }} /> {t('milestonesTitle')}
                 </h4>
                 <ul className="space-y-5">
-                  {[
-                    { icon: <Code className="w-4 h-4" />, color: '#2ec4b6' },
-                    { icon: <Layers className="w-4 h-4" />, color: '#ff6b35' },
-                    { icon: <Layout className="w-4 h-4" />, color: '#2ec4b6' },
-                    { icon: <Share2 className="w-4 h-4" />, color: '#ff6b35' }
-                  ].map((g, i) => (
+                  {milestoneItems.map((g, i) => (
                     <li key={i} className="flex items-center gap-4 group/item">
                       <div
-                        className="p-2.5 rounded-xl transition-transform group-hover/item:scale-110"
-                        style={{ backgroundColor: `${g.color}15`, color: g.color }}
+                        className="p-2.5 rounded-xl transition-transform group-hover/item:scale-110 border"
+                        style={iconChipStyle(g.tone)}
                       >
                         {g.icon}
                       </div>
-                      <span className="text-sm font-medium" style={{ color: '#4a4a4a' }}>{milestones[i]}</span>
+                      <span className="text-sm font-medium" style={{ color: THEME.colors.body }}>{milestones[i]}</span>
                     </li>
                   ))}
                 </ul>
@@ -462,24 +477,29 @@ export default function TrainingPageContent() {
 
               <div
                 className="p-8 rounded-[1.5rem] text-white relative overflow-hidden"
-                style={{ backgroundColor: '#1a1a2e' }}
+                style={{ backgroundColor: THEME.colors.ink }}
               >
-                <div className="absolute top-0 right-0 -mr-8 -mt-8 w-24 h-24 rounded-full opacity-20" style={{ backgroundColor: '#ff6b35' }} />
+                <div
+                  className="absolute top-0 right-0 -mr-8 -mt-8 w-24 h-24 rounded-full opacity-20"
+                  style={{ backgroundColor: THEME.accents.warm.base }}
+                />
                 <div className="relative z-10">
                   <div className="flex justify-between items-start mb-6">
-                    <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: '#2ec4b6' }}>{t('nextCohort')}</p>
-                    <Zap className="w-5 h-5" style={{ color: '#ff6b35' }} />
+                    <p className={labelClass} style={{ color: THEME.accents.cool.base }}>{t('nextCohort')}</p>
+                    <Zap className="w-5 h-5" style={{ color: THEME.accents.warm.base }} />
                   </div>
                   <h4
                     className="text-2xl mb-2"
-                    style={{ fontFamily: '"Instrument Serif", Georgia, serif' }}
+                    style={{ fontFamily: THEME.fonts.display }}
                   >
                     {t('cohortName')}
                   </h4>
-                  <p className="text-sm opacity-60 mb-6">{t('cohortDetails')}</p>
+                  <p className="text-sm mb-6" style={{ color: 'rgba(255, 255, 255, 0.68)' }}>
+                    {t('cohortDetails')}
+                  </p>
                   <button
                     className="w-full py-3.5 rounded-xl font-semibold text-sm text-white transition-all hover:opacity-90 active:scale-95"
-                    style={{ backgroundColor: '#ff6b35' }}
+                    style={{ backgroundColor: THEME.accents.warm.base }}
                   >
                     {t('waitingListBtn')}
                   </button>

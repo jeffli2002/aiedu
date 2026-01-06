@@ -480,7 +480,7 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
                   type="button"
                   variant="outline"
                   className="w-full rounded-xl py-6 border-slate-200 hover:border-slate-300 hover:bg-slate-50 transition-colors"
-                  onClick={() => handleSocialLogin('google')}
+                  onClick={() => handleSocialLogin()}
                   disabled={isLoading}
                 >
                   <svg
