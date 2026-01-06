@@ -70,28 +70,30 @@ export class PaymentRepository {
   async create(data: CreatePaymentData): Promise<PaymentRecord> {
     const paymentId = data.id || randomUUID();
 
-    const [result] = await db
-      .insert(payment)
-      .values({
-        id: paymentId,
-        provider: data.provider || 'stripe',
-        priceId: data.priceId,
-        productId: data.productId || null,
-        type: data.type,
-        interval: data.interval || null,
-        userId: data.userId,
-        customerId: data.customerId,
-        subscriptionId: data.subscriptionId || null,
-        status: data.status,
-        periodStart: data.periodStart || null,
-        periodEnd: data.periodEnd || null,
-        cancelAtPeriodEnd: data.cancelAtPeriodEnd || null,
-        trialStart: data.trialStart || null,
-        trialEnd: data.trialEnd || null,
-        affiliateId: data.affiliateId || null,
-        affiliateCode: data.affiliateCode || null,
-      })
-      .returning();
+    // Work around insert typing omitting provider while still keeping values typed.
+    const insertValues: typeof payment.$inferInsert & {
+      provider?: 'stripe' | 'creem';
+    } = {
+      id: paymentId,
+      provider: data.provider || 'stripe',
+      priceId: data.priceId,
+      productId: data.productId || null,
+      type: data.type,
+      interval: data.interval || null,
+      userId: data.userId,
+      customerId: data.customerId,
+      subscriptionId: data.subscriptionId || null,
+      status: data.status,
+      periodStart: data.periodStart || null,
+      periodEnd: data.periodEnd || null,
+      cancelAtPeriodEnd: data.cancelAtPeriodEnd || null,
+      trialStart: data.trialStart || null,
+      trialEnd: data.trialEnd || null,
+      affiliateId: data.affiliateId || null,
+      affiliateCode: data.affiliateCode || null,
+    };
+
+    const [result] = await db.insert(payment).values(insertValues).returning();
 
     if (!result) {
       throw new Error('Failed to create payment record');
