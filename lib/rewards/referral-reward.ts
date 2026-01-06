@@ -37,14 +37,14 @@ async function finalizeReferralReward(
       },
     });
 
-    const referralUpdate: Partial<typeof userReferrals.$inferInsert> = {
+    const referralUpdate = {
       ...options.updateFields,
       creditsAwarded: true,
       creditsAwardedAt: new Date(),
       referredUserFirstGenerationCompleted:
         options.updateFields?.referredUserFirstGenerationCompleted ??
         referralRecord.referredUserFirstGenerationCompleted,
-    };
+    } as Partial<typeof userReferrals.$inferSelect>;
 
     await tx
       .update(userReferrals)
