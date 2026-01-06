@@ -114,6 +114,7 @@ function ChartTooltipContent({
     nameKey?: string;
     labelKey?: string;
     color?: string;
+    labelClassName?: string;
   }) {
   const { config } = useChart();
 
