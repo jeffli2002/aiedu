@@ -144,7 +144,7 @@ export async function POST(request: NextRequest) {
       consecutiveDays,
       creditsEarned: totalCredits,
       weeklyBonusEarned,
-    });
+    } as any);
 
     console.log('[Checkin] Checkin record created, awarding credits...');
 
