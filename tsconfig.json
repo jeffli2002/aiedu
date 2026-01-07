@@ -38,6 +38,7 @@
     "future-ai-creators2",
     "tools",
     "scripts",
-    "D*.pnpm-store"
+    "D*.pnpm-store",
+    "vite.config.ts"
   ]
 }
