@@ -440,13 +440,15 @@ export class PaymentRepository {
    * Cancel all active subscriptions for a user
    */
   async cancelUserSubscriptions(userId: string): Promise<number> {
+    const updateValues: PaymentUpdateValues = {
+      status: 'canceled',
+      cancelAtPeriodEnd: false,
+      updatedAt: new Date(),
+    };
+
     const result = await db
       .update(payment)
-      .set({
-        status: 'canceled',
-        cancelAtPeriodEnd: false,
-        updatedAt: new Date(),
-      })
+      .set(updateValues)
       .where(
         and(eq(payment.userId, userId), inArray(payment.status, ['active', 'trialing', 'past_due']))
       );
@@ -483,13 +485,15 @@ export class PaymentRepository {
       }
     }
 
+    const updateValues: PaymentUpdateValues = {
+      status: 'canceled',
+      cancelAtPeriodEnd: false,
+      updatedAt: new Date(),
+    };
+
     await db
       .update(payment)
-      .set({
-        status: 'canceled',
-        cancelAtPeriodEnd: false,
-        updatedAt: new Date(),
-      })
+      .set(updateValues)
       .where(
         and(
           eq(payment.userId, userId),
