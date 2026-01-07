@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { Suspense } from 'react';
 import { DM_Sans } from 'next/font/google';
 import { notFound } from 'next/navigation';
 import { NextIntlClientProvider } from 'next-intl';
@@ -80,7 +81,9 @@ export default async function LocaleLayout({
         <NextIntlClientProvider locale={locale} messages={messages}>
           <I18nProvider>
             <AuthProvider />
-            <ScrollGuard />
+            <Suspense fallback={null}>
+              <ScrollGuard />
+            </Suspense>
             {children}
             <Toaster />
           </I18nProvider>
