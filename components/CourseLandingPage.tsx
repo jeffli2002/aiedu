@@ -24,6 +24,7 @@ import { Module } from '@/lib/training-system';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { useIsAuthenticated } from '@/store/auth-store';
+import { withLocalePath } from '@/i18n/locale-utils';
 
 interface CourseLandingPageProps {
   course: Module;
@@ -158,6 +159,13 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
 
   const courseTypeLabel = t(`courseLanding.courseType.${course.type}`);
   const masteryLabel = t('courseLanding.mastery');
+  const isVideoCourse = course.id === 'c202';
+  const ctaHref = isAuthenticated
+    ? withLocalePath(isVideoCourse ? '/video-generation' : '/image-generation', lang)
+    : withLocalePath('/signup', lang);
+  const ctaLabel = isAuthenticated
+    ? t('courseLanding.startCreationBtn')
+    : t('courseLanding.enrollBtn');
   const infoItems: { icon: JSX.Element; label: string; value: string; tone: Tone }[] = [
     { icon: <Clock className="w-6 h-6" />, label: t('courseLanding.totalTime'), value: course.duration, tone: 'primary' },
     { icon: <Cpu className="w-6 h-6" />, label: t('courseLanding.format'), value: t(`courseLanding.format${course.format}`), tone: 'secondary' },
@@ -239,10 +247,10 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
           </div>
           
           <Link
-            href="/#apply"
+            href={ctaHref}
             className="btn-primary uppercase tracking-[0.22em]"
           >
-            {t('courseLanding.enrollBtn')}
+            {ctaLabel}
           </Link>
         </div>
       </div>
@@ -532,10 +540,10 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
 
             <div className="mt-12">
               <Link
-                href="/#apply"
+                href={ctaHref}
                 className="btn-primary w-full uppercase tracking-[0.22em]"
               >
-                {t('courseLanding.enrollBtn')}
+                {ctaLabel}
                 <ChevronRight className="w-6 h-6" />
               </Link>
             </div>
