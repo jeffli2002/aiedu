@@ -455,7 +455,7 @@ export async function POST(request: NextRequest) {
                   provider: 'creem',
                   creditDifference,
                 }),
-              });
+              } as any);
 
               console.log(
                 `[Creem Sync Checkout] ✅ Successfully upgraded credits by ${creditDifference} for user ${userId} (immediate)`
