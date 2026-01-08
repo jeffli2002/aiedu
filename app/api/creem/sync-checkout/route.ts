@@ -434,7 +434,7 @@ export async function POST(request: NextRequest) {
                   balance: newBalance,
                   totalEarned: userCredit.totalEarned + creditDifference,
                   updatedAt: new Date(),
-                })
+                } as any)
                 .where(eq(userCredits.userId, userId));
 
               await db.insert(creditTransactions).values({
