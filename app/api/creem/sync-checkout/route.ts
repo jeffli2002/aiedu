@@ -406,58 +406,56 @@ export async function POST(request: NextRequest) {
             const userId = session.user.id;
 
             try {
-              await db.transaction(async (tx) => {
-                const [userCredit] = await tx
-                  .select()
-                  .from(userCredits)
-                  .where(eq(userCredits.userId, userId))
-                  .limit(1);
+              const [userCredit] = await db
+                .select()
+                .from(userCredits)
+                .where(eq(userCredits.userId, userId))
+                .limit(1);
 
-                if (!userCredit) {
-                  console.error(`[Creem Sync Checkout] User credit record not found for ${userId}`);
-                  throw new Error(`User credit record not found for ${userId}`);
-                }
+              if (!userCredit) {
+                console.error(`[Creem Sync Checkout] User credit record not found for ${userId}`);
+                throw new Error(`User credit record not found for ${userId}`);
+              }
 
-                const newBalance = userCredit.balance + creditDifference;
-                const transactionType = 'earn';
+              const newBalance = userCredit.balance + creditDifference;
+              const transactionType = 'earn';
 
-                console.log('[Creem Sync Checkout] Applying credit upgrade:', {
-                  userId,
-                  currentBalance: userCredit.balance,
-                  creditDifference,
-                  newBalance,
+              console.log('[Creem Sync Checkout] Applying credit upgrade:', {
+                userId,
+                currentBalance: userCredit.balance,
+                creditDifference,
+                newBalance,
+                oldPlanId: oldCreditInfo.planId,
+                newPlanId: newCreditInfo.planId,
+              });
+
+              await db
+                .update(userCredits)
+                .set({
+                  balance: newBalance,
+                  totalEarned: userCredit.totalEarned + creditDifference,
+                  updatedAt: new Date(),
+                })
+                .where(eq(userCredits.userId, userId));
+
+              await db.insert(creditTransactions).values({
+                id: randomUUID(),
+                userId,
+                type: transactionType,
+                amount: creditDifference,
+                balanceAfter: newBalance,
+                source: 'subscription',
+                description: `Plan upgrade: ${oldCreditInfo.planId} ${oldInterval} → ${newCreditInfo.planId} ${newInterval}`,
+                referenceId,
+                metadata: JSON.stringify({
                   oldPlanId: oldCreditInfo.planId,
                   newPlanId: newCreditInfo.planId,
-                });
-
-                await tx
-                  .update(userCredits)
-                  .set({
-                    balance: newBalance,
-                    totalEarned: userCredit.totalEarned + creditDifference,
-                    updatedAt: new Date(),
-                  })
-                  .where(eq(userCredits.userId, userId));
-
-                await tx.insert(creditTransactions).values({
-                  id: randomUUID(),
-                  userId,
-                  type: transactionType,
-                  amount: creditDifference,
-                  balanceAfter: newBalance,
-                  source: 'subscription',
-                  description: `Plan upgrade: ${oldCreditInfo.planId} ${oldInterval} → ${newCreditInfo.planId} ${newInterval}`,
-                  referenceId,
-                  metadata: JSON.stringify({
-                    oldPlanId: oldCreditInfo.planId,
-                    newPlanId: newCreditInfo.planId,
-                    oldInterval,
-                    newInterval,
-                    subscriptionId,
-                    provider: 'creem',
-                    creditDifference,
-                  }),
-                });
+                  oldInterval,
+                  newInterval,
+                  subscriptionId,
+                  provider: 'creem',
+                  creditDifference,
+                }),
               });
 
               console.log(
