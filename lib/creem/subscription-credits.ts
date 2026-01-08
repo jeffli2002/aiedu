@@ -87,7 +87,7 @@ export async function grantSubscriptionCredits(
         totalEarned: creditsToGrant,
         totalSpent: 0,
         frozenBalance: 0,
-      });
+      } as any);
     }
 
     // Insert credit transaction
