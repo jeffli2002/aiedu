@@ -77,7 +77,7 @@ export async function grantSubscriptionCredits(
           balance: newBalance,
           totalEarned: userCredit.totalEarned + creditsToGrant,
           updatedAt: new Date(),
-        })
+        } as any)
         .where(eq(userCredits.userId, userId));
     } else {
       await db.insert(userCredits).values({
