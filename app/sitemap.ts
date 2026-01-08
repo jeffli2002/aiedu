@@ -1,21 +1,36 @@
 import type { MetadataRoute } from 'next';
 import { locales, type Locale } from '@/i18n/routing';
 import { blogPosts } from '@/lib/blog/posts';
+import { TRAINING_SYSTEM } from '@/lib/training-system';
 
 const FALLBACK_APP_URL = 'http://localhost:3003';
 const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? FALLBACK_APP_URL;
 
-// Static pages that exist for all locales
-const staticPages = [
-  '',
-  '/signin',
-  '/reset-password',
-  '/training',
+// Marketing/SEO pages that exist for all locales
+const marketingPages = [
+  '/about',
+  '/apply',
   '/blog',
+  '/camp',
+  '/image-generation',
+  '/pricing',
+  '/privacy',
+  '/projects',
+  '/terms',
+  '/training',
+  '/video-generation',
 ];
 
-// Training course IDs (add more as courses are added)
-const courseIds = ['f101', 'f102', 'c201', 'c202', 'e301', 'v401'];
+const trainingCourseIds = Array.from(
+  new Set(
+    Object.values(TRAINING_SYSTEM).flatMap((system) => [
+      ...system.foundations,
+      ...system.creation,
+      ...system.efficiency,
+      ...system.vibe,
+    ]).map((course) => course.id)
+  )
+);
 
 type SitemapEntry = MetadataRoute.Sitemap[number];
 
@@ -58,13 +73,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Homepage - highest priority
   entries.push(...createSitemapEntry('', 1.0, 'daily'));
 
-  // Static pages
-  for (const page of staticPages.slice(1)) {
+  // Marketing/SEO pages
+  for (const page of marketingPages) {
     entries.push(...createSitemapEntry(page, 0.8, 'weekly'));
   }
 
   // Training course pages
-  for (const courseId of courseIds) {
+  for (const courseId of trainingCourseIds) {
     entries.push(...createSitemapEntry(`/training/${courseId}`, 0.7, 'weekly'));
   }
 
