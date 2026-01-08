@@ -16,6 +16,7 @@ import {
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { paymentConfig } from '@/config/payment.config';
+import { trainingConfig } from '@/config/training.config';
 import { useCreemPayment } from '@/hooks/use-creem-payment';
 import { useSubscription } from '@/hooks/use-subscription';
 import { useAuthStore } from '@/store/auth-store';
@@ -27,15 +28,18 @@ import {
 import { withLocalePath } from '@/i18n/locale-utils';
 import { toast } from 'sonner';
 
+const previewPercent = trainingConfig.freeVideoPreviewPercent;
+const previewFeatureLabel = `Video previews (first ${previewPercent}%)`;
+
 const COPY = {
   en: {
     heroTag: 'Training Access + Credits',
     heroTitle: 'Unlock full lessons, keep your credits flexible.',
     heroSubtitle:
-      'Subscribers get unrestricted access to every training video and PDF. Free users can read all PDFs online and preview the first 20% of every video.',
+      'Subscribers get unrestricted access to every training video and PDF, plus monthly credits to create images and videos.',
     accessTitle: 'Access Rules',
     accessFreePdf: 'Free users: full PDF library (online-only)',
-    accessFreeVideo: 'Free users: 20% video preview',
+    accessFreeVideo: `Free users: ${previewPercent}% video preview`,
     accessSubscriber: 'Subscribers: full videos + PDFs',
     accessNote: 'All content is online-only to protect creators.',
     subscribeTitle: 'Subscription',
@@ -60,20 +64,21 @@ const COPY = {
     packUnavailable: 'Unavailable',
     packNote: 'No subscription required',
     featurePdf: 'Full PDF lesson library (online-only)',
-    featureVideoPreview: 'Video previews (first 20%)',
+    featureVideoPreview: `Video previews (first ${previewPercent}%)`,
     featureUnlimited: 'Unlimited training videos + PDFs',
     featureEverythingFree: 'Everything in Free plan',
     featureEverythingPro: 'Everything in Pro',
+    alreadySubscribed: 'You already have this subscription. Manage it in Billing.',
     checkoutError: 'Checkout failed. Please try again.',
   },
   zh: {
     heroTag: '订阅解锁 + 积分灵活',
     heroTitle: '解锁完整课程，同时灵活使用积分。',
     heroSubtitle:
-      '订阅用户可无限制观看所有课程视频并阅读PDF。免费用户可在线阅读全部PDF，视频可试听前20%。',
+      `订阅用户可无限制观看所有课程视频并阅读PDF，同时获得每月积分用于生成图片/视频进行创作。免费用户可在线阅读全部PDF，视频可试听前${previewPercent}%。`,
     accessTitle: '访问规则',
     accessFreePdf: '免费用户：PDF 全库在线阅读',
-    accessFreeVideo: '免费用户：视频可试听 20%',
+    accessFreeVideo: `免费用户：视频可试听 ${previewPercent}%`,
     accessSubscriber: '订阅用户：完整视频 + PDF',
     accessNote: '所有内容仅支持在线阅读/观看以保护版权。',
     subscribeTitle: '订阅会员',
@@ -98,17 +103,18 @@ const COPY = {
     packUnavailable: '暂不可用',
     packNote: '无需订阅',
     featurePdf: 'PDF 全库在线阅读',
-    featureVideoPreview: '视频可试听 20%',
+    featureVideoPreview: `视频可试听 ${previewPercent}%`,
     featureUnlimited: '完整课程视频 + PDF',
     featureEverythingFree: '包含免费版全部功能',
     featureEverythingPro: '包含 Pro 版全部功能',
+    alreadySubscribed: '你已拥有该订阅，请前往账单页面管理。',
     checkoutError: '支付发起失败，请稍后重试。',
   },
 };
 
 const featureMap = (copy: typeof COPY.en) => ({
   'Full PDF lesson library (online-only)': copy.featurePdf,
-  'Video previews (first 20%)': copy.featureVideoPreview,
+  [previewFeatureLabel]: copy.featureVideoPreview,
   'Unlimited training videos + PDFs': copy.featureUnlimited,
   'Everything in Free plan': copy.featureEverythingFree,
   'Everything in Pro': copy.featureEverythingPro,
@@ -125,6 +131,28 @@ export default function PricingPageContent() {
   const [billingInterval, setBillingInterval] = useState<'month' | 'year'>('year');
   const [activeCheckout, setActiveCheckout] = useState<string | null>(null);
 
+  const fetchSubscription = async () => {
+    try {
+      const response = await fetch('/api/creem/subscription', {
+        credentials: 'include',
+        cache: 'no-store',
+      });
+
+      if (!response.ok) {
+        if (response.status === 401) {
+          return null;
+        }
+        return null;
+      }
+
+      const data = await response.json();
+      return data.subscription || null;
+    } catch (error) {
+      console.error('[Pricing] Failed to check subscription status', error);
+      return null;
+    }
+  };
+
   const plans = useMemo(() => {
     const map = featureMap(copy);
     return paymentConfig.plans.map((plan) => {
@@ -132,6 +160,7 @@ export default function PricingPageContent() {
         billingInterval === 'year'
           ? plan.credits.yearly || plan.credits.monthly * 12
           : plan.credits.monthly;
+      const signupBonus = plan.credits.onSignup || 0;
       const capacity = credits > 0 ? calculateGenerationCapacity(credits) : null;
       const capacityLabel = capacity
         ? lang === 'zh'
@@ -145,7 +174,8 @@ export default function PricingPageContent() {
 
       return {
         ...plan,
-        credits,
+        displayCredits: credits,
+        signupBonus,
         capacity: capacityLabel,
         features,
       };
@@ -160,12 +190,72 @@ export default function PricingPageContent() {
 
     try {
       setActiveCheckout(planIdToBuy);
+
+      const subscription = await fetchSubscription();
+      const activeStatuses = new Set(['active', 'trialing', 'past_due']);
+      const normalizedPlanName = subscription?.planName?.toLowerCase() || '';
+      const normalizedPlan =
+        subscription?.planId ||
+        (normalizedPlanName.includes('proplus')
+          ? 'proplus'
+          : normalizedPlanName.includes('pro')
+            ? 'pro'
+            : 'free');
+      const normalizedInterval = subscription?.interval === 'year' ? 'year' : 'month';
+      const subscriptionActive =
+        subscription?.subscriptionId &&
+        normalizedPlan !== 'free' &&
+        activeStatuses.has(subscription.status);
+
+      const billingPath = withLocalePath('/settings/billing', lang);
+
+      if (subscriptionActive) {
+        if (normalizedPlan === planIdToBuy && normalizedInterval === billingInterval) {
+          toast.info(copy.alreadySubscribed);
+          router.push(billingPath);
+          return;
+        }
+
+        const planPriority: Record<'free' | 'pro' | 'proplus', number> = {
+          free: 0,
+          pro: 1,
+          proplus: 2,
+        };
+        const targetRank = planPriority[planIdToBuy];
+        const currentRank = planPriority[normalizedPlan as 'free' | 'pro' | 'proplus'];
+        const planChangeType = targetRank > currentRank ? 'upgrade' : 'downgrade';
+        const params = new URLSearchParams({
+          source: 'pricing',
+          planChange: planIdToBuy,
+          planChangeType,
+        });
+        router.push(`${billingPath}?${params.toString()}`);
+        return;
+      }
+
       await createCheckoutSession({
         planId: planIdToBuy,
         interval: billingInterval,
       });
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : copy.checkoutError);
+      const message = error instanceof Error ? error.message : copy.checkoutError;
+      const subscriptionConflict =
+        message.includes('already have an active subscription') ||
+        message.includes('ACTIVE_SUBSCRIPTION_EXISTS') ||
+        message.includes('DUPLICATE_SUBSCRIPTION');
+
+      if (subscriptionConflict) {
+        const billingPath = withLocalePath('/settings/billing', lang);
+        const params = new URLSearchParams({
+          source: 'pricing',
+          planChange: planIdToBuy,
+          planChangeType: 'upgrade',
+        });
+        router.push(`${billingPath}?${params.toString()}`);
+        return;
+      }
+
+      toast.error(message);
     } finally {
       setActiveCheckout(null);
     }
@@ -199,8 +289,8 @@ export default function PricingPageContent() {
       <Navbar />
 
       <main className="pt-28 pb-24">
-        <section className="relative overflow-hidden px-6 lg:px-12">
-          <div className="absolute inset-0">
+        <section className="relative px-6 lg:px-12">
+          <div className="absolute inset-0 overflow-hidden">
             <div className="absolute -top-24 right-[10%] h-56 w-56 rounded-full bg-[#2ec4b6]/10 blur-3xl" />
             <div className="absolute bottom-10 left-[6%] h-72 w-72 rounded-full bg-[#ff6b35]/10 blur-[110px]" />
             <div className="absolute inset-0 bg-pattern" />
@@ -225,8 +315,8 @@ export default function PricingPageContent() {
               </p>
 
               <div className="flex flex-wrap items-center gap-4">
-                <Link href={withLocalePath('/training', lang)} className="btn-primary">
-                  {lang === 'zh' ? '浏览课程' : 'Browse training'}
+                <Link href="#subscription-plans" className="btn-primary">
+                  {lang === 'zh' ? '了解订阅' : 'View plans'}
                 </Link>
                 <Link href={withLocalePath('/signup', lang)} className="btn-secondary">
                   {lang === 'zh' ? '注册免费账号' : 'Create a free account'}
@@ -272,7 +362,7 @@ export default function PricingPageContent() {
           </div>
         </section>
 
-        <section className="mx-auto mt-20 max-w-7xl px-6 lg:px-12">
+        <section id="subscription-plans" className="mx-auto mt-20 max-w-7xl px-6 lg:px-12">
           <div className="flex flex-wrap items-end justify-between gap-6">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.32em] text-[#2ec4b6]">
@@ -332,10 +422,10 @@ export default function PricingPageContent() {
 
               const creditsLabel =
                 plan.id === 'free'
-                  ? copy.signupBonus.replace('{credits}', `${plan.credits.onSignup || 0}`)
+                  ? copy.signupBonus.replace('{credits}', `${plan.signupBonus}`)
                   : billingInterval === 'year'
-                    ? copy.creditsPerYear.replace('{credits}', `${plan.credits}`)
-                    : copy.creditsPerMonth.replace('{credits}', `${plan.credits}`);
+                    ? copy.creditsPerYear.replace('{credits}', `${plan.displayCredits}`)
+                    : copy.creditsPerMonth.replace('{credits}', `${plan.displayCredits}`);
               const capacityHint =
                 plan.id !== 'free' && plan.capacity
                   ? copy.capacityHint.replace('{range}', plan.capacity)
