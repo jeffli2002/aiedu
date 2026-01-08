@@ -64,8 +64,11 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Checkout user mismatch' }, { status: 403 });
     }
 
+    const payload = rawResult as Parameters<typeof handleCreditPackPurchase>[0];
+
     await handleCreditPackPurchase({
-      ...rawResult,
+      ...payload,
+      planId: typeof payload.planId === 'string' ? payload.planId : undefined,
       eventId: `sync_${checkoutId}`,
     });
 
