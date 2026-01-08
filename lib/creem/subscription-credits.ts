@@ -1,9 +1,9 @@
-import { randomUUID } from 'node:crypto';
 import { type BillingInterval, formatPlanName, getCreditsForPlan } from '@/lib/creem/plan-utils';
+import { creditService } from '@/lib/credits';
 import { awardReferralForPaidUser } from '@/lib/rewards/referral-reward';
 import { db } from '@/server/db';
-import { creditTransactions, userCredits } from '@/server/db/schema';
-import { and, desc, eq, like, or } from 'drizzle-orm';
+import { creditTransactions } from '@/server/db/schema';
+import { eq } from 'drizzle-orm';
 
 /**
  * Grant subscription credits to user with idempotency
@@ -60,58 +60,24 @@ export async function grantSubscriptionCredits(
       return false;
     }
 
-    // Get user credit account
-    const [userCredit] = await db
-      .select()
-      .from(userCredits)
-      .where(eq(userCredits.userId, userId))
-      .limit(1);
-
-    const newBalance = (userCredit?.balance || 0) + creditsToGrant;
-
-    // Update or create user credit account
-    if (userCredit) {
-      await db
-        .update(userCredits)
-        .set({
-          balance: newBalance,
-          totalEarned: userCredit.totalEarned + creditsToGrant,
-          updatedAt: new Date(),
-        } as any)
-        .where(eq(userCredits.userId, userId));
-    } else {
-      await db.insert(userCredits).values({
-        id: randomUUID(),
-        userId,
-        balance: creditsToGrant,
-        totalEarned: creditsToGrant,
-        totalSpent: 0,
-        frozenBalance: 0,
-      } as any);
-    }
-
-    // Insert credit transaction
-    await db.insert(creditTransactions).values({
-      id: randomUUID(),
+    const transaction = await creditService.earnCredits({
       userId,
-      type: 'earn',
       amount: creditsToGrant,
-      balanceAfter: newBalance,
       source: 'subscription',
       description: `${planDisplayName} subscription ${isRenewal ? 'renewal' : 'credits'} (Creem)`,
       referenceId,
-      metadata: JSON.stringify({
+      metadata: {
         planId: normalizedPlanId,
         planIdentifier,
         isYearly,
         subscriptionId,
         provider: 'creem',
         isRenewal,
-      }),
+      },
     });
 
     console.log(
-      `[Creem Credits] Granted ${creditsToGrant} credits to user ${userId} for ${normalizedPlanId} ${isRenewal ? 'renewal' : 'subscription'}`
+      `[Creem Credits] Granted ${creditsToGrant} credits to user ${userId} for ${normalizedPlanId} ${isRenewal ? 'renewal' : 'subscription'} (balance: ${transaction.balanceAfter})`
     );
 
     if (!isRenewal) {

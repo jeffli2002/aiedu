@@ -8,12 +8,9 @@ import {
 } from '@/lib/creem/plan-utils';
 import { normalizeCreemStatus } from '@/lib/creem/status-utils';
 import { grantSubscriptionCredits } from '@/lib/creem/subscription-credits';
+import { creditService } from '@/lib/credits';
 import type { PaymentStatus } from '@/payment/types';
-import { db } from '@/server/db';
 import { paymentRepository } from '@/server/db/repositories/payment-repository';
-import { creditTransactions, userCredits } from '@/server/db/schema';
-import { eq } from 'drizzle-orm';
-import { randomUUID } from 'node:crypto';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
@@ -405,48 +402,22 @@ export async function POST(request: NextRequest) {
             const userId = session.user.id;
 
             try {
-              const [userCredit] = await db
-                .select()
-                .from(userCredits)
-                .where(eq(userCredits.userId, userId))
-                .limit(1);
-
-              if (!userCredit) {
-                console.error(`[Creem Sync Checkout] User credit record not found for ${userId}`);
-                throw new Error(`User credit record not found for ${userId}`);
-              }
-
-              const newBalance = userCredit.balance + creditDifference;
               const transactionType = 'earn';
 
               console.log('[Creem Sync Checkout] Applying credit upgrade:', {
                 userId,
-                currentBalance: userCredit.balance,
                 creditDifference,
-                newBalance,
                 oldPlanId: oldCreditInfo.planId,
                 newPlanId: newCreditInfo.planId,
               });
 
-              await db
-                .update(userCredits)
-                .set({
-                  balance: newBalance,
-                  totalEarned: userCredit.totalEarned + creditDifference,
-                  updatedAt: new Date(),
-                } as any)
-                .where(eq(userCredits.userId, userId));
-
-              await db.insert(creditTransactions).values({
-                id: randomUUID(),
+              const transaction = await creditService.earnCredits({
                 userId,
-                type: transactionType,
                 amount: creditDifference,
-                balanceAfter: newBalance,
                 source: 'subscription',
                 description: `Plan upgrade: ${oldCreditInfo.planId} ${oldInterval} → ${newCreditInfo.planId} ${newInterval}`,
                 referenceId,
-                metadata: JSON.stringify({
+                metadata: {
                   oldPlanId: oldCreditInfo.planId,
                   newPlanId: newCreditInfo.planId,
                   oldInterval,
@@ -454,11 +425,11 @@ export async function POST(request: NextRequest) {
                   subscriptionId,
                   provider: 'creem',
                   creditDifference,
-                }),
-              } as any);
+                },
+              });
 
               console.log(
-                `[Creem Sync Checkout] ✅ Successfully upgraded credits by ${creditDifference} for user ${userId} (immediate)`
+                `[Creem Sync Checkout] ✅ Successfully upgraded credits by ${creditDifference} for user ${userId} (balance: ${transaction.balanceAfter})`
               );
             } catch (error) {
               console.error('[Creem Sync Checkout] ❌ Failed to upgrade credits:', error);
