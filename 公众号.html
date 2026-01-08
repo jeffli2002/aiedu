@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>我如何用 Codex + Skill，把 SEO 页面这件事真正产品化</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC",
+        "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      background: #fafafa;
+      color: #1f2937;
+      line-height: 1.9;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+      background: #ffffff;
+    }
+    h1 {
+      font-size: 32px;
+      line-height: 1.35;
+      margin-bottom: 24px;
+      letter-spacing: -0.5px;
+    }
+    h2 {
+      font-size: 24px;
+      margin-top: 56px;
+      margin-bottom: 16px;
+      border-left: 4px solid #6366f1;
+      padding-left: 12px;
+    }
+    p {
+      font-size: 16px;
+      margin: 16px 0;
+    }
+    blockquote {
+      margin: 24px 0;
+      padding: 16px 20px;
+      background: #f3f4f6;
+      border-left: 4px solid #9ca3af;
+      color: #374151;
+    }
+    ul {
+      margin: 16px 0 16px 24px;
+    }
+    li {
+      margin: 8px 0;
+    }
+    .divider {
+      margin: 48px 0;
+      border-top: 1px solid #e5e7eb;
+    }
+    .highlight {
+      background: #eef2ff;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    .footer {
+      margin-top: 72px;
+      font-size: 14px;
+      color: #6b7280;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>我如何用 Codex + Skill，真正取代复杂工作流，把 SEO 页面生产这件事做成“能力”</h1>
+
+    <p>
+      这篇文章不是教程，也不是经验总结。
+      我只是想把最近一个让我<strong>非常确认方向</strong>的实践记录下来。
+    </p>
+
+    <p>
+      我做的事情很具体：
+      <strong>我在 Codex 里，先创建了一个 Skill，然后用这个 Skill，在自己的项目中持续生成标准化、稳定可用的 SEO 页面。</strong>
+    </p>
+
+    <p>
+      这个 Skill，我给它起了一个很直白的名字：<span class="highlight">SEO-Page-Writer</span>。
+    </p>
+
+    <div class="divider"></div>
+
+    <h2>一、我一开始想解决的，不是“写内容”，而是“反复决策”</h2>
+
+    <p>
+      说实话，我从来不缺“能写点什么”的能力。
+      真正消耗我的，是这些事情：
+    </p>
+
+    <ul>
+      <li>每一页 SEO 页面，到底<strong>必须包含哪些元素</strong></li>
+      <li>哪些是可选的，哪些是不能少的</li>
+      <li>页面写完之后，还要不要补什么</li>
+      <li>下次再来一篇，我是不是又要重新想一遍</li>
+    </ul>
+
+    <p>
+      这些问题，本质都不是内容问题，而是<strong>流程和标准的问题</strong>。
+    </p>
+
+    <blockquote>
+      如果一件事需要我每次都重新思考一遍，那它一定不适合长期重复。
+    </blockquote>
+
+    <div class="divider"></div>
+
+    <h2>二、Skill 在我这里，不是“工具”，而是“可执行的 SOP”</h2>
+
+    <p>
+      我后来意识到，Skill 最有价值的地方，不是“自动化”，而是：
+    </p>
+
+    <blockquote>
+      它可以把一套专业 SOP、规范和约束，直接交给大模型去执行。
+    </blockquote>
+
+    <p>
+      SEO-Page-Writer 这个 Skill，本质上做了三件事：
+    </p>
+
+    <ul>
+      <li>把我脑子里的经验<strong>结构化写清楚</strong></li>
+      <li>把容易遗漏的规范<strong>变成强制要求</strong></li>
+      <li>让整个流程<strong>可以被重复调用</strong></li>
+    </ul>
+
+    <div class="divider"></div>
+
+    <h2>三、入口设计：我给什么，Skill 就只能生成什么</h2>
+
+    <p>
+      在设计 SEO-Page-Writer 的时候，我刻意限制了它的“自由发挥”。
+    </p>
+
+    <p>
+      每次调用 Skill，我都必须给它一份清晰的输入信息，比如：
+    </p>
+
+    <ul>
+      <li>页面的唯一标识（slug）</li>
+      <li>页面标题</li>
+      <li>一句准确的页面描述</li>
+      <li>明确的核心关键词</li>
+      <li>需要支持的语言</li>
+      <li>是否有参考来源</li>
+    </ul>
+
+    <p>
+      这一步的意义非常产品化：
+      <strong>Skill 不负责猜需求，它只负责按标准生产。</strong>
+    </p>
+
+    <div class="divider"></div>
+
+    <h2>四、Skill 的第一步：让页面“被系统正式承认存在”</h2>
+
+    <p>
+      每一个 SEO 页面，在我这里都不是“一段文字”，而是一个正式内容对象。
+    </p>
+
+    <p>
+      SEO-Page-Writer 在生成内容之前，会先完成一件事：
+      <strong>把这篇页面登记进整个站点的内容体系中。</strong>
+    </p>
+
+    <p>
+      从这一刻开始，这个页面：
+    </p>
+
+    <ul>
+      <li>有了固定身份</li>
+      <li>有了清晰属性</li>
+      <li>可以被列表、索引、站点结构统一管理</li>
+    </ul>
+
+    <p>
+      这一步，让“内容”真正变成了“产品资产”。
+    </p>
+
+    <div class="divider"></div>
+
+    <h2>五、我为什么坚持每一页都生成“稳定快照”</h2>
+
+    <p>
+      这是 SEO-Page-Writer 里一个我非常看重的设计。
+    </p>
+
+    <p>
+      Skill 会强制为每一个页面生成一份<strong>独立、可长期存在的页面内容</strong>，
+      而不是完全依赖外部来源。
+    </p>
+
+    <p>
+      这样做的结果是：
+    </p>
+
+    <ul>
+      <li>页面永远可以被稳定访问</li>
+      <li>不受外部内容失效影响</li>
+      <li>适合长期 SEO 累积</li>
+    </ul>
+
+    <blockquote>
+      对我来说，稳定性永远比“内容多一点”更重要。
+    </blockquote>
+
+    <div class="divider"></div>
+
+    <h2>六、Skill 自动完成的，不是“写作”，而是“质量兜底”</h2>
+
+    <p>
+      我从来没有指望 SEO-Page-Writer 帮我写出多么惊艳的文案。
+    </p>
+
+    <p>
+      它真正帮我做的，是这些我最容易忽略、但又非常关键的事情：
+    </p>
+
+    <ul>
+      <li>页面结构是否完整</li>
+      <li>标题、描述是否统一</li>
+      <li>页面在搜索和分享场景下是否一致</li>
+    </ul>
+
+    <p>
+      Skill 在这里的角色，非常明确：
+      <strong>它负责保证下限，而不是追求上限。</strong>
+    </p>
+
+    <div class="divider"></div>
+
+    <h2>七、FAQ 不是“加内容”，而是强制我站在用户角度</h2>
+
+    <p>
+      在 SEO-Page-Writer 里，我把 FAQ 设计成一个<strong>必经步骤</strong>。
+    </p>
+
+    <p>
+      Skill 会要求我明确：
+    </p>
+
+    <ul>
+      <li>用户看到这个页面，最可能问什么</li>
+      <li>哪些问题如果不提前回答，会降低理解成本</li>
+    </ul>
+
+    <p>
+      当 FAQ 被结构化之后，它自然同时服务了用户和搜索引擎。
+    </p>
+
+    <div class="divider"></div>
+
+    <h2>八、封面图这件事，我终于不用再纠结</h2>
+
+    <p>
+      过去我经常因为“要不要配图”而拖延页面发布。
+    </p>
+
+    <p>
+      在 Skill 里，我干脆把这件事<strong>变成默认行为</strong>：
+      每一个 SEO 页面，都会自动生成一张统一风格的主视觉图。
+    </p>
+
+    <p>
+      从那一刻起，这个决策就从我的脑子里被删除了。
+    </p>
+
+    <div class="divider"></div>
+
+    <h2>九、多语言能力，是 Skill 逻辑自然推导出来的结果</h2>
+
+    <p>
+      当页面的结构、规范、输入都足够清晰之后，
+      多语言不再是一个额外项目。
+    </p>
+
+    <p>
+      对 Skill 来说，只是：
+      <strong>同一套规则，多执行一次。</strong>
+    </p>
+
+    <div class="divider"></div>
+
+    <h2>十、这件事最终改变的，是我对“自动化”的理解</h2>
+
+    <p>
+      SEO-Page-Writer 并没有让我“什么都不用干”。
+    </p>
+
+    <p>
+      它只是让我：
+    </p>
+
+    <ul>
+      <li>不再反复做低价值决策</li>
+      <li>不再担心遗漏专业规范</li>
+      <li>可以把精力放在真正重要的地方</li>
+    </ul>
+
+    <blockquote>
+      Skill 的意义，不是偷懒，而是把经验交给系统。
+    </blockquote>
+
+    <div class="divider"></div>
+
+    <div class="footer">
+      <p>
+        如果你也是产品人、创作者，或者正在搭建自己的 AI 工作方式，
+        希望这次真实记录，能对你有一点启发。
+      </p>
+      <p>
+        我会继续记录我在 Codex 里，用 Skill 替代复杂流程的实践过程。
+      </p>
+    </div>
+  </div>
+</body>
+</html>

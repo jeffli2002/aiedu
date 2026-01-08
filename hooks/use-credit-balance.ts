@@ -34,6 +34,7 @@ export function useCreditBalance(options?: UseCreditBalanceOptions) {
       const response = await fetch('/api/credits/balance', {
         method: 'GET',
         credentials: 'include',
+        cache: 'no-store',
       });
 
       if (!response.ok) {

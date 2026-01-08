@@ -1,5 +1,6 @@
 import { auth } from '@/lib/auth/auth';
-import { isCreemConfigured } from '@/lib/creem/creem-config';
+import { isCreemConfigured } from '@/payment/creem/client';
+import { CreemProvider } from '@/payment/creem/provider';
 import { headers } from 'next/headers';
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
@@ -26,15 +27,23 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json();
-    // Validate request body matches schema (even though we don't use it)
-    subscriptionSchema.parse(body);
+    const validatedData = subscriptionSchema.parse(body);
 
-    // Note: Subscriptions are created via checkout sessions, not directly
-    // This endpoint should redirect to checkout or return an error
-    return NextResponse.json(
-      { error: 'Subscriptions must be created via checkout session. Use /api/creem/checkout instead.' },
-      { status: 400 }
-    );
+    const creemProvider = new CreemProvider();
+
+    const result = await creemProvider.createSubscription({
+      userId: session.user.id,
+      priceId: validatedData.priceId,
+      trialPeriodDays: validatedData.trialPeriodDays,
+      metadata: {
+        ...validatedData.metadata,
+        userId: session.user.id,
+        email: session.user.email,
+        name: session.user.name,
+      },
+    });
+
+    return NextResponse.json(result);
   } catch (error) {
     console.error('[Creem Subscription Create] Error:', error);
 

@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>用 Front-End Design Skill + Nano Banana Pro，我终于解决了自己的页面审美焦虑</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #f6f7f9;
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC",
+                   "Helvetica Neue", Helvetica, Arial, sans-serif;
+      color: #1f2329;
+      line-height: 1.85;
+    }
+    .container {
+      max-width: 820px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 48px 40px;
+    }
+    h1 {
+      font-size: 30px;
+      line-height: 1.4;
+      margin-bottom: 24px;
+      letter-spacing: -0.5px;
+    }
+    h2 {
+      font-size: 22px;
+      margin-top: 56px;
+      margin-bottom: 16px;
+      border-left: 4px solid #5b8cff;
+      padding-left: 12px;
+    }
+    h3 {
+      font-size: 18px;
+      margin-top: 36px;
+      margin-bottom: 12px;
+    }
+    p {
+      font-size: 16px;
+      margin: 18px 0;
+    }
+    blockquote {
+      margin: 28px 0;
+      padding: 18px 24px;
+      background: #f3f6ff;
+      border-left: 4px solid #5b8cff;
+      color: #2b2f36;
+    }
+    code {
+      background: #f2f3f5;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+    pre {
+      background: #0f172a;
+      color: #e5e7eb;
+      padding: 20px;
+      border-radius: 10px;
+      overflow-x: auto;
+      margin: 28px 0;
+      font-size: 14px;
+    }
+    .hint {
+      background: #fff7e6;
+      border: 1px solid #ffe1a3;
+      padding: 18px 20px;
+      border-radius: 10px;
+      margin: 32px 0;
+      font-size: 15px;
+    }
+    .image-placeholder {
+      margin: 40px 0;
+      padding: 60px 20px;
+      text-align: center;
+      background: #f2f4f7;
+      border-radius: 14px;
+      color: #8b8f97;
+      font-size: 14px;
+    }
+    .divider {
+      height: 1px;
+      background: linear-gradient(to right, transparent, #d0d7e2, transparent);
+      margin: 56px 0;
+    }
+    .footer {
+      margin-top: 80px;
+      padding-top: 24px;
+      border-top: 1px solid #e5e7eb;
+      color: #6b7280;
+      font-size: 14px;
+    }
+    strong {
+      color: #111827;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+
+    <h1>用 Front-End Design Skill + Nano Banana Pro，我终于解决了自己的页面审美焦虑</h1>
+
+    <p>
+      如果你跟我一样，是一个<strong>能把产品逻辑跑通、功能闭环也没问题</strong>的人，
+      那你大概率也经历过同一种痛苦：
+    </p>
+
+    <blockquote>
+      页面能用，但不好看；<br/>
+      结构是对的，但没有“感觉”。
+    </blockquote>
+
+    <p>
+      过去一段时间，我用 Claude Code（后来也大量用 Codex），
+      已经可以非常顺利地完成项目的核心逻辑实现：
+      路由、数据流、SEO 结构、内容生成，全部在掌控中。
+    </p>
+
+    <p>
+      但只要一走到<strong>前端设计和页面配图</strong>这一步，我就会明显卡住。
+      不是不会写代码，而是更深层的问题：
+    </p>
+
+    <ul>
+      <li>页面风格到底对不对目标用户？</li>
+      <li>颜色是不是太冷？</li>
+      <li>图是不是“看起来就很 AI”？</li>
+      <li>整体有没有设计感，还是像工程 Demo？</li>
+    </ul>
+
+    <p>
+      这是一种<strong>产品人特有的审美焦虑</strong>。
+    </p>
+
+    <div class="divider"></div>
+
+    <h2>真正的转折点：我开始系统使用 Front-End Design Skill</h2>
+
+    <p>
+      真正的变化，来自我开始把 <strong>Front-End Design Skill</strong>
+      当成项目流程里一个正式的能力模块，而不是“试一试”的工具。
+    </p>
+
+    <p>
+      先说一个很现实的前提：
+      我知道很多读者朋友并不是用官方模型在跑 Claude Code。
+    </p>
+
+    <ul>
+      <li>有人用 GLM-4.7</li>
+      <li>有人用 M2.1</li>
+      <li>也有人是多模型混合</li>
+    </ul>
+
+    <p>
+      <strong>这完全没问题。</strong><br/>
+      只要你用的是 Claude Code 这个执行环境，Skill 都可以正常工作。
+    </p>
+
+    <div class="divider"></div>
+
+    <h2>安装这件事，其实比你想象中简单</h2>
+
+    <h3>如果你用的是 Claude Code</h3>
+    <pre>
+npx skills-installer install @anthropics/claude-code/frontend-design --client claude-code
+    </pre>
+
+    <p>
+      我自己在一些项目里，就是用国产模型驱动 Claude Code，
+      并不影响 Skill 的使用。
+    </p>
+
+    <h3>如果你用的是 Codex</h3>
+    <pre>
+npx skills-installer install @anthropics/claude-code/frontend-design --client codex
+    </pre>
+
+    <p>
+      这条命令同时对 <strong>Codex CLI</strong> 和
+      <strong>Codex IDE Extension</strong> 生效。
+      实际演示中，我更多是在 IDE 里完成。
+    </p>
+
+    <h3>如果你用的是 Cursor</h3>
+    <pre>
+npx skills-installer install @anthropics/claude-code/frontend-design --local --client cursor
+    </pre>
+
+    <div class="hint">
+      安装完成后，在 Vibe Coding 时，只需要强调一句：
+      <strong>“使用 frontend-design skill 来完成前端设计工作。”</strong>
+      就可以直接召唤它。
+    </div>
+
+    <div class="divider"></div>
+
+    <h2>真正让我惊喜的，是它和 Nano Banana Pro 的结合</h2>
+
+    <p>
+      光有前端设计逻辑，其实还不够。
+      我过去最头疼的，是页面里的<strong>配图</strong>：
+    </p>
+
+    <ul>
+      <li>Hero 图</li>
+      <li>模块分隔图</li>
+      <li>情绪与氛围图</li>
+    </ul>
+
+    <p>
+      直到我把 <strong>Nano Banana Pro</strong> 的生图能力，
+      直接集成进 Front-End Design Skill 的流程里。
+    </p>
+
+    <blockquote>
+      从那一刻开始，我不再“挑图”，而是“生成我需要的图”。
+    </blockquote>
+
+    <div class="image-placeholder">
+      【此处放：页面整体视觉 & Hero 图截图】
+    </div>
+
+    <div class="divider"></div>
+
+    <h2>一个真实的项目场景</h2>
+
+    <p>
+      以我现在做的项目为例：
+    </p>
+
+    <ul>
+      <li><strong>目标用户</strong>：青少年为主</li>
+      <li><strong>视觉方向</strong>：活泼、暖色调、有设计感但不幼稚</li>
+    </ul>
+
+    <p>
+      我并没有直接对 AI 说“给我一张图”，
+      而是先通过对话确认这些产品判断。
+    </p>
+
+    <p>
+      然后 Skill 自动完成几件事：
+    </p>
+
+    <ol>
+      <li>把用户画像转成视觉约束</li>
+      <li>把情绪描述转成图片风格</li>
+      <li>调用 Nano Banana Pro 生图</li>
+      <li>直接落到页面结构中</li>
+    </ol>
+
+    <p>
+      很多时候，一次生成就够用了。
+    </p>
+
+    <div class="image-placeholder">
+      【此处放：与 AI 确认设计风格的对话截图】
+    </div>
+
+    <div class="divider"></div>
+
+    <h2>我开始“定制”这个 Skill</h2>
+
+    <p>
+      后来我做了一件很产品经理的事：
+      我没有停留在默认能力上，而是开始定制。
+    </p>
+
+    <ul>
+      <li>固定主色</li>
+      <li>统一字体</li>
+      <li>约束圆角、阴影</li>
+      <li>统一按钮风格</li>
+    </ul>
+
+    <p>
+      然后把这些偏好，写进一个<strong>新的 Skill</strong>。
+    </p>
+
+    <blockquote>
+      从那以后，模型每次出页面、出图，
+      都自动带着我的品牌调性。
+    </blockquote>
+
+    <div class="divider"></div>
+
+    <h2>我真正解决的，不是设计问题</h2>
+
+    <p>
+      回头看，我解决的并不是“不会设计”，
+      而是把：
+    </p>
+
+    <blockquote>
+      设计 SOP + 审美判断 + 生图能力<br/>
+      变成了一套<strong>可以被反复执行的系统</strong>
+    </blockquote>
+
+    <p>
+      对我来说，Frontend-Design Skill 不是一个工具，
+      而是一个被固化的产品能力。
+    </p>
+
+    <div class="footer">
+      <p>
+        如果你和我一样，能跑通逻辑，却总卡在“看起来不对劲”，
+        那我非常建议你试一次这个组合。
+      </p>
+      <p>
+        下一步，我也会把这套流程整理成
+        <strong>可复用的 Skill 模板</strong>。
+      </p>
+    </div>
+
+  </div>
+</body>
+</html>

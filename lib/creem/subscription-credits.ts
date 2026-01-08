@@ -3,7 +3,7 @@ import { type BillingInterval, formatPlanName, getCreditsForPlan } from '@/lib/c
 import { awardReferralForPaidUser } from '@/lib/rewards/referral-reward';
 import { db } from '@/server/db';
 import { creditTransactions, userCredits } from '@/server/db/schema';
-import { eq } from 'drizzle-orm';
+import { and, desc, eq, like, or } from 'drizzle-orm';
 
 /**
  * Grant subscription credits to user with idempotency
@@ -71,18 +71,16 @@ export async function grantSubscriptionCredits(
 
     // Update or create user credit account
     if (userCredit) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       await db
         .update(userCredits)
         .set({
           balance: newBalance,
           totalEarned: userCredit.totalEarned + creditsToGrant,
           updatedAt: new Date(),
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        } as any)
+        })
         .where(eq(userCredits.userId, userId));
     } else {
-      await db.insert(userCredits).overridingSystemValue().values({
+      await db.insert(userCredits).values({
         id: randomUUID(),
         userId,
         balance: creditsToGrant,
@@ -93,7 +91,7 @@ export async function grantSubscriptionCredits(
     }
 
     // Insert credit transaction
-    await db.insert(creditTransactions).overridingSystemValue().values({
+    await db.insert(creditTransactions).values({
       id: randomUUID(),
       userId,
       type: 'earn',

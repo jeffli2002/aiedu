@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -20,11 +20,15 @@ import {
   FileText,
   Play
 } from 'lucide-react';
-import { Module } from '@/lib/training-system';
+import { CourseMaterial, Module } from '@/lib/training-system';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import UpgradePrompt from '@/components/auth/UpgradePrompt';
 import { useIsAuthenticated } from '@/store/auth-store';
 import { withLocalePath } from '@/i18n/locale-utils';
+import { useSubscription } from '@/hooks/use-subscription';
+import { useUpgradePrompt } from '@/hooks/use-upgrade-prompt';
+import { trainingConfig } from '@/config/training.config';
 
 interface CourseLandingPageProps {
   course: Module;
@@ -79,10 +83,18 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
   const [loadingMedia, setLoadingMedia] = useState<Record<string, boolean>>({});
   const [fullscreenLoading, setFullscreenLoading] = useState(false);
   const isAuthenticated = useIsAuthenticated();
+  const { planId, loading: subscriptionLoading } = useSubscription();
+  const { showUpgradePrompt, openUpgradePrompt, closeUpgradePrompt } = useUpgradePrompt();
   const lang = locale === 'zh' ? 'zh' : 'en';
   const visibleMaterials = (course.materials || []).filter(
     (m) => !m.language || m.language === lang
   );
+  const isSubscriber = !subscriptionLoading && planId !== 'free';
+  const previewPercent = trainingConfig.freeVideoPreviewPercent;
+  const previewRatio = Math.min(1, Math.max(0, previewPercent / 100));
+  const previewEnabled = !subscriptionLoading && !isSubscriber && previewRatio > 0 && previewRatio < 1;
+  const hasPreviewVideos = visibleMaterials.some((m) => m.type === 'video' && m.access === 'preview');
+  const previewPromptedRef = useRef<Set<string>>(new Set());
 
   // Initialize loading states for all materials
   useEffect(() => {
@@ -97,6 +109,40 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
   const handleMediaLoaded = useCallback((mediaId: string) => {
     setLoadingMedia((prev) => ({ ...prev, [mediaId]: false }));
   }, []);
+
+  const enforcePreviewLimit = useCallback(
+    (material: CourseMaterial, video: HTMLVideoElement) => {
+      if (!previewEnabled) return;
+      if (material.type !== 'video' || material.access !== 'preview') return;
+      if (video.currentSrc.includes('/preview.')) return;
+      if (!Number.isFinite(video.duration) || video.duration <= 0) return;
+      const limit = video.duration * previewRatio;
+      if (video.currentTime >= limit) {
+        video.pause();
+        if (video.currentTime > limit) {
+          video.currentTime = Math.max(0, limit - 0.05);
+        }
+        if (!previewPromptedRef.current.has(material.mediaId)) {
+          previewPromptedRef.current.add(material.mediaId);
+          openUpgradePrompt();
+        }
+      }
+    },
+    [openUpgradePrompt, previewEnabled, previewRatio]
+  );
+
+  const handlePreviewEnded = useCallback(
+    (material: CourseMaterial, video: HTMLVideoElement) => {
+      if (!previewEnabled) return;
+      if (material.type !== 'video' || material.access !== 'preview') return;
+      if (!video.currentSrc.includes('/preview.')) return;
+      if (!previewPromptedRef.current.has(material.mediaId)) {
+        previewPromptedRef.current.add(material.mediaId);
+        openUpgradePrompt();
+      }
+    },
+    [openUpgradePrompt, previewEnabled]
+  );
 
   // Thumbnails are served via normalized endpoints backed by R2 keys.
 
@@ -347,6 +393,28 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
               </div>
             ) : (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                {previewEnabled && hasPreviewVideos && (
+                  <div className="lg:col-span-2 rounded-3xl border border-[var(--color-border-light)] bg-[var(--color-light)] p-4 md:p-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                    <div>
+                      <p className="text-sm font-semibold text-dark">
+                        {lang === 'zh'
+                          ? `免费用户：PDF 全部可读，视频仅试听前 ${previewPercent}%。`
+                          : `Free plan: full PDFs, videos are limited to the first ${previewPercent}%.`}
+                      </p>
+                      <p className="text-xs text-light mt-1">
+                        {lang === 'zh'
+                          ? '升级订阅即可无限制观看完整视频内容。'
+                          : 'Upgrade to watch full training videos without limits.'}
+                      </p>
+                    </div>
+                    <Link
+                      href={withLocalePath('/pricing', lang)}
+                      className="btn-outline-coral px-5 py-2 rounded-full text-xs font-semibold uppercase tracking-[0.22em] whitespace-nowrap"
+                    >
+                      {lang === 'zh' ? '升级订阅' : 'Upgrade'}
+                    </Link>
+                  </div>
+                )}
                 {visibleMaterials.map((m) => (
                   <div key={m.id} className="rounded-3xl border border-[var(--color-border-light)] bg-white shadow-sm overflow-hidden">
                     <div className="px-6 py-4 border-b border-[var(--color-border-light)] flex items-center justify-between">
@@ -380,11 +448,20 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
                             className="w-full rounded-2xl border border-[var(--color-border)]"
                             onContextMenu={(e) => e.preventDefault()}
                             preload="metadata"
-                            src={`/api/media/video/${encodeURIComponent(m.mediaId)}/manifest?authOnly=1`}
+                            src={`/api/media/video/${encodeURIComponent(m.mediaId)}/manifest`}
                             poster={`/api/media/video/${encodeURIComponent(m.mediaId)}/manifest?thumb=1`}
                             onLoadedData={() => handleMediaLoaded(m.id)}
                             onCanPlay={() => handleMediaLoaded(m.id)}
+                            onLoadedMetadata={(event) => enforcePreviewLimit(m, event.currentTarget)}
+                            onTimeUpdate={(event) => enforcePreviewLimit(m, event.currentTarget)}
+                            onSeeking={(event) => enforcePreviewLimit(m, event.currentTarget)}
+                            onEnded={(event) => handlePreviewEnded(m, event.currentTarget)}
                           />
+                          {previewEnabled && m.type === 'video' && m.access === 'preview' && (
+                            <div className="absolute top-3 right-3 rounded-full bg-black/70 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-white">
+                              {lang === 'zh' ? `试听 ${previewPercent}%` : `Preview ${previewPercent}%`}
+                            </div>
+                          )}
                         </div>
                       ) : (
                         <div>
@@ -642,6 +719,15 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
             </object>
           </div>
         </div>
+      )}
+
+      {showUpgradePrompt && (
+        <UpgradePrompt
+          isOpen={showUpgradePrompt}
+          onClose={closeUpgradePrompt}
+          isAuthenticated={isAuthenticated}
+          type="videoGeneration"
+        />
       )}
 
       <Footer />

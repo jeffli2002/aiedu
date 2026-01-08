@@ -1,6 +1,6 @@
 import { auth } from '@/lib/auth/auth';
 import { creemService } from '@/lib/creem/creem-service';
-import { isCreemConfigured } from '@/lib/creem/creem-config';
+import { isCreemConfigured } from '@/payment/creem/client';
 import { paymentRepository } from '@/server/db/repositories/payment-repository';
 import { headers } from 'next/headers';
 import { NextResponse } from 'next/server';
@@ -39,7 +39,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const { returnUrl: _returnUrl } = validation.data; // eslint-disable-line @typescript-eslint/no-unused-vars
+    const { returnUrl } = validation.data;
 
     // Find user's subscription to get customer ID
     const subscription = await paymentRepository.findActiveSubscriptionByUserId(session.user.id);
@@ -52,7 +52,8 @@ export async function POST(request: Request) {
     }
 
     const result = await creemService.generateCustomerPortalLink(
-      subscription.customerId
+      subscription.customerId,
+      returnUrl || `${process.env.NEXT_PUBLIC_APP_URL}/settings/billing`
     );
 
     if (!result.success) {

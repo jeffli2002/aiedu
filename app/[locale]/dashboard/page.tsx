@@ -125,6 +125,7 @@ function DashboardPageContent() {
   const [transactions, setTransactions] = useState<CreditTransaction[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [autoRefreshAttempts, setAutoRefreshAttempts] = useState(0);
   const { planId, loading: subLoading, upcomingPlan } = useSubscription();
 
   const scheduledPlanDetails = useMemo(() => {
@@ -155,6 +156,7 @@ function DashboardPageContent() {
       // Fetch credit balance
       const balanceResponse = await fetch('/api/credits/balance', {
         credentials: 'include',
+        cache: 'no-store',
       });
       if (balanceResponse.ok) {
         const balanceData = await balanceResponse.json();
@@ -166,6 +168,7 @@ function DashboardPageContent() {
       // Fetch quota usage
       const quotaResponse = await fetch('/api/credits/quota', {
         credentials: 'include',
+        cache: 'no-store',
       });
       if (quotaResponse.ok) {
         const quotaData = await quotaResponse.json();
@@ -177,6 +180,7 @@ function DashboardPageContent() {
       // Fetch credit history
       const historyResponse = await fetch('/api/credits/history?limit=10', {
         credentials: 'include',
+        cache: 'no-store',
       });
       if (historyResponse.ok) {
         const historyData = await historyResponse.json();
@@ -205,6 +209,24 @@ function DashboardPageContent() {
 
     fetchDashboardData();
   }, [authInitialized, isAuthenticated, router, fetchDashboardData]);
+
+  useEffect(() => {
+    if (
+      planId === 'free' ||
+      !creditBalance ||
+      creditBalance.totalEarned > 0 ||
+      autoRefreshAttempts >= 3
+    ) {
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      setAutoRefreshAttempts((prev) => prev + 1);
+      void fetchDashboardData();
+    }, 2500);
+
+    return () => clearTimeout(timer);
+  }, [planId, creditBalance, autoRefreshAttempts, fetchDashboardData]);
 
   const handleRefresh = async () => {
     setIsRefreshing(true);

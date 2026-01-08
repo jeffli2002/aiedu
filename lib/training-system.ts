@@ -1,10 +1,23 @@
-export interface CourseMaterial {
+export type VideoAccess = 'free' | 'preview';
+
+interface BaseMaterial {
   id: string;
   title: string;
-  type: 'video' | 'pdf';
   mediaId: string; // maps to R2 path id, e.g., videos/{mediaId}/full.mp4 or docs/{mediaId}/full.pdf
   language?: 'zh' | 'en';
 }
+
+export interface VideoMaterial extends BaseMaterial {
+  type: 'video';
+  // Free access policy for training videos.
+  access: VideoAccess;
+}
+
+export interface PdfMaterial extends BaseMaterial {
+  type: 'pdf';
+}
+
+export type CourseMaterial = VideoMaterial | PdfMaterial;
 
 export interface Module {
   id: string;
@@ -56,6 +69,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
             id: 'f101-lecture',
             title: '课程讲解视频',
             type: 'video',
+            access: 'preview',
             mediaId: 'training/f101/zh/ai-llm-evolution_T01',
             language: 'zh',
           },
@@ -97,6 +111,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
             id: 'f102-prompt-engineering-video-t01',
             title: '提示词工程精通 T01（视频）',
             type: 'video',
+            access: 'preview',
             mediaId: 'training/f102/zh/prompt-engineering-mastery_T01',
             language: 'zh',
           },
@@ -131,6 +146,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
             id: 'f103-safety-ethics-video-t01',
             title: 'AI 安全与风险 T01（视频）',
             type: 'video',
+            access: 'preview',
             mediaId: 'training/f103/zh/ai-safety-ethics_T01',
             language: 'zh',
           },
@@ -185,6 +201,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
             id: 'c201-video-analysis-t01',
             title: 'AI 图像生成解析 T01（视频）',
             type: 'video',
+            access: 'preview',
             mediaId: 'training/c201/zh/ai-image-generation-analysis_T01',
             language: 'zh',
           },
@@ -219,6 +236,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
             id: 'c202-video-magic-t01',
             title: '未来的导演：AI视频的魔法 T01（视频）',
             type: 'video',
+            access: 'preview',
             mediaId: 'training/c202/zh/future-director-ai-video-magic_T01',
             language: 'zh',
           },
@@ -441,6 +459,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
             id: 'f101-ai-llm-evolution-video-t1-en',
             title: 'AI LLM Evolution T01 (Video)',
             type: 'video',
+            access: 'preview',
             mediaId: 'training/f101/en/ai-llm-evolution_T01',
             language: 'en',
           },
@@ -475,6 +494,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
             id: 'f102-prompt-engineering-video-t01-en',
             title: 'Mastering Prompt Engineering T01 (Video)',
             type: 'video',
+            access: 'preview',
             mediaId: 'training/f102/en/mastering-prompt-engineering_T01',
             language: 'en',
           },
@@ -509,6 +529,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
             id: 'f103-ai-safety-ethics-video-t01-en',
             title: 'Driving the Future T01 (Video)',
             type: 'video',
+            access: 'preview',
             mediaId: 'training/f103/en/ai-safety-ethics_T01',
             language: 'en',
           },
@@ -563,6 +584,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
             id: 'c201-video-analysis-t01-en',
             title: 'The Canvas of Algorithms T01 (Video)',
             type: 'video',
+            access: 'preview',
             mediaId: 'training/c201/en/the-canvas-of-algorithms_T01',
             language: 'en',
           },
@@ -597,6 +619,7 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
             id: 'c202-future-director-video-t01-en',
             title: 'Future Director: The Magic of AI Video T01 (Video)',
             type: 'video',
+            access: 'preview',
             mediaId: 'training/c202/en/future-director-ai-video-magic_T01',
             language: 'en',
           },
@@ -790,4 +813,24 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
   }
 };
 
+const trainingVideoAccessByMediaId = (() => {
+  const map = new Map<string, VideoAccess>();
+  const addModule = (module: Module) => {
+    (module.materials || []).forEach((material) => {
+      if (material.type !== 'video') return;
+      map.set(material.mediaId, material.access);
+    });
+  };
+  const addSystem = (system: TrainingSystem) => {
+    [...system.foundations, ...system.creation, ...system.efficiency, ...system.vibe].forEach(addModule);
+  };
 
+  addSystem(TRAINING_SYSTEM.zh);
+  addSystem(TRAINING_SYSTEM.en);
+
+  return map;
+})();
+
+export function getTrainingVideoAccess(mediaId: string): VideoAccess | null {
+  return trainingVideoAccessByMediaId.get(mediaId) ?? null;
+}

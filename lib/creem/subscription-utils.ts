@@ -22,11 +22,11 @@ export async function getCreemSubscriptionStatus(userId: string): Promise<Subscr
 
   return {
     hasActiveSubscription: true,
-    subscriptionId: subscription.subscriptionId ?? undefined,
+    subscriptionId: subscription.subscriptionId,
     planId: subscription.priceId,
     status: subscription.status,
-    periodEnd: subscription.periodEnd ?? undefined,
-    cancelAtPeriodEnd: subscription.cancelAtPeriodEnd ?? undefined,
+    periodEnd: subscription.periodEnd,
+    cancelAtPeriodEnd: subscription.cancelAtPeriodEnd,
     provider: 'creem',
   };
 }
@@ -43,7 +43,7 @@ export async function getSubscriptionPlan(userId: string): Promise<string | null
     return null;
   }
 
-  return subscription.priceId || null;
+  return subscription.priceId;
 }
 
 export function isSubscriptionActive(subscription: PaymentRecord): boolean {

@@ -8,9 +8,8 @@ import {
 } from '@/lib/creem/plan-utils';
 import { normalizeCreemStatus } from '@/lib/creem/status-utils';
 import { grantSubscriptionCredits } from '@/lib/creem/subscription-credits';
+import type { PaymentStatus } from '@/payment/types';
 import { paymentRepository } from '@/server/db/repositories/payment-repository';
-import { creditTransactions } from '@/server/db/schema';
-import type { InferInsertModel } from 'drizzle-orm';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
@@ -399,7 +398,7 @@ export async function POST(request: NextRequest) {
 
             // Apply credit difference immediately
             const { db } = await import('@/server/db');
-            const { userCredits } = await import('@/server/db/schema');
+            const { creditTransactions, userCredits } = await import('@/server/db/schema');
             const { eq } = await import('drizzle-orm');
             const { randomUUID } = await import('node:crypto');
 
@@ -431,14 +430,13 @@ export async function POST(request: NextRequest) {
                   newPlanId: newCreditInfo.planId,
                 });
 
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 await tx
                   .update(userCredits)
                   .set({
                     balance: newBalance,
                     totalEarned: userCredit.totalEarned + creditDifference,
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                  } as any)
+                    updatedAt: new Date(),
+                  })
                   .where(eq(userCredits.userId, userId));
 
                 await tx.insert(creditTransactions).values({
@@ -459,7 +457,7 @@ export async function POST(request: NextRequest) {
                     provider: 'creem',
                     creditDifference,
                   }),
-                } as InferInsertModel<typeof creditTransactions>);
+                });
               });
 
               console.log(

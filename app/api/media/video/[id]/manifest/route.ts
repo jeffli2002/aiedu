@@ -1,5 +1,6 @@
 import { auth } from '@/lib/auth/auth';
 import { isEntitledForPremium } from '@/lib/access/entitlement';
+import { getTrainingVideoAccess } from '@/lib/training-system';
 import { NextResponse } from 'next/server';
 import { r2StorageService } from '@/lib/storage/r2';
 import { Readable } from 'node:stream';
@@ -55,6 +56,11 @@ export async function GET(
 
     const authOnly = url.searchParams.get('authOnly') === '1' || url.searchParams.get('authOnly') === 'true';
 
+    const trainingAccess = getTrainingVideoAccess(id);
+    if (!trainingAccess && id.includes('training/')) {
+      console.warn(`[Training] Missing video access tag for ${id}`);
+    }
+
     // Check session
     const session = await auth.api.getSession({ headers: request.headers });
     const isAuthed = Boolean(session?.user?.id);
@@ -78,7 +84,9 @@ export async function GET(
     const baseCdn = PUBLIC_CDN.replace(/\/$/, '');
 
     // Choose file based on entitlement and availability in R2
-    if (entitled) {
+    const allowFullAccess = entitled || trainingAccess === 'free';
+
+    if (allowFullAccess) {
       // Prefer HLS if present; fallback to MP4
       try {
         await r2StorageService.getAsset(`videos/${id}/master.m3u8`);
@@ -87,8 +95,20 @@ export async function GET(
         return NextResponse.redirect(`${baseCdn}/videos/${id}/full.mp4`, { status: 302 });
       }
     } else {
-      // Not entitled: serve preview manifest only
-      return NextResponse.redirect(`${baseCdn}/videos/${id}/preview.m3u8`, { status: 302 });
+      // Not entitled: serve preview manifest if present, fallback to MP4
+      try {
+        await r2StorageService.getAsset(`videos/${id}/preview.m3u8`);
+        return NextResponse.redirect(`${baseCdn}/videos/${id}/preview.m3u8`, { status: 302 });
+      } catch {
+        // ignore and fall through
+      }
+
+      try {
+        await r2StorageService.getAsset(`videos/${id}/preview.mp4`);
+        return NextResponse.redirect(`${baseCdn}/videos/${id}/preview.mp4`, { status: 302 });
+      } catch {
+        return NextResponse.redirect(`${baseCdn}/videos/${id}/full.mp4`, { status: 302 });
+      }
     }
   } catch (error) {
     return NextResponse.json(

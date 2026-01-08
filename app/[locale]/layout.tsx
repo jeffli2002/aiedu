@@ -24,13 +24,28 @@ export async function generateMetadata({
 
   const title = locale === 'zh'
     ? 'Real Magic AI — 让AI变成真实技能'
-    : 'Real Magic AI — Turning AI into Real Skills';
+    : 'Real Magic AI | Practical AI Education & Real-World Skills';
+
+  const description = locale === 'zh'
+    ? '让孩子掌握面向未来AI世界的能力'
+    : 'Real Magic AI is an AI education platform focused on practical skills, AI literacy, and real-world applications for students and professionals.';
+
+  const keywords = locale === 'zh'
+    ? ['Real Magic AI', 'AI教育', 'AI学习平台', '实用AI技能', 'AI素养', '生成式AI教育', '应用AI学习']
+    : [
+        'Real Magic AI',
+        'AI education',
+        'AI learning platform',
+        'practical AI skills',
+        'AI literacy',
+        'generative AI education',
+        'applied AI learning',
+      ];
 
   return {
     title,
-    description: locale === 'zh'
-      ? '让孩子掌握面向未来AI世界的能力'
-      : 'Empower students to thrive in the AI-driven future',
+    description,
+    keywords,
     alternates: {
       canonical: `${baseUrl}/${locale}`,
       languages: {
@@ -41,6 +56,7 @@ export async function generateMetadata({
     },
     openGraph: {
       title,
+      description,
       locale: locale === 'zh' ? 'zh_CN' : 'en_US',
       alternateLocale: locale === 'zh' ? ['en_US'] : ['zh_CN'],
     },

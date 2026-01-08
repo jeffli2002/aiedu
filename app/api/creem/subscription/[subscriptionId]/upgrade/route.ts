@@ -1,6 +1,6 @@
 import { auth } from '@/lib/auth/auth';
 import { creemService } from '@/lib/creem/creem-service';
-import { isCreemConfigured } from '@/lib/creem/creem-config';
+import { isCreemConfigured } from '@/payment/creem/client';
 import { paymentRepository } from '@/server/db/repositories/payment-repository';
 import { headers } from 'next/headers';
 import { NextResponse } from 'next/server';
@@ -131,8 +131,7 @@ export async function POST(
       );
     }
 
-    // forceScheduledAtPeriodEnd is used in the logic below
-    void forceScheduledAtPeriodEnd;
+    const _scheduledAtPeriodEnd = forceScheduledAtPeriodEnd;
     const estimatedEffectiveDate = paymentRecord.periodEnd
       ? new Date(paymentRecord.periodEnd)
       : (() => {

@@ -4,6 +4,7 @@ import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
 export const dynamic = 'force-dynamic';
+export const fetchCache = 'force-no-store';
 
 export async function GET(request: NextRequest) {
   try {
@@ -22,10 +23,17 @@ export async function GET(request: NextRequest) {
 
     const transactions = await creditService.getTransactionHistory(userId, limit, offset);
 
-    return NextResponse.json({
-      success: true,
-      data: transactions,
-    });
+    return NextResponse.json(
+      {
+        success: true,
+        data: transactions,
+      },
+      {
+        headers: {
+          'Cache-Control': 'no-store',
+        },
+      }
+    );
   } catch (error) {
     console.error('Error getting credit history:', error);
     return NextResponse.json(

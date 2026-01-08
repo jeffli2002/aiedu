@@ -1,4 +1,7 @@
 import { creditsConfig } from './credits.config';
+import { trainingConfig } from './training.config';
+
+const freeVideoPreviewFeature = `Video previews (first ${trainingConfig.freeVideoPreviewPercent}%)`;
 
 export interface CreditPack {
   id: string;
@@ -123,6 +126,8 @@ export const paymentConfig: PaymentConfig = {
       },
       features: [
         '15 credits sign-up bonus (one-time)',
+        'Full PDF lesson library (online-only)',
+        freeVideoPreviewFeature,
         'Daily check-in rewards (2 credits/day)',
         'Referral rewards (10 credits per referral)',
         `Social share rewards (${creditsConfig.rewards.socialShare.creditsPerShare} credits per share)`,
@@ -130,11 +135,9 @@ export const paymentConfig: PaymentConfig = {
         'Image-to-image generation',
         'Text-to-video generation',
         'Image-to-video generation',
-        'Batch generation (1 concurrent)',
         'Basic image styles',
-        '7 days asset display',
+        '7 days My Works display',
         'Standard quality',
-        'Brand analysis',
       ],
       popular: false,
       limits: {
@@ -169,14 +172,14 @@ export const paymentConfig: PaymentConfig = {
       },
       features: [
         '500 credits/month',
+        'Unlimited training videos + PDFs',
         'Everything in Free plan',
         'All image generation features',
         'Sora 2 & Sora 2 Pro video models',
         'Nano Banana Pro 4K resolution support',
-        'Batch generation (3 concurrent)',
         'No watermarks',
         'Commercial license',
-        '30 days asset display',
+        '30 days My Works display',
         'HD quality exports',
         'Priority support',
       ],
@@ -211,11 +214,11 @@ export const paymentConfig: PaymentConfig = {
       },
       features: [
         '900 credits/month',
+        'Unlimited training videos + PDFs',
         'Everything in Pro',
         'Advanced AI models first try',
-        'Batch generation (10 concurrent)',
         'Priority queue processing',
-        '90 days asset display',
+        '90 days My Works display',
         'Dedicated account manager',
         '24/7 priority support',
       ],
@@ -307,6 +310,3 @@ export const paymentConfig: PaymentConfig = {
     webhooks: true,
   },
 };
-
-
-

@@ -1,11 +1,10 @@
 import { auth } from '@/lib/auth/auth';
 import { resolvePlanByIdentifier, resolvePlanByProductId } from '@/lib/creem/plan-utils';
 import { resyncActiveCreemSubscription } from '@/lib/creem/resync-active-subscription';
+import { isCreemConfigured } from '@/payment/creem/client';
 import { paymentRepository } from '@/server/db/repositories/payment-repository';
 import { headers } from 'next/headers';
 import { NextResponse } from 'next/server';
-
-export const dynamic = 'force-dynamic';
 
 export async function GET() {
   try {

@@ -175,6 +175,14 @@ Uses `@/*` mapping to project root (configured in `tsconfig.json`).
 
 Example: `import { db } from '@/server/db'`
 
+## Lessons Learned (Type Errors)
+
+- Centralize Drizzle insert/update value types and reuse them across repositories.
+- When schema changes, update write types and explicit select mappings in the same sweep.
+- Keep TS compile scope tight (exclude legacy configs or add missing deps).
+- Prefer explicit UI prop interfaces over brittle `Pick`/inference patterns.
+- Run `pnpm build` (or at least `pnpm lint`) before pushing.
+
 ## Training Media System
 
 ### Course ID Format
