@@ -9,7 +9,11 @@ import {
 import { normalizeCreemStatus } from '@/lib/creem/status-utils';
 import { grantSubscriptionCredits } from '@/lib/creem/subscription-credits';
 import type { PaymentStatus } from '@/payment/types';
+import { db } from '@/server/db';
 import { paymentRepository } from '@/server/db/repositories/payment-repository';
+import { creditTransactions, userCredits } from '@/server/db/schema';
+import { eq } from 'drizzle-orm';
+import { randomUUID } from 'node:crypto';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
@@ -397,11 +401,6 @@ export async function POST(request: NextRequest) {
             });
 
             // Apply credit difference immediately
-            const { db } = await import('@/server/db');
-            const { creditTransactions, userCredits } = await import('@/server/db/schema');
-            const { eq } = await import('drizzle-orm');
-            const { randomUUID } = await import('node:crypto');
-
             const referenceId = `creem_${subscriptionId}_plan_change_${Date.now()}`;
             const userId = session.user.id;
 
