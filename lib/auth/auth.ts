@@ -142,6 +142,7 @@ export const auth = betterAuth({
     expiresIn: EMAIL_VERIFICATION_EXPIRES_IN,
     sendOnSignUp: true,
     sendOnSignIn: true,
+    autoSignInAfterVerification: true,
     sendVerificationEmail: async ({ user, url }) => {
       try {
         const identifier = `email-verification:${user.email.toLowerCase()}`;
