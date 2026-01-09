@@ -284,24 +284,6 @@ export default function TrainingPageContent() {
             {t('heroSubtitle')}
           </p>
 
-          <div className="flex justify-center">
-            <div
-              className="flex items-center gap-4 px-5 py-3 rounded-2xl border shadow-sm"
-              style={{ backgroundColor: THEME.colors.surface, borderColor: THEME.colors.border }}
-            >
-              <div className="flex -space-x-2">
-                {[1, 2, 3, 4, 5].map(i => (
-                  <div key={i} className="w-8 h-8 rounded-full border-2 border-white bg-[#e9e4dd] overflow-hidden shadow-sm">
-                    <img src={`https://i.pravatar.cc/150?u=student${i + 50}`} alt="student" className="w-full h-full object-cover" />
-                  </div>
-                ))}
-              </div>
-              <div className="text-left border-l pl-4" style={{ borderColor: THEME.colors.border }}>
-                <p className="text-xs font-semibold" style={{ color: THEME.colors.ink }}>{t('studentJoin')}</p>
-                <p className="text-xs font-medium" style={{ color: THEME.accents.warm.base }}>{t('pioneersTag')}</p>
-              </div>
-            </div>
-          </div>
         </div>
       </section>
 

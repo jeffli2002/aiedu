@@ -743,16 +743,6 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
               </Link>
             </div>
             
-            <div className="mt-10 flex items-center justify-center gap-6 text-light">
-               <div className="flex -space-x-2">
-                 {[1,2,3,4].map(i => (
-                   <div key={i} className="w-9 h-9 rounded-full border-2 border-white bg-[var(--color-border)] overflow-hidden shadow-sm">
-                     <img src={`https://i.pravatar.cc/150?u=student${i + 60}`} alt="student" className="w-full h-full object-cover" />
-                   </div>
-                 ))}
-               </div>
-               <span className={`${labelClass} text-light`}>{t('courseLanding.enrolledStudents')}</span>
-            </div>
           </div>
         </div>
       </div>
