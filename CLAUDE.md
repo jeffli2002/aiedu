@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Future AI Creators (未来AI创造者) - A bilingual (zh/en) AI education platform for K12 students built with Next.js 14. The platform offers AI training courses, a credit-based generation system for AI images/videos, and subscription payment processing.
+FuturAI (未来AI创造者) - A bilingual (zh/en) AI education platform for K12 students built with Next.js 14. The platform offers AI training courses, a credit-based generation system for AI images/videos, and subscription payment processing.
 
 ## Commands
 
@@ -27,6 +27,10 @@ npm run thumbs                  # Generate thumbnails
 npm run upload:training         # Upload training media to R2
 npm run upload:thumbs           # Upload thumbnails to R2
 ```
+
+## Git Workflow
+
+- Always bypass Husky hooks when committing: `HUSKY=0 git commit -m "..."`.
 
 ## Architecture
 
