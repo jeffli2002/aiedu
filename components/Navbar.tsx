@@ -3,10 +3,11 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { withLocalePath } from '@/i18n/locale-utils';
 import type { Locale } from '@/i18n/routing';
-import { Sparkles, Menu, X, User, LogOut, ChevronDown } from 'lucide-react';
+import { Menu, X, User, LogOut, ChevronDown } from 'lucide-react';
 import { useAuthStore } from '@/store/auth-store';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
@@ -98,18 +99,15 @@ export default function Navbar() {
             href={withLocalePath('/', locale)}
             className="flex items-center gap-3 group"
           >
-            <div
-              className="w-10 h-10 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
-              style={{ backgroundColor: '#ff6b35' }}
-            >
-              <Sparkles className="w-5 h-5 text-white" />
-            </div>
-            <span
-              className="text-lg font-bold tracking-tight hidden sm:block"
-              style={{ color: '#1a1a2e' }}
-            >
-              Future AI Creators
-            </span>
+            <Image
+              src="/FuturAI_logo.png"
+              alt="FuturAI logo"
+              width={160}
+              height={40}
+              priority
+              className="h-10 w-auto transition-transform duration-300 group-hover:scale-105"
+            />
+            <span className="sr-only">FuturAI</span>
           </Link>
 
           {/* Desktop Navigation */}

@@ -3,8 +3,9 @@
 import { useState, useEffect } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import Link from 'next/link';
+import Image from 'next/image';
 import { withLocalePath } from '@/i18n/locale-utils';
-import { Sparkles, Twitter, Mail, ArrowUpRight } from 'lucide-react';
+import { Twitter, Mail, ArrowUpRight } from 'lucide-react';
 
 /**
  * Footer - Editorial Minimal Design
@@ -44,9 +45,17 @@ export default function Footer({ fixed }: { fixed?: boolean } = {}) {
         style={{ fontFamily: '"DM Sans", system-ui, sans-serif' }}
       >
         <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-          <p className="text-xs" style={{ color: '#999' }}>
-            &copy; {year} Future AI Creators
-          </p>
+          <div className="flex items-center gap-2 text-xs" style={{ color: '#999' }}>
+            <span>&copy; {year}</span>
+            <Image
+              src="/FuturAI_logo.png"
+              alt="FuturAI logo"
+              width={120}
+              height={30}
+              className="h-5 w-auto"
+            />
+            <span className="sr-only">FuturAI</span>
+          </div>
           <div className="flex gap-4">
             <a
               href="https://x.com/jeffli2002"
@@ -86,22 +95,15 @@ export default function Footer({ fixed }: { fixed?: boolean } = {}) {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 pb-16 border-b border-slate-100">
           {/* Brand column */}
           <div className="lg:col-span-5 space-y-6">
-            <Link href={withLocalePath('/', lang)} className="inline-flex items-center gap-3 group">
-              <div
-                className="w-10 h-10 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
-                style={{ backgroundColor: '#ff6b35' }}
-              >
-                <Sparkles className="w-5 h-5 text-white" />
-              </div>
-              <span
-                className="text-xl font-bold tracking-tight"
-                style={{
-                  fontFamily: '"Instrument Serif", Georgia, serif',
-                  color: '#1a1a2e',
-                }}
-              >
-                Future AI Creators
-              </span>
+            <Link href={withLocalePath('/', lang)} className="inline-flex items-center group">
+              <Image
+                src="/FuturAI_logo.png"
+                alt="FuturAI logo"
+                width={180}
+                height={45}
+                className="h-10 w-auto transition-transform duration-300 group-hover:scale-105"
+              />
+              <span className="sr-only">FuturAI</span>
             </Link>
 
             <p
@@ -260,8 +262,17 @@ export default function Footer({ fixed }: { fixed?: boolean } = {}) {
 
         {/* Bottom section */}
         <div className="pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-xs" style={{ color: '#999' }}>
-            &copy; {year} Future AI Creators. {lang === 'zh' ? '保留所有权利' : 'All rights reserved'}.
+          <p className="text-xs flex flex-wrap items-center gap-2" style={{ color: '#999' }}>
+            <span>&copy; {year}</span>
+            <Image
+              src="/FuturAI_logo.png"
+              alt="FuturAI logo"
+              width={110}
+              height={28}
+              className="h-4 w-auto"
+            />
+            <span className="sr-only">FuturAI</span>
+            <span>{lang === 'zh' ? '保留所有权利' : 'All rights reserved'}.</span>
           </p>
 
           <div className="flex items-center gap-6">
