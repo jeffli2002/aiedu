@@ -104,6 +104,7 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
   const previewPromptedRef = useRef<Set<string>>(new Set());
   const unlockInFlightRef = useRef(false);
   const pendingSeekRef = useRef<Record<string, number>>({});
+  const pdfAccessQuery = isAuthenticated ? 'authOnly=1' : 'public=1';
 
   useEffect(() => {
     previewPromptedRef.current.clear();
@@ -303,6 +304,15 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
     router.push(`/${lang}/training`);
   };
 
+  const getPdfUrl = (mediaId: string) =>
+    `/api/media/pdf/${encodeURIComponent(mediaId)}?${pdfAccessQuery}`;
+
+  const getVideoUrl = (mediaId: string) => {
+    const base = `/api/media/video/${encodeURIComponent(mediaId)}/manifest`;
+    const authParam = isAuthenticated ? 'authOnly=1&' : '';
+    return `${base}?${authParam}access=${courseAccessVersion}`;
+  };
+
   if (!isClient) {
     return (
       <div className="min-h-screen section-light font-body">
@@ -429,163 +439,85 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
               </h3>
             </div>
 
-            {!isAuthenticated ? (
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {visibleMaterials.map((m) => (
-                  <div key={m.id} className="rounded-2xl border border-[var(--color-border-light)] bg-white shadow-sm overflow-hidden">
-                    {m.type === 'pdf' ? (
-                      <a
-                        href={`/api/media/pdf/${encodeURIComponent(m.mediaId)}?authOnly=1`}
-                        className="block group cursor-pointer"
-                        title={m.title}
-                      >
-                        <div className="px-3 py-2 border-b border-[var(--color-border-light)] flex items-center justify-between">
-                          <div className="font-semibold text-[13px] truncate text-dark">{m.title}</div>
-                          <div className={`${labelClass} text-light`}>{m.type.toUpperCase()}</div>
-                        </div>
-                        <div className="p-2">
-                          <div className="relative w-full aspect-video rounded-xl border border-[var(--color-border)] bg-[var(--color-light)] overflow-hidden">
-                            <img
-                              alt={m.title}
-                              className="w-full h-full object-cover"
-                              src={`/api/media/pdf/${encodeURIComponent(m.mediaId)}?thumb=1`}
-                              onContextMenu={(e) => e.preventDefault()}
-                              onError={(e) => {
-                                const target = e.target as HTMLImageElement;
-                                // as last resort try CDN direct jpg then png
-                                const base = `${(process.env.NEXT_PUBLIC_R2_PUBLIC_URL || '').replace(/\/$/, '')}/docs/${encodeURIComponent(m.mediaId)}`;
-                                target.src = `${base}/thumb.jpg`;
-                                setTimeout(() => {
-                                  if (!target.complete || target.naturalWidth === 0) {
-                                    target.src = `${base}/thumb.png`;
-                                  }
-                                }, 200);
-                              }}
-                            />
-                            <div className="pointer-events-none absolute bottom-2 right-2 px-2 py-0.5 rounded bg-black/50 text-[10px] text-white">PDF</div>
-                          </div>
-                        </div>
-                      </a>
-                    ) : (
-                      <a
-                        href={`/api/media/video/${encodeURIComponent(m.mediaId)}/manifest?authOnly=1`}
-                        className="block group"
-                        title={m.title}
-                      >
-                        <div className="px-3 py-2 border-b border-[var(--color-border-light)] flex items-center justify-between">
-                          <div className="font-semibold text-[13px] truncate text-dark">{m.title}</div>
-                          <div className={`${labelClass} text-light`}>{m.type.toUpperCase()}</div>
-                        </div>
-                        <div className="p-2">
-                          <div className="relative w-full aspect-video rounded-xl border border-[var(--color-border)] bg-[var(--color-light)] overflow-hidden">
-                            <img
-                              alt={m.title}
-                              className="w-full h-full object-cover"
-                              src={`/api/media/video/${encodeURIComponent(m.mediaId)}/manifest?thumb=1`}
-                              onContextMenu={(e) => e.preventDefault()}
-                              onError={(e) => {
-                                const target = e.target as HTMLImageElement;
-                                const base = `${(process.env.NEXT_PUBLIC_R2_PUBLIC_URL || '').replace(/\/$/, '')}/videos/${encodeURIComponent(m.mediaId)}`;
-                                target.src = `${base}/thumb.jpg`;
-                                setTimeout(() => {
-                                  if (!target.complete || target.naturalWidth === 0) {
-                                    target.src = `${base}/thumb.png`;
-                                  }
-                                }, 200);
-                              }}
-                            />
-                            <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-                              <div className="w-10 h-10 rounded-full bg-black/50 grid place-items-center text-white">
-                                ▶
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </a>
-                    )}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {previewGateEnabled && hasPreviewVideos && (
+                <div className="lg:col-span-2 rounded-3xl border border-[var(--color-border-light)] bg-[var(--color-light)] p-4 md:p-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                  <div>
+                    <p className="text-sm font-semibold text-dark">
+                      {lang === 'zh'
+                        ? `免费用户：PDF 全部可读，视频仅试听前 ${previewPercent}%。`
+                        : `Free plan: full PDFs, videos are limited to the first ${previewPercent}%.`}
+                    </p>
+                    <p className="text-xs text-light mt-1">
+                      {lang === 'zh'
+                        ? '升级订阅即可无限制观看完整视频内容。'
+                        : 'Upgrade to watch full training videos without limits.'}
+                    </p>
                   </div>
-                ))}
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                {previewGateEnabled && hasPreviewVideos && (
-                  <div className="lg:col-span-2 rounded-3xl border border-[var(--color-border-light)] bg-[var(--color-light)] p-4 md:p-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                    <div>
-                      <p className="text-sm font-semibold text-dark">
-                        {lang === 'zh'
-                          ? `免费用户：PDF 全部可读，视频仅试听前 ${previewPercent}%。`
-                          : `Free plan: full PDFs, videos are limited to the first ${previewPercent}%.`}
-                      </p>
-                      <p className="text-xs text-light mt-1">
-                        {lang === 'zh'
-                          ? '升级订阅即可无限制观看完整视频内容。'
-                          : 'Upgrade to watch full training videos without limits.'}
-                      </p>
-                    </div>
-                    <Link
-                      href={withLocalePath('/pricing', lang)}
-                      className="btn-outline-coral px-5 py-2 rounded-full text-xs font-semibold uppercase tracking-[0.22em] whitespace-nowrap"
-                    >
-                      {lang === 'zh' ? '升级订阅' : 'Upgrade'}
-                    </Link>
+                  <Link
+                    href={withLocalePath('/pricing', lang)}
+                    className="btn-outline-coral px-5 py-2 rounded-full text-xs font-semibold uppercase tracking-[0.22em] whitespace-nowrap"
+                  >
+                    {lang === 'zh' ? '升级订阅' : 'Upgrade'}
+                  </Link>
+                </div>
+              )}
+              {visibleMaterials.map((m) => (
+                <div key={m.id} className="rounded-3xl border border-[var(--color-border-light)] bg-white shadow-sm overflow-hidden">
+                  <div className="px-6 py-4 border-b border-[var(--color-border-light)] flex items-center justify-between">
+                    <div className="font-semibold text-dark">{m.title}</div>
+                    <div className={`${labelClass} text-light`}>{m.type.toUpperCase()}</div>
                   </div>
-                )}
-                {visibleMaterials.map((m) => (
-                  <div key={m.id} className="rounded-3xl border border-[var(--color-border-light)] bg-white shadow-sm overflow-hidden">
-                    <div className="px-6 py-4 border-b border-[var(--color-border-light)] flex items-center justify-between">
-                      <div className="font-semibold text-dark">{m.title}</div>
-                      <div className={`${labelClass} text-light`}>{m.type.toUpperCase()}</div>
-                    </div>
-                    <div className="p-4">
-                      {m.type === 'video' ? (
-                        <div className="relative">
-                          {/* Loading overlay for video */}
-                          {loadingMedia[m.id] && (
-                            <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-[var(--color-border-light)] rounded-2xl border border-[var(--color-border)]">
-                              <div className="flex flex-col items-center gap-3">
-                                <div className="relative">
-                                  <div className="w-16 h-16 rounded-full bg-secondary-light flex items-center justify-center">
-                                    <Play className="w-6 h-6 text-primary" />
-                                  </div>
-                                  <Loader2 className="absolute -top-1 -left-1 w-[72px] h-[72px] text-primary animate-spin" />
+                  <div className="p-4">
+                    {m.type === 'video' ? (
+                      <div className="relative">
+                        {/* Loading overlay for video */}
+                        {loadingMedia[m.id] && (
+                          <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-[var(--color-border-light)] rounded-2xl border border-[var(--color-border)]">
+                            <div className="flex flex-col items-center gap-3">
+                              <div className="relative">
+                                <div className="w-16 h-16 rounded-full bg-secondary-light flex items-center justify-center">
+                                  <Play className="w-6 h-6 text-primary" />
                                 </div>
-                                <p className="text-sm font-medium text-muted">
-                                  {lang === 'zh' ? '正在加载视频...' : 'Loading video...'}
-                                </p>
+                                <Loader2 className="absolute -top-1 -left-1 w-[72px] h-[72px] text-primary animate-spin" />
                               </div>
+                              <p className="text-sm font-medium text-muted">
+                                {lang === 'zh' ? '正在加载视频...' : 'Loading video...'}
+                              </p>
                             </div>
-                          )}
-                          <video
-                            key={m.mediaId}
-                            controls
-                            controlsList="nodownload noplaybackrate"
-                            disablePictureInPicture
-                            className="w-full rounded-2xl border border-[var(--color-border)]"
-                            onContextMenu={(e) => e.preventDefault()}
-                            preload="metadata"
-                            src={`/api/media/video/${encodeURIComponent(m.mediaId)}/manifest?access=${courseAccessVersion}`}
-                            poster={`/api/media/video/${encodeURIComponent(m.mediaId)}/manifest?thumb=1`}
-                            onLoadedData={() => handleMediaLoaded(m.id)}
-                            onCanPlay={() => handleMediaLoaded(m.id)}
-                            onLoadedMetadata={(event) => {
-                              applyPendingSeek(m.mediaId, event.currentTarget);
-                              enforcePreviewLimit(m, event.currentTarget);
-                            }}
-                            onTimeUpdate={(event) => enforcePreviewLimit(m, event.currentTarget)}
-                            onSeeking={(event) => enforcePreviewLimit(m, event.currentTarget)}
-                            onEnded={(event) => handlePreviewEnded(m, event.currentTarget)}
-                          />
-                          {previewGateEnabled && m.type === 'video' && m.access === 'preview' && (
-                            <div className="absolute top-3 right-3 rounded-full bg-black/70 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-white">
-                              {lang === 'zh' ? `试听 ${previewPercent}%` : `Preview ${previewPercent}%`}
-                            </div>
-                          )}
-                        </div>
-                      ) : (
-                        <div>
-                          <div className="relative">
-                            {/* Loading overlay for PDF */}
-                            {loadingMedia[m.id] && (
+                          </div>
+                        )}
+                        <video
+                          key={m.mediaId}
+                          controls
+                          controlsList="nodownload noplaybackrate"
+                          disablePictureInPicture
+                          className="w-full rounded-2xl border border-[var(--color-border)]"
+                          onContextMenu={(e) => e.preventDefault()}
+                          preload="metadata"
+                          src={getVideoUrl(m.mediaId)}
+                          poster={`/api/media/video/${encodeURIComponent(m.mediaId)}/manifest?thumb=1`}
+                          onLoadedData={() => handleMediaLoaded(m.id)}
+                          onCanPlay={() => handleMediaLoaded(m.id)}
+                          onLoadedMetadata={(event) => {
+                            applyPendingSeek(m.mediaId, event.currentTarget);
+                            enforcePreviewLimit(m, event.currentTarget);
+                          }}
+                          onTimeUpdate={(event) => enforcePreviewLimit(m, event.currentTarget)}
+                          onSeeking={(event) => enforcePreviewLimit(m, event.currentTarget)}
+                          onEnded={(event) => handlePreviewEnded(m, event.currentTarget)}
+                        />
+                        {previewGateEnabled && m.type === 'video' && m.access === 'preview' && (
+                          <div className="absolute top-3 right-3 rounded-full bg-black/70 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-white">
+                            {lang === 'zh' ? `试听 ${previewPercent}%` : `Preview ${previewPercent}%`}
+                          </div>
+                        )}
+                      </div>
+                    ) : (
+                      <div>
+                        <div className="relative">
+                          {/* Loading overlay for PDF */}
+                          {loadingMedia[m.id] && (
                             <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-[var(--color-light)] rounded-2xl border border-[var(--color-border)]">
                               <div className="flex flex-col items-center gap-3">
                                 <div className="relative">
@@ -602,48 +534,47 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
                                 </p>
                               </div>
                             </div>
-                            )}
-                            <object
-                              key={m.mediaId}
-                              data={`/api/media/pdf/${encodeURIComponent(m.mediaId)}?authOnly=1#toolbar=0&navpanes=0&scrollbar=0`}
-                              type="application/pdf"
-                              className="w-full h-[70vh] rounded-2xl border border-[var(--color-border)] bg-white"
-                              onLoad={() => handleMediaLoaded(m.id)}
-                            >
-                              <a
-                                href={`/api/media/pdf/${encodeURIComponent(m.mediaId)}?authOnly=1`}
-                                className="link-primary underline"
-                              >
-                                {t('courseLanding.openDocument') || '打开文档'}
-                              </a>
-                            </object>
-                          </div>
-                          <div className="mt-3 flex items-center gap-3">
-                            <button
-                              type="button"
-                              onClick={() => {
-                                setFullscreenLoading(true);
-                                setFullscreenPdf({ mediaId: m.mediaId, title: m.title });
-                              }}
-                              className="btn-outline-coral inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold transition-colors"
-                            >
-                              {t('courseLanding.viewFullscreen') || '全屏阅读'}
-                            </button>
+                          )}
+                          <object
+                            key={m.mediaId}
+                            data={`${getPdfUrl(m.mediaId)}#toolbar=0&navpanes=0&scrollbar=0`}
+                            type="application/pdf"
+                            className="w-full h-[70vh] rounded-2xl border border-[var(--color-border)] bg-white"
+                            onLoad={() => handleMediaLoaded(m.id)}
+                          >
                             <a
-                              href={`/api/media/pdf/${encodeURIComponent(m.mediaId)}?authOnly=1`}
-                              className="text-[12px] link-primary underline"
+                              href={getPdfUrl(m.mediaId)}
+                              className="link-primary underline"
                             >
-                              {t('courseLanding.openInNewTab') || '在新标签打开'}
+                              {t('courseLanding.openDocument') || '打开文档'}
                             </a>
-                          </div>
+                          </object>
                         </div>
-                      )}
-                      <div className="mt-3 text-xs text-light">{t('courseLanding.noDownload') || '为保护版权，本资料仅支持在线阅读/观看，已禁用右键、下载、Picture-in-Picture 与播放速度调节。'}</div>
-                    </div>
+                        <div className="mt-3 flex items-center gap-3">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setFullscreenLoading(true);
+                              setFullscreenPdf({ mediaId: m.mediaId, title: m.title });
+                            }}
+                            className="btn-outline-coral inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold transition-colors"
+                          >
+                            {t('courseLanding.viewFullscreen') || '全屏阅读'}
+                          </button>
+                          <a
+                            href={getPdfUrl(m.mediaId)}
+                            className="text-[12px] link-primary underline"
+                          >
+                            {t('courseLanding.openInNewTab') || '在新标签打开'}
+                          </a>
+                        </div>
+                      </div>
+                    )}
+                    <div className="mt-3 text-xs text-light">{t('courseLanding.noDownload') || '为保护版权，本资料仅支持在线阅读/观看，已禁用右键、下载、Picture-in-Picture 与播放速度调节。'}</div>
                   </div>
-                ))}
-              </div>
-            )}
+                </div>
+              ))}
+            </div>
           </div>
         </section>
       )}
@@ -806,7 +737,7 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
               </div>
             )}
             <object
-              data={`/api/media/pdf/${encodeURIComponent(fullscreenPdf.mediaId)}?authOnly=1#toolbar=1&navpanes=1&scrollbar=1`}
+              data={`${getPdfUrl(fullscreenPdf.mediaId)}#toolbar=1&navpanes=1&scrollbar=1`}
               type="application/pdf"
               className="w-full h-full"
               onLoad={() => setFullscreenLoading(false)}
@@ -815,7 +746,7 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
                 <div className="text-center">
                   <p className="mb-4">{t('courseLanding.pdfLoadError') || '无法加载 PDF 文档'}</p>
                   <a
-                    href={`/api/media/pdf/${encodeURIComponent(fullscreenPdf.mediaId)}?authOnly=1`}
+                    href={getPdfUrl(fullscreenPdf.mediaId)}
                     className="link-primary underline"
                     target="_blank"
                     rel="noopener noreferrer"

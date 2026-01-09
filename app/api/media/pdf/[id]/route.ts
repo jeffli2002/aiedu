@@ -1,5 +1,6 @@
 import { auth } from '@/lib/auth/auth';
 import { isEntitledForPremium } from '@/lib/access/entitlement';
+import { getTrainingCourseIdFromMediaId } from '@/lib/training-system';
 import { NextResponse } from 'next/server';
 import { r2StorageService } from '@/lib/storage/r2';
 import { Readable } from 'node:stream';
@@ -55,11 +56,16 @@ export async function GET(
 
     const url = url0;
     const authOnly = url.searchParams.get('authOnly') === '1' || url.searchParams.get('authOnly') === 'true';
+    const publicOnly = url.searchParams.get('public') === '1' || url.searchParams.get('public') === 'true';
 
     const session = await auth.api.getSession({ headers: request.headers });
     const isAuthed = Boolean(session?.user?.id);
+    const isTrainingMaterial = Boolean(getTrainingCourseIdFromMediaId(id));
+    const allowPublicAccess = publicOnly && isTrainingMaterial;
     let entitled = false;
-    if (authOnly) {
+    if (allowPublicAccess) {
+      entitled = true;
+    } else if (authOnly) {
       entitled = isAuthed;
     } else {
       entitled = isAuthed
