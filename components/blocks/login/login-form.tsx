@@ -5,11 +5,12 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { cn, isMobile, isWebView } from '@/lib/utils';
 import type { LoginFormProps } from '@/types/login';
-import { AlertCircle, Sparkles } from 'lucide-react';
+import { AlertCircle } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
+import Image from 'next/image';
 
 /**
  * Login Form - Editorial Minimal Design
@@ -117,18 +118,14 @@ export function LoginForm({
       {/* Logo */}
       <div className="text-center mb-4">
         <Link href="/" className="inline-flex items-center gap-3 group">
-          <div
-            className="w-10 h-10 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
-            style={{ backgroundColor: '#ff6b35' }}
-          >
-            <Sparkles className="w-5 h-5 text-white" />
-          </div>
-          <span
-            className="text-lg font-bold tracking-tight"
-            style={{ color: '#1a1a2e' }}
-          >
-            FuturAI
-          </span>
+          <Image
+            src="/FuturAI_logo.png"
+            alt="FuturAI logo"
+            width={160}
+            height={40}
+            className="h-10 w-auto transition-transform duration-300 group-hover:scale-105"
+          />
+          <span className="sr-only">FuturAI</span>
         </Link>
       </div>
 
