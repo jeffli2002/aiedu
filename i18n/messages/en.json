@@ -1157,7 +1157,9 @@
       "openDocument": "Open document",
       "viewFullscreen": "View fullscreen",
       "openInNewTab": "Open in new tab",
-      "pdfLoadError": "Failed to load PDF"
+      "pdfLoadError": "Failed to load PDF",
+      "previewLimitTitle": "Preview limit reached",
+      "previewLimitNotice": "Free users can only watch {percent}%. Please subscribe to unlock full access."
     }
   },
   "terms": {

@@ -727,6 +727,8 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
           onClose={closeUpgradePrompt}
           isAuthenticated={isAuthenticated}
           type="videoGeneration"
+          title={t('courseLanding.previewLimitTitle')}
+          notice={t('courseLanding.previewLimitNotice', { percent: previewPercent })}
         />
       )}
 

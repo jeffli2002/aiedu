@@ -1157,7 +1157,9 @@
       "openDocument": "打开文档",
       "viewFullscreen": "全屏阅读",
       "openInNewTab": "在新标签打开",
-      "pdfLoadError": "无法加载 PDF 文档"
+      "pdfLoadError": "无法加载 PDF 文档",
+      "previewLimitTitle": "已达到试听上限",
+      "previewLimitNotice": "免费用户仅可观看前 {percent}%，请订阅解锁全部内容。"
     }
   },
   "terms": {

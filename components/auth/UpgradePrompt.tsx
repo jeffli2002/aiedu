@@ -22,6 +22,8 @@ interface UpgradePromptProps {
   isAuthenticated?: boolean;
   limitType?: 'daily' | 'monthly';
   showContinueButton?: boolean; // Whether to show "Continue" button
+  title?: string;
+  notice?: string;
 }
 
 export default function UpgradePrompt({
@@ -35,6 +37,8 @@ export default function UpgradePrompt({
   isAuthenticated = true,
   limitType = 'daily',
   showContinueButton = false,
+  title,
+  notice,
 }: UpgradePromptProps) {
   // Use feature prop if provided, otherwise fall back to type
   const effectiveType = feature || type;
@@ -151,6 +155,9 @@ export default function UpgradePrompt({
     return null;
   }
 
+  const defaultTitle = !isAuthenticated ? 'Sign In Required' : 'Insufficient Credits';
+  const promptTitle = title || defaultTitle;
+
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
@@ -170,7 +177,7 @@ export default function UpgradePrompt({
         <CardHeader className="bg-white dark:bg-slate-900 flex-shrink-0">
           <div className="flex items-center justify-between">
             <CardTitle className="text-xl font-bold text-slate-900 dark:text-white">
-              {!isAuthenticated ? 'Sign In Required' : 'Insufficient Credits'}
+              {promptTitle}
             </CardTitle>
             {onClose && (
               <Button
@@ -196,6 +203,11 @@ export default function UpgradePrompt({
               >
                 Current balance: {creditsUsed} credits
               </Badge>
+            </div>
+          )}
+          {notice && (
+            <div className="mt-3 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-sm font-semibold text-amber-900">
+              {notice}
             </div>
           )}
         </CardHeader>
