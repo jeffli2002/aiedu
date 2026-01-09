@@ -1,6 +1,7 @@
 import { auth } from '@/lib/auth/auth';
 import { isEntitledForPremium } from '@/lib/access/entitlement';
-import { getTrainingVideoAccess } from '@/lib/training-system';
+import { hasTrainingCourseAccess } from '@/lib/training-access';
+import { getTrainingCourseIdFromMediaId, getTrainingVideoAccess } from '@/lib/training-system';
 import { NextResponse } from 'next/server';
 import { r2StorageService } from '@/lib/storage/r2';
 import { Readable } from 'node:stream';
@@ -63,7 +64,8 @@ export async function GET(
 
     // Check session
     const session = await auth.api.getSession({ headers: request.headers });
-    const isAuthed = Boolean(session?.user?.id);
+    const userId = session?.user?.id || null;
+    const isAuthed = Boolean(userId);
     let entitled = false;
     if (authOnly) {
       entitled = isAuthed; // auth-only gating
@@ -82,9 +84,12 @@ export async function GET(
     }
 
     const baseCdn = PUBLIC_CDN.replace(/\/$/, '');
+    const courseId = getTrainingCourseIdFromMediaId(id);
+    const hasCourseAccess =
+      !entitled && courseId && userId ? await hasTrainingCourseAccess(userId, courseId) : false;
 
     // Choose file based on entitlement and availability in R2
-    const allowFullAccess = entitled || trainingAccess === 'free';
+    const allowFullAccess = entitled || trainingAccess === 'free' || hasCourseAccess;
 
     if (allowFullAccess) {
       // Prefer HLS if present; fallback to MP4

@@ -1,6 +1,7 @@
 'use client';
 
 import { env } from '@/env';
+import { withLocalePath } from '@/i18n/locale-utils';
 import { useState } from 'react';
 
 type PlanId = 'pro' | 'proplus';
@@ -18,6 +19,25 @@ export function useCreemPayment() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const resolveBaseLang = () => {
+    if (typeof window === 'undefined') {
+      return 'zh';
+    }
+
+    const [firstSegment] = window.location.pathname.split('/').filter(Boolean);
+    return firstSegment === 'en' || firstSegment === 'zh' ? firstSegment : 'zh';
+  };
+
+  const buildDefaultSuccessUrl = (origin: string) => {
+    const lang = resolveBaseLang();
+    return `${origin}${withLocalePath('/dashboard', lang)}?success=true`;
+  };
+
+  const buildDefaultCancelUrl = (origin: string) => {
+    const lang = resolveBaseLang();
+    return `${origin}${withLocalePath('/settings/billing', lang)}?canceled=true`;
+  };
+
   const createCheckoutSession = async ({
     planId,
     interval = 'month',
@@ -31,6 +51,8 @@ export function useCreemPayment() {
     try {
       const fallbackOrigin =
         typeof window !== 'undefined' ? window.location.origin : env.NEXT_PUBLIC_APP_URL;
+      const resolvedSuccessUrl = successUrl || buildDefaultSuccessUrl(fallbackOrigin);
+      const resolvedCancelUrl = cancelUrl || buildDefaultCancelUrl(fallbackOrigin);
       const response = await fetch('/api/payment/create-checkout', {
         method: 'POST',
         headers: {
@@ -41,8 +63,8 @@ export function useCreemPayment() {
           planId,
           interval,
           productKey,
-          successUrl: successUrl || `${fallbackOrigin}/settings/billing?success=true`,
-          cancelUrl: cancelUrl || `${fallbackOrigin}/settings/billing?canceled=true`,
+          successUrl: resolvedSuccessUrl,
+          cancelUrl: resolvedCancelUrl,
         }),
       });
 

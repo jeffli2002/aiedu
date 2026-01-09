@@ -61,7 +61,7 @@ export class CreemProvider implements PaymentProvider {
       const requestBody: CheckoutRequestPayload = {
         product_id: priceId,
         success_url:
-          successUrl || `${process.env.NEXT_PUBLIC_APP_URL}/settings/billing?success=true`,
+          successUrl || `${process.env.NEXT_PUBLIC_APP_URL}/dashboard?success=true`,
         cancel_url:
           cancelUrl || `${process.env.NEXT_PUBLIC_APP_URL}/settings/billing?canceled=true`,
         metadata: {
@@ -102,7 +102,7 @@ export class CreemProvider implements PaymentProvider {
 
       const requestBody: CheckoutRequestPayload = {
         product_id: priceId,
-        success_url: `${process.env.NEXT_PUBLIC_APP_URL}/settings/billing?success=true`,
+        success_url: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard?success=true`,
         metadata: {
           userId,
           ...metadata,

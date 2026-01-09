@@ -14,6 +14,7 @@ export type CreditTransactionType =
   | 'unfreeze';
 export type CreditTransactionSource =
   | 'subscription'
+  | 'purchase'
   | 'api_call'
   | 'admin'
   | 'storage'

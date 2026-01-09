@@ -28,7 +28,8 @@ import { useIsAuthenticated } from '@/store/auth-store';
 import { withLocalePath } from '@/i18n/locale-utils';
 import { useSubscription } from '@/hooks/use-subscription';
 import { useUpgradePrompt } from '@/hooks/use-upgrade-prompt';
-import { trainingConfig } from '@/config/training.config';
+import { useCreditBalance } from '@/hooks/use-credit-balance';
+import { getTrainingVideoCourseCreditCost, trainingConfig } from '@/config/training.config';
 
 interface CourseLandingPageProps {
   course: Module;
@@ -85,16 +86,61 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
   const isAuthenticated = useIsAuthenticated();
   const { planId, loading: subscriptionLoading } = useSubscription();
   const { showUpgradePrompt, openUpgradePrompt, closeUpgradePrompt } = useUpgradePrompt();
+  const { balance: creditBalance, refresh: refreshCreditBalance } = useCreditBalance();
   const lang = locale === 'zh' ? 'zh' : 'en';
   const visibleMaterials = (course.materials || []).filter(
     (m) => !m.language || m.language === lang
   );
   const isSubscriber = !subscriptionLoading && planId !== 'free';
+  const courseCreditCost = getTrainingVideoCourseCreditCost(course.id);
   const previewPercent = trainingConfig.freeVideoPreviewPercent;
   const previewRatio = Math.min(1, Math.max(0, previewPercent / 100));
   const previewEnabled = !subscriptionLoading && !isSubscriber && previewRatio > 0 && previewRatio < 1;
   const hasPreviewVideos = visibleMaterials.some((m) => m.type === 'video' && m.access === 'preview');
+  const requiresCreditUnlock = courseCreditCost > 0;
+  const [courseUnlocked, setCourseUnlocked] = useState(false);
+  const [courseAccessVersion, setCourseAccessVersion] = useState(0);
+  const previewGateEnabled = previewEnabled && requiresCreditUnlock && !courseUnlocked;
   const previewPromptedRef = useRef<Set<string>>(new Set());
+  const unlockInFlightRef = useRef(false);
+  const pendingSeekRef = useRef<Record<string, number>>({});
+
+  useEffect(() => {
+    previewPromptedRef.current.clear();
+    pendingSeekRef.current = {};
+    setCourseAccessVersion(0);
+    setCourseUnlocked(false);
+
+    if (!isAuthenticated) return;
+    if (!requiresCreditUnlock) {
+      setCourseUnlocked(true);
+      return;
+    }
+
+    let active = true;
+    const fetchAccess = async () => {
+      try {
+        const response = await fetch(
+          `/api/training/access?courseId=${encodeURIComponent(course.id)}`,
+          { credentials: 'include', cache: 'no-store' }
+        );
+
+        if (!response.ok) return;
+        const data = await response.json();
+        if (active && data?.data?.unlocked) {
+          setCourseUnlocked(true);
+        }
+      } catch (error) {
+        console.error('[Training] Failed to check course access:', error);
+      }
+    };
+
+    void fetchAccess();
+
+    return () => {
+      active = false;
+    };
+  }, [course.id, isAuthenticated, requiresCreditUnlock]);
 
   // Initialize loading states for all materials
   useEffect(() => {
@@ -110,9 +156,85 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
     setLoadingMedia((prev) => ({ ...prev, [mediaId]: false }));
   }, []);
 
+  const applyPendingSeek = useCallback((mediaId: string, video: HTMLVideoElement) => {
+    const seekTarget = pendingSeekRef.current[mediaId];
+    if (!Number.isFinite(seekTarget)) return;
+    if (video.currentSrc.includes('/preview.')) return;
+    if (!Number.isFinite(video.duration) || video.duration <= 0) return;
+
+    const safeTime = Math.min(seekTarget, Math.max(0, video.duration - 0.1));
+    video.currentTime = safeTime;
+    delete pendingSeekRef.current[mediaId];
+    void video.play().catch(() => {});
+  }, []);
+
+  const triggerPreviewCheckpoint = useCallback(
+    async (material: CourseMaterial, video: HTMLVideoElement, resumeFrom?: number) => {
+      if (!previewGateEnabled) return;
+      if (material.type !== 'video' || material.access !== 'preview') return;
+      if (previewPromptedRef.current.has(material.mediaId)) return;
+      if (unlockInFlightRef.current) return;
+
+      if (!isAuthenticated) {
+        previewPromptedRef.current.add(material.mediaId);
+        openUpgradePrompt();
+        return;
+      }
+
+      unlockInFlightRef.current = true;
+      try {
+        const response = await fetch('/api/training/access', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ courseId: course.id }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to unlock course access');
+        }
+
+        const payload = await response.json().catch(() => null);
+        const unlocked = Boolean(payload?.data?.unlocked);
+        const reason = payload?.data?.reason as string | undefined;
+
+        if (unlocked) {
+          setCourseUnlocked(true);
+          const resumeTime = Number.isFinite(resumeFrom) ? resumeFrom : video.currentTime;
+          const safeResume =
+            Number.isFinite(video.duration) && video.duration > 0
+              ? Math.min(resumeTime + 0.05, Math.max(0, video.duration - 0.1))
+              : resumeTime;
+          pendingSeekRef.current[material.mediaId] = safeResume;
+          setCourseAccessVersion((prev) => prev + 1);
+          void refreshCreditBalance();
+        } else if (reason === 'insufficient') {
+          openUpgradePrompt();
+        } else {
+          openUpgradePrompt();
+        }
+
+        previewPromptedRef.current.add(material.mediaId);
+      } catch (error) {
+        console.error('[Training] Failed to unlock course access:', error);
+        previewPromptedRef.current.add(material.mediaId);
+        openUpgradePrompt();
+      } finally {
+        unlockInFlightRef.current = false;
+      }
+    },
+    [
+      course.id,
+      isAuthenticated,
+      openUpgradePrompt,
+      previewGateEnabled,
+      refreshCreditBalance,
+    ]
+  );
+
   const enforcePreviewLimit = useCallback(
     (material: CourseMaterial, video: HTMLVideoElement) => {
-      if (!previewEnabled) return;
+      if (!previewGateEnabled) return;
       if (material.type !== 'video' || material.access !== 'preview') return;
       if (video.currentSrc.includes('/preview.')) return;
       if (!Number.isFinite(video.duration) || video.duration <= 0) return;
@@ -122,26 +244,19 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
         if (video.currentTime > limit) {
           video.currentTime = Math.max(0, limit - 0.05);
         }
-        if (!previewPromptedRef.current.has(material.mediaId)) {
-          previewPromptedRef.current.add(material.mediaId);
-          openUpgradePrompt();
-        }
+        void triggerPreviewCheckpoint(material, video, limit);
       }
     },
-    [openUpgradePrompt, previewEnabled, previewRatio]
+    [previewGateEnabled, previewRatio, triggerPreviewCheckpoint]
   );
 
   const handlePreviewEnded = useCallback(
     (material: CourseMaterial, video: HTMLVideoElement) => {
-      if (!previewEnabled) return;
-      if (material.type !== 'video' || material.access !== 'preview') return;
+      if (!previewGateEnabled) return;
       if (!video.currentSrc.includes('/preview.')) return;
-      if (!previewPromptedRef.current.has(material.mediaId)) {
-        previewPromptedRef.current.add(material.mediaId);
-        openUpgradePrompt();
-      }
+      void triggerPreviewCheckpoint(material, video, video.currentTime);
     },
-    [openUpgradePrompt, previewEnabled]
+    [previewGateEnabled, triggerPreviewCheckpoint]
   );
 
   // Thumbnails are served via normalized endpoints backed by R2 keys.
@@ -393,7 +508,7 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
               </div>
             ) : (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                {previewEnabled && hasPreviewVideos && (
+                {previewGateEnabled && hasPreviewVideos && (
                   <div className="lg:col-span-2 rounded-3xl border border-[var(--color-border-light)] bg-[var(--color-light)] p-4 md:p-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                     <div>
                       <p className="text-sm font-semibold text-dark">
@@ -448,16 +563,19 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
                             className="w-full rounded-2xl border border-[var(--color-border)]"
                             onContextMenu={(e) => e.preventDefault()}
                             preload="metadata"
-                            src={`/api/media/video/${encodeURIComponent(m.mediaId)}/manifest`}
+                            src={`/api/media/video/${encodeURIComponent(m.mediaId)}/manifest?access=${courseAccessVersion}`}
                             poster={`/api/media/video/${encodeURIComponent(m.mediaId)}/manifest?thumb=1`}
                             onLoadedData={() => handleMediaLoaded(m.id)}
                             onCanPlay={() => handleMediaLoaded(m.id)}
-                            onLoadedMetadata={(event) => enforcePreviewLimit(m, event.currentTarget)}
+                            onLoadedMetadata={(event) => {
+                              applyPendingSeek(m.mediaId, event.currentTarget);
+                              enforcePreviewLimit(m, event.currentTarget);
+                            }}
                             onTimeUpdate={(event) => enforcePreviewLimit(m, event.currentTarget)}
                             onSeeking={(event) => enforcePreviewLimit(m, event.currentTarget)}
                             onEnded={(event) => handlePreviewEnded(m, event.currentTarget)}
                           />
-                          {previewEnabled && m.type === 'video' && m.access === 'preview' && (
+                          {previewGateEnabled && m.type === 'video' && m.access === 'preview' && (
                             <div className="absolute top-3 right-3 rounded-full bg-black/70 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-white">
                               {lang === 'zh' ? `试听 ${previewPercent}%` : `Preview ${previewPercent}%`}
                             </div>
@@ -727,6 +845,7 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
           onClose={closeUpgradePrompt}
           isAuthenticated={isAuthenticated}
           type="videoGeneration"
+          creditsUsed={creditBalance?.availableBalance ?? 0}
           title={t('courseLanding.previewLimitTitle')}
           notice={t('courseLanding.previewLimitNotice', { percent: previewPercent })}
         />

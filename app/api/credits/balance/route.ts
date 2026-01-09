@@ -5,6 +5,7 @@ import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
 export const dynamic = 'force-dynamic';
+export const fetchCache = 'force-no-store';
 
 export async function GET(request: NextRequest) {
   try {
@@ -24,16 +25,23 @@ export async function GET(request: NextRequest) {
       account = await creditService.getOrCreateCreditAccount(userId);
     }
 
-    return NextResponse.json({
-      success: true,
-      data: {
-        balance: account.balance,
-        totalEarned: account.totalEarned,
-        totalSpent: account.totalSpent,
-        frozenBalance: account.frozenBalance,
-        availableBalance: account.balance - account.frozenBalance,
+    return NextResponse.json(
+      {
+        success: true,
+        data: {
+          balance: account.balance,
+          totalEarned: account.totalEarned,
+          totalSpent: account.totalSpent,
+          frozenBalance: account.frozenBalance,
+          availableBalance: account.balance - account.frozenBalance,
+        },
       },
-    });
+      {
+        headers: {
+          'Cache-Control': 'no-store',
+        },
+      }
+    );
   } catch (error) {
     console.error('Error getting credit balance:', error);
     return NextResponse.json(

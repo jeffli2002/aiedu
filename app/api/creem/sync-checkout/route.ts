@@ -9,6 +9,11 @@ import {
 import { normalizeCreemStatus } from '@/lib/creem/status-utils';
 import { grantSubscriptionCredits } from '@/lib/creem/subscription-credits';
 import { creditService } from '@/lib/credits';
+import {
+  sendSubscriptionCreatedEmail,
+  sendSubscriptionDowngradedEmail,
+  sendSubscriptionUpgradedEmail,
+} from '@/lib/email';
 import type { PaymentStatus } from '@/payment/types';
 import { paymentRepository } from '@/server/db/repositories/payment-repository';
 import type { NextRequest } from 'next/server';
@@ -220,6 +225,34 @@ export async function POST(request: NextRequest) {
           reason: 'No creditsPlanId',
         });
       }
+
+      if (status !== 'trialing') {
+        try {
+          const planName = resolvedPlan.plan.name || normalizedPlanId;
+          const planPrice =
+            normalizedInterval === 'year' && resolvedPlan.plan.yearlyPrice
+              ? resolvedPlan.plan.yearlyPrice
+              : resolvedPlan.plan.price || 0;
+          const credits = getCreditsForPlan(normalizedPlanId, normalizedInterval).amount;
+
+          await sendSubscriptionCreatedEmail(
+            session.user.email,
+            session.user.name || 'User',
+            planName,
+            planPrice,
+            normalizedInterval,
+            credits
+          );
+          console.log(
+            `[Creem Sync Checkout] Subscription created email sent to ${session.user.email}`
+          );
+        } catch (emailError) {
+          console.error(
+            '[Creem Sync Checkout] Failed to send subscription created email:',
+            emailError
+          );
+        }
+      }
     } else {
       // Update existing subscription - adjust credits based on plan/interval changes
       // Use productId as primary identifier (matching our approach)
@@ -383,6 +416,34 @@ export async function POST(request: NextRequest) {
             console.log(
               `[Creem Sync Checkout] Downgrade scheduled for period end: ${periodEnd.toISOString()}. Plan will change from ${oldPlanId} ${oldInterval} to ${newPlanId} ${newInterval} at that time. Credits will be adjusted then.`
             );
+
+            try {
+              const oldPlanName = oldPlanResolved?.plan?.name || oldPlanId;
+              const newPlanName = newPlanResolved?.plan?.name || newPlanId;
+              const newPlanPrice =
+                newInterval === 'year' && newPlanResolved?.plan?.yearlyPrice
+                  ? newPlanResolved.plan.yearlyPrice
+                  : newPlanResolved?.plan?.price || 0;
+
+              await sendSubscriptionDowngradedEmail(
+                session.user.email,
+                session.user.name || 'User',
+                oldPlanName,
+                newPlanName,
+                newPlanPrice,
+                newInterval,
+                newCreditInfo.amount,
+                periodEnd || new Date()
+              );
+              console.log(
+                `[Creem Sync Checkout] Downgrade email sent to ${session.user.email}`
+              );
+            } catch (emailError) {
+              console.error(
+                '[Creem Sync Checkout] Failed to send downgrade email:',
+                emailError
+              );
+            }
           } else {
             // Upgrade: Update plan immediately and apply credit difference
             await paymentRepository.update(existing.id, {
@@ -431,6 +492,34 @@ export async function POST(request: NextRequest) {
               console.log(
                 `[Creem Sync Checkout] ✅ Successfully upgraded credits by ${creditDifference} for user ${userId} (balance: ${transaction.balanceAfter})`
               );
+
+              try {
+                const oldPlanName = oldPlanResolved?.plan?.name || oldPlanId;
+                const newPlanName = newPlanResolved?.plan?.name || newPlanId;
+                const newPlanPrice =
+                  newInterval === 'year' && newPlanResolved?.plan?.yearlyPrice
+                    ? newPlanResolved.plan.yearlyPrice
+                    : newPlanResolved?.plan?.price || 0;
+
+                await sendSubscriptionUpgradedEmail(
+                  session.user.email,
+                  session.user.name || 'User',
+                  oldPlanName,
+                  newPlanName,
+                  newPlanPrice,
+                  newInterval,
+                  newCreditInfo.amount,
+                  new Date()
+                );
+                console.log(
+                  `[Creem Sync Checkout] Upgrade email sent to ${session.user.email}`
+                );
+              } catch (emailError) {
+                console.error(
+                  '[Creem Sync Checkout] Failed to send upgrade email:',
+                  emailError
+                );
+              }
             } catch (error) {
               console.error('[Creem Sync Checkout] ❌ Failed to upgrade credits:', error);
               throw error; // Re-throw to ensure the error is visible

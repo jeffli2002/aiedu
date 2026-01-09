@@ -834,3 +834,8 @@ const trainingVideoAccessByMediaId = (() => {
 export function getTrainingVideoAccess(mediaId: string): VideoAccess | null {
   return trainingVideoAccessByMediaId.get(mediaId) ?? null;
 }
+
+export function getTrainingCourseIdFromMediaId(mediaId: string): string | null {
+  const match = mediaId.match(/^training\/([^/]+)\//);
+  return match ? match[1] : null;
+}

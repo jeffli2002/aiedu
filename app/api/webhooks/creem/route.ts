@@ -22,7 +22,7 @@ import {
   sendSubscriptionDowngradedEmail,
   sendSubscriptionUpgradedEmail,
 } from '@/lib/email';
-import { getUserInfo } from '@/lib/email/user-helper';
+import { getUserInfo, getUserInfoByEmail } from '@/lib/email/user-helper';
 import { awardReferralForPaidUser } from '@/lib/rewards/referral-reward';
 import { db } from '@/server/db';
 import { affiliateRepository } from '@/server/db/repositories/affiliate-repository';
@@ -96,6 +96,8 @@ async function hasInitialSubscriptionCreditGrant(userId: string, subscriptionId:
 interface CreemWebhookData {
   type?: string;
   userId?: string;
+  userEmail?: string;
+  userName?: string;
   customerId?: string;
   subscriptionId?: string;
   planId?: string;
@@ -143,6 +145,35 @@ function normalizeIntervalValue(value?: string | null): BillingInterval | undefi
     return 'month';
   }
   return undefined;
+}
+
+async function resolveEmailRecipient({
+  userId,
+  fallbackEmail,
+  fallbackName,
+}: {
+  userId?: string | null;
+  fallbackEmail?: string | null;
+  fallbackName?: string | null;
+}): Promise<{ email: string; name: string } | null> {
+  if (userId) {
+    const userInfo = await getUserInfo(userId);
+    if (userInfo?.email) {
+      return {
+        email: userInfo.email,
+        name: userInfo.name || 'User',
+      };
+    }
+  }
+
+  if (fallbackEmail) {
+    return {
+      email: fallbackEmail,
+      name: fallbackName || 'User',
+    };
+  }
+
+  return null;
 }
 
 const getCreditPackByIdentifier = (productId?: string | null, credits?: number) => {
@@ -541,7 +572,11 @@ export async function handleCreditPackPurchase(data: CreemWebhookData) {
 
     // Send credit pack purchase email
     try {
-      const userInfo = await getUserInfo(userId);
+      const userInfo = await resolveEmailRecipient({
+        userId,
+        fallbackEmail: data.userEmail,
+        fallbackName: data.userName,
+      });
       if (userInfo) {
         // Find credit pack by credits amount
         const packName = creditPack?.name || productName || `${credits} Credits`;
@@ -588,7 +623,9 @@ export async function handleCreditPackPurchase(data: CreemWebhookData) {
 
 async function handleCheckoutComplete(data: CreemWebhookData) {
   const {
-    userId,
+    userId: rawUserId,
+    userEmail,
+    userName,
     customerId,
     subscriptionId,
     planId,
@@ -600,7 +637,7 @@ async function handleCheckoutComplete(data: CreemWebhookData) {
   } = data;
 
   console.log('[Creem Webhook] handleCheckoutComplete called with:', {
-    userId,
+    userId: rawUserId,
     customerId,
     subscriptionId,
     planId,
@@ -609,7 +646,20 @@ async function handleCheckoutComplete(data: CreemWebhookData) {
     status: incomingStatus,
   });
 
-  if (!userId) {
+  let resolvedUserId = rawUserId;
+  let resolvedUserName = userName;
+  let resolvedUserEmail = userEmail;
+
+  if (!resolvedUserId && resolvedUserEmail) {
+    const userByEmail = await getUserInfoByEmail(resolvedUserEmail);
+    if (userByEmail) {
+      resolvedUserId = userByEmail.id;
+      resolvedUserName = resolvedUserName || userByEmail.name;
+      resolvedUserEmail = userByEmail.email;
+    }
+  }
+
+  if (!resolvedUserId) {
     console.error('[Creem Webhook] Missing userId for checkout complete', { data });
     return;
   }
@@ -630,12 +680,12 @@ async function handleCheckoutComplete(data: CreemWebhookData) {
       : null;
 
     // Enforce single active subscription rule BEFORE processing
-    const activeCount = await paymentRepository.getActiveSubscriptionCount(userId);
+    const activeCount = await paymentRepository.getActiveSubscriptionCount(resolvedUserId);
     if (activeCount > 1) {
       console.warn(
-        `[Creem Webhook] User ${userId} has ${activeCount} active subscriptions - enforcing rule`
+        `[Creem Webhook] User ${resolvedUserId} has ${activeCount} active subscriptions - enforcing rule`
       );
-      await enforceSingleCreemSubscription(userId);
+      await enforceSingleCreemSubscription(resolvedUserId);
     }
 
     if (subscriptionId) {
@@ -654,7 +704,7 @@ async function handleCheckoutComplete(data: CreemWebhookData) {
           provider: 'creem',
           priceId: planId,
           type: 'subscription',
-          userId,
+          userId: resolvedUserId,
           customerId: customerId || '',
           subscriptionId,
           status: normalizedStatus,
@@ -664,15 +714,25 @@ async function handleCheckoutComplete(data: CreemWebhookData) {
           affiliateId: affiliateRow?.id,
           affiliateCode: affiliateRow?.code,
         });
-        await enforceSingleCreemSubscription(userId, subscriptionId);
+        await enforceSingleCreemSubscription(resolvedUserId, subscriptionId);
 
         // Grant credits immediately for non-trial subscriptions
         if (normalizedStatus !== 'trialing') {
-          await grantSubscriptionCredits(userId, planId, subscriptionId, resolvedInterval, false);
+          await grantSubscriptionCredits(
+            resolvedUserId,
+            planId,
+            subscriptionId,
+            resolvedInterval,
+            false
+          );
 
           // Send subscription created email
           try {
-            const userInfo = await getUserInfo(userId);
+            const userInfo = await resolveEmailRecipient({
+              userId: resolvedUserId,
+              fallbackEmail: resolvedUserEmail,
+              fallbackName: resolvedUserName,
+            });
             if (userInfo) {
               const plan = paymentConfig.plans.find((p) => p.id === planId);
               const planName = plan?.name || planId;
@@ -803,7 +863,7 @@ async function handleCheckoutComplete(data: CreemWebhookData) {
     }
 
     console.log(
-      `[Creem Webhook] Checkout completed for user ${userId} (${incomingStatus || (trialEnd ? 'trial' : 'active')})`
+      `[Creem Webhook] Checkout completed for user ${resolvedUserId} (${incomingStatus || (trialEnd ? 'trial' : 'active')})`
     );
   } catch (error) {
     console.error('[Creem Webhook] Error in handleCheckoutComplete:', error);
@@ -815,7 +875,9 @@ async function handleSubscriptionCreated(data: CreemWebhookData) {
   const {
     subscriptionId,
     customerId,
-    userId,
+    userId: rawUserId,
+    userEmail,
+    userName,
     status,
     planId,
     currentPeriodStart,
@@ -832,6 +894,19 @@ async function handleSubscriptionCreated(data: CreemWebhookData) {
   }
 
   try {
+    let resolvedUserId = rawUserId;
+    let resolvedUserName = userName;
+    let resolvedUserEmail = userEmail;
+
+    if (!resolvedUserId && resolvedUserEmail) {
+      const userByEmail = await getUserInfoByEmail(resolvedUserEmail);
+      if (userByEmail) {
+        resolvedUserId = userByEmail.id;
+        resolvedUserName = resolvedUserName || userByEmail.name;
+        resolvedUserEmail = userByEmail.email;
+      }
+    }
+
     const affiliateCandidate = incomingAffiliateCode?.toString().trim() || null;
     const affiliateCode =
       affiliateCandidate && /^[A-Za-z0-9_-]{4,32}$/.test(affiliateCandidate)
@@ -842,7 +917,7 @@ async function handleSubscriptionCreated(data: CreemWebhookData) {
       : null;
 
     // Enforce single active subscription rule BEFORE processing
-    const ownerUserId = userId || customerId;
+    const ownerUserId = resolvedUserId || customerId;
     const activeCount = await paymentRepository.getActiveSubscriptionCount(ownerUserId);
     if (activeCount > 0) {
       console.warn(
@@ -878,12 +953,22 @@ async function handleSubscriptionCreated(data: CreemWebhookData) {
       await enforceSingleCreemSubscription(ownerUserId, subscriptionId);
 
       // Only grant credits if not in trial or if trial just ended
-      if (planId && userId && normalizedStatus !== 'trialing') {
-        await grantSubscriptionCredits(userId, planId, subscriptionId, resolvedInterval, false);
+      if (planId && resolvedUserId && normalizedStatus !== 'trialing') {
+        await grantSubscriptionCredits(
+          resolvedUserId,
+          planId,
+          subscriptionId,
+          resolvedInterval,
+          false
+        );
 
         // Send subscription created email
         try {
-          const userInfo = await getUserInfo(userId);
+          const userInfo = await resolveEmailRecipient({
+            userId: resolvedUserId,
+            fallbackEmail: resolvedUserEmail,
+            fallbackName: resolvedUserName,
+          });
           if (userInfo) {
             const plan = paymentConfig.plans.find((p) => p.id === planId);
             const planName = plan?.name || planId;
@@ -946,6 +1031,8 @@ async function handleSubscriptionUpdate(data: CreemWebhookData) {
     customerId,
     status,
     userId,
+    userEmail,
+    userName,
     planId,
     currentPeriodEnd,
     cancelAtPeriodEnd,
@@ -1084,7 +1171,11 @@ async function handleSubscriptionUpdate(data: CreemWebhookData) {
 
             // Send upgrade email
             try {
-              const userInfo = await getUserInfo(actualUserId);
+              const userInfo = await resolveEmailRecipient({
+                userId: actualUserId,
+                fallbackEmail: userEmail,
+                fallbackName: userName,
+              });
               if (userInfo) {
                 const oldPlan = paymentConfig.plans.find((p) => p.id === oldPlanId);
                 const newPlan = paymentConfig.plans.find((p) => p.id === newPlanId);
@@ -1148,7 +1239,11 @@ async function handleSubscriptionUpdate(data: CreemWebhookData) {
 
             // Send downgrade email
             try {
-              const userInfo = await getUserInfo(actualUserId);
+              const userInfo = await resolveEmailRecipient({
+                userId: actualUserId,
+                fallbackEmail: userEmail,
+                fallbackName: userName,
+              });
               if (userInfo) {
                 const oldPlan = paymentConfig.plans.find((p) => p.id === oldPlanId);
                 const newPlan = paymentConfig.plans.find((p) => p.id === newPlanId);
@@ -1390,7 +1485,11 @@ async function handleSubscriptionUpdate(data: CreemWebhookData) {
 
           // Send upgrade email when scheduled upgrade takes effect
           try {
-            const userInfo = await getUserInfo(actualUserId);
+            const userInfo = await resolveEmailRecipient({
+              userId: actualUserId,
+              fallbackEmail: userEmail,
+              fallbackName: userName,
+            });
             if (userInfo) {
               const oldPlan = paymentConfig.plans.find((p) => p.id === oldPlanId);
               const newPlan = paymentConfig.plans.find((p) => p.id === scheduledPlanId);
@@ -1450,7 +1549,7 @@ async function handleSubscriptionUpdate(data: CreemWebhookData) {
 }
 
 async function handleSubscriptionDeleted(data: CreemWebhookData) {
-  const { customerId, userId, currentPeriodEnd } = data;
+  const { customerId, userId, userEmail, userName, currentPeriodEnd } = data;
 
   try {
     const subscriptions = await paymentRepository.findByCustomerId(customerId);
@@ -1472,7 +1571,11 @@ async function handleSubscriptionDeleted(data: CreemWebhookData) {
 
       // Send cancellation email
       try {
-        const userInfo = await getUserInfo(actualUserId);
+        const userInfo = await resolveEmailRecipient({
+          userId: actualUserId,
+          fallbackEmail: userEmail,
+          fallbackName: userName,
+        });
         if (userInfo) {
           const plan = paymentConfig.plans.find((p) => p.id === subscription.priceId);
           const planName = plan?.name || subscription.priceId || 'Subscription';

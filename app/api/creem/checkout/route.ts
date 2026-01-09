@@ -15,7 +15,7 @@ const checkoutSchema = z.object({
   cancelUrl: z.string().url().optional(),
 });
 
-const DEFAULT_SUCCESS_URL = `${process.env.NEXT_PUBLIC_APP_URL || ''}/settings/billing?success=true`;
+const DEFAULT_SUCCESS_URL = `${process.env.NEXT_PUBLIC_APP_URL || ''}/dashboard?success=true`;
 const DEFAULT_CANCEL_URL = `${process.env.NEXT_PUBLIC_APP_URL || ''}/settings/billing?canceled=true`;
 
 export async function POST(request: Request) {

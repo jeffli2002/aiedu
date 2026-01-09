@@ -30,6 +30,7 @@ export interface UseSubscriptionResult {
   cancelAtPeriodEnd: boolean;
   interval: 'month' | 'year' | null;
   upcomingPlan: SubscriptionResponse['subscription']['upcomingPlan'];
+  refresh: () => void;
 }
 
 export function useSubscription(): UseSubscriptionResult {
@@ -42,6 +43,7 @@ export function useSubscription(): UseSubscriptionResult {
   const [interval, setInterval] = useState<'month' | 'year' | null>(null);
   const [upcomingPlan, setUpcomingPlan] =
     useState<SubscriptionResponse['subscription']['upcomingPlan']>(null);
+  const [refreshIndex, setRefreshIndex] = useState(0);
   useEffect(() => {
     if (authLoading) return;
 
@@ -126,7 +128,11 @@ export function useSubscription(): UseSubscriptionResult {
     return () => {
       cancelled = true;
     };
-  }, [authLoading]);
+  }, [authLoading, refreshIndex]);
 
-  return { loading, error, planId, status, cancelAtPeriodEnd, interval, upcomingPlan };
+  const refresh = () => {
+    setRefreshIndex((prev) => prev + 1);
+  };
+
+  return { loading, error, planId, status, cancelAtPeriodEnd, interval, upcomingPlan, refresh };
 }

@@ -1067,7 +1067,14 @@ class CreemPaymentService {
 
     const metadata = this.normalizeMetadata(rawMetadata);
     const customerId = typeof customer === 'string' ? customer : customer?.id;
-    const userId = metadata?.userId || customer?.external_id;
+    const customerObj =
+      typeof customer === 'object'
+        ? (customer as { external_id?: string; email?: string })
+        : undefined;
+    const userId = metadata?.userId || customerObj?.external_id;
+    const userEmail =
+      (metadata?.userEmail || metadata?.email || customerObj?.email) as string | undefined;
+    const userName = (metadata?.name || metadata?.userName) as string | undefined;
     const affiliateCode = metadata?.affiliateCode as string | undefined;
 
     if (!id || !customerId) {
@@ -1095,6 +1102,8 @@ class CreemPaymentService {
       subscriptionId: id,
       customerId: customerId,
       userId: userId,
+      userEmail,
+      userName,
       status: status,
       planId: planId,
       affiliateCode,
@@ -1122,7 +1131,9 @@ class CreemPaymentService {
         ? customer
         : (customer as { id?: string } | undefined)?.id || checkout.customerId;
     const customerObj =
-      typeof customer === 'object' ? (customer as { external_id?: string }) : undefined;
+      typeof customer === 'object'
+        ? (customer as { external_id?: string; email?: string })
+        : undefined;
 
     // Handle subscription as string or object
     const subscriptionId =
@@ -1133,7 +1144,17 @@ class CreemPaymentService {
           checkout.subscription_id;
 
     // Extract userId from metadata or customer
-    const userId = metadata?.userId || customerObj?.external_id || (checkout as { userId?: string }).userId;
+    const userId =
+      metadata?.userId || customerObj?.external_id || (checkout as { userId?: string }).userId;
+    const userEmail =
+      (metadata?.userEmail ||
+        metadata?.email ||
+        customerObj?.email ||
+        (checkout as { userEmail?: string }).userEmail) as string | undefined;
+    const userName =
+      (metadata?.name || metadata?.userName || (checkout as { userName?: string }).userName) as
+        | string
+        | undefined;
     const affiliateCode = metadata?.affiliateCode as string | undefined;
 
     // Check if this is a one-time credit pack purchase
@@ -1234,6 +1255,8 @@ class CreemPaymentService {
         customerId: customerId as string | undefined,
         productId: productId as string | undefined,
         productName: productName as string | undefined,
+        userEmail,
+        userName,
         credits: credits,
         amount: (normalizedAmount ?? configPack?.price) as number | undefined,
         currency: orderCurrency,
@@ -1280,6 +1303,8 @@ class CreemPaymentService {
     return {
       type: 'checkout_complete',
       userId: userId as string | undefined,
+      userEmail,
+      userName,
       customerId: customerId as string | undefined,
       subscriptionId: subscriptionId as string | undefined,
       planId: planId as string | undefined,
@@ -1306,6 +1331,13 @@ class CreemPaymentService {
     const customerId = typeof customer === 'string' ? customer : customer?.id;
     const metadata = this.normalizeMetadata(rawMetadata);
     const userId = metadata?.userId;
+    const customerObj =
+      typeof customer === 'object'
+        ? (customer as { email?: string; external_id?: string })
+        : undefined;
+    const userEmail =
+      (metadata?.userEmail || metadata?.email || customerObj?.email) as string | undefined;
+    const userName = (metadata?.name || metadata?.userName) as string | undefined;
     const productId = typeof product === 'string' ? product : product?.id;
 
     // SIMPLIFIED: Use metadata first (like im2prompt), then product
@@ -1322,6 +1354,8 @@ class CreemPaymentService {
       customerId: customerId,
       status: status,
       userId: userId,
+      userEmail,
+      userName,
       planId: planId,
       productId: productId,
       interval: interval,
@@ -1332,12 +1366,20 @@ class CreemPaymentService {
   }
 
   private async handleSubscriptionDeleted(subscription: CreemSubscriptionPayload) {
-    const { customerId, metadata } = subscription;
+    const { customerId, metadata, customer } = subscription;
+    const customerObj =
+      typeof customer === 'object'
+        ? (customer as { email?: string; external_id?: string })
+        : undefined;
 
     return {
       type: 'subscription_deleted',
       customerId: customerId,
-      userId: this.normalizeMetadata(metadata)?.userId,
+      userId: this.normalizeMetadata(metadata)?.userId || customerObj?.external_id,
+      userEmail: (this.normalizeMetadata(metadata)?.email || customerObj?.email) as
+        | string
+        | undefined,
+      userName: this.normalizeMetadata(metadata)?.name as string | undefined,
     };
   }
 
@@ -1393,13 +1435,22 @@ class CreemPaymentService {
     const { customer, metadata, id } = subscription;
 
     const customerId = typeof customer === 'string' ? customer : customer?.id;
-    const userId = this.normalizeMetadata(metadata)?.userId;
+    const customerObj =
+      typeof customer === 'object'
+        ? (customer as { email?: string; external_id?: string })
+        : undefined;
+    const userId = this.normalizeMetadata(metadata)?.userId || customerObj?.external_id;
+    const userEmail =
+      (this.normalizeMetadata(metadata)?.email || customerObj?.email) as string | undefined;
+    const userName = this.normalizeMetadata(metadata)?.name as string | undefined;
 
     return {
       type: 'subscription_deleted',
       subscriptionId: id,
       customerId: customerId,
       userId: userId,
+      userEmail,
+      userName,
     };
   }
 
@@ -1446,12 +1497,21 @@ class CreemPaymentService {
 
     const customerId = typeof customer === 'string' ? customer : customer?.id;
     const userId = this.normalizeMetadata(rawMetadata)?.userId;
+    const customerObj =
+      typeof customer === 'object'
+        ? (customer as { email?: string; external_id?: string })
+        : undefined;
+    const userEmail =
+      (this.normalizeMetadata(rawMetadata)?.email || customerObj?.email) as string | undefined;
+    const userName = this.normalizeMetadata(rawMetadata)?.name as string | undefined;
 
     return {
       type: 'subscription_paused',
       subscriptionId: id,
       customerId: customerId,
       userId: userId,
+      userEmail,
+      userName,
     };
   }
 
