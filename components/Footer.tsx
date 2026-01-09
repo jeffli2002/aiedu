@@ -286,6 +286,14 @@ export default function Footer({ fixed }: { fixed?: boolean } = {}) {
             </Link>
           </div>
         </div>
+
+        <div className="pt-6">
+          <p className="text-xs leading-relaxed max-w-4xl" style={{ color: '#999' }}>
+            {lang === 'zh'
+              ? '独立性声明：Futurai 使用第三方 AI 模型（如 Google 的 Gemini、OpenAI 的模型及其他 AI 服务提供商）来驱动我们的内容生成服务。这些 AI 模型由其各自所有者提供，并受其自身条款和条件约束。Futurai 是一家独立服务提供商，我们的平台、功能和服务均为自有产品。我们与这些 AI 模型提供商无关联、未获其认可或赞助。'
+              : "Futurai uses third-party AI models (such as Google's Gemini, OpenAI's models, and other AI service providers) to power our content generation services. These AI models are provided by their respective owners and are subject to their own terms and conditions. Futurai is an independent service provider and our platform, features, and services are our own proprietary products. We are not affiliated with, endorsed by, or sponsored by these AI model providers."}
+          </p>
+        </div>
       </div>
     </footer>
   );
