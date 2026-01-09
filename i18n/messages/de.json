@@ -672,7 +672,7 @@
     },
     "q2": {
       "question": "Was ist im kostenlosen Plan enthalten?",
-      "answer": "Kostenlose Nutzer erhalten 15 Credits bei der Anmeldung, tägliche Check-in-Belohnungen (2 Credits/Tag), Empfehlungsbelohnungen (10 Credits) und Social-Share-Belohnungen (2 Credits). Sie können mit diesen Credits Bilder und Videos generieren, mit Stapelgenerierungsunterstützung (1 gleichzeitig) und 7-tägiger Asset-Anzeige."
+      "answer": "Kostenlose Nutzer erhalten 15 Credits bei der Anmeldung. Sie können mit diesen Credits Bilder und Videos generieren, mit Stapelgenerierungsunterstützung (1 gleichzeitig) und 7-tägiger Asset-Anzeige."
     },
     "q3": {
       "question": "Welche Videomodelle und Auflösungen sind verfügbar?",
@@ -700,13 +700,13 @@
     },
     "q9": {
       "question": "Was passiert, wenn mir die Credits ausgehen?",
-      "answer": "Sie haben mehrere Optionen: (1) Erwerben Sie einmalige Credit-Pakete ab 9,90 $ für 200 Credits (Pakete verfallen nie), (2) Upgraden Sie auf Pro/Pro+ für monatliche Credit-Zuteilungen (500-900 Credits/Monat), oder (3) Verdienen Sie täglich Credits durch Check-ins (2 Credits/Tag), Empfehlungen (10 Credits pro Empfehlung) und Social Sharing (2 Credits pro Share). Credit-Pakete sind perfekt, wenn Sie zusätzliche Credits benötigen, ohne sich für ein Abonnement zu verpflichten."
+      "answer": "Sie haben mehrere Optionen: (1) Erwerben Sie einmalige Credit-Pakete ab 9,90 $ für 200 Credits (Pakete verfallen nie) oder (2) Upgraden Sie auf Pro/Pro+ für monatliche Credit-Zuteilungen (500-900 Credits/Monat). Credit-Pakete sind perfekt, wenn Sie zusätzliche Credits benötigen, ohne sich für ein Abonnement zu verpflichten."
     }
   },
   "pricingPage": {
     "title": "Einfache, transparente Preise",
     "subtitle": "Wählen Sie den Plan, der zu Ihren Geschäftsanforderungen passt. Jederzeit upgraden oder downgraden.",
-    "rewardsBadge": "Alle Pläne beinhalten tägliche Check-in-Belohnungen und Empfehlungsboni",
+    "rewardsBadge": "Flexible Credits für jeden Plan",
     "monthly": "Monatlich",
     "yearly": "Jährlich",
     "savePercentage": "20% sparen",

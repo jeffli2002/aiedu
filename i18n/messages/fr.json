@@ -672,7 +672,7 @@
     },
     "q2": {
       "question": "Qu'est-ce qui est inclus dans le plan gratuit ?",
-      "answer": "Les utilisateurs gratuits reçoivent 30 crédits à l'inscription, des récompenses de pointage quotidien (2 crédits/jour), des récompenses de parrainage (10 crédits) et des récompenses de partage social (2 crédits). Vous pouvez générer des images et des vidéos avec ces crédits, avec prise en charge de la génération en lot (1 simultané) et affichage des ressources pendant 7 jours."
+      "answer": "Les utilisateurs gratuits reçoivent 30 crédits à l'inscription. Vous pouvez générer des images et des vidéos avec ces crédits, avec prise en charge de la génération en lot (1 simultané) et affichage des ressources pendant 7 jours."
     },
     "q3": {
       "question": "Quels modèles et résolutions vidéo sont disponibles ?",
@@ -700,13 +700,13 @@
     },
     "q9": {
       "question": "Que se passe-t-il quand je manque de crédits ?",
-      "answer": "Vous avez plusieurs options : (1) Achetez des packs de crédits ponctuels à partir de 9,90 $ pour 200 crédits (les packs n'expirent jamais), (2) Passez à Pro/Pro+ pour des allocations de crédits mensuelles (500-900 crédits/mois), ou (3) Gagnez des crédits quotidiennement grâce aux pointages (2 crédits/jour), aux parrainages (10 crédits par parrainage) et au partage social (2 crédits par partage). Les packs de crédits sont parfaits si vous avez besoin de crédits supplémentaires sans vous engager dans un abonnement."
+      "answer": "Vous avez plusieurs options : (1) Achetez des packs de crédits ponctuels à partir de 9,90 $ pour 200 crédits (les packs n'expirent jamais), ou (2) Passez à Pro/Pro+ pour des allocations de crédits mensuelles (500-900 crédits/mois). Les packs de crédits sont parfaits si vous avez besoin de crédits supplémentaires sans vous engager dans un abonnement."
     }
   },
   "pricingPage": {
     "title": "Tarification simple et transparente",
     "subtitle": "Choisissez le plan qui correspond aux besoins de votre entreprise. Passez à un plan supérieur ou inférieur à tout moment.",
-    "rewardsBadge": "Tous les plans incluent des récompenses de check-in quotidiennes et des bonus de parrainage",
+    "rewardsBadge": "Crédits flexibles pour tous les plans",
     "monthly": "Mensuel",
     "yearly": "Annuel",
     "savePercentage": "Économisez 20%",

@@ -5,7 +5,6 @@ import { buildLocaleCanonicalMetadata } from '@/lib/seo/metadata';
 import { Card, CardContent } from '@/components/ui/card';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { creditsConfig } from '@/config/credits.config';
 import { paymentConfig } from '@/config/payment.config';
 import { AlertCircle } from 'lucide-react';
 
@@ -86,13 +85,10 @@ export default function RefundPolicyPage({
         section4Footer:
           '如需申请退款审核，请在 7 天内联系 support@futurai.org 并提供交易信息与说明。',
         section5Title: '5. 试用与体验',
-        section5Body: '我们鼓励先使用免费额度体验服务：',
+        section5Body: '我们鼓励先使用注册赠送额度体验服务：',
         creditsUnit: '积分',
         section5ListLabels: {
           signup: '注册可获得',
-          daily: '签到每日可获得',
-          referral: '推荐成功可获得',
-          share: '分享可获得',
         },
         section5Footer: '这些免费额度可用于体验 AI 工具与课程内容。',
         section6Title: '6. 拒付与争议',
@@ -161,13 +157,10 @@ export default function RefundPolicyPage({
         section4Footer:
           'To request a review, contact support@futurai.org within 7 days with your transaction details.',
         section5Title: '5. Trial and Testing',
-        section5Body: 'We encourage using free credits to test the service:',
+        section5Body: 'We encourage using the sign-up bonus credits to test the service:',
         creditsUnit: 'credits',
         section5ListLabels: {
           signup: 'Sign-up bonus',
-          daily: 'Daily check-in rewards',
-          referral: 'Referral rewards',
-          share: 'Social sharing rewards',
         },
         section5Footer: 'These credits help you evaluate AI tools and learning content before purchase.',
         section6Title: '6. Chargebacks',
@@ -201,9 +194,6 @@ export default function RefundPolicyPage({
 
   const freePlan = paymentConfig.plans.find((plan) => plan.id === 'free');
   const signupCredits = freePlan?.credits.onSignup ?? 15;
-  const dailyCredits = creditsConfig.rewards.checkin.dailyCredits;
-  const referralCredits = creditsConfig.rewards.referral.creditsPerReferral;
-  const socialShareCredits = creditsConfig.rewards.socialShare.creditsPerShare;
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#fafaf9' }}>
@@ -291,15 +281,6 @@ export default function RefundPolicyPage({
                 <ul className="list-disc list-inside space-y-2 ml-4">
                   <li>
                     {copy.section5ListLabels.signup} {signupCredits} {copy.creditsUnit}
-                  </li>
-                  <li>
-                    {copy.section5ListLabels.daily} {dailyCredits} {copy.creditsUnit}
-                  </li>
-                  <li>
-                    {copy.section5ListLabels.referral} {referralCredits} {copy.creditsUnit}
-                  </li>
-                  <li>
-                    {copy.section5ListLabels.share} {socialShareCredits} {copy.creditsUnit}
                   </li>
                 </ul>
                 <p className="mt-4">{copy.section5Footer}</p>

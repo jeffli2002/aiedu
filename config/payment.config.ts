@@ -1,4 +1,3 @@
-import { creditsConfig } from './credits.config';
 const freeVideoPreviewFeature = 'Video previews';
 
 export interface CreditPack {
@@ -126,9 +125,6 @@ export const paymentConfig: PaymentConfig = {
         '15 credits sign-up bonus (one-time)',
         'Full PDF lesson library (online-only)',
         freeVideoPreviewFeature,
-        'Daily check-in rewards (2 credits/day)',
-        'Referral rewards (10 credits per referral)',
-        `Social share rewards (${creditsConfig.rewards.socialShare.creditsPerShare} credits per share)`,
         'Text-to-image generation',
         'Image-to-image generation',
         'Text-to-video generation',

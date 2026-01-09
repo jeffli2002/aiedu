@@ -574,7 +574,7 @@ const faqData = {
       category: 'AI Tools',
       items: [
         { q: 'How does the AI image generator work?', a: 'Our AI image generator uses state-of-the-art models. Describe what you want, select a style, and the AI generates unique images. Each generation costs credits.' },
-        { q: 'What is the credit system?', a: 'Credits are used for AI generations. New users receive free credits. Earn more through daily check-ins, referrals, and completing courses.' },
+        { q: 'What is the credit system?', a: 'Credits are used for AI generations. New users receive free credits. Get more by upgrading or purchasing credit packs.' },
         { q: 'Can I use generated images commercially?', a: 'Images are yours for personal and educational projects. For commercial use, please review our terms of service.' },
       ],
     },
@@ -600,7 +600,7 @@ const faqData = {
       category: 'AI 工具',
       items: [
         { q: 'AI图像生成器如何工作？', a: '我们的AI图像生成器使用最先进的模型。描述您想创建的内容，选择风格，AI就会生成独特的图像。每次生成消耗积分。' },
-        { q: '积分系统是什么？', a: '积分用于AI生成。新用户获得免费积分。通过每日签到、邀请好友和完成课程获得更多积分。' },
+        { q: '积分系统是什么？', a: '积分用于 AI 生成。新用户可获得免费积分。需要更多积分可升级订阅或购买积分包。' },
         { q: '生成的图片可以商用吗？', a: '图像可用于个人和教育项目。如需商业用途，请查阅服务条款。' },
       ],
     },

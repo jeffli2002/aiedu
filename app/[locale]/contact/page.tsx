@@ -7,7 +7,6 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { Link } from '@/i18n/navigation';
 import { Clock, Globe, Mail, MapPin, MessageSquare } from 'lucide-react';
-import { creditsConfig } from '@/config/credits.config';
 
 export async function generateMetadata({
   params: { locale },
@@ -40,9 +39,6 @@ export default function ContactPage({
 }) {
   setRequestLocale(locale);
   const isZh = locale === 'zh';
-  const dailyCheckinCredits = creditsConfig.rewards.checkin.dailyCredits;
-  const referralCredits = creditsConfig.rewards.referral.creditsPerReferral;
-  const socialShareCredits = creditsConfig.rewards.socialShare.creditsPerShare;
 
   const copy = isZh
     ? {
@@ -76,7 +72,7 @@ export default function ContactPage({
           },
           {
             q: '如果积分用完怎么办？',
-            a: `可通过签到（每日 ${dailyCheckinCredits} 积分）、推荐（每次 ${referralCredits} 积分）与分享（每次 ${socialShareCredits} 积分）获取额外积分。`,
+            a: '可升级订阅或购买积分包获取更多积分。',
           },
           {
             q: '是否支持退款？',
@@ -121,7 +117,7 @@ export default function ContactPage({
           },
           {
             q: 'What if I run out of credits?',
-            a: `Earn more via daily check-ins (${dailyCheckinCredits}/day), referrals (${referralCredits} each), and social sharing (${socialShareCredits} each).`,
+            a: 'You can upgrade your plan or purchase a credit pack to get more credits.',
           },
           {
             q: 'Do you offer refunds?',

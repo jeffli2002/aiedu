@@ -301,13 +301,11 @@ export default function UpgradePrompt({
             )}
           </div>
 
-          {/* Earn free credits section - Always visible */}
+          {/* Credits help section - Always visible */}
           {isAuthenticated && (
             <div className="space-y-1 text-center text-body text-sm mt-3 flex-shrink-0">
               <p>
-                💡 Earn free credits: Daily check-in (+{creditsConfig.rewards.checkin.dailyCredits}
-                ), Referrals (+{creditsConfig.rewards.referral.creditsPerReferral}), Social share (+
-                {creditsConfig.rewards.socialShare.creditsPerShare})
+                💡 Need more credits? Upgrade or buy a credit pack.
               </p>
             </div>
           )}
