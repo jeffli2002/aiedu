@@ -61,6 +61,16 @@ export default function Footer({ fixed }: { fixed?: boolean } = {}) {
             >
               <Twitter className="w-4 h-4" />
             </a>
+            <a
+              href="mailto:support@futurai.org"
+              aria-label="Email"
+              className="p-2 rounded-lg transition-colors"
+              style={{ color: '#999' }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = '#2ec4b6')}
+              onMouseLeave={(e) => (e.currentTarget.style.color = '#999')}
+            >
+              <Mail className="w-4 h-4" />
+            </a>
           </div>
         </div>
       </footer>
@@ -124,6 +134,24 @@ export default function Footer({ fixed }: { fixed?: boolean } = {}) {
               >
                 <Twitter className="w-4 h-4" />
               </a>
+              <a
+                href="mailto:support@futurai.org"
+                aria-label="Email"
+                className="w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-200 border"
+                style={{ borderColor: '#e5e5e5', color: '#999' }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = '#2ec4b6';
+                  e.currentTarget.style.color = '#2ec4b6';
+                  e.currentTarget.style.backgroundColor = 'rgba(46, 196, 182, 0.08)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = '#e5e5e5';
+                  e.currentTarget.style.color = '#999';
+                  e.currentTarget.style.backgroundColor = 'transparent';
+                }}
+              >
+                <Mail className="w-4 h-4" />
+              </a>
             </div>
           </div>
 
@@ -181,26 +209,50 @@ export default function Footer({ fixed }: { fixed?: boolean } = {}) {
               </ul>
             </div>
 
-            {/* Contact */}
+            {/* Company */}
             <div>
               <h4
                 className="text-xs font-semibold uppercase tracking-[0.2em] mb-6"
                 style={{ color: '#1a1a2e' }}
               >
-                {t('contact')}
+                {lang === 'zh' ? '公司' : 'Company'}
               </h4>
               <ul className="space-y-3">
                 <li>
-                  <a
-                    href="mailto:support@futurai.org"
-                    className="text-sm font-medium transition-colors duration-200 inline-flex items-center gap-2"
+                  <Link
+                    href={withLocalePath('/about', lang)}
+                    className="text-sm font-medium transition-colors duration-200 inline-flex items-center gap-1 group"
                     style={{ color: '#4a4a4a' }}
                     onMouseEnter={(e) => (e.currentTarget.style.color = '#ff6b35')}
                     onMouseLeave={(e) => (e.currentTarget.style.color = '#4a4a4a')}
                   >
-                    <Mail className="w-4 h-4" />
-                    support@futurai.org
-                  </a>
+                    {lang === 'zh' ? '关于我们' : 'About Us'}
+                    <ArrowUpRight className="w-3 h-3 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href={withLocalePath('/contact', lang)}
+                    className="text-sm font-medium transition-colors duration-200 inline-flex items-center gap-1 group"
+                    style={{ color: '#4a4a4a' }}
+                    onMouseEnter={(e) => (e.currentTarget.style.color = '#ff6b35')}
+                    onMouseLeave={(e) => (e.currentTarget.style.color = '#4a4a4a')}
+                  >
+                    {lang === 'zh' ? '联系我们' : 'Contact'}
+                    <ArrowUpRight className="w-3 h-3 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href={withLocalePath('/refund', lang)}
+                    className="text-sm font-medium transition-colors duration-200 inline-flex items-center gap-1 group"
+                    style={{ color: '#4a4a4a' }}
+                    onMouseEnter={(e) => (e.currentTarget.style.color = '#ff6b35')}
+                    onMouseLeave={(e) => (e.currentTarget.style.color = '#4a4a4a')}
+                  >
+                    {lang === 'zh' ? '退款政策' : 'Refund Policy'}
+                    <ArrowUpRight className="w-3 h-3 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
+                  </Link>
                 </li>
               </ul>
             </div>

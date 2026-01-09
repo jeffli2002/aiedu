@@ -857,127 +857,125 @@ export const pageSpecificTranslations: Partial<Record<PagePath, Record<string, S
   {
     '/about': {
       en: {
-        title: 'About Viecom | AI-Powered E-commerce Content Generation Platform',
+        title: 'About Future AI Creators | Practical AI Education for Youth',
         description:
-          'Learn about Viecom, the AI-powered platform that helps e-commerce businesses create professional product images and videos at scale. Our mission, technology, and team.',
+          'Learn about Future AI Creators, a project-based AI education platform helping students build real-world skills through creativity and responsible AI.',
         keywords: [
-          'about viecom',
-          'ai content generation platform',
-          'e-commerce ai tools',
-          'product photography ai',
-          'video generation platform',
+          'future ai creators',
+          'ai education',
+          'youth ai learning',
+          'project-based learning',
+          'ai literacy',
         ],
         openGraph: {
-          title: 'About Viecom | AI-Powered E-commerce Content Platform',
+          title: 'About Future AI Creators | AI Education Platform',
           description:
-            'Learn about Viecom and how we help e-commerce businesses create professional content with AI.',
+            'Meet Future AI Creators and how we help students learn AI through hands-on projects.',
         },
         twitter: {
-          title: 'About Viecom | AI-Powered E-commerce Content Platform',
+          title: 'About Future AI Creators | AI Education Platform',
           description:
-            'Learn about Viecom and how we help e-commerce businesses create professional content with AI.',
+            'Meet Future AI Creators and how we help students learn AI through hands-on projects.',
         },
       },
       zh: {
-        title: '关于Viecom | AI驱动的电商内容生成平台',
+        title: '关于 Future AI Creators | 面向青少年的 AI 教育平台',
         description:
-          '了解Viecom，这个AI驱动的平台帮助电商企业大规模创建专业产品图像和视频。我们的使命、技术和团队。',
-        keywords: ['关于viecom', 'AI内容生成平台', '电商AI工具', '产品摄影AI', '视频生成平台'],
+          '了解 Future AI Creators：以项目式学习帮助学生掌握 AI 素养、创造力与真实技能。',
+        keywords: ['Future AI Creators', 'AI教育', '青少年AI学习', '项目式学习', 'AI素养'],
         openGraph: {
-          title: '关于Viecom | AI驱动的电商内容平台',
-          description: '了解Viecom以及我们如何帮助电商企业使用AI创建专业内容。',
+          title: '关于 Future AI Creators | AI 教育平台',
+          description: '了解我们如何通过项目式学习帮助学生掌握 AI 技能。',
         },
         twitter: {
-          title: '关于Viecom | AI驱动的电商内容平台',
-          description: '了解Viecom以及我们如何帮助电商企业使用AI创建专业内容。',
+          title: '关于 Future AI Creators | AI 教育平台',
+          description: '了解我们如何通过项目式学习帮助学生掌握 AI 技能。',
         },
       },
       es: {
-        title: 'Acerca de Viecom | Plataforma de Generación de Contenido IA para E-commerce',
+        title: 'Acerca de Future AI Creators | Educación de IA para jóvenes',
         description:
-          'Conoce Viecom, la plataforma impulsada por IA que ayuda a las empresas de e-commerce a crear imágenes y videos de productos profesionales a escala. Nuestra misión, tecnología y equipo.',
+          'Conoce Future AI Creators, una plataforma educativa con aprendizaje por proyectos que ayuda a estudiantes a desarrollar habilidades reales con IA.',
         keywords: [
-          'acerca de viecom',
-          'plataforma generación contenido ia',
-          'herramientas ia e-commerce',
-          'fotografía producto ia',
-          'plataforma generación video',
+          'future ai creators',
+          'educacion ia',
+          'aprendizaje juvenil',
+          'aprendizaje basado en proyectos',
+          'alfabetizacion ia',
         ],
         openGraph: {
-          title: 'Acerca de Viecom | Plataforma de Contenido IA para E-commerce',
+          title: 'Acerca de Future AI Creators | Plataforma educativa de IA',
           description:
-            'Conoce Viecom y cómo ayudamos a las empresas de e-commerce a crear contenido profesional con IA.',
+            'Conoce cómo ayudamos a estudiantes a aprender IA con proyectos prácticos.',
         },
         twitter: {
-          title: 'Acerca de Viecom | Plataforma de Contenido IA para E-commerce',
+          title: 'Acerca de Future AI Creators | Plataforma educativa de IA',
           description:
-            'Conoce Viecom y cómo ayudamos a las empresas de e-commerce a crear contenido profesional con IA.',
+            'Conoce cómo ayudamos a estudiantes a aprender IA con proyectos prácticos.',
         },
       },
       fr: {
-        title: 'À Propos de Viecom | Plateforme de Génération de Contenu IA pour E-commerce',
+        title: 'À propos de Future AI Creators | Éducation IA pour les jeunes',
         description:
-          'Découvrez Viecom, la plateforme alimentée par IA qui aide les entreprises e-commerce à créer des images et vidéos de produits professionnelles à grande échelle. Notre mission, technologie et équipe.',
+          "Découvrez Future AI Creators, une plateforme éducative basée sur des projets pour développer des compétences IA concrètes.",
         keywords: [
-          'à propos viecom',
-          'plateforme génération contenu ia',
-          'outils ia e-commerce',
-          'photographie produit ia',
-          'plateforme génération vidéo',
+          'future ai creators',
+          'education ia',
+          'apprentissage jeunes',
+          'apprentissage par projet',
+          'litteratie ia',
         ],
         openGraph: {
-          title: 'À Propos de Viecom | Plateforme de Contenu IA pour E-commerce',
+          title: 'À propos de Future AI Creators | Plateforme éducative IA',
           description:
-            'Découvrez Viecom et comment nous aidons les entreprises e-commerce à créer du contenu professionnel avec IA.',
+            'Découvrez comment nous aidons les élèves à apprendre l’IA avec des projets pratiques.',
         },
         twitter: {
-          title: 'À Propos de Viecom | Plateforme de Contenu IA pour E-commerce',
+          title: 'À propos de Future AI Creators | Plateforme éducative IA',
           description:
-            'Découvrez Viecom et comment nous aidons les entreprises e-commerce à créer du contenu professionnel avec IA.',
+            'Découvrez comment nous aidons les élèves à apprendre l’IA avec des projets pratiques.',
         },
       },
       de: {
-        title: 'Über Viecom | KI-gestützte E-Commerce-Inhaltsgenerierungsplattform',
+        title: 'Über Future AI Creators | KI-Bildung für Jugendliche',
         description:
-          'Erfahren Sie mehr über Viecom, die KI-gestützte Plattform, die E-Commerce-Unternehmen dabei hilft, professionelle Produktbilder und -videos in großem Maßstab zu erstellen. Unsere Mission, Technologie und Team.',
+          'Erfahren Sie mehr über Future AI Creators, eine projektbasierte Bildungsplattform für praktische KI-Kompetenzen.',
         keywords: [
-          'über viecom',
-          'ki inhaltsgenerierungsplattform',
-          'e-commerce ki tools',
-          'produktfotografie ki',
-          'videogenerierungsplattform',
+          'future ai creators',
+          'ki bildung',
+          'jugendliche ki lernen',
+          'projektbasiertes lernen',
+          'ki kompetenz',
         ],
         openGraph: {
-          title: 'Über Viecom | KI-gestützte E-Commerce-Inhaltsplattform',
+          title: 'Über Future AI Creators | KI-Bildungsplattform',
           description:
-            'Erfahren Sie mehr über Viecom und wie wir E-Commerce-Unternehmen dabei helfen, professionelle Inhalte mit KI zu erstellen.',
+            'Erfahren Sie, wie wir Lernende mit praktischen KI-Projekten unterstützen.',
         },
         twitter: {
-          title: 'Über Viecom | KI-gestützte E-Commerce-Inhaltsplattform',
+          title: 'Über Future AI Creators | KI-Bildungsplattform',
           description:
-            'Erfahren Sie mehr über Viecom und wie wir E-Commerce-Unternehmen dabei helfen, professionelle Inhalte mit KI zu erstellen.',
+            'Erfahren Sie, wie wir Lernende mit praktischen KI-Projekten unterstützen.',
         },
       },
       ja: {
-        title: 'Viecomについて | AI駆動のEコマースコンテンツ生成プラットフォーム',
+        title: 'Future AI Creatorsについて | 若者向けAI教育プラットフォーム',
         description:
-          'Viecomについて学ぶ。Eコマース企業が大規模にプロフェッショナルな商品画像と動画を作成するのを支援するAI駆動プラットフォーム。私たちの使命、技術、チーム。',
+          'Future AI Creatorsについて学ぶ。プロジェクト型学習で実践的なAIスキルを育てます。',
         keywords: [
-          'viecomについて',
-          'aiコンテンツ生成プラットフォーム',
-          'eコマースaiツール',
-          '商品写真ai',
-          '動画生成プラットフォーム',
+          'future ai creators',
+          'AI教育',
+          '若者AI学習',
+          'プロジェクト型学習',
+          'AIリテラシー',
         ],
         openGraph: {
-          title: 'Viecomについて | AI駆動のEコマースコンテンツプラットフォーム',
-          description:
-            'Viecomについて、そしてEコマース企業がAIでプロフェッショナルなコンテンツを作成するのをどのように支援しているかを学びます。',
+          title: 'Future AI Creatorsについて | AI教育プラットフォーム',
+          description: '実践的なAIプロジェクトで学ぶ方法を紹介します。',
         },
         twitter: {
-          title: 'Viecomについて | AI駆動のEコマースコンテンツプラットフォーム',
-          description:
-            'Viecomについて、そしてEコマース企業がAIでプロフェッショナルなコンテンツを作成するのをどのように支援しているかを学びます。',
+          title: 'Future AI Creatorsについて | AI教育プラットフォーム',
+          description: '実践的なAIプロジェクトで学ぶ方法を紹介します。',
         },
       },
     },
