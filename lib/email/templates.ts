@@ -1,6 +1,6 @@
 import { paymentConfig } from '@/config/payment.config';
 
-const APP_NAME = 'Future AI Creators';
+const APP_NAME = 'FuturAI';
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://futureai.edu';
 const SUPPORT_EMAIL = 'support@futurai.org';
 

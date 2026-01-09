@@ -1,11 +1,11 @@
-# Future AI Creators（未来AI创造者）PRD
+# FuturAI（未来AI创造者）PRD
 
 ## 1. 项目背景 / Background
 **中文：**  
-Future AI Creators 是一个面向 K12（小学高年级–初中）青少年的 AI 教育展示与招生型网站，用于介绍“AI × 未来社会”的核心理念，展示学生可完成的真实 AI 项目，并承载线下寒假 AI 创作营的报名申请。  
+FuturAI 是一个面向 K12（小学高年级–初中）青少年的 AI 教育展示与招生型网站，用于介绍“AI × 未来社会”的核心理念，展示学生可完成的真实 AI 项目，并承载线下寒假 AI 创作营的报名申请。  
 
 **English:**  
-Future AI Creators is a showcase and enrollment website for K12 students (upper elementary to middle school), introducing how AI empowers future learning, work, and creativity, and providing registration for offline winter AI camps.
+FuturAI is a showcase and enrollment website for K12 students (upper elementary to middle school), introducing how AI empowers future learning, work, and creativity, and providing registration for offline winter AI camps.
 
 ---
 
@@ -133,4 +133,4 @@ Empower students to thrive in the AI-driven future by using AI to understand the
 
 ---
 
-© Future AI Creators
+© FuturAI

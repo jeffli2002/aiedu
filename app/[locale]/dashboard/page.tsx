@@ -23,7 +23,7 @@ import {
   TrendingUp,
 } from 'lucide-react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { Suspense, useCallback, useEffect, useMemo, useState } from 'react';
 
@@ -91,7 +91,16 @@ interface CreditTransaction {
   id: string;
   type: 'earn' | 'spend' | 'refund' | 'admin_adjust' | 'freeze' | 'unfreeze';
   amount: number;
-  source: 'subscription' | 'api_call' | 'admin' | 'storage' | 'bonus';
+  source:
+    | 'subscription'
+    | 'purchase'
+    | 'api_call'
+    | 'admin'
+    | 'storage'
+    | 'bonus'
+    | 'checkin'
+    | 'referral'
+    | 'social_share';
   description?: string;
   balanceAfter: number;
   createdAt: Date;
@@ -120,13 +129,21 @@ function DashboardPageContent() {
     isLoading: authLoading,
   } = useAuthStore();
   const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [creditBalance, setCreditBalance] = useState<CreditBalance | null>(null);
   const [, setQuotaUsage] = useState<QuotaUsage | null>(null);
   const [transactions, setTransactions] = useState<CreditTransaction[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [autoRefreshAttempts, setAutoRefreshAttempts] = useState(0);
-  const { planId, loading: subLoading, upcomingPlan } = useSubscription();
+  const [isSyncingCheckout, setIsSyncingCheckout] = useState(false);
+  const {
+    planId,
+    loading: subLoading,
+    upcomingPlan,
+    refresh: refreshSubscription,
+  } = useSubscription();
 
   const scheduledPlanDetails = useMemo(() => {
     if (!upcomingPlan || !upcomingPlan.planId || !upcomingPlan.interval) {
@@ -153,23 +170,29 @@ function DashboardPageContent() {
 
   const fetchDashboardData = useCallback(async () => {
     try {
-      // Fetch credit balance
-      const balanceResponse = await fetch('/api/credits/balance', {
-        credentials: 'include',
-        cache: 'no-store',
-      });
+      const [balanceResponse, quotaResponse, historyResponse] = await Promise.all([
+        fetch('/api/credits/balance', {
+          credentials: 'include',
+          cache: 'no-store',
+        }),
+        fetch('/api/credits/quota', {
+          credentials: 'include',
+          cache: 'no-store',
+        }),
+        fetch('/api/credits/history?limit=10', {
+          credentials: 'include',
+          cache: 'no-store',
+        }),
+      ]);
+
+      let nextBalance: CreditBalance | null | undefined;
       if (balanceResponse.ok) {
         const balanceData = await balanceResponse.json();
         if (balanceData.success && balanceData.data) {
-          setCreditBalance(balanceData.data);
+          nextBalance = balanceData.data;
         }
       }
 
-      // Fetch quota usage
-      const quotaResponse = await fetch('/api/credits/quota', {
-        credentials: 'include',
-        cache: 'no-store',
-      });
       if (quotaResponse.ok) {
         const quotaData = await quotaResponse.json();
         if (quotaData.success && quotaData.data) {
@@ -177,16 +200,35 @@ function DashboardPageContent() {
         }
       }
 
-      // Fetch credit history
-      const historyResponse = await fetch('/api/credits/history?limit=10', {
-        credentials: 'include',
-        cache: 'no-store',
-      });
+      let nextTransactions: CreditTransaction[] | undefined;
       if (historyResponse.ok) {
         const historyData = await historyResponse.json();
         if (historyData.success && historyData.data) {
-          setTransactions(historyData.data);
+          nextTransactions = historyData.data;
         }
+      }
+
+      if (nextBalance && nextTransactions && nextTransactions.length > 0) {
+        const latestBalance = Number(nextTransactions[0]?.balanceAfter);
+        if (Number.isFinite(latestBalance) && latestBalance !== nextBalance.balance) {
+          const refreshedBalance = await fetch('/api/credits/balance', {
+            credentials: 'include',
+            cache: 'no-store',
+          });
+          if (refreshedBalance.ok) {
+            const refreshedData = await refreshedBalance.json();
+            if (refreshedData.success && refreshedData.data) {
+              nextBalance = refreshedData.data;
+            }
+          }
+        }
+      }
+
+      if (nextBalance !== undefined) {
+        setCreditBalance(nextBalance);
+      }
+      if (nextTransactions !== undefined) {
+        setTransactions(nextTransactions);
       }
 
       // Subscription info is provided by useSubscription hook
@@ -209,6 +251,83 @@ function DashboardPageContent() {
 
     fetchDashboardData();
   }, [authInitialized, isAuthenticated, router, fetchDashboardData]);
+
+  useEffect(() => {
+    if (!authInitialized || !isAuthenticated || isSyncingCheckout) {
+      return;
+    }
+
+    const successFlag = searchParams.get('success');
+    const subscriptionId = searchParams.get('subscription_id');
+    const productId = searchParams.get('product_id');
+    const customerId = searchParams.get('customer_id');
+    const checkoutId = searchParams.get('checkout_id');
+
+    if (successFlag !== 'true' || (!subscriptionId && !checkoutId)) {
+      return;
+    }
+
+    const syncCheckout = async () => {
+      setIsSyncingCheckout(true);
+      try {
+        if (subscriptionId) {
+          const response = await fetch('/api/creem/sync-checkout', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            credentials: 'include',
+            body: JSON.stringify({
+              subscriptionId,
+              productId,
+              customerId,
+              checkoutId,
+            }),
+          });
+
+          if (!response.ok) {
+            const data = await response.json().catch(() => ({}));
+            throw new Error(data.error || 'Failed to sync subscription');
+          }
+        } else if (checkoutId) {
+          const response = await fetch('/api/creem/sync-credit-pack', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            credentials: 'include',
+            body: JSON.stringify({ checkoutId }),
+          });
+
+          if (!response.ok) {
+            const data = await response.json().catch(() => ({}));
+            throw new Error(data.error || 'Failed to sync credit pack');
+          }
+        }
+
+        await fetchDashboardData();
+        refreshSubscription();
+      } catch (error) {
+        console.error('[Dashboard] Failed to sync checkout:', error);
+      } finally {
+        setIsSyncingCheckout(false);
+        if (pathname) {
+          router.replace(pathname);
+        }
+      }
+    };
+
+    void syncCheckout();
+  }, [
+    authInitialized,
+    isAuthenticated,
+    isSyncingCheckout,
+    searchParams,
+    pathname,
+    router,
+    fetchDashboardData,
+    refreshSubscription,
+  ]);
 
   useEffect(() => {
     if (

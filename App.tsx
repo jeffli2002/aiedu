@@ -591,7 +591,7 @@ const Footer: React.FC<{ lang: Language }> = ({ lang }) => {
           <div className="bg-white/5 p-3 rounded-2xl border border-white/10 group-hover:bg-violet-600 transition-all duration-500 group-hover:rotate-12">
             <Cpu className="w-7 h-7 text-white" />
           </div>
-          <span className="font-black text-xl tracking-tighter uppercase italic text-white">Future AI Creators</span>
+          <span className="font-black text-xl tracking-tighter uppercase italic text-white">FuturAI</span>
         </div>
         
         <div className="flex flex-wrap justify-center gap-8">

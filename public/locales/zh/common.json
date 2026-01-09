@@ -74,8 +74,6 @@
     "heroTitle": "系统化学习路径",
     "heroSubtitle": "从基础通识到黑客松实战。以 PBL 项目制学习为核心实现形式。",
     "academyTag": "创新学院",
-    "studentJoin": "加入 1200+",
-    "pioneersTag": "AI 先锋",
     "theoryLabel": "理论",
     "practiceLabel": "实践",
     "pathwayTitle": "核心课程架构",
@@ -124,7 +122,6 @@
       "mission": "项目使命",
       "tools": "技术与工具",
       "outcome": "最终成果",
-      "enrolledStudents": "已有 120+ 学员报名",
       "courseType": {
         "foundation": "基础",
         "creation": "创作",
@@ -148,7 +145,7 @@
   },
   "signup": {
     "title": "创建你的账号",
-    "subtitle": "加入 Future AI Creators 开始创作。",
+    "subtitle": "加入 FuturAI 开始创作。",
     "name": "姓名",
     "email": "邮箱",
     "password": "密码",
@@ -429,7 +426,7 @@
     }
   },
   "footer": {
-    "copyright": "© Future AI Creators"
+    "copyright": "© FuturAI"
   },
   "common": {
     "loading": "加载中...",

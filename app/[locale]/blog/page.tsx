@@ -10,17 +10,17 @@ export const dynamic = 'force-static';
 export function generateMetadata({ params }: { params: { locale: 'en' | 'zh' } }): Metadata {
   const { locale } = params;
   return {
-    title: 'Blog | Future AI Creators',
+    title: 'Blog | FuturAI',
     description: 'Insights and SEO articles about AI education and tools.',
     ...buildLocaleCanonicalMetadata(locale, '/blog'),
     openGraph: {
-      title: 'Blog | Future AI Creators',
+      title: 'Blog | FuturAI',
       description: 'Insights and SEO articles about AI education and tools.',
       url: `/${locale}/blog`,
       type: 'website',
     },
     twitter: {
-      title: 'Blog | Future AI Creators',
+      title: 'Blog | FuturAI',
       description: 'Insights and SEO articles about AI education and tools.',
       card: 'summary_large_image',
     },

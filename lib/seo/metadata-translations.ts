@@ -857,9 +857,9 @@ export const pageSpecificTranslations: Partial<Record<PagePath, Record<string, S
   {
     '/about': {
       en: {
-        title: 'About Future AI Creators | Practical AI Education for Youth',
+        title: 'About FuturAI | Practical AI Education for Youth',
         description:
-          'Learn about Future AI Creators, a project-based AI education platform helping students build real-world skills through creativity and responsible AI.',
+          'Learn about FuturAI, a project-based AI education platform helping students build real-world skills through creativity and responsible AI.',
         keywords: [
           'future ai creators',
           'ai education',
@@ -868,34 +868,34 @@ export const pageSpecificTranslations: Partial<Record<PagePath, Record<string, S
           'ai literacy',
         ],
         openGraph: {
-          title: 'About Future AI Creators | AI Education Platform',
+          title: 'About FuturAI | AI Education Platform',
           description:
-            'Meet Future AI Creators and how we help students learn AI through hands-on projects.',
+            'Meet FuturAI and how we help students learn AI through hands-on projects.',
         },
         twitter: {
-          title: 'About Future AI Creators | AI Education Platform',
+          title: 'About FuturAI | AI Education Platform',
           description:
-            'Meet Future AI Creators and how we help students learn AI through hands-on projects.',
+            'Meet FuturAI and how we help students learn AI through hands-on projects.',
         },
       },
       zh: {
-        title: '关于 Future AI Creators | 面向青少年的 AI 教育平台',
+        title: '关于 FuturAI | 面向青少年的 AI 教育平台',
         description:
-          '了解 Future AI Creators：以项目式学习帮助学生掌握 AI 素养、创造力与真实技能。',
-        keywords: ['Future AI Creators', 'AI教育', '青少年AI学习', '项目式学习', 'AI素养'],
+          '了解 FuturAI：以项目式学习帮助学生掌握 AI 素养、创造力与真实技能。',
+        keywords: ['FuturAI', 'AI教育', '青少年AI学习', '项目式学习', 'AI素养'],
         openGraph: {
-          title: '关于 Future AI Creators | AI 教育平台',
+          title: '关于 FuturAI | AI 教育平台',
           description: '了解我们如何通过项目式学习帮助学生掌握 AI 技能。',
         },
         twitter: {
-          title: '关于 Future AI Creators | AI 教育平台',
+          title: '关于 FuturAI | AI 教育平台',
           description: '了解我们如何通过项目式学习帮助学生掌握 AI 技能。',
         },
       },
       es: {
-        title: 'Acerca de Future AI Creators | Educación de IA para jóvenes',
+        title: 'Acerca de FuturAI | Educación de IA para jóvenes',
         description:
-          'Conoce Future AI Creators, una plataforma educativa con aprendizaje por proyectos que ayuda a estudiantes a desarrollar habilidades reales con IA.',
+          'Conoce FuturAI, una plataforma educativa con aprendizaje por proyectos que ayuda a estudiantes a desarrollar habilidades reales con IA.',
         keywords: [
           'future ai creators',
           'educacion ia',
@@ -904,20 +904,20 @@ export const pageSpecificTranslations: Partial<Record<PagePath, Record<string, S
           'alfabetizacion ia',
         ],
         openGraph: {
-          title: 'Acerca de Future AI Creators | Plataforma educativa de IA',
+          title: 'Acerca de FuturAI | Plataforma educativa de IA',
           description:
             'Conoce cómo ayudamos a estudiantes a aprender IA con proyectos prácticos.',
         },
         twitter: {
-          title: 'Acerca de Future AI Creators | Plataforma educativa de IA',
+          title: 'Acerca de FuturAI | Plataforma educativa de IA',
           description:
             'Conoce cómo ayudamos a estudiantes a aprender IA con proyectos prácticos.',
         },
       },
       fr: {
-        title: 'À propos de Future AI Creators | Éducation IA pour les jeunes',
+        title: 'À propos de FuturAI | Éducation IA pour les jeunes',
         description:
-          "Découvrez Future AI Creators, une plateforme éducative basée sur des projets pour développer des compétences IA concrètes.",
+          "Découvrez FuturAI, une plateforme éducative basée sur des projets pour développer des compétences IA concrètes.",
         keywords: [
           'future ai creators',
           'education ia',
@@ -926,20 +926,20 @@ export const pageSpecificTranslations: Partial<Record<PagePath, Record<string, S
           'litteratie ia',
         ],
         openGraph: {
-          title: 'À propos de Future AI Creators | Plateforme éducative IA',
+          title: 'À propos de FuturAI | Plateforme éducative IA',
           description:
             'Découvrez comment nous aidons les élèves à apprendre l’IA avec des projets pratiques.',
         },
         twitter: {
-          title: 'À propos de Future AI Creators | Plateforme éducative IA',
+          title: 'À propos de FuturAI | Plateforme éducative IA',
           description:
             'Découvrez comment nous aidons les élèves à apprendre l’IA avec des projets pratiques.',
         },
       },
       de: {
-        title: 'Über Future AI Creators | KI-Bildung für Jugendliche',
+        title: 'Über FuturAI | KI-Bildung für Jugendliche',
         description:
-          'Erfahren Sie mehr über Future AI Creators, eine projektbasierte Bildungsplattform für praktische KI-Kompetenzen.',
+          'Erfahren Sie mehr über FuturAI, eine projektbasierte Bildungsplattform für praktische KI-Kompetenzen.',
         keywords: [
           'future ai creators',
           'ki bildung',
@@ -948,20 +948,20 @@ export const pageSpecificTranslations: Partial<Record<PagePath, Record<string, S
           'ki kompetenz',
         ],
         openGraph: {
-          title: 'Über Future AI Creators | KI-Bildungsplattform',
+          title: 'Über FuturAI | KI-Bildungsplattform',
           description:
             'Erfahren Sie, wie wir Lernende mit praktischen KI-Projekten unterstützen.',
         },
         twitter: {
-          title: 'Über Future AI Creators | KI-Bildungsplattform',
+          title: 'Über FuturAI | KI-Bildungsplattform',
           description:
             'Erfahren Sie, wie wir Lernende mit praktischen KI-Projekten unterstützen.',
         },
       },
       ja: {
-        title: 'Future AI Creatorsについて | 若者向けAI教育プラットフォーム',
+        title: 'FuturAIについて | 若者向けAI教育プラットフォーム',
         description:
-          'Future AI Creatorsについて学ぶ。プロジェクト型学習で実践的なAIスキルを育てます。',
+          'FuturAIについて学ぶ。プロジェクト型学習で実践的なAIスキルを育てます。',
         keywords: [
           'future ai creators',
           'AI教育',
@@ -970,11 +970,11 @@ export const pageSpecificTranslations: Partial<Record<PagePath, Record<string, S
           'AIリテラシー',
         ],
         openGraph: {
-          title: 'Future AI Creatorsについて | AI教育プラットフォーム',
+          title: 'FuturAIについて | AI教育プラットフォーム',
           description: '実践的なAIプロジェクトで学ぶ方法を紹介します。',
         },
         twitter: {
-          title: 'Future AI Creatorsについて | AI教育プラットフォーム',
+          title: 'FuturAIについて | AI教育プラットフォーム',
           description: '実践的なAIプロジェクトで学ぶ方法を紹介します。',
         },
       },

@@ -12,7 +12,7 @@
     "signin": "Sign In"
   },
   "hero": {
-    "title": "Future AI Creators",
+    "title": "FuturAI",
     "subtitle": "Empower students to thrive in the AI-driven future",
     "description": "Using AI to understand the world, express ideas, solve problems, and create meaningful projects",
     "cta": "Apply Now",
@@ -74,8 +74,6 @@
     "heroTitle": "Systematic Learning Path",
     "heroSubtitle": "From foundations to hackathons. Driven by the Project-Based Learning (PBL) methodology.",
     "academyTag": "Academy of Innovation",
-    "studentJoin": "Join 1200+",
-    "pioneersTag": "AI Pioneers",
     "theoryLabel": "Theory",
     "practiceLabel": "Practice",
     "pathwayTitle": "Curriculum Architecture",
@@ -124,7 +122,6 @@
       "mission": "The Mission",
       "tools": "Stack & Tools",
       "outcome": "Outcome",
-      "enrolledStudents": "120+ Students enrolled",
       "courseType": {
         "foundation": "FOUNDATION",
         "creation": "CREATION",
@@ -148,7 +145,7 @@
   },
   "signup": {
     "title": "Create your account",
-    "subtitle": "Start building with Future AI Creators.",
+    "subtitle": "Start building with FuturAI.",
     "name": "Full Name",
     "email": "Email",
     "password": "Password",
@@ -429,7 +426,7 @@
     }
   },
   "footer": {
-    "copyright": "© Future AI Creators"
+    "copyright": "© FuturAI"
   },
   "common": {
     "loading": "Loading...",

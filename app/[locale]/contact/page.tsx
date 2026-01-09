@@ -14,11 +14,11 @@ export async function generateMetadata({
   params: { locale: Locale };
 }): Promise<Metadata> {
   const title =
-    locale === 'zh' ? '联系我们 - Future AI Creators' : 'Contact Us - Future AI Creators';
+    locale === 'zh' ? '联系我们 - FuturAI' : 'Contact Us - FuturAI';
   const description =
     locale === 'zh'
-      ? '联系 Future AI Creators 获取课程咨询、营地报名与合作支持。'
-      : 'Contact Future AI Creators for course inquiries, camp applications, or partnerships.';
+      ? '联系 FuturAI 获取课程咨询、营地报名与合作支持。'
+      : 'Contact FuturAI for course inquiries, camp applications, or partnerships.';
   const keywords =
     locale === 'zh'
       ? ['联系我们', 'AI教育', '课程咨询', '创作营报名', '合作']
@@ -53,7 +53,7 @@ export default function ContactPage({
           { label: '营地报名相关', value: '24 小时内' },
         ],
         addressTitle: '办公地址',
-        addressHeading: 'Future AI Creators 教育团队',
+        addressHeading: 'FuturAI 教育团队',
         addressEnLines: ['Datun Road, Chaoyang District', 'Beijing, China'],
         addressZhLines: ['中国北京市朝阳区大屯路'],
         faqTitle: '常见问题',
@@ -98,7 +98,7 @@ export default function ContactPage({
           { label: 'Camp applications', value: 'Within 24 hours' },
         ],
         addressTitle: 'Office Address',
-        addressHeading: 'Future AI Creators Education Team',
+        addressHeading: 'FuturAI Education Team',
         addressEnLines: ['Datun Road, Chaoyang District', 'Beijing, China'],
         addressZhLines: ['中国北京市朝阳区大屯路'],
         faqTitle: 'Frequently Asked Questions',

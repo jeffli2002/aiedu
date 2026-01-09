@@ -1161,12 +1161,12 @@
   },
   "terms": {
     "title": "Terms of Service",
-    "description": "Terms of Service for Future AI Creators platform",
+    "description": "Terms of Service for FuturAI platform",
     "lastUpdated": "Last Updated",
     "sections": {
       "introduction": {
         "title": "1. Introduction",
-        "content": "Welcome to Future AI Creators (\"we,\" \"our,\" or \"us\"). These Terms of Service (\"Terms\") govern your access to and use of our AI education platform, including our website, mobile applications, and related services (collectively, the \"Service\"). By accessing or using our Service, you agree to be bound by these Terms."
+        "content": "Welcome to FuturAI (\"we,\" \"our,\" or \"us\"). These Terms of Service (\"Terms\") govern your access to and use of our AI education platform, including our website, mobile applications, and related services (collectively, the \"Service\"). By accessing or using our Service, you agree to be bound by these Terms."
       },
       "acceptance": {
         "title": "2. Acceptance of Terms",
@@ -1192,7 +1192,7 @@
       },
       "intellectualProperty": {
         "title": "6. Intellectual Property",
-        "content": "All content on our Service, including but not limited to text, graphics, logos, images, and software, is the property of Future AI Creators or its licensors and is protected by copyright and other intellectual property laws. You retain ownership of content you create using our Service, but grant us a license to use, display, and distribute such content as necessary to provide the Service."
+        "content": "All content on our Service, including but not limited to text, graphics, logos, images, and software, is the property of FuturAI or its licensors and is protected by copyright and other intellectual property laws. You retain ownership of content you create using our Service, but grant us a license to use, display, and distribute such content as necessary to provide the Service."
       },
       "credits": {
         "title": "7. Credits and Payments",
@@ -1200,7 +1200,7 @@
       },
       "liability": {
         "title": "8. Limitation of Liability",
-        "content": "To the maximum extent permitted by law, Future AI Creators shall not be liable for any indirect, incidental, special, consequential, or punitive damages, or any loss of profits or revenues, whether incurred directly or indirectly, or any loss of data, use, goodwill, or other intangible losses resulting from your use of the Service."
+        "content": "To the maximum extent permitted by law, FuturAI shall not be liable for any indirect, incidental, special, consequential, or punitive damages, or any loss of profits or revenues, whether incurred directly or indirectly, or any loss of data, use, goodwill, or other intangible losses resulting from your use of the Service."
       },
       "changes": {
         "title": "9. Changes to Terms",
@@ -1214,12 +1214,12 @@
   },
   "privacy": {
     "title": "Privacy Policy",
-    "description": "Privacy Policy for Future AI Creators platform",
+    "description": "Privacy Policy for FuturAI platform",
     "lastUpdated": "Last Updated",
     "sections": {
       "introduction": {
         "title": "1. Introduction",
-        "content": "Future AI Creators (\"we,\" \"our,\" or \"us\") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our AI education platform and services."
+        "content": "FuturAI (\"we,\" \"our,\" or \"us\") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our AI education platform and services."
       },
       "collection": {
         "title": "2. Information We Collect",

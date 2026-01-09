@@ -13,11 +13,11 @@ export async function generateMetadata({
 }: {
   params: { locale: Locale };
 }): Promise<Metadata> {
-  const title = locale === 'zh' ? '退款政策 - Future AI Creators' : 'Refund Policy - Future AI Creators';
+  const title = locale === 'zh' ? '退款政策 - FuturAI' : 'Refund Policy - FuturAI';
   const description =
     locale === 'zh'
-      ? 'Future AI Creators 的退款政策，适用于课程、订阅与数字服务。了解退款规则与例外情况。'
-      : 'Refund policy for Future AI Creators education programs, subscriptions, and digital services.';
+      ? 'FuturAI 的退款政策，适用于课程、订阅与数字服务。了解退款规则与例外情况。'
+      : 'Refund policy for FuturAI education programs, subscriptions, and digital services.';
   const keywords =
     locale === 'zh'
       ? ['退款政策', 'AI教育退款', '课程退款', '订阅取消', '数字服务退款']
@@ -51,7 +51,7 @@ export default function RefundPolicyPage({
         noticeBody:
           '我们提供的是数字化课程与 AI 学习服务。一旦开通访问或使用积分，即视为服务已交付。',
         intro:
-          '本退款政策适用于 Future AI Creators 的课程、订阅与数字化服务。购买即表示您已阅读并同意本政策。',
+          '本退款政策适用于 FuturAI 的课程、订阅与数字化服务。购买即表示您已阅读并同意本政策。',
         section1Title: '1. 通用政策',
         section1Body:
           '由于数字服务具有即时交付特性，以下项目在开通访问后不支持退款：',
@@ -123,7 +123,7 @@ export default function RefundPolicyPage({
         noticeBody:
           'We provide digital courses and AI learning services. Once access is granted or credits are used, the service is considered delivered.',
         intro:
-          'This Refund Policy applies to Future AI Creators courses, subscriptions, and digital services. By purchasing, you agree to this policy.',
+          'This Refund Policy applies to FuturAI courses, subscriptions, and digital services. By purchasing, you agree to this policy.',
         section1Title: '1. General Policy',
         section1Body:
           'Because digital services are delivered immediately, the following are non-refundable after access is granted:',

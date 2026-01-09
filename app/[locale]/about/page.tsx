@@ -25,11 +25,11 @@ export default function AboutPage({
   const isZh = locale === 'zh';
   const copy = isZh
     ? {
-        title: '关于 Future AI Creators',
+        title: '关于 FuturAI',
         subtitle: '让孩子把 AI 变成真实技能与作品。',
         missionTitle: '我们的使命',
         missionBody: [
-          '我们相信 AI 是未来的基础能力。Future AI Creators 致力于帮助青少年从“使用者”成长为“创造者”。',
+          '我们相信 AI 是未来的基础能力。FuturAI 致力于帮助青少年从“使用者”成长为“创造者”。',
           '通过项目式学习与真实问题探索，我们训练学生的创造力、批判思维与负责任的 AI 素养。',
         ],
         whatTitle: '我们做什么',
@@ -78,11 +78,11 @@ export default function AboutPage({
         ctaSecondary: '开始创作',
       }
     : {
-        title: 'About Future AI Creators',
+        title: 'About FuturAI',
         subtitle: 'Practical AI literacy for the next generation of creators.',
         missionTitle: 'Our Mission',
         missionBody: [
-          'We believe AI is a foundational skill for the future. Future AI Creators helps young learners grow from users into creators.',
+          'We believe AI is a foundational skill for the future. FuturAI helps young learners grow from users into creators.',
           'Through project-based learning and real-world challenges, we cultivate creativity, critical thinking, and responsible AI literacy.',
         ],
         whatTitle: 'What We Do',
@@ -200,7 +200,7 @@ export default function AboutPage({
                 </CardTitle>
               </CardHeader>
               <CardContent className="text-gray-700 space-y-4">
-                <p>{isZh ? '适合以下人群：' : 'Future AI Creators is designed for:'}</p>
+                <p>{isZh ? '适合以下人群：' : 'FuturAI is designed for:'}</p>
                 <ul className="list-disc list-inside space-y-2 ml-4">
                   {copy.whoList.map((item) => (
                     <li key={item}>{item}</li>

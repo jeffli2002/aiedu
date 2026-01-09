@@ -445,7 +445,7 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
                 className="text-lg font-bold tracking-tight"
                 style={{ color: '#1a1a2e' }}
               >
-                Future AI Creators
+                FuturAI
               </span>
             </Link>
           </div>
