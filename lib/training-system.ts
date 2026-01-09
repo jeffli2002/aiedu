@@ -641,6 +641,23 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
             tools: ['Claude', 'Sudowrite'], 
             outcome: 'A published digital novella with consistent character voices.' 
           }
+        ],
+        materials: [
+          {
+            id: 'c203-from-magic-to-mastery-t01-en',
+            title: 'From Magic to Mastery T01 (PDF)',
+            type: 'pdf',
+            mediaId: 'training/c203/en/from-magic-to-mastery_T01',
+            language: 'en',
+          },
+          {
+            id: 'c203-writing-with-ai-video-t01-en',
+            title: 'Writing with AI T01 (Video)',
+            type: 'video',
+            access: 'preview',
+            mediaId: 'training/c203/en/writing-with-ai_T01',
+            language: 'en',
+          },
         ]
       },
       { 
