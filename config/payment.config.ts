@@ -1,7 +1,5 @@
 import { creditsConfig } from './credits.config';
-import { trainingConfig } from './training.config';
-
-const freeVideoPreviewFeature = `Video previews (first ${trainingConfig.freeVideoPreviewPercent}%)`;
+const freeVideoPreviewFeature = 'Video previews';
 
 export interface CreditPack {
   id: string;
