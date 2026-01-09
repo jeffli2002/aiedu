@@ -258,6 +258,23 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
             tools: ['Claude', 'Sudowrite'], 
             outcome: '一本具备一致角色语调的数字化中篇小说。' 
           }
+        ],
+        materials: [
+          {
+            id: 'c203-hero-journey-t01-zh',
+            title: 'AI写作英雄之旅 T01（PDF）',
+            type: 'pdf',
+            mediaId: 'training/c203/zh/ai-writing-hero-journey_T01',
+            language: 'zh',
+          },
+          {
+            id: 'c203-writing-evolution-video-t01-zh',
+            title: 'AI写作进化论：从灵感到伦理合作 T01（视频）',
+            type: 'video',
+            access: 'preview',
+            mediaId: 'training/c203/zh/ai-writing-evolution-inspiration-ethics_T01',
+            language: 'zh',
+          },
         ]
       },
       { 
