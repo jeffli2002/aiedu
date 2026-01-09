@@ -1,8 +1,15 @@
 import { paymentConfig } from '@/config/payment.config';
 
 const APP_NAME = 'FuturAI';
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://futureai.edu';
+// Use production URL for emails (emails need publicly accessible URLs)
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://www.futurai.org';
 const SUPPORT_EMAIL = 'support@futurai.org';
+// Ensure logo URL is publicly accessible (not localhost)
+const LOGO_URL = APP_URL.includes('localhost') 
+  ? 'https://www.futurai.org/FuturAI_logo.png' 
+  : `${APP_URL}/FuturAI_logo.png`;
+const CORAL_YELLOW = '#FF7F50'; // Coral color
+const CORAL_YELLOW_LIGHT = '#FFF5F0'; // Light coral for backgrounds
 
 /**
  * Base email template wrapper
@@ -23,8 +30,8 @@ function baseTemplate(content: string, footerText?: string): string {
         <table role="presentation" style="max-width: 600px; margin: 0 auto; border-collapse: collapse;">
           <!-- Header -->
           <tr>
-            <td style="padding: 20px 0; text-align: center; border-bottom: 2px solid #14b8a6;">
-              <h1 style="margin: 0; color: #14b8a6; font-size: 28px; font-weight: 600;">${APP_NAME}</h1>
+            <td style="padding: 20px 0; text-align: center; border-bottom: 2px solid ${CORAL_YELLOW};">
+              <img src="${LOGO_URL}" alt="${APP_NAME}" style="max-width: 200px; height: auto; display: block; margin-left: auto; margin-right: auto;" width="200" />
             </td>
           </tr>
           
@@ -42,7 +49,7 @@ function baseTemplate(content: string, footerText?: string): string {
                 footerText ||
                 `
                 <p style="margin: 0 0 10px 0;">
-                  Need help? Contact us at <a href="mailto:${SUPPORT_EMAIL}" style="color: #14b8a6; text-decoration: none;">${SUPPORT_EMAIL}</a>
+                  Need help? Contact us at <a href="mailto:${SUPPORT_EMAIL}" style="color: ${CORAL_YELLOW}; text-decoration: none;">${SUPPORT_EMAIL}</a>
                 </p>
                 <p style="margin: 0;">
                   © ${new Date().getFullYear()} ${APP_NAME}. All rights reserved.
@@ -68,7 +75,7 @@ export function getWelcomeEmailTemplate(userName: string): string {
   const signupCredits = freePlan?.credits.onSignup || 15;
 
   const content = `
-    <h2 style="color: #111827; margin: 0 0 20px 0; font-size: 24px;">Welcome to ${APP_NAME}! 🎉</h2>
+    <h2 style="color: #111827; margin: 0 0 20px 0; font-size: 24px;">Welcome to ${APP_NAME}!</h2>
     
     <p style="margin: 0 0 20px 0; color: #374151;">
       Hi ${userName || 'there'},
@@ -78,27 +85,27 @@ export function getWelcomeEmailTemplate(userName: string): string {
       Thank you for joining ${APP_NAME}! We're excited to have you on board.
     </p>
     
-    <div style="background-color: #f0fdfa; border-left: 4px solid #14b8a6; padding: 20px; margin: 20px 0; border-radius: 4px;">
-      <p style="margin: 0 0 10px 0; color: #065f46; font-weight: 600;">
-        🎁 Your Welcome Bonus
+    <div style="background-color: ${CORAL_YELLOW_LIGHT}; border-left: 4px solid ${CORAL_YELLOW}; padding: 20px; margin: 20px 0; border-radius: 4px;">
+      <p style="margin: 0 0 10px 0; color: #8B4513; font-weight: 600;">
+        Your Welcome Bonus
       </p>
-      <p style="margin: 0; color: #047857; font-size: 18px; font-weight: 600;">
+      <p style="margin: 0; color: #A0522D; font-size: 18px; font-weight: 600;">
         ${signupCredits} Free Credits
       </p>
-      <p style="margin: 10px 0 0 0; color: #065f46; font-size: 14px;">
+      <p style="margin: 10px 0 0 0; color: #8B4513; font-size: 14px;">
         Start generating amazing AI images and videos right away!
       </p>
     </div>
     
     <div style="margin: 30px 0; text-align: center;">
-      <a href="${APP_URL}/dashboard" style="display: inline-block; padding: 12px 24px; background-color: #14b8a6; color: #ffffff; text-decoration: none; border-radius: 6px; font-weight: 600;">
+      <a href="${APP_URL}/dashboard" style="display: inline-block; padding: 12px 24px; background-color: ${CORAL_YELLOW}; color: #ffffff; text-decoration: none; border-radius: 6px; font-weight: 600;">
         Go to Dashboard
       </a>
     </div>
     
     <p style="margin: 20px 0 0 0; color: #6b7280; font-size: 14px;">
       If you have any questions, feel free to reach out to our support team at 
-      <a href="mailto:${SUPPORT_EMAIL}" style="color: #14b8a6; text-decoration: none;">${SUPPORT_EMAIL}</a>.
+      <a href="mailto:${SUPPORT_EMAIL}" style="color: ${CORAL_YELLOW}; text-decoration: none;">${SUPPORT_EMAIL}</a>.
     </p>
   `;
 
@@ -121,7 +128,7 @@ export function getEmailVerificationTemplate(userName: string, verificationUrl: 
     </p>
     
     <div style="margin: 30px 0; text-align: center;">
-      <a href="${verificationUrl}" style="display: inline-block; padding: 12px 24px; background-color: #14b8a6; color: #ffffff; text-decoration: none; border-radius: 6px; font-weight: 600;">
+      <a href="${verificationUrl}" style="display: inline-block; padding: 12px 24px; background-color: ${CORAL_YELLOW}; color: #ffffff; text-decoration: none; border-radius: 6px; font-weight: 600;">
         Confirm Email
       </a>
     </div>
@@ -149,7 +156,7 @@ export function getSubscriptionCreatedEmailTemplate(
   const yearlyPrice = interval === 'year' ? planPrice : planPrice * 12;
 
   const content = `
-    <h2 style="color: #111827; margin: 0 0 20px 0; font-size: 24px;">Subscription Activated! 🎉</h2>
+    <h2 style="color: #111827; margin: 0 0 20px 0; font-size: 24px;">Subscription Activated!</h2>
     
     <p style="margin: 0 0 20px 0; color: #374151;">
       Hi ${userName || 'there'},
@@ -174,26 +181,26 @@ export function getSubscriptionCreatedEmailTemplate(
         </tr>
         <tr>
           <td style="padding: 8px 0; color: #6b7280;">Credits:</td>
-          <td style="padding: 8px 0; text-align: right; color: #14b8a6; font-weight: 600;">${credits.toLocaleString()} credits/${billingPeriod}</td>
+          <td style="padding: 8px 0; text-align: right; color: ${CORAL_YELLOW}; font-weight: 600;">${credits.toLocaleString()} credits/${billingPeriod}</td>
         </tr>
       </table>
     </div>
     
-    <div style="background-color: #f0fdfa; border-left: 4px solid #14b8a6; padding: 20px; margin: 20px 0; border-radius: 4px;">
-      <p style="margin: 0; color: #065f46; font-size: 14px;">
-        ✅ Your credits have been added to your account. Start creating amazing content now!
+    <div style="background-color: ${CORAL_YELLOW_LIGHT}; border-left: 4px solid ${CORAL_YELLOW}; padding: 20px; margin: 20px 0; border-radius: 4px;">
+      <p style="margin: 0; color: #8B4513; font-size: 14px;">
+        Your credits have been added to your account. Start creating amazing content now!
       </p>
     </div>
     
     <div style="margin: 30px 0; text-align: center;">
-      <a href="${APP_URL}/dashboard" style="display: inline-block; padding: 12px 24px; background-color: #14b8a6; color: #ffffff; text-decoration: none; border-radius: 6px; font-weight: 600;">
+      <a href="${APP_URL}/dashboard" style="display: inline-block; padding: 12px 24px; background-color: ${CORAL_YELLOW}; color: #ffffff; text-decoration: none; border-radius: 6px; font-weight: 600;">
         Go to Dashboard
       </a>
     </div>
     
     <p style="margin: 20px 0 0 0; color: #6b7280; font-size: 14px;">
       Need to manage your subscription? Visit your 
-      <a href="${APP_URL}/billing" style="color: #14b8a6; text-decoration: none;">billing settings</a>.
+      <a href="${APP_URL}/billing" style="color: ${CORAL_YELLOW}; text-decoration: none;">billing settings</a>.
     </p>
   `;
 
@@ -217,7 +224,7 @@ export function getSubscriptionUpgradedEmailTemplate(
     interval === 'year' ? (newPlanPrice / 12).toFixed(2) : newPlanPrice.toFixed(2);
 
   const content = `
-    <h2 style="color: #111827; margin: 0 0 20px 0; font-size: 24px;">Subscription Upgraded! ⬆️</h2>
+    <h2 style="color: #111827; margin: 0 0 20px 0; font-size: 24px;">Subscription Upgraded</h2>
     
     <p style="margin: 0 0 20px 0; color: #374151;">
       Hi ${userName || 'there'},
@@ -239,7 +246,7 @@ export function getSubscriptionUpgradedEmailTemplate(
         </tr>
         <tr>
           <td style="padding: 8px 0; color: #6b7280;">New Credits:</td>
-          <td style="padding: 8px 0; text-align: right; color: #14b8a6; font-weight: 600;">${newCredits.toLocaleString()} credits/${billingPeriod}</td>
+          <td style="padding: 8px 0; text-align: right; color: ${CORAL_YELLOW}; font-weight: 600;">${newCredits.toLocaleString()} credits/${billingPeriod}</td>
         </tr>
         <tr>
           <td style="padding: 8px 0; color: #6b7280;">Effective Date:</td>
@@ -250,12 +257,12 @@ export function getSubscriptionUpgradedEmailTemplate(
     
     <div style="background-color: #fef3c7; border-left: 4px solid #f59e0b; padding: 20px; margin: 20px 0; border-radius: 4px;">
       <p style="margin: 0; color: #92400e; font-size: 14px;">
-        ⚠️ Your upgrade will take effect at the start of your next billing period. You'll continue to have access to ${oldPlanName} features until then.
+        Your upgrade will take effect at the start of your next billing period. You'll continue to have access to ${oldPlanName} features until then.
       </p>
     </div>
     
     <div style="margin: 30px 0; text-align: center;">
-      <a href="${APP_URL}/dashboard" style="display: inline-block; padding: 12px 24px; background-color: #14b8a6; color: #ffffff; text-decoration: none; border-radius: 6px; font-weight: 600;">
+      <a href="${APP_URL}/dashboard" style="display: inline-block; padding: 12px 24px; background-color: ${CORAL_YELLOW}; color: #ffffff; text-decoration: none; border-radius: 6px; font-weight: 600;">
         Go to Dashboard
       </a>
     </div>
@@ -281,7 +288,7 @@ export function getSubscriptionDowngradedEmailTemplate(
     interval === 'year' ? (newPlanPrice / 12).toFixed(2) : newPlanPrice.toFixed(2);
 
   const content = `
-    <h2 style="color: #111827; margin: 0 0 20px 0; font-size: 24px;">Subscription Changed ⬇️</h2>
+    <h2 style="color: #111827; margin: 0 0 20px 0; font-size: 24px;">Subscription Changed</h2>
     
     <p style="margin: 0 0 20px 0; color: #374151;">
       Hi ${userName || 'there'},
@@ -303,7 +310,7 @@ export function getSubscriptionDowngradedEmailTemplate(
         </tr>
         <tr>
           <td style="padding: 8px 0; color: #6b7280;">New Credits:</td>
-          <td style="padding: 8px 0; text-align: right; color: #14b8a6; font-weight: 600;">${newCredits.toLocaleString()} credits/${billingPeriod}</td>
+          <td style="padding: 8px 0; text-align: right; color: ${CORAL_YELLOW}; font-weight: 600;">${newCredits.toLocaleString()} credits/${billingPeriod}</td>
         </tr>
         <tr>
           <td style="padding: 8px 0; color: #6b7280;">Effective Date:</td>
@@ -314,12 +321,12 @@ export function getSubscriptionDowngradedEmailTemplate(
     
     <div style="background-color: #fef3c7; border-left: 4px solid #f59e0b; padding: 20px; margin: 20px 0; border-radius: 4px;">
       <p style="margin: 0; color: #92400e; font-size: 14px;">
-        ⚠️ Your plan change will take effect at the start of your next billing period. You'll continue to have access to ${oldPlanName} features until then.
+        Your plan change will take effect at the start of your next billing period. You'll continue to have access to ${oldPlanName} features until then.
       </p>
     </div>
     
     <div style="margin: 30px 0; text-align: center;">
-      <a href="${APP_URL}/billing" style="display: inline-block; padding: 12px 24px; background-color: #14b8a6; color: #ffffff; text-decoration: none; border-radius: 6px; font-weight: 600;">
+      <a href="${APP_URL}/billing" style="display: inline-block; padding: 12px 24px; background-color: ${CORAL_YELLOW}; color: #ffffff; text-decoration: none; border-radius: 6px; font-weight: 600;">
         Manage Subscription
       </a>
     </div>
@@ -363,12 +370,12 @@ export function getSubscriptionCancelledEmailTemplate(
     
     <div style="background-color: #fef3c7; border-left: 4px solid #f59e0b; padding: 20px; margin: 20px 0; border-radius: 4px;">
       <p style="margin: 0; color: #92400e; font-size: 14px;">
-        ℹ️ You'll continue to have access to ${planName} features until ${accessUntilDate.toLocaleDateString()}. After that, your account will be moved to the Free plan.
+        You'll continue to have access to ${planName} features until ${accessUntilDate.toLocaleDateString()}. After that, your account will be moved to the Free plan.
       </p>
     </div>
     
     <div style="margin: 30px 0; text-align: center;">
-      <a href="${APP_URL}/billing" style="display: inline-block; padding: 12px 24px; background-color: #14b8a6; color: #ffffff; text-decoration: none; border-radius: 6px; font-weight: 600;">
+      <a href="${APP_URL}/billing" style="display: inline-block; padding: 12px 24px; background-color: ${CORAL_YELLOW}; color: #ffffff; text-decoration: none; border-radius: 6px; font-weight: 600;">
         Reactivate Subscription
       </a>
     </div>
@@ -391,7 +398,7 @@ export function getCreditPackPurchaseEmailTemplate(
   price: number
 ): string {
   const content = `
-    <h2 style="color: #111827; margin: 0 0 20px 0; font-size: 24px;">Credits Purchased! 🎉</h2>
+    <h2 style="color: #111827; margin: 0 0 20px 0; font-size: 24px;">Credits Purchased!</h2>
     
     <p style="margin: 0 0 20px 0; color: #374151;">
       Hi ${userName || 'there'},
@@ -409,7 +416,7 @@ export function getCreditPackPurchaseEmailTemplate(
         </tr>
         <tr>
           <td style="padding: 8px 0; color: #6b7280;">Credits Added:</td>
-          <td style="padding: 8px 0; text-align: right; color: #14b8a6; font-weight: 600; font-size: 20px;">${credits.toLocaleString()} credits</td>
+          <td style="padding: 8px 0; text-align: right; color: ${CORAL_YELLOW}; font-weight: 600; font-size: 20px;">${credits.toLocaleString()} credits</td>
         </tr>
         <tr>
           <td style="padding: 8px 0; color: #6b7280;">Amount Paid:</td>
@@ -418,20 +425,20 @@ export function getCreditPackPurchaseEmailTemplate(
       </table>
     </div>
     
-    <div style="background-color: #f0fdfa; border-left: 4px solid #14b8a6; padding: 20px; margin: 20px 0; border-radius: 4px;">
-      <p style="margin: 0; color: #065f46; font-size: 14px;">
-        ✅ Your credits never expire! Use them anytime to generate amazing AI images and videos.
+    <div style="background-color: ${CORAL_YELLOW_LIGHT}; border-left: 4px solid ${CORAL_YELLOW}; padding: 20px; margin: 20px 0; border-radius: 4px;">
+      <p style="margin: 0; color: #8B4513; font-size: 14px;">
+        Your credits never expire! Use them anytime to generate amazing AI images and videos.
       </p>
     </div>
     
     <div style="margin: 30px 0; text-align: center;">
-      <a href="${APP_URL}/dashboard" style="display: inline-block; padding: 12px 24px; background-color: #14b8a6; color: #ffffff; text-decoration: none; border-radius: 6px; font-weight: 600;">
+      <a href="${APP_URL}/dashboard" style="display: inline-block; padding: 12px 24px; background-color: ${CORAL_YELLOW}; color: #ffffff; text-decoration: none; border-radius: 6px; font-weight: 600;">
         Start Creating
       </a>
     </div>
     
     <p style="margin: 20px 0 0 0; color: #6b7280; font-size: 14px;">
-      Need more credits? Visit our <a href="${APP_URL}/pricing" style="color: #14b8a6; text-decoration: none;">pricing page</a> to purchase additional credit packs.
+      Need more credits? Visit our <a href="${APP_URL}/pricing" style="color: ${CORAL_YELLOW}; text-decoration: none;">pricing page</a> to purchase additional credit packs.
     </p>
   `;
 

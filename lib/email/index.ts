@@ -18,7 +18,7 @@ export async function sendWelcomeEmail(userEmail: string, userName: string) {
 
   return sendEmail({
     to: userEmail,
-    subject: 'Welcome to FuturAI! 🎉',
+    subject: 'Welcome to FuturAI!',
     html: getWelcomeEmailTemplate(userName),
   });
 }
@@ -57,7 +57,7 @@ export async function sendSubscriptionCreatedEmail(
 
   return sendEmail({
     to: userEmail,
-    subject: `Your ${planName} Subscription is Active! 🎉`,
+    subject: `Your ${planName} Subscription is Active!`,
     html: getSubscriptionCreatedEmailTemplate(userName, planName, planPrice, interval, credits),
   });
 }
@@ -80,7 +80,7 @@ export async function sendSubscriptionUpgradedEmail(
 
   return sendEmail({
     to: userEmail,
-    subject: `Subscription Upgraded to ${newPlanName}! ⬆️`,
+    subject: `Subscription Upgraded to ${newPlanName}`,
     html: getSubscriptionUpgradedEmailTemplate(
       userName,
       oldPlanName,
@@ -159,7 +159,7 @@ export async function sendCreditPackPurchaseEmail(
 
   return sendEmail({
     to: userEmail,
-    subject: `Credits Purchased - ${credits.toLocaleString()} Credits Added! 🎉`,
+    subject: `Credits Purchased - ${credits.toLocaleString()} Credits Added!`,
     html: getCreditPackPurchaseEmailTemplate(userName, packName, credits, price),
   });
 }
