@@ -29,6 +29,7 @@ export default function Footer({ fixed }: { fixed?: boolean } = {}) {
   const exploreLinks = [
     { href: '/', label: isClient ? tn('home') : '首页' },
     { href: '/training', label: isClient ? tn('training') : '训练课程' },
+    { href: '/pricing', label: isClient ? tn('pricing') : '定价' },
     { href: '/blog', label: isClient ? tn('blog') : '博客' },
   ];
 

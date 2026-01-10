@@ -68,6 +68,7 @@ export default function Navbar() {
     if (!isClient) {
       return [
         { href: '/zh/training', label: '训练课程' },
+        { href: '/zh/pricing', label: '定价' },
         { href: '/zh/image-generation', label: 'AI 图像' },
         { href: '/zh/video-generation', label: 'AI 视频' },
         { href: '/zh/blog', label: '博客' },
@@ -76,6 +77,7 @@ export default function Navbar() {
     }
     return [
       { href: withLocalePath('/training', locale), label: t('nav.training') },
+      { href: withLocalePath('/pricing', locale), label: t('nav.pricing') },
       { href: withLocalePath('/image-generation', locale), label: t('nav.imageGeneration') },
       { href: withLocalePath('/video-generation', locale), label: t('nav.videoGeneration') },
       { href: withLocalePath('/blog', locale), label: t('nav.blog') },
