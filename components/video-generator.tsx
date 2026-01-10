@@ -98,7 +98,7 @@ export default function VideoGenerator() {
     completeProgress,
     failProgress,
   } = useGenerationProgress();
-  const [isPublishModalOpen, setIsPublishModalOpen] = useState(false); // kept for share-to-Viecom only
+  const [isPublishModalOpen, setIsPublishModalOpen] = useState(false); // kept for share-to-Futurai only
   const defaultShareText = tg('shareDefaultText');
   const sharePlatforms = buildSharePlatforms(
     {
@@ -111,7 +111,7 @@ export default function VideoGenerator() {
     defaultShareText
   );
   const socialShareReward = SHARE_REWARD_CONFIG.socialShare.credits;
-  const publishShareReward = SHARE_REWARD_CONFIG.publishViecom.credits;
+  const publishShareReward = SHARE_REWARD_CONFIG.publishFuturai.credits;
   const getInFlightMessage = (waitTimeSeconds?: number) => {
     if (typeof waitTimeSeconds === 'number' && waitTimeSeconds > 0) {
       const waitMinutes = Math.max(1, Math.ceil(waitTimeSeconds / 60));
@@ -561,7 +561,7 @@ export default function VideoGenerator() {
       throw new Error('No video available to publish.');
     }
 
-    // Submit to our own Viecom showcase only (no e-commerce)
+    // Submit to our own Futurai showcase only (no e-commerce)
     const response = await fetch('/api/v1/publish/submissions', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -1278,15 +1278,15 @@ export default function VideoGenerator() {
                         <DropdownMenuSeparator />
                         <DropdownMenuLabel>
                           <div className="flex flex-col">
-                            <span>{tg('sharePublishOnViecomLabel')}</span>
+                            <span>{tg('sharePublishOnFuturaiLabel')}</span>
                             <span className="text-xs font-normal text-accent-coral">
-                              {tg('shareViecomRewardHint', { credits: publishShareReward })}
+                              {tg('shareFuturaiRewardHint', { credits: publishShareReward })}
                             </span>
                           </div>
                         </DropdownMenuLabel>
                         <DropdownMenuItem onClick={() => void handleShareAction('publish')}>
                           <Globe className="mr-2 h-4 w-4" />
-                          <span className="flex-1">{tg('sharePublishOnViecom')}</span>
+                          <span className="flex-1">{tg('sharePublishOnFuturai')}</span>
                           <span className="text-xs font-medium text-accent-coral">
                             {tg('shareRewardSuffix', { credits: publishShareReward })}
                           </span>

@@ -52,7 +52,7 @@
     "footerPrivacy": "Politique de confidentialité",
     "footerTerms": "Conditions d'utilisation",
     "footerRefund": "Politique de remboursement",
-    "independenceDisclaimer": "Avis d'indépendance : Viecom utilise des modèles IA tiers (tels que Gemini de Google, les modèles d'OpenAI et d'autres fournisseurs de services IA) pour alimenter nos services de génération de contenu. Ces modèles IA sont fournis par leurs propriétaires respectifs et sont soumis à leurs propres conditions générales. Viecom est un fournisseur de services indépendant et notre plateforme, nos fonctionnalités et nos services sont nos propres produits propriétaires. Nous ne sommes pas affiliés, approuvés ou parrainés par ces fournisseurs de modèles IA.",
+    "independenceDisclaimer": "Avis d'indépendance : Futurai utilise des modèles IA tiers (tels que Gemini de Google, les modèles d'OpenAI et d'autres fournisseurs de services IA) pour alimenter nos services de génération de contenu. Ces modèles IA sont fournis par leurs propriétaires respectifs et sont soumis à leurs propres conditions générales. Futurai est un fournisseur de services indépendant et notre plateforme, nos fonctionnalités et nos services sont nos propres produits propriétaires. Nous ne sommes pas affiliés, approuvés ou parrainés par ces fournisseurs de modèles IA.",
     "brandAnalysis": "Analyse de marque",
     "brandAnalysisDesc": "Analyse du ton et du style de marque alimentée par l'IA",
     "learn": "Apprendre",
@@ -239,17 +239,17 @@
     "sharePlatformYouTube": "YouTube",
     "sharePlatformInstagram": "Instagram",
     "sharePlatformTikTok": "TikTok",
-    "shareDefaultText": "Créé avec Viecom AI",
+    "shareDefaultText": "Créé avec Futurai AI",
     "shareCopyReminder": "Lien copié ! Terminez votre publication sur {{platform}}.",
     "shareSocialToast": "Ouverture de {{platform}}...",
-    "sharePublishOnViecomLabel": "Publier sur Viecom.pro",
-    "shareViecomRewardHint": "Confirmez votre publication pour gagner +{credits} crédits",
-    "sharePublishOnViecom": "Publier sur Viecom.pro",
-    "sharePublishInfoTitle": "Envoyé pour examen par Viecom",
-    "sharePublishInfoDescription": "Nous vérifierons votre création avant qu’elle n’apparaisse sur Viecom. Une fois publiée, vos crédits de récompense seront ajoutés automatiquement, sans action supplémentaire.",
+    "sharePublishOnFuturaiLabel": "Publier sur Futurai.pro",
+    "shareFuturaiRewardHint": "Confirmez votre publication pour gagner +{credits} crédits",
+    "sharePublishOnFuturai": "Publier sur Futurai.pro",
+    "sharePublishInfoTitle": "Envoyé pour examen par Futurai",
+    "sharePublishInfoDescription": "Nous vérifierons votre création avant qu’elle n’apparaisse sur Futurai. Une fois publiée, vos crédits de récompense seront ajoutés automatiquement, sans action supplémentaire.",
     "sharePublishInfoSubtext": "Vous recevrez un e-mail lorsque la vitrine sera mise à jour.",
-    "sharePublishToast": "Soumission reçue ! Nous vous préviendrons dès qu’elle sera en ligne sur Viecom.",
-    "sharePublishPending": "Terminez votre publication sur Viecom.pro, puis confirmez pour recevoir +{credits} crédits.",
+    "sharePublishToast": "Soumission reçue ! Nous vous préviendrons dès qu’elle sera en ligne sur Futurai.",
+    "sharePublishPending": "Terminez votre publication sur Futurai.pro, puis confirmez pour recevoir +{credits} crédits.",
     "shareConfirmPublish": "Soumettre pour examen",
     "sharePublishCancel": "Annuler",
     "shareRewarded": "Merci d'avoir partagé ! Des crédits bonus ont été ajoutés à votre compte.",
@@ -334,7 +334,7 @@
     "shareSocialLabel": "Partager sur les réseaux sociaux",
     "shareSocialRewardHint": "Gagnez +{credits} crédits par partage social",
     "shareRewardSuffix": "+{credits} crédits",
-    "shareDefaultText": "Créé avec Viecom AI",
+    "shareDefaultText": "Créé avec Futurai AI",
     "sharePlatformX": "X (Twitter)",
     "sharePlatformFacebook": "Facebook",
     "sharePlatformYouTube": "YouTube",
@@ -342,13 +342,13 @@
     "sharePlatformTikTok": "TikTok",
     "shareCopyReminder": "Lien copié ! Terminez votre publication sur {{platform}}.",
     "shareSocialToast": "Ouverture de {{platform}}...",
-    "sharePublishOnViecomLabel": "Publier sur Viecom.pro",
-    "shareViecomRewardHint": "Confirmez votre publication pour gagner +{credits} crédits",
-    "sharePublishOnViecom": "Publier sur Viecom.pro",
-    "sharePublishInfoTitle": "Envoyé pour examen par Viecom",
-    "sharePublishInfoDescription": "Nous vérifierons votre création avant qu’elle n’apparaisse sur Viecom. Une fois publiée, vos crédits de récompense seront ajoutés automatiquement, sans action supplémentaire.",
+    "sharePublishOnFuturaiLabel": "Publier sur Futurai.pro",
+    "shareFuturaiRewardHint": "Confirmez votre publication pour gagner +{credits} crédits",
+    "sharePublishOnFuturai": "Publier sur Futurai.pro",
+    "sharePublishInfoTitle": "Envoyé pour examen par Futurai",
+    "sharePublishInfoDescription": "Nous vérifierons votre création avant qu’elle n’apparaisse sur Futurai. Une fois publiée, vos crédits de récompense seront ajoutés automatiquement, sans action supplémentaire.",
     "sharePublishInfoSubtext": "Vous recevrez un e-mail lorsque la vitrine sera mise à jour.",
-    "sharePublishToast": "Soumission reçue ! Nous vous préviendrons dès qu’elle sera en ligne sur Viecom.",
+    "sharePublishToast": "Soumission reçue ! Nous vous préviendrons dès qu’elle sera en ligne sur Futurai.",
     "shareConfirmPublish": "Soumettre pour examen",
     "sharePublishCancel": "Annuler",
     "shareRewardedAmount": "Merci d'avoir partagé ! +{credits} crédits ajoutés.",
@@ -639,7 +639,7 @@
     "titleRequest": "Réinitialisez votre mot de passe",
     "titleReset": "Créez un nouveau mot de passe",
     "descriptionRequest": "Saisissez votre e-mail et nous vous enverrons un lien de réinitialisation sécurisé.",
-    "descriptionReset": "Choisissez un mot de passe sécurisé pour protéger votre compte Viecom.",
+    "descriptionReset": "Choisissez un mot de passe sécurisé pour protéger votre compte Futurai.",
     "tokenErrorTitle": "Lien de réinitialisation expiré ou invalide",
     "tokenErrorBody": "Demandez un nouveau lien de réinitialisation pour continuer.",
     "requestSuccess": "Si cet e-mail existe dans notre système, un lien de réinitialisation de mot de passe a été envoyé.",
@@ -665,7 +665,7 @@
   "faq": {
     "title": "Questions",
     "titleHighlight": "fréquentes",
-    "subtitle": "Tout ce que vous devez savoir sur Viecom AI",
+    "subtitle": "Tout ce que vous devez savoir sur Futurai AI",
     "q1": {
       "question": "Comment fonctionne le système de crédits ?",
       "answer": "Les crédits sont utilisés pour les générations IA. La génération d'images coûte 5 à 30 crédits selon le modèle (par ex., Nano Banana 5 crédits, Nano Banana Pro 30 crédits). Les vidéos coûtent 15 à 130 crédits selon le modèle et la résolution. Les utilisateurs gratuits reçoivent 30 crédits à l'inscription. Les plans Pro incluent 500 à 900 crédits mensuels. Vous pouvez également acheter des packs de crédits à partir de 9,90 $ pour 200 crédits."
@@ -946,7 +946,7 @@
   "showcaseGallery": {
     "title": "Vitrine de la",
     "titleHighlight": "communauté",
-    "description": "Découvrez ce que d'autres créent avec Viecom AI"
+    "description": "Découvrez ce que d'autres créent avec Futurai AI"
   },
   "referrals": {
     "title": "Get Your Referral Link",
@@ -978,8 +978,8 @@
     "typePaid": "Paid user",
     "typeActive": "Active trial",
     "typePending": "Pending",
-    "defaultMessage": "Hi everyone! I just found Viecom, an AI video and image generator made for ecommerce brands. Sign up with my invite link and start with bonus credits: {link}",
-    "defaultMessageNoLink": "Hi everyone! I just found Viecom, an AI video and image generator made for ecommerce brands. I'll send you my invite link as soon as it's ready!",
+    "defaultMessage": "Hi everyone! I just found Futurai, an AI video and image generator made for ecommerce brands. Sign up with my invite link and start with bonus credits: {link}",
+    "defaultMessageNoLink": "Hi everyone! I just found Futurai, an AI video and image generator made for ecommerce brands. I'll send you my invite link as soon as it's ready!",
     "linkCopied": "Referral link copied!",
     "messageCopied": "Referral message copied!",
     "copyFailed": "Unable to copy. Please try again.",
@@ -989,7 +989,7 @@
   "terms": {
     "maliciousRegistration": {
       "title": "3.1 Interdiction d'enregistrement malveillant",
-      "description": "Il est strictement interdit aux utilisateurs de créer plusieurs comptes ou de s'engager dans toute forme d'enregistrement malveillant pour obtenir des crédits de bonus d'inscription. Si Viecom découvre qu'un utilisateur a enregistré malveillamment plusieurs comptes pour obtenir des crédits de bonus d'inscription, Viecom se réserve le droit d'interdire et de fermer immédiatement ces comptes sans préavis ni consentement de l'utilisateur. Dans de tels cas, toutes les images et vidéos précédemment générées par le compte interdit ne seront plus sauvegardées ou accessibles, et Viecom ne sera pas responsable de toute perte de contenu ou de données résultant d'une telle fermeture de compte."
+      "description": "Il est strictement interdit aux utilisateurs de créer plusieurs comptes ou de s'engager dans toute forme d'enregistrement malveillant pour obtenir des crédits de bonus d'inscription. Si Futurai découvre qu'un utilisateur a enregistré malveillamment plusieurs comptes pour obtenir des crédits de bonus d'inscription, Futurai se réserve le droit d'interdire et de fermer immédiatement ces comptes sans préavis ni consentement de l'utilisateur. Dans de tels cas, toutes les images et vidéos précédemment générées par le compte interdit ne seront plus sauvegardées ou accessibles, et Futurai ne sera pas responsable de toute perte de contenu ou de données résultant d'une telle fermeture de compte."
     }
   }
 }

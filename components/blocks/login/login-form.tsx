@@ -50,7 +50,7 @@ export function LoginForm({
   useEffect(() => {
     const verifyParam = searchParams.get('verification');
     try {
-      const stored = window.localStorage.getItem('viecom:verification-email');
+      const stored = window.localStorage.getItem('futurai:verification-email');
       if (!stored && !verifyParam) return;
       const parsed = stored ? JSON.parse(stored) : null;
       if (parsed?.email) {

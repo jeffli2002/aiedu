@@ -113,8 +113,8 @@ export async function POST(request: NextRequest) {
         amount: creditsToAward,
         source: 'social_share',
         description:
-          rewardType === 'publishViecom'
-            ? 'Publish on Viecom.pro'
+          rewardType === 'publishFuturai'
+            ? 'Publish on Futurai.pro'
             : `Social share (${targetPlatform || platform})`,
         referenceId: `social_share_${shareId}`,
         metadata: {

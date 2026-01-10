@@ -346,7 +346,7 @@ export const seoTranslations: Record<PageType, Record<string, SEOTranslations>> 
   // Learn / Docs Pages
   learn: {
     en: {
-      title: 'Documentation - How to Use Viecom AI Image & Video Generator',
+      title: 'Documentation - How to Use Futurai AI Image & Video Generator',
       description:
         'Complete guide on how to generate AI images and videos for e-commerce. Learn how to use text-to-image, image-to-image, text-to-video, batch generation, and brand analysis features.',
       keywords: [
@@ -358,16 +358,16 @@ export const seoTranslations: Record<PageType, Record<string, SEOTranslations>> 
         'Sora 2 Pro guide',
       ],
       openGraph: {
-        title: 'How to Use Viecom AI Generator - Complete Documentation',
+        title: 'How to Use Futurai AI Generator - Complete Documentation',
         description: 'Step-by-step guides for AI image and video generation',
       },
       twitter: {
-        title: 'How to Use Viecom AI Generator - Complete Documentation',
+        title: 'How to Use Futurai AI Generator - Complete Documentation',
         description: 'Step-by-step guides for AI image and video generation',
       },
     },
     zh: {
-      title: '文档 - 如何使用Viecom AI图像和视频生成器',
+      title: '文档 - 如何使用Futurai AI图像和视频生成器',
       description:
         '完整的电商AI图像和视频生成指南。学习如何使用文本转图像、图像转图像、文本转视频、批量生成和品牌分析功能。',
       keywords: [
@@ -379,16 +379,16 @@ export const seoTranslations: Record<PageType, Record<string, SEOTranslations>> 
         'Sora 2 Pro指南',
       ],
       openGraph: {
-        title: '如何使用Viecom AI生成器 - 完整文档',
+        title: '如何使用Futurai AI生成器 - 完整文档',
         description: 'AI图像和视频生成的逐步指南',
       },
       twitter: {
-        title: '如何使用Viecom AI生成器 - 完整文档',
+        title: '如何使用Futurai AI生成器 - 完整文档',
         description: 'AI图像和视频生成的逐步指南',
       },
     },
     es: {
-      title: 'Documentación - Cómo Usar el Generador de Imagen y Video IA de Viecom',
+      title: 'Documentación - Cómo Usar el Generador de Imagen y Video IA de Futurai',
       description:
         'Guía completa sobre cómo generar imágenes y videos IA para e-commerce. Aprende a usar texto a imagen, imagen a imagen, texto a video, generación por lotes y análisis de marca.',
       keywords: [
@@ -400,16 +400,16 @@ export const seoTranslations: Record<PageType, Record<string, SEOTranslations>> 
         'guía sora 2 pro',
       ],
       openGraph: {
-        title: 'Cómo Usar el Generador IA de Viecom - Documentación Completa',
+        title: 'Cómo Usar el Generador IA de Futurai - Documentación Completa',
         description: 'Guías paso a paso para generación de imágenes y videos IA',
       },
       twitter: {
-        title: 'Cómo Usar el Generador IA de Viecom - Documentación Completa',
+        title: 'Cómo Usar el Generador IA de Futurai - Documentación Completa',
         description: 'Guías paso a paso para generación de imágenes y videos IA',
       },
     },
     fr: {
-      title: "Documentation - Comment Utiliser le Générateur d'Image et Vidéo IA de Viecom",
+      title: "Documentation - Comment Utiliser le Générateur d'Image et Vidéo IA de Futurai",
       description:
         "Guide complet sur la génération d'images et vidéos IA pour l'e-commerce. Apprenez à utiliser texte vers image, image vers image, texte vers vidéo, génération par lots et analyse de marque.",
       keywords: [
@@ -421,16 +421,16 @@ export const seoTranslations: Record<PageType, Record<string, SEOTranslations>> 
         'guide sora 2 pro',
       ],
       openGraph: {
-        title: 'Comment Utiliser le Générateur IA de Viecom - Documentation Complète',
+        title: 'Comment Utiliser le Générateur IA de Futurai - Documentation Complète',
         description: "Guides étape par étape pour la génération d'images et vidéos IA",
       },
       twitter: {
-        title: 'Comment Utiliser le Générateur IA de Viecom - Documentation Complète',
+        title: 'Comment Utiliser le Générateur IA de Futurai - Documentation Complète',
         description: "Guides étape par étape pour la génération d'images et vidéos IA",
       },
     },
     de: {
-      title: 'Dokumentation - So Verwenden Sie den KI-Bild- und Videogenerator von Viecom',
+      title: 'Dokumentation - So Verwenden Sie den KI-Bild- und Videogenerator von Futurai',
       description:
         'Vollständige Anleitung zur Generierung von KI-Bildern und -Videos für E-Commerce. Lernen Sie Text-zu-Bild, Bild-zu-Bild, Text-zu-Video, Batch-Generierung und Markenanalyse.',
       keywords: [
@@ -442,16 +442,16 @@ export const seoTranslations: Record<PageType, Record<string, SEOTranslations>> 
         'sora 2 pro anleitung',
       ],
       openGraph: {
-        title: 'So Verwenden Sie den KI-Generator von Viecom - Vollständige Dokumentation',
+        title: 'So Verwenden Sie den KI-Generator von Futurai - Vollständige Dokumentation',
         description: 'Schritt-für-Schritt-Anleitungen für KI-Bild- und Videogenerierung',
       },
       twitter: {
-        title: 'So Verwenden Sie den KI-Generator von Viecom - Vollständige Dokumentation',
+        title: 'So Verwenden Sie den KI-Generator von Futurai - Vollständige Dokumentation',
         description: 'Schritt-für-Schritt-Anleitungen für KI-Bild- und Videogenerierung',
       },
     },
     ja: {
-      title: 'ドキュメント - Viecom AI画像・動画生成器の使い方',
+      title: 'ドキュメント - Futurai AI画像・動画生成器の使い方',
       description:
         'Eコマース向けAI画像・動画生成の完全ガイド。テキストから画像、画像から画像、テキストから動画、バッチ生成、ブランド分析機能の使い方を学びます。',
       keywords: [
@@ -463,11 +463,11 @@ export const seoTranslations: Record<PageType, Record<string, SEOTranslations>> 
         'sora 2 proガイド',
       ],
       openGraph: {
-        title: 'Viecom AI生成器の使い方 - 完全ドキュメント',
+        title: 'Futurai AI生成器の使い方 - 完全ドキュメント',
         description: 'AI画像・動画生成のステップバイステップガイド',
       },
       twitter: {
-        title: 'Viecom AI生成器の使い方 - 完全ドキュメント',
+        title: 'Futurai AI生成器の使い方 - 完全ドキュメント',
         description: 'AI画像・動画生成のステップバイステップガイド',
       },
     },
@@ -983,21 +983,21 @@ export const pageSpecificTranslations: Partial<Record<PagePath, Record<string, S
       en: {
         title: 'Contact Us | Get Help with AI Video & Image Generation',
         description:
-          "Contact Viecom for support, sales inquiries, partnerships, or general questions about our AI video and image generation platform. We're here to help!",
+          "Contact Futurai for support, sales inquiries, partnerships, or general questions about our AI video and image generation platform. We're here to help!",
         keywords: [
-          'contact viecom',
+          'contact futurai',
           'ai video generator support',
           'customer support',
           'sales inquiry',
           'partnership',
         ],
         openGraph: {
-          title: 'Contact Viecom | Get Help with AI Generation',
+          title: 'Contact Futurai | Get Help with AI Generation',
           description:
             'Contact us for support, sales inquiries, or questions about our AI video and image generation platform.',
         },
         twitter: {
-          title: 'Contact Viecom | Get Help with AI Generation',
+          title: 'Contact Futurai | Get Help with AI Generation',
           description:
             'Contact us for support, sales inquiries, or questions about our AI video and image generation platform.',
         },
@@ -1005,35 +1005,35 @@ export const pageSpecificTranslations: Partial<Record<PagePath, Record<string, S
       zh: {
         title: '联系我们 | 获取AI视频和图像生成帮助',
         description:
-          '联系Viecom获取支持、销售咨询、合作伙伴关系或关于我们AI视频和图像生成平台的一般问题。我们随时为您提供帮助！',
-        keywords: ['联系viecom', 'AI视频生成器支持', '客户支持', '销售咨询', '合作伙伴'],
+          '联系Futurai获取支持、销售咨询、合作伙伴关系或关于我们AI视频和图像生成平台的一般问题。我们随时为您提供帮助！',
+        keywords: ['联系futurai', 'AI视频生成器支持', '客户支持', '销售咨询', '合作伙伴'],
         openGraph: {
-          title: '联系Viecom | 获取AI生成帮助',
+          title: '联系Futurai | 获取AI生成帮助',
           description: '联系我们获取支持、销售咨询或关于我们AI视频和图像生成平台的问题。',
         },
         twitter: {
-          title: '联系Viecom | 获取AI生成帮助',
+          title: '联系Futurai | 获取AI生成帮助',
           description: '联系我们获取支持、销售咨询或关于我们AI视频和图像生成平台的问题。',
         },
       },
       es: {
         title: 'Contáctanos | Obtén Ayuda con Generación de Video e Imagen IA',
         description:
-          'Contacta a Viecom para soporte, consultas de ventas, asociaciones o preguntas generales sobre nuestra plataforma de generación de video e imagen IA. ¡Estamos aquí para ayudar!',
+          'Contacta a Futurai para soporte, consultas de ventas, asociaciones o preguntas generales sobre nuestra plataforma de generación de video e imagen IA. ¡Estamos aquí para ayudar!',
         keywords: [
-          'contactar viecom',
+          'contactar futurai',
           'soporte generador video ia',
           'soporte cliente',
           'consulta ventas',
           'asociación',
         ],
         openGraph: {
-          title: 'Contacta Viecom | Obtén Ayuda con Generación IA',
+          title: 'Contacta Futurai | Obtén Ayuda con Generación IA',
           description:
             'Contáctanos para soporte, consultas de ventas o preguntas sobre nuestra plataforma de generación de video e imagen IA.',
         },
         twitter: {
-          title: 'Contacta Viecom | Obtén Ayuda con Generación IA',
+          title: 'Contacta Futurai | Obtén Ayuda con Generación IA',
           description:
             'Contáctanos para soporte, consultas de ventas o preguntas sobre nuestra plataforma de generación de video e imagen IA.',
         },
@@ -1041,21 +1041,21 @@ export const pageSpecificTranslations: Partial<Record<PagePath, Record<string, S
       fr: {
         title: "Contactez-nous | Obtenez de l'Aide pour la Génération de Vidéo et Image IA",
         description:
-          'Contactez Viecom pour le support, les demandes de vente, les partenariats ou les questions générales sur notre plateforme de génération de vidéo et image IA. Nous sommes là pour vous aider !',
+          'Contactez Futurai pour le support, les demandes de vente, les partenariats ou les questions générales sur notre plateforme de génération de vidéo et image IA. Nous sommes là pour vous aider !',
         keywords: [
-          'contacter viecom',
+          'contacter futurai',
           'support générateur vidéo ia',
           'support client',
           'demande vente',
           'partenariat',
         ],
         openGraph: {
-          title: "Contactez Viecom | Obtenez de l'Aide pour la Génération IA",
+          title: "Contactez Futurai | Obtenez de l'Aide pour la Génération IA",
           description:
             'Contactez-nous pour le support, les demandes de vente ou les questions sur notre plateforme de génération de vidéo et image IA.',
         },
         twitter: {
-          title: "Contactez Viecom | Obtenez de l'Aide pour la Génération IA",
+          title: "Contactez Futurai | Obtenez de l'Aide pour la Génération IA",
           description:
             'Contactez-nous pour le support, les demandes de vente ou les questions sur notre plateforme de génération de vidéo et image IA.',
         },
@@ -1063,21 +1063,21 @@ export const pageSpecificTranslations: Partial<Record<PagePath, Record<string, S
       de: {
         title: 'Kontaktieren Sie uns | Hilfe bei KI-Video- und Bildgenerierung',
         description:
-          'Kontaktieren Sie Viecom für Support, Verkaufsanfragen, Partnerschaften oder allgemeine Fragen zu unserer KI-Video- und Bildgenerierungsplattform. Wir sind hier, um zu helfen!',
+          'Kontaktieren Sie Futurai für Support, Verkaufsanfragen, Partnerschaften oder allgemeine Fragen zu unserer KI-Video- und Bildgenerierungsplattform. Wir sind hier, um zu helfen!',
         keywords: [
-          'viecom kontaktieren',
+          'futurai kontaktieren',
           'ki videogenerator support',
           'kundensupport',
           'verkaufsanfrage',
           'partnerschaft',
         ],
         openGraph: {
-          title: 'Kontaktieren Sie Viecom | Hilfe bei KI-Generierung',
+          title: 'Kontaktieren Sie Futurai | Hilfe bei KI-Generierung',
           description:
             'Kontaktieren Sie uns für Support, Verkaufsanfragen oder Fragen zu unserer KI-Video- und Bildgenerierungsplattform.',
         },
         twitter: {
-          title: 'Kontaktieren Sie Viecom | Hilfe bei KI-Generierung',
+          title: 'Kontaktieren Sie Futurai | Hilfe bei KI-Generierung',
           description:
             'Kontaktieren Sie uns für Support, Verkaufsanfragen oder Fragen zu unserer KI-Video- und Bildgenerierungsplattform.',
         },
@@ -1085,21 +1085,21 @@ export const pageSpecificTranslations: Partial<Record<PagePath, Record<string, S
       ja: {
         title: 'お問い合わせ | AI動画・画像生成のヘルプを取得',
         description:
-          'サポート、販売のお問い合わせ、パートナーシップ、またはAI動画・画像生成プラットフォームに関する一般的な質問については、Viecomにお問い合わせください。お手伝いします！',
+          'サポート、販売のお問い合わせ、パートナーシップ、またはAI動画・画像生成プラットフォームに関する一般的な質問については、Futuraiにお問い合わせください。お手伝いします！',
         keywords: [
-          'viecomお問い合わせ',
+          'futuraiお問い合わせ',
           'ai動画生成器サポート',
           'カスタマーサポート',
           '販売お問い合わせ',
           'パートナーシップ',
         ],
         openGraph: {
-          title: 'Viecomにお問い合わせ | AI生成のヘルプを取得',
+          title: 'Futuraiにお問い合わせ | AI生成のヘルプを取得',
           description:
             'サポート、販売のお問い合わせ、またはAI動画・画像生成プラットフォームに関する質問については、お問い合わせください。',
         },
         twitter: {
-          title: 'Viecomにお問い合わせ | AI生成のヘルプを取得',
+          title: 'Futuraiにお問い合わせ | AI生成のヘルプを取得',
           description:
             'サポート、販売のお問い合わせ、またはAI動画・画像生成プラットフォームに関する質問については、お問い合わせください。',
         },
@@ -1107,121 +1107,121 @@ export const pageSpecificTranslations: Partial<Record<PagePath, Record<string, S
     },
     '/showcase': {
       en: {
-        title: 'Viecom Showcase | Featured AI-Generated Images & Videos',
+        title: 'Futurai Showcase | Featured AI-Generated Images & Videos',
         description:
-          'Browse curated AI-generated images and videos from the Viecom community. Discover creative examples of product photography, videos, and e-commerce content created with AI.',
+          'Browse curated AI-generated images and videos from the Futurai community. Discover creative examples of product photography, videos, and e-commerce content created with AI.',
         keywords: [
-          'viecom showcase',
+          'futurai showcase',
           'ai generated images',
           'ai generated videos',
           'product photography examples',
           'e-commerce content examples',
         ],
         openGraph: {
-          title: 'Viecom Showcase | Featured AI-Generated Content',
-          description: 'Browse curated AI-generated images and videos from the Viecom community.',
+          title: 'Futurai Showcase | Featured AI-Generated Content',
+          description: 'Browse curated AI-generated images and videos from the Futurai community.',
         },
         twitter: {
-          title: 'Viecom Showcase | Featured AI-Generated Content',
-          description: 'Browse curated AI-generated images and videos from the Viecom community.',
+          title: 'Futurai Showcase | Featured AI-Generated Content',
+          description: 'Browse curated AI-generated images and videos from the Futurai community.',
         },
       },
       zh: {
-        title: 'Viecom展示 | 精选AI生成的图像和视频',
+        title: 'Futurai展示 | 精选AI生成的图像和视频',
         description:
-          '浏览来自Viecom社区的精选AI生成图像和视频。发现使用AI创建的产品摄影、视频和电商内容的创意示例。',
-        keywords: ['viecom展示', 'AI生成图像', 'AI生成视频', '产品摄影示例', '电商内容示例'],
+          '浏览来自Futurai社区的精选AI生成图像和视频。发现使用AI创建的产品摄影、视频和电商内容的创意示例。',
+        keywords: ['futurai展示', 'AI生成图像', 'AI生成视频', '产品摄影示例', '电商内容示例'],
         openGraph: {
-          title: 'Viecom展示 | 精选AI生成内容',
-          description: '浏览来自Viecom社区的精选AI生成图像和视频。',
+          title: 'Futurai展示 | 精选AI生成内容',
+          description: '浏览来自Futurai社区的精选AI生成图像和视频。',
         },
         twitter: {
-          title: 'Viecom展示 | 精选AI生成内容',
-          description: '浏览来自Viecom社区的精选AI生成图像和视频。',
+          title: 'Futurai展示 | 精选AI生成内容',
+          description: '浏览来自Futurai社区的精选AI生成图像和视频。',
         },
       },
       es: {
-        title: 'Viecom Showcase | Imágenes y Videos Generados por IA Destacados',
+        title: 'Futurai Showcase | Imágenes y Videos Generados por IA Destacados',
         description:
-          'Explora imágenes y videos generados por IA curados de la comunidad Viecom. Descubre ejemplos creativos de fotografía de productos, videos y contenido e-commerce creado con IA.',
+          'Explora imágenes y videos generados por IA curados de la comunidad Futurai. Descubre ejemplos creativos de fotografía de productos, videos y contenido e-commerce creado con IA.',
         keywords: [
-          'vitrina viecom',
+          'vitrina futurai',
           'imágenes generadas ia',
           'videos generados ia',
           'ejemplos fotografía producto',
           'ejemplos contenido e-commerce',
         ],
         openGraph: {
-          title: 'Viecom Showcase | Contenido Generado por IA Destacado',
-          description: 'Explora imágenes y videos generados por IA curados de la comunidad Viecom.',
+          title: 'Futurai Showcase | Contenido Generado por IA Destacado',
+          description: 'Explora imágenes y videos generados por IA curados de la comunidad Futurai.',
         },
         twitter: {
-          title: 'Viecom Showcase | Contenido Generado por IA Destacado',
-          description: 'Explora imágenes y videos generados por IA curados de la comunidad Viecom.',
+          title: 'Futurai Showcase | Contenido Generado por IA Destacado',
+          description: 'Explora imágenes y videos generados por IA curados de la comunidad Futurai.',
         },
       },
       fr: {
-        title: 'Viecom Showcase | Images et Vidéos Générées par IA en Vedette',
+        title: 'Futurai Showcase | Images et Vidéos Générées par IA en Vedette',
         description:
-          'Parcourez des images et vidéos générées par IA sélectionnées de la communauté Viecom. Découvrez des exemples créatifs de photographie de produits, vidéos et contenu e-commerce créés avec IA.',
+          'Parcourez des images et vidéos générées par IA sélectionnées de la communauté Futurai. Découvrez des exemples créatifs de photographie de produits, vidéos et contenu e-commerce créés avec IA.',
         keywords: [
-          'vitrine viecom',
+          'vitrine futurai',
           'images générées ia',
           'vidéos générées ia',
           'exemples photographie produit',
           'exemples contenu e-commerce',
         ],
         openGraph: {
-          title: 'Viecom Showcase | Contenu Généré par IA en Vedette',
+          title: 'Futurai Showcase | Contenu Généré par IA en Vedette',
           description:
-            'Parcourez des images et vidéos générées par IA sélectionnées de la communauté Viecom.',
+            'Parcourez des images et vidéos générées par IA sélectionnées de la communauté Futurai.',
         },
         twitter: {
-          title: 'Viecom Showcase | Contenu Généré par IA en Vedette',
+          title: 'Futurai Showcase | Contenu Généré par IA en Vedette',
           description:
-            'Parcourez des images et vidéos générées par IA sélectionnées de la communauté Viecom.',
+            'Parcourez des images et vidéos générées par IA sélectionnées de la communauté Futurai.',
         },
       },
       de: {
-        title: 'Viecom Showcase | Ausgewählte KI-generierte Bilder und Videos',
+        title: 'Futurai Showcase | Ausgewählte KI-generierte Bilder und Videos',
         description:
-          'Durchsuchen Sie kuratierte KI-generierte Bilder und Videos aus der Viecom-Community. Entdecken Sie kreative Beispiele für Produktfotografie, Videos und E-Commerce-Inhalte, die mit KI erstellt wurden.',
+          'Durchsuchen Sie kuratierte KI-generierte Bilder und Videos aus der Futurai-Community. Entdecken Sie kreative Beispiele für Produktfotografie, Videos und E-Commerce-Inhalte, die mit KI erstellt wurden.',
         keywords: [
-          'viecom showcase',
+          'futurai showcase',
           'ki generierte bilder',
           'ki generierte videos',
           'produktfotografie beispiele',
           'e-commerce inhalt beispiele',
         ],
         openGraph: {
-          title: 'Viecom Showcase | Ausgewählte KI-generierte Inhalte',
+          title: 'Futurai Showcase | Ausgewählte KI-generierte Inhalte',
           description:
-            'Durchsuchen Sie kuratierte KI-generierte Bilder und Videos aus der Viecom-Community.',
+            'Durchsuchen Sie kuratierte KI-generierte Bilder und Videos aus der Futurai-Community.',
         },
         twitter: {
-          title: 'Viecom Showcase | Ausgewählte KI-generierte Inhalte',
+          title: 'Futurai Showcase | Ausgewählte KI-generierte Inhalte',
           description:
-            'Durchsuchen Sie kuratierte KI-generierte Bilder und Videos aus der Viecom-Community.',
+            'Durchsuchen Sie kuratierte KI-generierte Bilder und Videos aus der Futurai-Community.',
         },
       },
       ja: {
-        title: 'Viecom Showcase | 注目のAI生成画像と動画',
+        title: 'Futurai Showcase | 注目のAI生成画像と動画',
         description:
-          'ViecomコミュニティからキュレートされたAI生成画像と動画を閲覧。AIで作成された商品写真、動画、Eコマースコンテンツの創造的な例を発見。',
+          'FuturaiコミュニティからキュレートされたAI生成画像と動画を閲覧。AIで作成された商品写真、動画、Eコマースコンテンツの創造的な例を発見。',
         keywords: [
-          'viecom showcase',
+          'futurai showcase',
           'ai生成画像',
           'ai生成動画',
           '商品写真例',
           'eコマースコンテンツ例',
         ],
         openGraph: {
-          title: 'Viecom Showcase | 注目のAI生成コンテンツ',
-          description: 'ViecomコミュニティからキュレートされたAI生成画像と動画を閲覧。',
+          title: 'Futurai Showcase | 注目のAI生成コンテンツ',
+          description: 'FuturaiコミュニティからキュレートされたAI生成画像と動画を閲覧。',
         },
         twitter: {
-          title: 'Viecom Showcase | 注目のAI生成コンテンツ',
-          description: 'ViecomコミュニティからキュレートされたAI生成画像と動画を閲覧。',
+          title: 'Futurai Showcase | 注目のAI生成コンテンツ',
+          description: 'FuturaiコミュニティからキュレートされたAI生成画像と動画を閲覧。',
         },
       },
     },

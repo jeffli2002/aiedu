@@ -128,7 +128,7 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
       setConfirmPassword('');
       try {
         window.localStorage.setItem(
-          'viecom:verification-email',
+          'futurai:verification-email',
           JSON.stringify({ email, ts: Date.now() })
         );
       } catch {

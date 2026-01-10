@@ -52,7 +52,7 @@
     "footerPrivacy": "プライバシーポリシー",
     "footerTerms": "利用規約",
     "footerRefund": "返金ポリシー",
-    "independenceDisclaimer": "独立性に関する免責事項: Viecomは、コンテンツ生成サービスを提供するために、サードパーティのAIモデル(Google Gemini、OpenAIのモデル、その他のAIサービスプロバイダーなど)を使用しています。これらのAIモデルは各所有者によって提供され、それぞれの利用規約の対象となります。Viecomは独立したサービスプロバイダーであり、当社のプラットフォーム、機能、サービスは独自の製品です。当社はこれらのAIモデルプロバイダーと提携、推奨、スポンサー関係にはありません。",
+    "independenceDisclaimer": "独立性に関する免責事項: Futuraiは、コンテンツ生成サービスを提供するために、サードパーティのAIモデル(Google Gemini、OpenAIのモデル、その他のAIサービスプロバイダーなど)を使用しています。これらのAIモデルは各所有者によって提供され、それぞれの利用規約の対象となります。Futuraiは独立したサービスプロバイダーであり、当社のプラットフォーム、機能、サービスは独自の製品です。当社はこれらのAIモデルプロバイダーと提携、推奨、スポンサー関係にはありません。",
     "brandAnalysis": "ブランド分析",
     "brandAnalysisDesc": "AIによるブランドトーンとスタイル分析",
     "learn": "学ぶ",
@@ -239,17 +239,17 @@
     "sharePlatformYouTube": "YouTube",
     "sharePlatformInstagram": "Instagram",
     "sharePlatformTikTok": "TikTok",
-    "shareDefaultText": "Viecom AIで作成",
+    "shareDefaultText": "Futurai AIで作成",
     "shareCopyReminder": "リンクをコピーしました! {{platform}}で投稿を完了してください。",
     "shareSocialToast": "{{platform}}を開いています...",
-    "sharePublishOnViecomLabel": "Viecom.proで公開",
-    "shareViecomRewardHint": "公開を確定して+{credits}クレジットを獲得",
-    "sharePublishOnViecom": "Viecom.proで公開",
-    "sharePublishInfoTitle": "Viecom審査に送信されました",
-    "sharePublishInfoDescription": "作品はViecomで公開される前に審査されます。掲載が完了すると自動的にリワードクレジットが付与され、追加の操作は不要です。",
+    "sharePublishOnFuturaiLabel": "Futurai.proで公開",
+    "shareFuturaiRewardHint": "公開を確定して+{credits}クレジットを獲得",
+    "sharePublishOnFuturai": "Futurai.proで公開",
+    "sharePublishInfoTitle": "Futurai審査に送信されました",
+    "sharePublishInfoDescription": "作品はFuturaiで公開される前に審査されます。掲載が完了すると自動的にリワードクレジットが付与され、追加の操作は不要です。",
     "sharePublishInfoSubtext": "ショーケースの更新が完了したらメールでお知らせします。",
-    "sharePublishToast": "送信が完了しました! Viecomで公開されたらお知らせします。",
-    "sharePublishPending": "Viecom.proで公開を完了してから、確認して+{credits}クレジットを獲得してください。",
+    "sharePublishToast": "送信が完了しました! Futuraiで公開されたらお知らせします。",
+    "sharePublishPending": "Futurai.proで公開を完了してから、確認して+{credits}クレジットを獲得してください。",
     "shareConfirmPublish": "審査に送信",
     "sharePublishCancel": "キャンセル",
     "shareRewarded": "共有ありがとうございます! ボーナスクレジットがアカウントに追加されました。",
@@ -334,7 +334,7 @@
     "shareSocialLabel": "ソーシャルメディアに共有",
     "shareSocialRewardHint": "SNS共有ごとに+{credits}クレジット獲得",
     "shareRewardSuffix": "+{credits}クレジット",
-    "shareDefaultText": "Viecom AIで作成",
+    "shareDefaultText": "Futurai AIで作成",
     "sharePlatformX": "X (Twitter)",
     "sharePlatformFacebook": "Facebook",
     "sharePlatformYouTube": "YouTube",
@@ -342,13 +342,13 @@
     "sharePlatformTikTok": "TikTok",
     "shareCopyReminder": "リンクをコピーしました! {{platform}}で投稿を完了してください。",
     "shareSocialToast": "{{platform}}を開いています...",
-    "sharePublishOnViecomLabel": "Viecom.proで公開",
-    "shareViecomRewardHint": "公開を確定して+{credits}クレジットを獲得",
-    "sharePublishOnViecom": "Viecom.proで公開",
-    "sharePublishInfoTitle": "Viecom審査に送信されました",
-    "sharePublishInfoDescription": "作品はViecomで公開される前に審査されます。掲載が完了すると自動的にリワードクレジットが付与され、追加の操作は不要です。",
+    "sharePublishOnFuturaiLabel": "Futurai.proで公開",
+    "shareFuturaiRewardHint": "公開を確定して+{credits}クレジットを獲得",
+    "sharePublishOnFuturai": "Futurai.proで公開",
+    "sharePublishInfoTitle": "Futurai審査に送信されました",
+    "sharePublishInfoDescription": "作品はFuturaiで公開される前に審査されます。掲載が完了すると自動的にリワードクレジットが付与され、追加の操作は不要です。",
     "sharePublishInfoSubtext": "ショーケースの更新が完了したらメールでお知らせします。",
-    "sharePublishToast": "送信が完了しました! Viecomで公開されたらお知らせします。",
+    "sharePublishToast": "送信が完了しました! Futuraiで公開されたらお知らせします。",
     "shareConfirmPublish": "審査に送信",
     "sharePublishCancel": "キャンセル",
     "shareRewardedAmount": "共有ありがとうございます! +{credits}クレジットが追加されました。",
@@ -639,7 +639,7 @@
     "titleRequest": "パスワードをリセット",
     "titleReset": "新しいパスワードを作成",
     "descriptionRequest": "メールアドレスを入力すると、安全なリセットリンクをお送りします。",
-    "descriptionReset": "Viecomアカウントを保護するための安全なパスワードを選択してください。",
+    "descriptionReset": "Futuraiアカウントを保護するための安全なパスワードを選択してください。",
     "tokenErrorTitle": "リセットリンクの有効期限切れまたは無効",
     "tokenErrorBody": "続行するには、新しいリセットリンクをリクエストしてください。",
     "requestSuccess": "このメールが当システムに存在する場合、パスワードリセットリンクが送信されました。",
@@ -665,7 +665,7 @@
   "faq": {
     "title": "よくある",
     "titleHighlight": "質問",
-    "subtitle": "Viecom AIについて知っておくべきすべてのこと",
+    "subtitle": "Futurai AIについて知っておくべきすべてのこと",
     "q1": {
       "question": "クレジットシステムの仕組みは?",
       "answer": "クレジットはAI生成に使用されます。画像生成はモデルによって5〜30クレジット(例: Nano Banana 5クレジット、Nano Banana Pro 30クレジット)かかります。動画はモデルと解像度によって15〜130クレジットかかります。無料ユーザーは登録時に30クレジットを獲得します。Proプランには月500〜900クレジットが含まれます。また、200クレジット9.90ドルから始まるクレジットパックを購入することもできます。"
@@ -946,7 +946,7 @@
   "showcaseGallery": {
     "title": "コミュニティ",
     "titleHighlight": "ショーケース",
-    "description": "他の人がViecom AIで何を作成しているかをご覧ください"
+    "description": "他の人がFuturai AIで何を作成しているかをご覧ください"
   },
   "referrals": {
     "title": "Get Your Referral Link",
@@ -978,8 +978,8 @@
     "typePaid": "Paid user",
     "typeActive": "Active trial",
     "typePending": "Pending",
-    "defaultMessage": "Hi everyone! I just found Viecom, an AI video and image generator made for ecommerce brands. Sign up with my invite link and start with bonus credits: {link}",
-    "defaultMessageNoLink": "Hi everyone! I just found Viecom, an AI video and image generator made for ecommerce brands. I'll send you my invite link as soon as it's ready!",
+    "defaultMessage": "Hi everyone! I just found Futurai, an AI video and image generator made for ecommerce brands. Sign up with my invite link and start with bonus credits: {link}",
+    "defaultMessageNoLink": "Hi everyone! I just found Futurai, an AI video and image generator made for ecommerce brands. I'll send you my invite link as soon as it's ready!",
     "linkCopied": "Referral link copied!",
     "messageCopied": "Referral message copied!",
     "copyFailed": "Unable to copy. Please try again.",
@@ -989,7 +989,7 @@
   "terms": {
     "maliciousRegistration": {
       "title": "3.1 悪意のある登録の禁止",
-      "description": "ユーザーは、登録ボーナスクレジットを取得するために複数のアカウントを作成したり、悪意のある登録に従事したりすることは厳しく禁止されています。Viecomが、ユーザーが登録ボーナスクレジットを取得するために悪意を持って複数のアカウントを登録したことを発見した場合、Viecomは事前の通知やユーザーの同意なしに、そのようなアカウントを即座に禁止および閉鎖する権利を留保します。このような場合、禁止されたアカウントによって以前に生成されたすべての画像と動画は、もはや保存されず、アクセスできなくなり、Viecomは、そのようなアカウント閉鎖に起因するコンテンツまたはデータの損失について一切の責任を負いません。"
+      "description": "ユーザーは、登録ボーナスクレジットを取得するために複数のアカウントを作成したり、悪意のある登録に従事したりすることは厳しく禁止されています。Futuraiが、ユーザーが登録ボーナスクレジットを取得するために悪意を持って複数のアカウントを登録したことを発見した場合、Futuraiは事前の通知やユーザーの同意なしに、そのようなアカウントを即座に禁止および閉鎖する権利を留保します。このような場合、禁止されたアカウントによって以前に生成されたすべての画像と動画は、もはや保存されず、アクセスできなくなり、Futuraiは、そのようなアカウント閉鎖に起因するコンテンツまたはデータの損失について一切の責任を負いません。"
     }
   }
 }

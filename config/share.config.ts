@@ -1,6 +1,6 @@
 import { creditsConfig } from './credits.config';
 
-export type ShareRewardKey = 'copyLink' | 'publishViecom' | 'socialShare';
+export type ShareRewardKey = 'copyLink' | 'publishFuturai' | 'socialShare';
 
 export interface ShareRewardConfigItem {
   credits: number;
@@ -14,10 +14,10 @@ export const SHARE_REWARD_CONFIG: Record<ShareRewardKey, ShareRewardConfigItem> 
     platform: 'copy',
     referencePrefix: 'copy_link',
   },
-  publishViecom: {
+  publishFuturai: {
     credits: 2,
     platform: 'other',
-    referencePrefix: 'publish_viecom',
+    referencePrefix: 'publish_futurai',
   },
   socialShare: {
     credits: creditsConfig.rewards.socialShare.creditsPerShare,

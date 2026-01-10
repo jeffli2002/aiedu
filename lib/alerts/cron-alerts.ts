@@ -77,7 +77,7 @@ async function sendSlackAlert(data: CronAlertData): Promise<void> {
               ]
             : []),
         ],
-        footer: 'Viecom Cron Monitor',
+        footer: 'Futurai Cron Monitor',
         ts: Math.floor(Date.now() / 1000),
       },
     ],
@@ -159,7 +159,7 @@ async function sendDiscordAlert(data: CronAlertData): Promise<void> {
     ],
     timestamp: new Date().toISOString(),
     footer: {
-      text: 'Viecom Cron Monitor',
+      text: 'Futurai Cron Monitor',
     },
   };
 

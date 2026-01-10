@@ -316,6 +316,137 @@ export async function POST(request: NextRequest) {
 
     console.log('[init-db] ✅ Generation tables created');
 
+    // ========== Subscription Tables ==========
+    console.log('[init-db] Creating subscription table...');
+    await sql`
+      CREATE TABLE IF NOT EXISTS "subscription" (
+        "id" text PRIMARY KEY NOT NULL,
+        "user_id" text NOT NULL,
+        "plan_type" text NOT NULL DEFAULT 'free',
+        "status" text NOT NULL DEFAULT 'active',
+        "period_start" timestamp,
+        "period_end" timestamp,
+        "cancel_at_period_end" boolean DEFAULT false,
+        "created_at" timestamp NOT NULL DEFAULT now(),
+        "updated_at" timestamp NOT NULL DEFAULT now(),
+        CONSTRAINT "subscription_user_id_user_id_fk"
+          FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE cascade
+      );
+    `;
+
+    // ========== Publish & Showcase Tables ==========
+    console.log('[init-db] Creating publish/showcase tables...');
+    await sql`
+      CREATE TABLE IF NOT EXISTS "publish_submissions" (
+        "id" text PRIMARY KEY NOT NULL,
+        "user_id" text NOT NULL,
+        "asset_id" text,
+        "asset_url" text NOT NULL,
+        "preview_url" text,
+        "asset_type" text NOT NULL DEFAULT 'image',
+        "title" text,
+        "prompt" text,
+        "category" text,
+        "status" text NOT NULL DEFAULT 'pending',
+        "publish_to_landing" boolean NOT NULL DEFAULT false,
+        "publish_to_showcase" boolean NOT NULL DEFAULT false,
+        "tags" jsonb,
+        "metadata" jsonb,
+        "admin_notes" text,
+        "rejection_reason" text,
+        "reviewed_by" text,
+        "reviewed_at" timestamp,
+        "approved_at" timestamp,
+        "rejected_at" timestamp,
+        "landing_order" integer,
+        "created_at" timestamp NOT NULL DEFAULT now(),
+        "updated_at" timestamp NOT NULL DEFAULT now(),
+        CONSTRAINT "publish_submissions_user_id_user_id_fk"
+          FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE cascade
+      );
+    `;
+
+    await sql`
+      CREATE TABLE IF NOT EXISTS "landing_showcase_entries" (
+        "id" text PRIMARY KEY NOT NULL,
+        "image_url" text NOT NULL,
+        "title" text NOT NULL,
+        "subtitle" text,
+        "category" text,
+        "cta_url" text,
+        "is_visible" boolean NOT NULL DEFAULT true,
+        "sort_order" integer NOT NULL DEFAULT 0,
+        "created_at" timestamp NOT NULL DEFAULT now(),
+        "updated_at" timestamp NOT NULL DEFAULT now()
+      );
+    `;
+
+    await sql`
+      CREATE TABLE IF NOT EXISTS "social_shares" (
+        "id" text PRIMARY KEY NOT NULL,
+        "user_id" text NOT NULL,
+        "asset_id" text,
+        "platform" text NOT NULL,
+        "share_url" text,
+        "credits_earned" integer NOT NULL DEFAULT 0,
+        "reference_id" text,
+        "created_at" timestamp NOT NULL DEFAULT now(),
+        CONSTRAINT "social_shares_user_id_user_id_fk"
+          FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE cascade
+      );
+    `;
+    await sql`
+      DO $$
+      BEGIN
+        IF NOT EXISTS (
+          SELECT 1 FROM pg_indexes WHERE indexname = 'social_shares_user_id_idx'
+        ) THEN
+          CREATE INDEX social_shares_user_id_idx
+            ON social_shares (user_id);
+        END IF;
+      END $$;
+    `;
+    await sql`
+      DO $$
+      BEGIN
+        IF NOT EXISTS (
+          SELECT 1 FROM pg_indexes WHERE indexname = 'social_shares_user_reference_unique'
+        ) THEN
+          CREATE UNIQUE INDEX social_shares_user_reference_unique
+            ON social_shares (user_id, reference_id);
+        END IF;
+      END $$;
+    `;
+
+    // ========== Admin Tables ==========
+    console.log('[init-db] Creating admin tables...');
+    await sql`
+      CREATE TABLE IF NOT EXISTS "admins" (
+        "id" text PRIMARY KEY NOT NULL,
+        "email" text NOT NULL UNIQUE,
+        "name" text,
+        "password_hash" text NOT NULL,
+        "role" text NOT NULL DEFAULT 'admin',
+        "created_at" timestamp NOT NULL DEFAULT now(),
+        "updated_at" timestamp NOT NULL DEFAULT now(),
+        "last_login_at" timestamp
+      );
+    `;
+
+    await sql`
+      CREATE TABLE IF NOT EXISTS "cron_job_executions" (
+        "id" text PRIMARY KEY NOT NULL,
+        "job_name" text NOT NULL,
+        "started_at" timestamp NOT NULL DEFAULT now(),
+        "completed_at" timestamp,
+        "duration" integer,
+        "status" text NOT NULL DEFAULT 'running',
+        "results" jsonb,
+        "error_message" text,
+        "created_at" timestamp NOT NULL DEFAULT now()
+      );
+    `;
+
     return NextResponse.json({
       success: true,
       message: 'All tables initialized successfully',
@@ -332,6 +463,12 @@ export async function POST(request: NextRequest) {
         'payment_event',
         'generation_lock',
         'generated_asset',
+        'subscription',
+        'publish_submissions',
+        'landing_showcase_entries',
+        'social_shares',
+        'admins',
+        'cron_job_executions',
       ],
     });
   } catch (error) {
@@ -345,4 +482,3 @@ export async function POST(request: NextRequest) {
     );
   }
 }
-
