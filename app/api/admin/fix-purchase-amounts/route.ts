@@ -1,6 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import { env } from '@/env';
 import { db } from '@/server/db';
+import type { CreditPackPurchaseInsert } from '@/server/db/schema';
 import { creditPackPurchase, creditTransactions } from '@/server/db/schema';
 import { eq } from 'drizzle-orm';
 import { NextResponse } from 'next/server';
@@ -75,7 +76,7 @@ export async function POST() {
                     ? 330
                     : 0;
 
-      await db.insert(creditPackPurchase).values({
+      const insertValues: CreditPackPurchaseInsert = {
         id: randomUUID(),
         userId: transaction.userId,
         creditPackId: `pack_${credits}`,
@@ -89,7 +90,9 @@ export async function POST() {
         metadata,
         testMode: isTestMode,
         createdAt: transaction.createdAt,
-      });
+      };
+
+      await db.insert(creditPackPurchase).values(insertValues);
 
       details.push({
         orderId,

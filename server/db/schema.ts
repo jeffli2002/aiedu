@@ -343,6 +343,9 @@ export const creditPackPurchase = pgTable('credit_pack_purchase', {
     .notNull(),
 });
 
+export type CreditPackPurchaseInsert = typeof creditPackPurchase.$inferInsert &
+  Partial<typeof creditPackPurchase.$inferSelect>;
+
 // Payment and Subscription
 export const payment = pgTable('payment', {
   id: text('id').primaryKey(),

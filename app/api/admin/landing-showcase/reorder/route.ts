@@ -3,6 +3,7 @@ import { db } from '@/server/db';
 import { landingShowcaseEntries } from '@/server/db/schema';
 import { eq } from 'drizzle-orm';
 import { type NextRequest, NextResponse } from 'next/server';
+import type { InferInsertModel } from 'drizzle-orm';
 
 export const dynamic = 'force-dynamic';
 export const fetchCache = 'force-no-store';
@@ -21,7 +22,7 @@ export async function POST(request: NextRequest) {
       ids.map((id, index) =>
         db
           .update(landingShowcaseEntries)
-          .set({ sortOrder: index + 1 })
+          .set({ sortOrder: index + 1 } as Partial<InferInsertModel<typeof landingShowcaseEntries>>)
           .where(eq(landingShowcaseEntries.id, id))
       )
     );

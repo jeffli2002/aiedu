@@ -1,5 +1,6 @@
 import { randomUUID } from 'node:crypto';
 import { db } from '@/server/db';
+import type { CreditPackPurchaseInsert } from '@/server/db/schema';
 import { creditPackPurchase, creditTransactions } from '@/server/db/schema';
 import { eq } from 'drizzle-orm';
 import { NextResponse } from 'next/server';
@@ -41,7 +42,7 @@ export async function POST() {
       const amountCents =
         credits === 1000 ? 4900 : credits === 300 ? 1490 : credits === 100 ? 490 : 0;
 
-      await db.insert(creditPackPurchase).values({
+      const insertValues: CreditPackPurchaseInsert = {
         id: randomUUID(),
         userId: transaction.userId,
         creditPackId: `pack_${credits}`,
@@ -54,7 +55,9 @@ export async function POST() {
         creditTransactionId: transaction.id,
         metadata,
         createdAt: transaction.createdAt,
-      });
+      };
+
+      await db.insert(creditPackPurchase).values(insertValues);
 
       backfilled++;
     }

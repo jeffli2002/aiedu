@@ -25,7 +25,7 @@ export async function GET(request: NextRequest) {
         ? []
         : [eq(publishSubmissions.status, statusParam as (typeof allowedStatuses)[number])];
 
-    let query = db
+    const baseQuery = db
       .select({
         submission: publishSubmissions,
         user: {
@@ -37,9 +37,7 @@ export async function GET(request: NextRequest) {
       .from(publishSubmissions)
       .leftJoin(user, eq(user.id, publishSubmissions.userId));
 
-    if (filters.length > 0) {
-      query = query.where(and(...filters));
-    }
+    const query = filters.length > 0 ? baseQuery.where(and(...filters)) : baseQuery;
 
     const rows = await query.orderBy(desc(publishSubmissions.createdAt)).limit(limit);
 

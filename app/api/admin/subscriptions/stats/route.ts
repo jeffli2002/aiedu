@@ -79,7 +79,7 @@ export async function GET(request: Request) {
     });
 
     // Get recent subscriptions (with date filter if applicable)
-    let recentQuery = db
+    const baseRecentQuery = db
       .select({
         id: subscription.id,
         userId: subscription.userId,
@@ -95,9 +95,9 @@ export async function GET(request: Request) {
       .orderBy(desc(subscription.createdAt))
       .limit(50);
 
-    if (startDate) {
-      recentQuery = recentQuery.where(sql`${subscription.createdAt} >= ${startDate}`);
-    }
+    const recentQuery = startDate
+      ? baseRecentQuery.where(sql`${subscription.createdAt} >= ${startDate}`)
+      : baseRecentQuery;
 
     const recentSubscriptions = (await recentQuery).map((row) => ({
       ...row,

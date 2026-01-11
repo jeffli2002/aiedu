@@ -7,6 +7,7 @@ import { db } from '@/server/db';
 import { publishSubmissions, socialShares } from '@/server/db/schema';
 import { and, eq, sql } from 'drizzle-orm';
 import { type NextRequest, NextResponse } from 'next/server';
+import type { InferInsertModel } from 'drizzle-orm';
 
 export const dynamic = 'force-dynamic';
 export const fetchCache = 'force-no-store';
@@ -32,15 +33,28 @@ async function awardPublishReward(submission: PublishSubmission) {
   }
 
   const shareId = randomUUID();
+  // Map reward platform to socialShares platform enum
+  const platformMap: Record<string, 'twitter' | 'facebook' | 'instagram' | 'linkedin' | 'pinterest' | 'tiktok' | 'other'> = {
+    twitter: 'twitter',
+    facebook: 'facebook',
+    instagram: 'instagram',
+    linkedin: 'linkedin',
+    pinterest: 'pinterest',
+    tiktok: 'tiktok',
+    copy: 'other',
+    other: 'other',
+  };
+  const platform = platformMap[reward.platform] || 'other';
+  
   await db.insert(socialShares).values({
     id: shareId,
     userId: submission.userId,
     assetId: submission.assetId ?? null,
-    platform: reward.platform,
+    platform,
     shareUrl: submission.assetUrl,
     creditsEarned: reward.credits,
     referenceId,
-  });
+  } as InferInsertModel<typeof socialShares>);
 
   try {
     await creditService.earnCredits({
@@ -171,7 +185,7 @@ export async function PATCH(
             rejectionReason: submission.rejectionReason,
             adminNotes: submission.adminNotes,
             updatedAt: submission.updatedAt,
-          })
+          } as Partial<InferInsertModel<typeof publishSubmissions>>)
           .where(eq(publishSubmissions.id, id));
 
         return NextResponse.json(

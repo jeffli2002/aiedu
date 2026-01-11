@@ -7,6 +7,7 @@ export const config = {
   // Match all pathnames except:
   // - API routes
   // - Next.js internals (_next)
+  // - Admin routes
   // - Static files with extensions
-  matcher: ['/((?!api|_next|.*\\.[\\w]+$).*)'],
+  matcher: ['/((?!api|_next|admin|.*\\.[\\w]+$).*)'],
 };

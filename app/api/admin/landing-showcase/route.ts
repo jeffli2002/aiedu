@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
         ctaUrl: ctaUrl || null,
         isVisible: Boolean(isVisible),
         sortOrder: nextOrder,
-      })
+      } as typeof landingShowcaseEntries.$inferInsert)
       .returning();
 
     return NextResponse.json({ success: true, entry: created });

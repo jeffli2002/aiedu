@@ -50,7 +50,7 @@ export async function GET(request: Request) {
     }
 
     // Build query
-    let query = db
+    const baseQuery = db
       .select({
         id: user.id,
         email: user.email,
@@ -72,18 +72,13 @@ export async function GET(request: Request) {
       .limit(limit)
       .offset(offset);
 
-    if (filters.length > 0) {
-      query = query.where(and(...filters));
-    }
+    const query = filters.length > 0 ? baseQuery.where(and(...filters)) : baseQuery;
 
     const usersList = await query;
 
     // Get total count
-    let totalCountQuery = db.select({ count: sql<number>`count(*)` }).from(user);
-
-    if (filters.length > 0) {
-      totalCountQuery = totalCountQuery.where(and(...filters));
-    }
+    const baseTotalCountQuery = db.select({ count: sql<number>`count(*)` }).from(user);
+    const totalCountQuery = filters.length > 0 ? baseTotalCountQuery.where(and(...filters)) : baseTotalCountQuery;
 
     const totalCount = await totalCountQuery;
 
