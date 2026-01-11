@@ -693,6 +693,23 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
             tools: ['ElevenLabs', 'Suno', 'NotebookLM'], 
             outcome: 'A fully produced audio episode ready for Spotify/Apple.' 
           }
+        ],
+        materials: [
+          {
+            id: 'c204-creative-exoskeleton-t01-en',
+            title: 'Audio AI: The Creative Exoskeleton T01 (PDF)',
+            type: 'pdf',
+            mediaId: 'training/c204/en/audio-ai-the-creative-exoskeleton_T01',
+            language: 'en',
+          },
+          {
+            id: 'c204-hearing-future-audio-t01-en',
+            title: 'Hearing the Future: AI Audio T01 (Video)',
+            type: 'video',
+            access: 'preview',
+            mediaId: 'training/c204/en/hearing-the-future-ai-audio_T01',
+            language: 'en',
+          },
         ]
       },
       { 
