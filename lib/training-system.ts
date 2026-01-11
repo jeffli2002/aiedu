@@ -293,6 +293,23 @@ export const TRAINING_SYSTEM: Record<'zh' | 'en', TrainingSystem> = {
             tools: ['ElevenLabs', 'Suno', 'NotebookLM'], 
             outcome: '一集制作精良、可直接发布至播客平台的音频作品。' 
           }
+        ],
+        materials: [
+          {
+            id: 'c204-audio-toolkit-t01-zh',
+            title: 'AI 音频工具包 T01（PDF）',
+            type: 'pdf',
+            mediaId: 'training/c204/zh/ai-audio-toolkit_T01',
+            language: 'zh',
+          },
+          {
+            id: 'c204-hearing-future-audio-t01-zh',
+            title: '听见未来：AI 音频创作指南 T01（视频）',
+            type: 'video',
+            access: 'preview',
+            mediaId: 'training/c204/zh/hearing-the-future-ai-audio_T01',
+            language: 'zh',
+          },
         ]
       },
       { 
