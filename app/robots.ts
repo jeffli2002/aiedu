@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next';
+import { getSiteUrl } from '@/lib/seo/site-url';
 
-const FALLBACK_APP_URL = 'http://localhost:3003';
-const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? FALLBACK_APP_URL;
+const baseUrl = getSiteUrl();
 
 export default function robots(): MetadataRoute.Robots {
   return {

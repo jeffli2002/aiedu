@@ -2,9 +2,9 @@ import type { MetadataRoute } from 'next';
 import { locales, type Locale } from '@/i18n/routing';
 import { blogPosts } from '@/lib/blog/posts';
 import { TRAINING_SYSTEM } from '@/lib/training-system';
+import { getSiteUrl } from '@/lib/seo/site-url';
 
-const FALLBACK_APP_URL = 'http://localhost:3003';
-const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? FALLBACK_APP_URL;
+const baseUrl = getSiteUrl();
 
 // Marketing/SEO pages that exist for all locales
 const marketingPages = [

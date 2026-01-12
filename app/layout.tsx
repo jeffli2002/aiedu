@@ -1,7 +1,9 @@
 import './globals.css';
+import type { Metadata } from 'next';
 import { DM_Sans } from 'next/font/google';
 import { cookies, headers } from 'next/headers';
 import Script from 'next/script';
+import { getMetadataBase } from '@/lib/seo/metadata';
 
 // Primary body font
 const dmSans = DM_Sans({
@@ -9,6 +11,10 @@ const dmSans = DM_Sans({
   variable: '--font-dm-sans',
   weight: ['400', '500', '600', '700'],
 });
+
+export const metadata: Metadata = {
+  metadataBase: getMetadataBase(),
+};
 
 export default function RootLayout({
   children,

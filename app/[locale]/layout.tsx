@@ -8,6 +8,7 @@ import { Toaster } from '@/components/ui/sonner';
 import { AuthProvider } from '@/components/auth/auth-provider';
 import ScrollGuard from '@/components/ScrollGuard';
 import { I18nProvider } from '@/components/I18nProvider';
+import { getSiteUrl } from '@/lib/seo/site-url';
 
 // Generate static params for all locales
 export function generateStaticParams() {
@@ -20,7 +21,7 @@ export async function generateMetadata({
 }: {
   params: { locale: Locale };
 }): Promise<Metadata> {
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://futureai.edu';
+  const baseUrl = getSiteUrl();
 
   const title = locale === 'zh'
     ? 'Real Magic AI — 让AI变成真实技能'

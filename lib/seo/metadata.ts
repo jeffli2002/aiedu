@@ -1,15 +1,7 @@
 import type { Metadata } from 'next';
+import { getSiteUrlObject } from '@/lib/seo/site-url';
 
-const FALLBACK_APP_URL = 'http://localhost:3000';
-
-const rawAppUrl = process.env.NEXT_PUBLIC_APP_URL ?? FALLBACK_APP_URL;
-
-let metadataBase: URL;
-try {
-  metadataBase = new URL(rawAppUrl);
-} catch {
-  metadataBase = new URL(FALLBACK_APP_URL);
-}
+const metadataBase = getSiteUrlObject();
 
 export const DEFAULT_SEO_KEYWORDS_EN: string[] = [
   'ai video generator',
