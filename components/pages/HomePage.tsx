@@ -56,6 +56,47 @@ const Hero = ({ lang }: { lang: Language }) => {
   const t = translations[lang].hero;
   const [isVisible, setIsVisible] = useState(false);
   const heroRef = useRef<HTMLElement>(null);
+  const cnTitle = t.title;
+  const renderCnTitle = () => {
+    const [beforeAiLearning, afterAiLearning] = cnTitle.split('AI学习');
+    if (!afterAiLearning) return cnTitle;
+    const [between, afterPractice] = afterAiLearning.split('实操');
+    if (!afterPractice) return cnTitle;
+    return (
+      <>
+        {beforeAiLearning}
+        <span className="italic" style={{ color: '#ff6b35' }}>AI学习</span>
+        {between}
+        <span className="italic" style={{ color: '#2ec4b6' }}>实操</span>
+        {afterPractice}
+      </>
+    );
+  };
+  const renderEnTitle = () => {
+    const hasPractical = t.title.includes('Practical ');
+    const practicalParts = t.title.split('Practical ');
+    if (!hasPractical || practicalParts.length < 2) return t.title;
+    const afterPractical = practicalParts.slice(1).join('Practical ');
+    const learningParts = afterPractical.split('AI Learning');
+    if (learningParts.length < 2) {
+      return (
+        <>
+          {practicalParts[0]}
+          <span className="italic" style={{ color: '#ff6b35' }}>Practical</span>{' '}
+          {afterPractical}
+        </>
+      );
+    }
+    return (
+      <>
+        {practicalParts[0]}
+        <span className="italic" style={{ color: '#ff6b35' }}>Practical</span>{' '}
+        {learningParts[0]}
+        <span className="italic" style={{ color: '#2ec4b6' }}>AI Learning</span>
+        {learningParts.slice(1).join('AI Learning')}
+      </>
+    );
+  };
 
   useEffect(() => {
     setIsVisible(true);
@@ -111,23 +152,7 @@ const Hero = ({ lang }: { lang: Language }) => {
                 fontWeight: 400,
               }}
             >
-              {lang === 'cn' ? (
-                <>
-                  掌握{' '}
-                  <span className="italic" style={{ color: '#ff6b35' }}>AI</span>
-                  <br />
-                  创造{' '}
-                  <span className="italic" style={{ color: '#2ec4b6' }}>未来</span>
-                </>
-              ) : (
-                <>
-                  Master{' '}
-                  <span className="italic" style={{ color: '#ff6b35' }}>AI</span>
-                  <br />
-                  Create the{' '}
-                  <span className="italic" style={{ color: '#2ec4b6' }}>Future</span>
-                </>
-              )}
+              {lang === 'cn' ? renderCnTitle() : renderEnTitle()}
             </h1>
 
             {/* Description */}
@@ -192,7 +217,7 @@ const Hero = ({ lang }: { lang: Language }) => {
               <div className="relative aspect-[4/3] rounded-[1.5rem] overflow-hidden border-2 border-white shadow-2xl transition-all duration-500 group-hover:shadow-[0_25px_60px_-12px_rgba(255,107,53,0.3)] group-hover:-translate-y-2">
                 <img
                   src="/homepage/hero.jpg"
-                  alt="AI Education"
+                  alt="Students creating with AI"
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   onError={(e) => {
                     e.currentTarget.src = 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=1200';

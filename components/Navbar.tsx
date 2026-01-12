@@ -67,7 +67,7 @@ export default function Navbar() {
   const navLinks = useMemo(() => {
     if (!isClient) {
       return [
-        { href: '/zh/training', label: '训练课程' },
+        { href: '/zh/training', label: '在线学习' },
         { href: '/zh/pricing', label: '定价' },
         { href: '/zh/image-generation', label: 'AI 图像' },
         { href: '/zh/video-generation', label: 'AI 视频' },

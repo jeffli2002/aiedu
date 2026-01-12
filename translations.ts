@@ -16,14 +16,14 @@ export const translations = {
     },
     hero: {
       tagline: 'Empowering the Next Generation',
-      title: 'Master AI Skills. Create the Future',
-      description: 'Master the power of the AI world. Use AI to understand, express, solve, and create the future.',
+      title: 'Futurai — Real Magic AI for Practical Youth AI Learning',
+      description: 'Futurai is an AI education platform built around Real Magic AI — a practical approach to AI learning that helps students and professionals understand and apply artificial intelligence in real life.',
       cta: 'Start Your Journey',
       secondaryCta: 'Start Creating'
     },
     coreValue: {
       title: 'Our Core Value',
-      content: 'Empower students to thrive in the AI-driven future by using AI to understand the world, express ideas, solve problems, and create meaningful projects.',
+      content: 'Build AI literacy through prompts, multimodal AI tools, and responsible AI ethics, empowering students and professionals to thrive in the AI-driven future by using AI to understand the world, express ideas, solve problems, and create meaningful projects.',
       imageTagline: 'Creator Portfolio',
       imageCaption: 'A glimpse into student-made AI projects.',
       statLabel: 'Projects Built',
@@ -95,7 +95,7 @@ export const translations = {
       home: '首页',
       projects: '项目展示',
       camp: '寒假创作营',
-      training: '训练课程',
+      training: '在线学习',
       aiImage: 'AI 图像',
       aiVideo: 'AI 视频',
       about: '关于我们',
@@ -104,14 +104,14 @@ export const translations = {
     },
     hero: {
       tagline: '赋能下一代创造者',
-      title: '掌握 AI ，创造未来',
-      description: '掌握面向未来 AI 世界的能力，用 AI 理解世界、表达观点、解决问题、创造未来。',
+      title: 'Futurai | 青少年AI学习和实操一体平台',
+      description: 'Futurai 是一个以 Real Magic AI 为核心的 AI 教育平台，用实用的 AI 学习帮助学生与专业人士理解并应用人工智能。',
       cta: '开启探索之旅',
       secondaryCta: '开始创作'
     },
     coreValue: {
       title: '核心理念',
-      content: '让孩子掌握面向未来 AI 世界的能力，用 AI 理解世界、表达观点、解决问题、创造未来。',
+      content: '通过提示词、多模态 AI 工具与负责任的 AI 伦理建设 AI 素养，帮助学生与专业人士在 AI 驱动的未来用 AI 理解世界、表达观点、解决问题并创造有意义的项目。',
       imageTagline: '创作作品集',
       imageCaption: '一览学生 AI 项目成果。',
       statLabel: '项目成果',

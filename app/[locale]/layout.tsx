@@ -27,7 +27,7 @@ export async function generateMetadata({
     : 'Real Magic AI | Practical AI Education & Real-World Skills';
 
   const description = locale === 'zh'
-    ? '让孩子掌握面向未来AI世界的能力'
+    ? 'Futurai 是一个以 Real Magic AI 为核心的 AI 教育平台，用实用的 AI 学习帮助学生与专业人士理解并应用人工智能。'
     : 'Real Magic AI is an AI education platform focused on practical skills, AI literacy, and real-world applications for students and professionals.';
 
   const keywords = locale === 'zh'
