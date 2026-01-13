@@ -1,86 +1,37 @@
-'use client';
+import type { Metadata } from 'next';
+import { setRequestLocale } from 'next-intl/server';
+import type { Locale } from '@/i18n/routing';
+import { buildLocaleCanonicalMetadata } from '@/lib/seo/metadata';
+import ImageGenerationPageContent from '@/components/pages/ImageGenerationPage';
 
-import { Suspense } from 'react';
-import { Sparkles } from 'lucide-react';
-import { useTranslations } from 'next-intl';
-import ImageGenerator from '@/components/image-generator';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
+export async function generateMetadata({
+  params: { locale },
+}: {
+  params: { locale: Locale };
+}): Promise<Metadata> {
+  const title = locale === 'zh' ? 'AI 图像生成 - FuturAI' : 'AI Image Generation - FuturAI';
+  const description =
+    locale === 'zh'
+      ? '用 FuturAI 进行高质量 AI 图像创作，适合课堂项目与创意表达。'
+      : 'Create high-quality AI images with FuturAI for learning projects and creative expression.';
+  const keywords =
+    locale === 'zh'
+      ? ['AI 图像生成', 'AI 创作', '图像生成器', '教育AI', '创意工具']
+      : ['AI image generation', 'AI creation', 'image generator', 'AI education', 'creative tools'];
 
-/**
- * Image Generation Page - Editorial Minimal Design
- * Colors: Coral Orange (#ff6b35), Teal (#2ec4b6)
- * Typography: Instrument Serif (headlines), DM Sans (body)
- */
+  return {
+    ...buildLocaleCanonicalMetadata(locale, '/image-generation'),
+    title,
+    description,
+    keywords,
+  };
+}
 
-export default function ImageGenerationPage() {
-  const t = useTranslations('imageGeneration');
-
-  return (
-    <div
-      className="min-h-screen flex flex-col"
-      style={{ backgroundColor: '#fafaf9', fontFamily: '"DM Sans", system-ui, sans-serif' }}
-    >
-      <Navbar />
-      <div className="flex-1 pt-24 pb-24 relative overflow-hidden">
-        {/* Decorative elements */}
-        <div
-          className="absolute top-20 right-[10%] w-48 h-48 rounded-full opacity-10 animate-float"
-          style={{ backgroundColor: '#ff6b35' }}
-        />
-        <div
-          className="absolute bottom-40 left-[5%] w-32 h-32 rounded-full opacity-10 animate-float"
-          style={{ backgroundColor: '#2ec4b6', animationDelay: '2s' }}
-        />
-
-        {/* Dot pattern */}
-        <div
-          className="absolute inset-0 opacity-[0.03]"
-          style={{
-            backgroundImage: 'radial-gradient(#1a1a2e 1px, transparent 1px)',
-            backgroundSize: '20px 20px',
-          }}
-        />
-
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="text-center mb-10">
-            <div
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-slate-200 shadow-sm mb-6"
-            >
-              <Sparkles className="w-4 h-4" style={{ color: '#ff6b35' }} />
-              <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: '#1a1a2e' }}>
-                AI Creation Studio
-              </span>
-            </div>
-
-            <h1
-              className="text-4xl md:text-5xl lg:text-6xl mb-4 max-w-4xl mx-auto leading-tight"
-              style={{
-                fontFamily: '"Instrument Serif", Georgia, serif',
-                color: '#1a1a2e'
-              }}
-            >
-              {t('title')}
-            </h1>
-            <p className="text-lg md:text-xl max-w-3xl mx-auto leading-relaxed" style={{ color: '#666' }}>
-              {t('subtitle')}
-            </p>
-          </div>
-          <Suspense
-            fallback={
-              <div className="flex items-center justify-center py-12">
-                <div
-                  className="h-8 w-8 animate-spin rounded-full border-2"
-                  style={{ borderColor: '#ff6b35', borderTopColor: 'transparent' }}
-                />
-              </div>
-            }
-          >
-            <ImageGenerator />
-          </Suspense>
-        </div>
-      </div>
-      <Footer />
-    </div>
-  );
+export default function ImageGenerationPage({
+  params: { locale },
+}: {
+  params: { locale: Locale };
+}) {
+  setRequestLocale(locale);
+  return <ImageGenerationPageContent />;
 }

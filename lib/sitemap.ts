@@ -5,6 +5,7 @@ import { TRAINING_SYSTEM } from '@/lib/training-system';
 import { getSiteUrl } from '@/lib/seo/site-url';
 
 const baseUrl = getSiteUrl();
+const sitemapLastModified = getSitemapLastModified();
 
 // Marketing/SEO pages that exist for all locales
 const marketingPages = [
@@ -60,15 +61,43 @@ function createSitemapEntry(
 ): SitemapEntry[] {
   const alternates = generateAlternates(path);
 
-  return locales.map((locale) => ({
-    url: alternates[locale],
-    lastModified: new Date(),
-    changeFrequency,
-    priority,
-    alternates: {
-      languages: alternates,
-    },
-  }));
+  return locales.map((locale) => {
+    const entry: SitemapEntry = {
+      url: alternates[locale],
+      changeFrequency,
+      priority,
+      alternates: {
+        languages: alternates,
+      },
+    };
+
+    if (sitemapLastModified) {
+      entry.lastModified = sitemapLastModified;
+    }
+
+    return entry;
+  });
+}
+
+function getSitemapLastModified(): Date | undefined {
+  const raw =
+    process.env.SITEMAP_LASTMOD ||
+    process.env.NEXT_PUBLIC_SITEMAP_LASTMOD ||
+    process.env.VERCEL_GIT_COMMIT_TIMESTAMP;
+
+  if (!raw) {
+    return undefined;
+  }
+
+  const numeric = Number(raw);
+  if (!Number.isNaN(numeric)) {
+    const millis = numeric < 1e12 ? numeric * 1000 : numeric;
+    const date = new Date(millis);
+    return Number.isNaN(date.getTime()) ? undefined : date;
+  }
+
+  const parsed = new Date(raw);
+  return Number.isNaN(parsed.getTime()) ? undefined : parsed;
 }
 
 export async function getSitemapEntries(): Promise<SitemapEntry[]> {

@@ -1,6 +1,7 @@
 import { getTranslations } from 'next-intl/server';
 import { setRequestLocale } from 'next-intl/server';
 import type { Locale } from '@/i18n/routing';
+import { buildLocaleCanonicalMetadata } from '@/lib/seo/metadata';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
@@ -11,6 +12,7 @@ export async function generateMetadata({
 }) {
   const t = await getTranslations({ locale, namespace: 'terms' });
   return {
+    ...buildLocaleCanonicalMetadata(locale, '/terms'),
     title: t('title'),
     description: t('description'),
   };

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { locales } from '@/i18n/routing';
 import { getSiteUrlObject } from '@/lib/seo/site-url';
 
 const metadataBase = getSiteUrlObject();
@@ -92,5 +93,19 @@ export function buildLocaleCanonicalMetadata(
   const localePrefix = locale ? `/${locale.replace(/^\/+/, '')}` : '';
   const fullPath =
     normalizedPath === '/' ? `${localePrefix || '/'}` : `${localePrefix}${normalizedPath}`;
-  return buildCanonicalMetadata(fullPath || '/');
+
+  const languages: Record<string, string> = {};
+  for (const entry of locales) {
+    const localizedPath = normalizedPath === '/' ? `/${entry}` : `/${entry}${normalizedPath}`;
+    languages[entry] = localizedPath;
+  }
+  const defaultPath = normalizedPath === '/' ? '/zh' : `/zh${normalizedPath}`;
+  languages['x-default'] = defaultPath;
+
+  return {
+    alternates: {
+      canonical: fullPath || '/',
+      languages,
+    },
+  };
 }

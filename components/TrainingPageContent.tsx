@@ -1,6 +1,5 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import Link from 'next/link';
 import {
@@ -78,15 +77,9 @@ const MODULE_ACCENTS: Record<string, AccentKey> = {
 
 export default function TrainingPageContent() {
   const t = useTranslations('training');
-  const tc = useTranslations('common');
   const locale = useLocale();
-  const [isClient, setIsClient] = useState(false);
   const lang = locale === 'zh' ? 'zh' : 'en';
   const system = TRAINING_SYSTEM[lang];
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
 
   const renderModule = (m: Module) => {
     const hasPracticeSplit = m.theoryDuration || m.practiceDuration;
@@ -160,10 +153,10 @@ export default function TrainingPageContent() {
 
         {hasPracticeSplit ? (
           <div className="space-y-3 mb-6 w-full">
-            <div className={`${labelClass} flex justify-between`}>
-              <span style={{ color: THEME.accents.cool.base }}>{isClient ? t('theoryLabel') : '理论'}</span>
-              <span style={{ color: THEME.accents.warm.base }}>{isClient ? t('practiceLabel') : '实践'}</span>
-            </div>
+          <div className={`${labelClass} flex justify-between`}>
+              <span style={{ color: THEME.accents.cool.base }}>{t('theoryLabel')}</span>
+              <span style={{ color: THEME.accents.warm.base }}>{t('practiceLabel')}</span>
+          </div>
             <div className="h-1.5 w-full rounded-full flex overflow-hidden" style={{ backgroundColor: THEME.colors.chip }}>
               <div className="h-full rounded-full" style={{ width: '35%', backgroundColor: THEME.accents.cool.base }} />
               <div className="h-full rounded-full ml-0.5" style={{ width: '65%', backgroundColor: THEME.accents.warm.base }} />
@@ -193,24 +186,6 @@ export default function TrainingPageContent() {
       </Link>
     );
   };
-
-  if (!isClient) {
-    return (
-      <div className="min-h-screen" style={{ backgroundColor: THEME.colors.canvas, fontFamily: THEME.fonts.body }}>
-        <Navbar />
-        <div className="pt-24 pb-20 flex items-center justify-center">
-          <div className="text-center">
-            <div
-              className="animate-spin rounded-full h-10 w-10 border-2 mx-auto"
-              style={{ borderColor: THEME.accents.warm.base, borderTopColor: 'transparent' }}
-            />
-            <p className="mt-4" style={{ color: THEME.colors.muted }}>{tc('loading')}</p>
-          </div>
-        </div>
-        <Footer />
-      </div>
-    );
-  }
 
   const pblSteps = [
     { label: t('pblSteps.0.label'), desc: t('pblSteps.0.desc') },

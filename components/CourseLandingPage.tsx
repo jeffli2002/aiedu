@@ -76,10 +76,8 @@ const tonePanelTextClass: Record<Tone, string> = {
 
 export default function CourseLandingPage({ course }: CourseLandingPageProps) {
   const t = useTranslations('training');
-  const tc = useTranslations('common');
   const locale = useLocale();
   const router = useRouter();
-  const [isClient, setIsClient] = useState(false);
   const [fullscreenPdf, setFullscreenPdf] = useState<{ mediaId: string; title: string } | null>(null);
   const [loadingMedia, setLoadingMedia] = useState<Record<string, boolean>>({});
   const [fullscreenLoading, setFullscreenLoading] = useState(false);
@@ -263,7 +261,6 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
   // Thumbnails are served via normalized endpoints backed by R2 keys.
 
   useEffect(() => {
-    setIsClient(true);
     window.scrollTo(0, 0);
   }, [course.id]);
 
@@ -312,21 +309,6 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
     const authParam = isAuthenticated ? 'authOnly=1&' : '';
     return `${base}?${authParam}access=${courseAccessVersion}`;
   };
-
-  if (!isClient) {
-    return (
-      <div className="min-h-screen section-light font-body">
-        <Navbar />
-        <div className="pt-24 pb-20 flex items-center justify-center">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[var(--color-primary)] mx-auto"></div>
-            <p className="mt-4 text-muted">{tc('loading')}</p>
-          </div>
-        </div>
-        <Footer />
-      </div>
-    );
-  }
 
   const courseTypeLabel = t(`courseLanding.courseType.${course.type}`);
   const masteryLabel = t('courseLanding.mastery');
