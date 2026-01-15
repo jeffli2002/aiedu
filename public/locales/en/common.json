@@ -116,6 +116,8 @@
       "vibeAgeRange": "14+",
       "creationAgeRange": "12+",
       "efficiencyAgeRange": "16+",
+      "enrolledCount": "XXXX",
+      "enrolledLabel": "enrolled",
       "enrollBtn": "Enroll Today",
       "startCreationBtn": "Start Creation",
       "syllabusTitle": "Detailed Syllabus",

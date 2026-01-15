@@ -14,6 +14,7 @@ import {
   Presentation,
   Rocket,
   Star,
+  User,
   ChevronRight,
   X,
   Loader2,
@@ -312,6 +313,8 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
 
   const courseTypeLabel = t(`courseLanding.courseType.${course.type}`);
   const masteryLabel = t('courseLanding.mastery');
+  const enrolledCount = t('courseLanding.enrolledCount');
+  const enrolledLabel = t('courseLanding.enrolledLabel');
   const isVideoCourse = course.id === 'c202';
   const ctaHref = isAuthenticated
     ? withLocalePath(isVideoCourse ? '/video-generation' : '/image-generation', lang)
@@ -380,6 +383,28 @@ export default function CourseLandingPage({ course }: CourseLandingPageProps) {
             <p className="text-base md:text-lg text-muted leading-relaxed font-medium max-w-2xl">
               {course.description}
             </p>
+            <div className="mt-8 flex flex-wrap items-center gap-4">
+              <div className="flex -space-x-3">
+                {[
+                  'bg-white text-primary',
+                  'bg-primary text-white',
+                  'bg-secondary text-white',
+                  'bg-white text-secondary'
+                ].map((tone, index) => (
+                  <div
+                    key={`enroll-avatar-${index}`}
+                    className={`h-10 w-10 rounded-full border-2 border-white shadow-sm flex items-center justify-center ${tone}`}
+                    aria-hidden="true"
+                  >
+                    <User className="h-4 w-4" />
+                  </div>
+                ))}
+              </div>
+              <div className="text-sm md:text-base font-semibold text-dark">
+                <span className="text-primary">{enrolledCount}</span>{' '}
+                <span className="text-light">{enrolledLabel}</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>

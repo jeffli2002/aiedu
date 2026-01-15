@@ -116,6 +116,8 @@
       "vibeAgeRange": "14+",
       "creationAgeRange": "12+",
       "efficiencyAgeRange": "16+",
+      "enrolledCount": "XXXX",
+      "enrolledLabel": "人 enrolled",
       "enrollBtn": "立即报名",
       "startCreationBtn": "开始创作",
       "syllabusTitle": "详细课程大纲",
