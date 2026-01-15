@@ -217,8 +217,10 @@ export const auth = betterAuth({
     // The app should still gate sensitive actions on user.emailVerified === true.
     requireEmailVerification: false,
     async sendResetPassword({ user, url }) {
+      console.log(`[auth] sendResetPassword called for: ${user.email}`);
       try {
         if (env.RESEND_API_KEY && env.RESEND_FROM_EMAIL) {
+          console.log(`[auth] Sending password reset email to ${user.email} via Resend...`);
           const response = await fetch('https://api.resend.com/emails', {
             method: 'POST',
             headers: {
@@ -240,16 +242,20 @@ export const auth = betterAuth({
 
           if (!response.ok) {
             const detail = await response.text();
-            console.error('Failed to send reset password email', {
+            console.error('[auth] Failed to send reset password email', {
               email: user.email,
               response: detail,
             });
+          } else {
+            const data = await response.json();
+            console.log(`[auth] ✅ Password reset email sent successfully to ${user.email}`, data);
           }
         } else {
+          console.warn('[auth] ⚠️  Resend not configured - logging password reset link instead');
           console.log(`[auth] Password reset link for ${user.email}: ${url}`);
         }
       } catch (error) {
-        console.error('Error sending reset password email', error);
+        console.error('[auth] Error sending reset password email', error);
       }
     },
   },

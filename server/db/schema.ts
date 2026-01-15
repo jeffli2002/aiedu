@@ -74,7 +74,8 @@ export const verification = pgTable('verification', {
 });
 
 export const rateLimit = pgTable('rateLimit', {
-  key: text('key').primaryKey(),
+  id: text('id').primaryKey(),
+  key: text('key').notNull(),
   count: integer('count').notNull(),
   lastRequest: bigint('last_request', { mode: 'number' }).notNull(),
 });
