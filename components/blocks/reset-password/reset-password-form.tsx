@@ -97,10 +97,19 @@ export function ResetPasswordForm({ className }: { className?: string }) {
       return;
     }
 
+    if (!email) {
+      setStatus({
+        type: 'error',
+        message: t('emailRequired'),
+      });
+      return;
+    }
+
     setIsSubmitting(true);
     setStatus(null);
 
     try {
+      // Step 1: Reset the password
       const response = await fetch('/api/auth/reset-password', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -115,8 +124,29 @@ export function ResetPasswordForm({ className }: { className?: string }) {
         throw new Error(data?.message || data?.error || 'Failed to reset password.');
       }
 
-      // Password reset successful - redirect to dashboard
-      // Better-auth automatically creates a session after successful password reset
+      // Step 2: Sign in with the new password
+      const signInResponse = await fetch('/api/auth/sign-in/email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: email.trim(),
+          password: newPassword,
+        }),
+      });
+
+      if (!signInResponse.ok) {
+        // Password reset succeeded but auto-signin failed - redirect to signin
+        setStatus({
+          type: 'success',
+          message: t('resetSuccessManualSignin'),
+        });
+        setTimeout(() => {
+          router.push('/signin');
+        }, 2000);
+        return;
+      }
+
+      // Step 3: Both reset and signin succeeded - redirect to dashboard
       setStatus({
         type: 'success',
         message: t('resetSuccess'),
@@ -210,6 +240,21 @@ export function ResetPasswordForm({ className }: { className?: string }) {
 
         {isResetMode && (
           <form className="space-y-5" onSubmit={handleResetPassword}>
+            <div className="space-y-2">
+              <Label htmlFor="reset-email-confirm">{t('emailLabel')}</Label>
+              <Input
+                id="reset-email-confirm"
+                type="email"
+                placeholder={t('emailPlaceholder')}
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+                required
+                disabled={isSubmitting}
+              />
+              <p className="text-muted-foreground text-xs">
+                {t('emailHint')}
+              </p>
+            </div>
             <div className="space-y-2">
               <Label htmlFor="new-password">{t('newPasswordLabel')}</Label>
               <Input
