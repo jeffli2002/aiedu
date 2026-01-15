@@ -8,7 +8,7 @@ import { cn } from '@/lib/utils';
 import { Loader2, Mail, ShieldAlert, ShieldCheck } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 
 type StatusState = {
@@ -20,6 +20,7 @@ const MIN_PASSWORD_LENGTH = 8;
 
 export function ResetPasswordForm({ className }: { className?: string }) {
   const t = useTranslations('resetPassword');
+  const router = useRouter();
   const searchParams = useSearchParams();
   const token = searchParams.get('token');
   const tokenError = searchParams.get('error');
@@ -114,12 +115,17 @@ export function ResetPasswordForm({ className }: { className?: string }) {
         throw new Error(data?.message || data?.error || 'Failed to reset password.');
       }
 
+      // Password reset successful - redirect to dashboard
+      // Better-auth automatically creates a session after successful password reset
       setStatus({
         type: 'success',
         message: t('resetSuccess'),
       });
-      setNewPassword('');
-      setConfirmPassword('');
+
+      // Wait briefly to show success message, then redirect
+      setTimeout(() => {
+        router.push('/dashboard');
+      }, 1500);
     } catch (error) {
       setStatus({
         type: 'error',

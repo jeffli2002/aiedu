@@ -459,7 +459,7 @@
     "tokenErrorBody": "Request a new reset link to continue.",
     "requestSuccess": "If this email exists in our system, a password reset link has been sent.",
     "requestError": "Unable to send reset email. Please try again.",
-    "resetSuccess": "Password updated successfully. You can now sign in with your new password.",
+    "resetSuccess": "Password updated successfully! Redirecting to dashboard...",
     "resetError": "Unable to reset password. Please try again.",
     "passwordTooShort": "Password must be at least {count} characters long.",
     "passwordMismatch": "Passwords do not match.",

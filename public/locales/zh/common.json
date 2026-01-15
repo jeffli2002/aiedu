@@ -459,7 +459,7 @@
     "tokenErrorBody": "请重新申请新的重置链接。",
     "requestSuccess": "如果邮箱存在，我们已发送密码重置链接。",
     "requestError": "发送重置邮件失败，请稍后重试。",
-    "resetSuccess": "密码更新成功，请使用新密码登录。",
+    "resetSuccess": "密码更新成功！正在跳转到控制台...",
     "resetError": "重置密码失败，请稍后再试。",
     "passwordTooShort": "密码至少需要 {count} 个字符。",
     "passwordMismatch": "两次输入的密码不一致。",
