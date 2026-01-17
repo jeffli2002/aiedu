@@ -23,6 +23,7 @@ import {
   useSignInWithGoogle,
   useSignOut,
   useAuthStore,
+  useRefreshSession,
 } from '@/store/auth-store';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
