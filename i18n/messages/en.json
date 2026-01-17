@@ -78,7 +78,9 @@
     "changeEmailFailed": "Failed to change email.",
     "changeEmailSuccess": "Email updated. Please check your inbox for confirmation.",
     "logOut": "Log out",
-    "logOutToSignIn": "to sign up with a different email"
+    "logOutToSignIn": "to sign up with a different email",
+    "verificationPending": "Email verification pending",
+    "checkEmailToVerify": "Please check your email and click the verification link to complete your registration"
   },
   "nav": {
     "home": "Home",

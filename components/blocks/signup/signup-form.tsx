@@ -22,12 +22,14 @@ import {
   useSetError,
   useSignInWithGoogle,
   useSignOut,
+  useAuthStore,
 } from '@/store/auth-store';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
+import { toast } from 'sonner';
 
 /**
  * Signup Form - Editorial Minimal Design
@@ -52,6 +54,7 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
   const signInWithGoogle = useSignInWithGoogle();
   const signOut = useSignOut();
   const setError = useSetError();
+  const refreshSession = useRefreshSession();
 
   // Form state
   const [name, setName] = useState('');
@@ -229,6 +232,27 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
     }
   };
 
+  const handleCloseVerificationNotice = async () => {
+    // Refresh session to check if user has verified their email
+    await refreshSession();
+
+    // Get current auth state after refresh
+    const currentAuthState = useAuthStore.getState().isAuthenticated;
+
+    // Close the dialog
+    setShowVerificationNotice(false);
+
+    // If user is not authenticated (hasn't verified email), redirect to home with toast
+    if (!currentAuthState) {
+      toast.info(t('signup.verificationPending'), {
+        description: t('signup.checkEmailToVerify'),
+        duration: 5000,
+      });
+      router.push('/');
+    }
+    // If authenticated, the useEffect will handle redirect to callbackUrl
+  };
+
   useEffect(() => {
     if (resendCooldown <= 0) return;
     const timer = setInterval(() => {
@@ -246,8 +270,8 @@ export function SignupForm({ className, ...props }: React.ComponentProps<'div'>)
       <AlertDialog
         open={showVerificationNotice}
         onOpenChange={(open) => {
-          if (open) {
-            setShowVerificationNotice(true);
+          if (!open) {
+            handleCloseVerificationNotice();
           }
         }}
       >

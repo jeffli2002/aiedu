@@ -78,7 +78,9 @@
     "changeEmailFailed": "修改邮箱失败。",
     "changeEmailSuccess": "邮箱已更新，请查收确认邮件。",
     "logOut": "退出登录",
-    "logOutToSignIn": "使用其他邮箱注册"
+    "logOutToSignIn": "使用其他邮箱注册",
+    "verificationPending": "邮箱验证待完成",
+    "checkEmailToVerify": "请查收邮件并点击验证链接以完成注册"
   },
   "nav": {
     "home": "首页",

@@ -4,6 +4,7 @@ import { DM_Sans } from 'next/font/google';
 import { cookies, headers } from 'next/headers';
 import Script from 'next/script';
 import { getMetadataBase } from '@/lib/seo/metadata';
+import { Toaster } from 'sonner';
 
 // Primary body font
 const dmSans = DM_Sans({
@@ -43,7 +44,10 @@ gtag('js', new Date());
 gtag('config', 'G-7WM6RF5B1C');`}
         </Script>
       </head>
-      <body className="antialiased bg-grid">{children}</body>
+      <body className="antialiased bg-grid">
+        {children}
+        <Toaster position="top-center" richColors />
+      </body>
     </html>
   );
 }
