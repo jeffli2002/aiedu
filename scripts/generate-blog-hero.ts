@@ -14,13 +14,20 @@ async function main() {
     .map((s) => s.trim())
     .filter(Boolean);
   const theme = `${title} — ${keywords.join(', ')}`;
-  const prompt = `${theme}. clean editorial illustration, minimal, high contrast, professional blog cover, no text, no watermark, 16:9`;
+
+  // Enterprise-grade prompt template for blog hero images
+  const prompt = `${theme}. industrial line-based vector illustration, enterprise AI and automation hero image, wide horizontal composition for website hero section, clean outline illustration style, consistent line weight, flat vector design, precise geometric shapes, structured and modular layout, infographic-style visual language, white background with subtle structural lines, clear visual hierarchy, center-focused hero composition with generous negative space, aspect ratio 16:9, wide layout suitable for website hero image, limited enterprise color palette: deep navy blue and dark blue as primary colors, accent orange for highlights and key actions, flat colors only, no gradients, no shadows, professional, trustworthy, enterprise-grade tone, modern Industry 4.0 aesthetic, SVG-style, scalable vector illustration, no text, no watermark`;
 
   const service = getKieApiService();
-  const task = await service.generateImage(
-    { prompt, aspect_ratio: '16:9', resolution: '2K', outputFormat: 'jpeg' },
-    'nano-banana-pro'
-  );
+  // Don't specify preferredModel - let the service use the model priority list
+  // This will try: env.KIE_IMAGE_T2I_MODEL, 'google/nano-banana', 'nano-banana-pro'
+  const task = await service.generateImage({
+    prompt,
+    imageSize: '16:9',  // For google/nano-banana model
+    aspect_ratio: '16:9',  // For nano-banana-pro model
+    resolution: '2K',
+    outputFormat: 'jpeg',
+  });
   const { imageUrl } = await service.pollTaskStatus(task.data.taskId, 'image', 80, 3000);
   if (!imageUrl) throw new Error('No imageUrl returned');
 

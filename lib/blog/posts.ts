@@ -197,6 +197,60 @@ export const blogPosts: BlogPostMeta[] = [
       },
     ],
   },
+  {
+    slug: 'vibe-coding',
+    title: 'Vibe Coding: The Future of AI-Powered Programming for K12 Students',
+    description:
+      'Discover vibe coding, the revolutionary approach to programming that combines AI assistance with visual interfaces. Learn how vibe coding transforms education and empowers K12 students to create without traditional coding barriers.',
+    keywords: [
+      'vibe coding',
+      'AI programming',
+      'visual coding',
+      'AI development',
+      'AI-powered coding',
+      'vibe coding for students',
+      'future of programming',
+      'AI coding tools',
+      'natural language programming',
+      'AI code generator',
+    ],
+    locales: ['en', 'zh'],
+    tags: ['AI in education', 'programming', 'vibe coding', 'K12 education'],
+    date: '2026-01-20',
+    heroImageUrl: '/blog/vibe-coding/hero.jpg',
+    faqs: [
+      {
+        question: 'What is vibe coding and how does it differ from traditional programming?',
+        answer:
+          'Vibe coding is an AI-powered approach to programming where students describe what they want to build in natural language, and AI generates the code. Unlike traditional coding that requires memorizing syntax, vibe coding focuses on creative problem-solving and design, making programming accessible to all learners.',
+      },
+      {
+        question: 'How to get started with vibe coding in the classroom?',
+        answer:
+          'Start by choosing an age-appropriate vibe coding platform with a free education tier. Begin with simple projects like personal webpages, provide prompt templates, and gradually increase complexity. Emphasize code review so students understand what the AI generates.',
+      },
+      {
+        question: 'How to ensure students understand AI-generated code in vibe coding?',
+        answer:
+          'Require students to explain what each section of AI-generated code does before using it. Have them modify the code, add comments, and present their projects. Balance vibe coding with traditional coding exercises to build foundational understanding.',
+      },
+      {
+        question: 'What are the best vibe coding tools for K12 students?',
+        answer:
+          'Popular vibe coding tools for education include GitHub Copilot for Students, Replit AI, Cursor, and visual platforms like Bolt.new and v0.dev. Choose tools with strong privacy policies, educational pricing, and age-appropriate content filters.',
+      },
+      {
+        question: 'How to balance vibe coding with learning programming fundamentals?',
+        answer:
+          'Use vibe coding projects as motivation to explore core concepts like variables, functions, and data structures. Have students analyze AI-generated code to identify patterns, then practice writing similar code manually. Vibe coding accelerates learning but should complement, not replace, foundational knowledge.',
+      },
+      {
+        question: 'How to address concerns about students becoming over-reliant on AI in vibe coding?',
+        answer:
+          'Teach vibe coding as a collaborative tool, not a replacement for thinking. Include assessments where students code without AI assistance, explain algorithmic thinking, and debug code manually. Emphasize that vibe coding enhances human creativity and problem-solving rather than replacing it.',
+      },
+    ],
+  },
 ];
 
 export function getAllPostsForLocale(locale: 'en' | 'zh'): BlogPostMeta[] {
