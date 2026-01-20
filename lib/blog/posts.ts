@@ -204,6 +204,13 @@ export const blogPosts: BlogPostMeta[] = [
       'Discover vibe coding, the revolutionary approach to programming that combines AI assistance with visual interfaces. Learn how vibe coding transforms education and empowers K12 students to create without traditional coding barriers.',
     keywords: [
       'vibe coding',
+      'define vibe coding',
+      'ai vibe coding',
+      'vibe coding ai',
+      'best vibe coding',
+      'vibe coding meme',
+      'google vibe coding',
+      'vibe coding claude',
       'AI programming',
       'visual coding',
       'AI development',
