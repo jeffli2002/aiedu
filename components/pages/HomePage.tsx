@@ -253,6 +253,46 @@ const Hero = ({ lang }: { lang: Language }) => {
             </div>
           </div>
         </div>
+
+        {/* Enrolled Students - Center Bottom */}
+        <div className="flex justify-center mt-16">
+          <div
+            className={`flex items-center gap-4 bg-white/95 backdrop-blur-sm px-6 py-4 rounded-full shadow-xl border border-slate-200/80 transition-all duration-1000 delay-700
+              ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+          >
+            <div className="flex -space-x-3">
+              <img
+                src="https://i.pravatar.cc/150?u=student51"
+                alt="Student"
+                className="h-10 w-10 rounded-full border-2 border-white shadow-sm object-cover"
+              />
+              <img
+                src="https://i.pravatar.cc/150?u=student52"
+                alt="Student"
+                className="h-10 w-10 rounded-full border-2 border-white shadow-sm object-cover"
+              />
+              <img
+                src="https://i.pravatar.cc/150?u=student53"
+                alt="Student"
+                className="h-10 w-10 rounded-full border-2 border-white shadow-sm object-cover"
+              />
+              <img
+                src="https://i.pravatar.cc/150?u=student54"
+                alt="Student"
+                className="h-10 w-10 rounded-full border-2 border-white shadow-sm object-cover"
+              />
+            </div>
+            <div style={{ fontFamily: 'DM Sans, sans-serif' }}>
+              <span className="text-lg font-bold" style={{ color: '#ff6b35' }}>
+                1,200+
+              </span>
+              {' '}
+              <span className="text-sm text-slate-600">
+                {lang === 'cn' ? '学员已报名' : 'students enrolled'}
+              </span>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );
