@@ -262,22 +262,22 @@ const Hero = ({ lang }: { lang: Language }) => {
           >
             <div className="flex -space-x-3">
               <img
-                src="https://i.pravatar.cc/150?u=student51"
+                src="/avatars/student1.jpg"
                 alt="Student"
                 className="h-10 w-10 rounded-full border-2 border-white shadow-sm object-cover"
               />
               <img
-                src="https://i.pravatar.cc/150?u=student52"
+                src="/avatars/student2.jpg"
                 alt="Student"
                 className="h-10 w-10 rounded-full border-2 border-white shadow-sm object-cover"
               />
               <img
-                src="https://i.pravatar.cc/150?u=student53"
+                src="/avatars/student3.jpg"
                 alt="Student"
                 className="h-10 w-10 rounded-full border-2 border-white shadow-sm object-cover"
               />
               <img
-                src="https://i.pravatar.cc/150?u=student54"
+                src="/avatars/student4.jpg"
                 alt="Student"
                 className="h-10 w-10 rounded-full border-2 border-white shadow-sm object-cover"
               />
