@@ -262,24 +262,40 @@ const Hero = ({ lang }: { lang: Language }) => {
           >
             <div className="flex -space-x-3">
               <img
-                src="/avatars/student1.jpg"
+                src="https://i.pravatar.cc/150?u=student1"
                 alt="Student"
                 className="h-10 w-10 rounded-full border-2 border-white shadow-sm object-cover"
+                onError={(e) => {
+                  // Fallback to a default avatar if the image fails to load
+                  e.currentTarget.src = 'https://ui-avatars.com/api/?name=Student&background=ff6b35&color=fff&size=64';
+                }}
               />
               <img
-                src="/avatars/student2.jpg"
+                src="https://i.pravatar.cc/150?u=student2"
                 alt="Student"
                 className="h-10 w-10 rounded-full border-2 border-white shadow-sm object-cover"
+                onError={(e) => {
+                  // Fallback to a default avatar if the image fails to load
+                  e.currentTarget.src = 'https://ui-avatars.com/api/?name=Student&background=ff6b35&color=fff&size=64';
+                }}
               />
               <img
-                src="/avatars/student3.jpg"
+                src="https://i.pravatar.cc/150?u=student3"
                 alt="Student"
                 className="h-10 w-10 rounded-full border-2 border-white shadow-sm object-cover"
+                onError={(e) => {
+                  // Fallback to a default avatar if the image fails to load
+                  e.currentTarget.src = 'https://ui-avatars.com/api/?name=Student&background=ff6b35&color=fff&size=64';
+                }}
               />
               <img
-                src="/avatars/student4.jpg"
+                src="https://i.pravatar.cc/150?u=student4"
                 alt="Student"
                 className="h-10 w-10 rounded-full border-2 border-white shadow-sm object-cover"
+                onError={(e) => {
+                  // Fallback to a default avatar if the image fails to load
+                  e.currentTarget.src = 'https://ui-avatars.com/api/?name=Student&background=ff6b35&color=fff&size=64';
+                }}
               />
             </div>
             <div style={{ fontFamily: 'DM Sans, sans-serif' }}>
