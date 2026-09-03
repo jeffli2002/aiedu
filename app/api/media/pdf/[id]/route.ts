@@ -11,6 +11,33 @@ export const fetchCache = 'force-no-store';
 // R2 public CDN base
 const PUBLIC_CDN = process.env.R2_PUBLIC_URL || process.env.NEXT_PUBLIC_R2_PUBLIC_URL || '';
 
+const TRAINING_MODULE_DIR_BY_PREFIX: Record<string, string> = {
+  f: 'AI Foundations',
+  c: 'Modality Creation',
+  e: 'Efficiency',
+  v: 'Vibe Coding',
+};
+
+function getDocumentKeys(mediaId: string, target: string): string[] {
+  const ids = [mediaId];
+  if (mediaId.includes('/c201/')) {
+    ids.push(mediaId.replace('/c201/', '/c101/'));
+  }
+
+  return ids.flatMap((id) => {
+    const keys = [`docs/${id}/${target}`];
+    const match = id.match(/^training\/([fcev])\d{3}\/(zh|en)\/(.+)$/i);
+    if (match) {
+      const [, coursePrefix, locale, slug] = match;
+      const moduleDir = TRAINING_MODULE_DIR_BY_PREFIX[coursePrefix.toLowerCase()];
+      if (moduleDir) {
+        keys.push(`docs/training/${moduleDir}/${id.split('/')[1]}/${locale}/${slug}/${target}`);
+      }
+    }
+    return keys;
+  });
+}
+
 export async function GET(
   request: Request,
   { params }: { params: { id: string } }
@@ -91,23 +118,18 @@ export async function GET(
     const target = entitled ? 'full.pdf' : 'preview.pdf';
     let key = `${baseKey}/${target}`;
     let asset;
-    try {
-      asset = await r2StorageService.getAsset(key);
-    } catch (e) {
-      // Backward-compat: some older uploads used c101 instead of c201.
-      // Try a fallback by swapping course id segment if applicable.
-      if (id.includes('/c201/')) {
-        const altId = id.replace('/c201/', '/c101/');
-        const altKey = `docs/${altId}/${target}`;
-        try {
-          asset = await r2StorageService.getAsset(altKey);
-          key = altKey;
-        } catch {
-          throw e;
-        }
-      } else {
-        throw e;
+    let lastError: unknown;
+    for (const candidateKey of getDocumentKeys(id, target)) {
+      try {
+        asset = await r2StorageService.getAsset(candidateKey);
+        key = candidateKey;
+        break;
+      } catch (error) {
+        lastError = error;
       }
+    }
+    if (!asset) {
+      throw lastError ?? new Error(`Document not found: ${id}`);
     }
     const { body, contentType } = asset;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

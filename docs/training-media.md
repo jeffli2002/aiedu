@@ -57,6 +57,9 @@ Helper scripts in `scripts/`:
 - Upload existing local files to specific R2 keys:
   - `node scripts/upload-static-asset.js "<local>=<r2-key>" [...more]`
   - `node scripts/upload-static-thumbnail.js "<local>=<r2-key>" [...more]`
+- `scripts/upload-training-media.ts` strips the human-readable module directory
+  from local paths and writes canonical `docs/training/<courseId>/...` or
+  `videos/training/<courseId>/...` keys.
 
 Examples:
 - `node scripts/upload-static-asset.js "training/AI Foundations/f101/zh/ai-evolution-story_T01.pdf=docs/training/f101/zh/ai-evolution-story_T01/full.pdf"`
@@ -97,7 +100,9 @@ Endpoints stream same‑origin to avoid CORS and control cache/content headers. 
 - Old c101 assets for “AI 绘画解锁想象力” are standardized under `c201`.
   - PDF mediaId: `training/c201/zh/ai-drawing-unlock-imagination_T01`
   - Video mediaId: `training/c201/zh/ai-image-generation-analysis_T01`
-- The PDF endpoint contains a temporary backward‑compat fallback from `c201` → `c101` if the new key is missing in R2. See `app/api/media/pdf/[id]/route.ts:45`.
+- The PDF endpoint temporarily falls back to legacy module-directory keys and
+  from `c201` → `c101` if the canonical key is missing in R2. Re-upload media
+  with `scripts/upload-training-media.ts` to migrate to canonical keys.
 
 ## Operational Checklist
 
@@ -119,4 +124,3 @@ Endpoints stream same‑origin to avoid CORS and control cache/content headers. 
 - Video manifest API: `app/api/media/video/[id]/manifest/route.ts:1`
 - Thumbnail API: `app/api/media/thumbnail/route.ts:1`
 - Auth redirect handler: `components/auth/auth-provider.tsx:1`, `hooks/use-login.ts:1`
-

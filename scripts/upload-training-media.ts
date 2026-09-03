@@ -36,18 +36,39 @@ function relFromTraining(absFile: string): string {
   if (idx >= 0) {
     return parts.slice(idx).join('/');
   }
-  // fallback to file name
-  return path.parse(absFile).name;
+  return '';
+}
+
+/**
+ * Convert a local training path to the mediaId used by the application.
+ * Local files include a human-readable module directory, while R2 keys do not.
+ */
+function mediaIdFromTraining(absFile: string): string | null {
+  const parts = relFromTraining(absFile).split('/');
+  const courseIndex = parts.findIndex((part) => /^[fcev]\d{3}$/i.test(part));
+  if (courseIndex < 0 || !parts[courseIndex + 1] || !parts[courseIndex + 2]) {
+    return null;
+  }
+
+  const courseId = parts[courseIndex];
+  const locale = parts[courseIndex + 1];
+  const fileParts = parts.slice(courseIndex + 2);
+  if (fileParts.length === 0) return null;
+
+  const fileName = fileParts.join('/');
+  const noExt = fileName.replace(/\.[^.]+$/, '');
+  return `training/${courseId}/${locale}/${noExt}`;
 }
 
 function targetKeyFor(file: string): { key: string; contentType: string } | null {
-  const rel = relFromTraining(file);
-  const noExt = rel.replace(/\.[^.]+$/, '');
+  const mediaId = mediaIdFromTraining(file);
+  if (!mediaId) return null;
+
   if (isPdf(file)) {
-    return { key: `docs/${noExt}/full.pdf`, contentType: 'application/pdf' };
+    return { key: `docs/${mediaId}/full.pdf`, contentType: 'application/pdf' };
   }
   if (isVideo(file)) {
-    return { key: `videos/${noExt}/full.mp4`, contentType: 'video/mp4' };
+    return { key: `videos/${mediaId}/full.mp4`, contentType: 'video/mp4' };
   }
   return null;
 }
